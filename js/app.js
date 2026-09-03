@@ -130,10 +130,22 @@
       max = Math.max(max, (e.c || 0) + (e.q || 0));
       total += (e.c || 0) + (e.q || 0);
     }
-    var cols = days.map(function (day) {
-      var t = day.label + ' — ' + day.c + ' cards, ' + day.q + ' questions' +
+    // hover title for pointers; the tapped day shows the same counts as a small on-chart label
+    function barText(day) {
+      return day.label + ' — ' + day.c + ' cards, ' + day.q + ' questions' +
         (day.L != null ? ' · totals: ' + day.L + ' learned, ' + day.Q + ' correct' : '');
-      return '<div class="ch-col" title="' + t + '">' +
+    }
+    function lineText(day) {
+      return day.L != null ? day.label + ' — ' + day.L + ' learned, ' + day.Q + ' correct' : '';
+    }
+    // the day's two counts stacked: orange over blue, the order the bar segments sit in
+    function numHtml(cards, questions, pos) {
+      return '<b class="ch-num" style="' + pos + '">' +
+        '<i class="qo">' + questions + '</i><i class="cb">' + cards + '</i></b>';
+    }
+    var cols = days.map(function (day, idx) {
+      return '<div class="ch-col' + (total && idx === 29 ? ' tapped' : '') + '" title="' + barText(day) + '">' +
+        numHtml(day.c, day.q, 'bottom:' + (100 * (day.c + day.q) / max) + '%') +
         (day.q ? '<i class="ch-seg qo" style="height:' + (100 * day.q / max) + '%"></i>' : '') +
         (day.c ? '<i class="ch-seg cb" style="height:' + (100 * day.c / max) + '%"></i>' : '') +
         '</div>';
@@ -146,7 +158,7 @@
     days.forEach(function (day) {
       if (day.L != null) { hasLine = true; lineMax = Math.max(lineMax, day.L, day.Q); }
     });
-    var lineSvg = '';
+    var lineSvg = '', hitCols = '';
     if (hasLine) {
       var pts = function (prop) {
         return days.map(function (day, idx) {
@@ -158,6 +170,16 @@
         '<polyline class="ln cb" vector-effect="non-scaling-stroke" points="' + pts('L') + '"/>' +
         '<polyline class="ln o" vector-effect="non-scaling-stroke" points="' + pts('Q') + '"/>' +
         '</svg>';
+      // invisible equal-width tap targets over the svg, aligned with the x-axis labels below;
+      // each carries its day's label, parked on the higher of that day's two points
+      hitCols = days.map(function (day, idx) {
+        var t = lineText(day);
+        if (!t) return '<i class="ch-hit-col"></i>';
+        var y = 76 - 72 * Math.max(day.L, day.Q) / lineMax;
+        return '<i class="ch-hit-col' + (idx === 29 ? ' tapped' : '') + '" title="' + t + '">' +
+          numHtml(day.L, day.Q, 'left:' + (idx * (100 / 29)).toFixed(1) + '%;top:' + (y / 80 * 100).toFixed(1) + '%') +
+          '</i>';
+      }).join('');
     }
     var last = days[29];
     var xAxis = '<div class="ch-x">' + labels + '</div>';
@@ -171,12 +193,26 @@
     var linesCard = hasLine
       ? '<div class="p-item p-overview">' +
         '<div class="ov-title">Totals over time</div>' +
-        lineSvg + xAxis +
+        '<div class="line-wrap">' + lineSvg + '<div class="ch-hit">' + hitCols + '</div></div>' + xAxis +
         '<div class="legend"><span><i class="dash cb"></i>cards learned (' + last.L + ')</span>' +
         '<span><i class="dash o"></i>questions correct (' + last.Q + ')</span></div>' +
         '</div>'
       : '';
     return barsCard + linesCard;
+  }
+
+  // tapping a day on either chart moves that chart's visible number label to it
+  function wireActivityChart() {
+    function wire(container, colSel) {
+      container.addEventListener('click', function (ev) {
+        var col = ev.target.closest(colSel);
+        if (!col || !col.querySelector('.ch-num')) return; // days before tracking started carry no label
+        container.querySelectorAll('.tapped').forEach(function (c) { c.classList.remove('tapped'); });
+        col.classList.add('tapped');
+      });
+    }
+    view.querySelectorAll('.chart').forEach(function (c) { wire(c, '.ch-col'); });
+    view.querySelectorAll('.ch-hit').forEach(function (c) { wire(c, '.ch-hit-col'); });
   }
 
   // segments: [{n, cls, label}]; remainder renders as the neutral track
@@ -574,6 +610,7 @@
       '<span><i class="dot t"></i>not seen</span>' +
       '</div></div>';
     domainList({ key: 'progress', onPick: progressView, headerHtml: header });
+    wireActivityChart();
   }
 
   function progressView(domain) {
