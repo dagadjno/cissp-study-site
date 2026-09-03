@@ -165,3 +165,25 @@ body {
 .q-expl ul { margin: 8px 0 0; padding-left: 18px; }
 .q-expl li { margin: 3px 0; }
 .score-big { font-size: 42px; font-weight: 700; margin: 10px 0; }
+
+/* ---- progress ---- */
+.p-section { margin: 18px 0 8px; font-size: 15px; font-weight: 600; color: var(--muted); }
+.p-row {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 9px 12px; margin-bottom: 8px;
+}
+.p-text { flex: 1; min-width: 0; font-size: 14px; }
+.p-text .t { display: block; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }
+.p-text .f {
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.chip {
+  flex-shrink: 0; border-radius: 999px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--muted);
+  font-size: 12px; font-weight: 600; padding: 5px 12px; cursor: pointer; min-width: 74px;
+}
+.chip.learned, .chip.correct { background: var(--good-soft); border-color: var(--good); color: var(--good); }
+.chip.missed { background: var(--bad-soft); border-color: var(--bad); color: var(--bad); }
+.chip.learning { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }

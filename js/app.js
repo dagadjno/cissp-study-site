@@ -67,6 +67,12 @@
     INDEX.domains.forEach(function (d) {
       var has = !!d[opts.key];
       var sub = '';
+      if (opts.key === 'progress') {
+        has = !!(d.flashcards || d.quiz);
+        sub = has
+          ? countLearned(d.id) + '/' + d.cards + ' learned · ' + countMissed(d.id) + ' missed'
+          : 'nothing tracked yet';
+      }
       if (opts.key === 'flashcards') {
         var learned = countLearned(d.id);
         sub = has ? d.cards + ' cards' + (learned ? ' · ' + learned + ' learned' : '') : 'no cards yet';
@@ -340,8 +346,91 @@
     next();
   }
 
+  // ---------- progress ----------
+  var CARD_STATES = ['new', 'learned', 'learning'];   // tap cycles in this order
+  var Q_STATES = ['new', 'missed', 'correct'];
+
+  function cardState(s) { return !s ? 'new' : (s.streak || 0) >= 2 ? 'learned' : 'learning'; }
+  function qState(s) { return !s ? 'new' : s.lastWrong ? 'missed' : 'correct'; }
+
+  function setCardState(stats, id, state) {
+    if (state === 'new') { delete stats[id]; return; }
+    var s = stats[id] || { seen: 0, lapses: 0 };
+    s.streak = state === 'learned' ? 2 : 0;
+    s.last = Date.now();
+    stats[id] = s;
+  }
+  function setQState(stats, id, state) {
+    if (state === 'new') { delete stats[id]; return; }
+    stats[id] = { lastWrong: state === 'missed', at: Date.now() };
+  }
+
+  function progressRoot() {
+    setTitle('Progress');
+    domainList({ key: 'progress', onPick: progressView });
+  }
+
+  function progressView(domain) {
+    setBack(progressRoot);
+    setTitle('Progress · Domain ' + domain.num);
+    h('<p class="hint center">loading…</p>');
+    Promise.all([
+      domain.flashcards ? loadDecks(domain) : Promise.resolve([]),
+      domain.quiz ? loadQuestions(domain) : Promise.resolve([])
+    ]).then(function (res) {
+      var cards = res[0], questions = res[1];
+      var fcStats = store('fc-stats') || {};
+      var qStats = store('q-stats') || {};
+
+      var html = '<p class="hint center">Tap a status to change it — the card and quiz modes follow it.</p>';
+      if (cards.length) {
+        html += '<div class="p-section">Flashcards (' + cards.length + ')</div>' +
+          cards.map(function (c) {
+            var st = cardState(fcStats[c.id]);
+            return '<div class="p-row"><div class="p-text"><span class="t">' +
+              (c.topic || '') + '</span><span class="f">' + mdInline(c.front) + '</span></div>' +
+              '<button class="chip ' + st + '" data-kind="card" data-id="' + c.id + '">' + st + '</button></div>';
+          }).join('');
+      }
+      if (questions.length) {
+        html += '<div class="p-section">Quiz questions (' + questions.length + ')</div>' +
+          questions.map(function (q) {
+            var st = qState(qStats[q.id]);
+            return '<div class="p-row"><div class="p-text"><span class="t">' +
+              (q.topic || '') + '</span><span class="f">' + mdInline(q.stem) + '</span></div>' +
+              '<button class="chip ' + st + '" data-kind="q" data-id="' + q.id + '">' + st + '</button></div>';
+          }).join('');
+      }
+      html += '<div class="btn-row"><button class="btn secondary" id="p-reset">Reset domain ' +
+        domain.num + ' progress</button></div>';
+      h(html);
+
+      view.querySelectorAll('.chip').forEach(function (chip) {
+        chip.onclick = function () {
+          var kind = chip.getAttribute('data-kind');
+          var id = chip.getAttribute('data-id');
+          var order = kind === 'card' ? CARD_STATES : Q_STATES;
+          var cur = chip.textContent.trim();
+          var nxt = order[(order.indexOf(cur) + 1) % order.length];
+          if (kind === 'card') { setCardState(fcStats, id, nxt); store('fc-stats', fcStats); }
+          else { setQState(qStats, id, nxt); store('q-stats', qStats); }
+          chip.className = 'chip ' + nxt;
+          chip.textContent = nxt;
+        };
+      });
+      document.getElementById('p-reset').onclick = function () {
+        if (!confirm('Clear all saved card and quiz progress for domain ' + domain.num + '?')) return;
+        cards.forEach(function (c) { delete fcStats[c.id]; });
+        questions.forEach(function (q) { delete qStats[q.id]; });
+        store('fc-stats', fcStats);
+        store('q-stats', qStats);
+        progressView(domain);
+      };
+    }).catch(fail);
+  }
+
   // ---------- shell ----------
-  var roots = { notes: notesRoot, cards: cardsRoot, quiz: quizRoot };
+  var roots = { notes: notesRoot, cards: cardsRoot, quiz: quizRoot, progress: progressRoot };
 
   document.querySelectorAll('.tab').forEach(function (t) {
     t.onclick = function () {
