@@ -397,13 +397,37 @@
         view.querySelectorAll('.pill').forEach(function (p) {
           p.classList.toggle('active', p.getAttribute('data-m') === mode);
         });
-        list.innerHTML = (mode === 'cards' ? cards : questions).map(function (x) {
-          var isCard = mode === 'cards';
+        var isCard = mode === 'cards';
+        var items = isCard ? cards : questions;
+        list.innerHTML = items.map(function (x, i) {
           var st = isCard ? cardState(fcStats[x.id]) : qState(qStats[x.id]);
-          return '<div class="p-row"><div class="p-text"><span class="t">' +
+          return '<div class="p-item"><div class="p-row"><div class="p-text" data-i="' + i + '"><span class="t">' +
             (x.topic || '') + '</span><span class="f">' + mdInline(isCard ? x.front : x.stem) + '</span></div>' +
-            '<button class="chip ' + st + '" data-kind="' + (isCard ? 'card' : 'q') + '" data-id="' + x.id + '">' + st + '</button></div>';
+            '<button class="chip ' + st + '" data-kind="' + (isCard ? 'card' : 'q') + '" data-id="' + x.id + '">' + st + '</button></div>' +
+            '<div class="p-detail" hidden></div></div>';
         }).join('');
+        list.querySelectorAll('.p-text').forEach(function (pt) {
+          pt.onclick = function () {
+            var x = items[parseInt(pt.getAttribute('data-i'), 10)];
+            var detail = pt.parentElement.nextElementSibling;
+            if (detail.hidden && !detail.innerHTML) {
+              if (isCard) {
+                detail.innerHTML = renderMarkdown(x.back);
+              } else {
+                var letters = 'ABCD';
+                detail.innerHTML =
+                  (x.explanation ? '<p class="p-expl">' + mdInline(x.explanation) + '</p>' : '') +
+                  '<ul class="p-opts">' + x.options.map(function (o, k) {
+                    var why = k !== x.answer && x.why_wrong && x.why_wrong[k]
+                      ? '<div class="why">' + mdInline(x.why_wrong[k]) + '</div>' : '';
+                    return '<li class="' + (k === x.answer ? 'ans' : '') + '"><span class="k">' +
+                      letters[k] + '</span> ' + mdInline(o) + why + '</li>';
+                  }).join('') + '</ul>';
+              }
+            }
+            detail.hidden = !detail.hidden;
+          };
+        });
         list.querySelectorAll('.chip').forEach(function (chip) {
           chip.onclick = function () {
             var kind = chip.getAttribute('data-kind');
