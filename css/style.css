@@ -116,7 +116,7 @@ body {
 
 .btn {
   display: inline-block; border: 0; border-radius: 999px; cursor: pointer;
-  background: var(--marker); color: var(--strong-bg);
+  background: var(--accent); color: var(--strong-bg);
   font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em;
   padding: 14px 24px; box-shadow: var(--shadow);
 }
@@ -194,7 +194,7 @@ body {
 
 /* ---- quiz ---- */
 .q-stem {
-  background: var(--accent-soft); color: var(--text);
+  background: var(--surface-2); color: var(--text);
   border: 0; border-radius: 20px; box-shadow: var(--shadow);
   padding: 18px; font-size: 16px; font-weight: 600;
 }
