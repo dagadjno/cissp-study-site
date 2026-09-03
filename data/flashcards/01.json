@@ -378,6 +378,66 @@
       "topic": "IP",
       "front": "Economic Espionage Act — the two penalty tiers.",
       "back": "- Trade-secret theft **benefiting a foreign government**: up to **$500K + 15 years**\n- Ordinary trade-secret theft: up to **$250K + 10 years**\n- The foreign-government element is what moves tiers (year 1996 — verify)"
+    },
+    {
+      "id": "01-bcp-drp-coop-iscp",
+      "topic": "Business continuity",
+      "front": "BCP vs. DRP vs. COOP vs. ISCP — pick by what's being restored.",
+      "back": "- **BCP**: mission/business **processes** (payroll, customer service) — org-wide or per business unit\n- **DRP**: physical facility/IT infrastructure at an **alternate site** — only when relocation is needed\n- **COOP**: federal **mission-essential functions** at an alternate site, up to **30 days**; nongovernment orgs use BCP instead\n- **ISCP**: **one system**, regardless of site — activates after DRP has stood up the alternate site"
+    },
+    {
+      "id": "01-mtd-rto-rpo-wrt",
+      "topic": "Business continuity",
+      "front": "MTD, RTO, WRT, RPO — how do they relate?",
+      "back": "- **MTD** = ceiling: total outage the business survives\n- **RTO** = target time to restore the *system*\n- **WRT** = time after that to catch up backlog/data\n- **RTO + WRT <= MTD**\n- **RPO** = separate axis — how much *data loss* is tolerable (point in time), not a duration. RPO/RTO mixups are the #1 metric trap"
+    },
+    {
+      "id": "01-bia-steps",
+      "topic": "Business continuity",
+      "front": "The 3 steps of a BIA (NIST SP 800-34).",
+      "back": "1. **Determine mission/business processes and recovery criticality** — impact + estimated downtime per process\n2. **Identify resource requirements** — facilities, personnel, equipment, data, interdependencies\n3. **Identify recovery priorities** — rank/sequence recovery from the above\n- BIA outputs criticality + MTD/RTO/RPO; it does **not** pick the recovery strategy (that's continuity planning)"
+    },
+    {
+      "id": "01-bcp-test-types",
+      "topic": "Business continuity",
+      "front": "The 5 BCP/DRP test types, least to most disruptive.",
+      "back": "1. **Checklist test** — checklists distributed for review only\n2. **Structured walk-through / tabletop** — group talks through the plan verbally\n3. **Simulation test** — team works a scenario; may interrupt noncritical ops\n4. **Parallel test** — team relocates to alternate site, runs activation\n5. **Full-interruption test** — primary site actually shut down, ops shift for real"
+    },
+    {
+      "id": "01-governance-frameworks",
+      "topic": "Governance",
+      "front": "ISO 27001 vs. NIST CSF — the one-word difference that's always tested.",
+      "back": "- **ISO 27001**: certifiable ISMS — an org can *get certified* against it\n- **NIST CSF**: voluntary risk-based framework (Identify/Protect/Detect/Respond/Recover) — **not certifiable**\n- **SABSA**: traces every control back to a business requirement (architecture)\n- **FedRAMP**: federal cloud authorization built on NIST SP 800-53"
+    },
+    {
+      "id": "01-investigation-types",
+      "topic": "Investigations",
+      "front": "The 5 investigation types — who conducts each, what standard applies.",
+      "back": "| Type | Who | Standard |\n|---|---|---|\n| Administrative | Internal (HR/security) | No formal legal standard |\n| Criminal | Law enforcement | Beyond reasonable doubt |\n| Civil | Private party | Preponderance of evidence |\n| Regulatory | Gov't agency | Substantial evidence |\n| Industry standard | Contractual 3rd party (e.g. PCI PFI) | Contract-defined |\n- \"Administrative\" here (internal) ≠ \"administrative law\" (agency rulemaking) elsewhere in 1.4 — same word, different taxonomy"
+    },
+    {
+      "id": "01-evidence-types",
+      "topic": "Investigations",
+      "front": "Evidence types — real, direct, best evidence rule, hearsay, chain of custody.",
+      "back": "- **Real (object) evidence**: physical items admissible in court\n- **Direct evidence**: witness testimony from personal (5-senses) knowledge\n- **Best evidence rule**: original document required, copies rejected unless an exception applies\n- **Hearsay**: secondhand statements outside court — unauthenticated logs count\n- **Chain of custody**: unbroken control record from collection to court; a break = inadmissible"
+    },
+    {
+      "id": "01-termination-access",
+      "topic": "Personnel security",
+      "front": "Termination and access revocation — what's the classic exam trap?",
+      "back": "- For a hostile/involuntary termination: disable access **at or before** notification, not after\n- Scenario cue: \"employee walked out with data\" → revocation happened too late\n- Onboarding/offboarding = IAM lifecycle actions; NDA/AUP = the separate paperwork, not the account action\n- Right-to-audit clause lives in the **SLA**, not the NDA"
+    },
+    {
+      "id": "01-control-assessment-vs-monitoring",
+      "topic": "Risk monitoring",
+      "front": "Control assessment vs. continuous monitoring vs. risk maturity — what's the distinction?",
+      "back": "- **Control assessment**: formal check that a control is implemented correctly AND working (NIST SP 800-53A procedures) — \"we deployed it\" ≠ \"we assessed it\"\n- **Continuous monitoring (ISCM, NIST SP 800-137)**: ongoing visibility, not an annual point-in-time check\n- **Risk maturity**: program-level progression (ad hoc → repeatable → defined → managed → optimized), not a binary compliant/not-compliant"
+    },
+    {
+      "id": "01-awareness-effectiveness",
+      "topic": "Security awareness",
+      "front": "How does ISC2 want you to measure security-awareness program effectiveness?",
+      "back": "- **Not** completion rate alone — \"training was delivered\" ≠ \"program is effective\"\n- Behavior metrics: phishing simulation click-through/report rates over time, incident trend correlation\n- Phishing sim results should **train, not punish** in most ISC2-preferred answers\n- One-time training at hire fails the periodic-review expectation — awareness is continuous"
     }
   ]
 }

@@ -646,6 +646,709 @@
         "Indemnification is a private contract matter; no such HHS requirement exists",
         "Claims processors remain business associates; HITECH changed their liability, not their classification"
       ]
+    },
+    {
+      "id": "01-q-availability-vs-integrity",
+      "topic": "Five pillars",
+      "stem": "A configuration error causes a pricing database replica to silently diverge from the primary. The replica stays online and fully reachable, but returns stale, incorrect prices to a subset of customers for six hours before anyone notices. Which pillar was violated, and which was preserved?",
+      "options": [
+        "Integrity was violated, while availability was preserved — the system stayed reachable throughout but returned wrong data",
+        "Availability was violated; integrity was preserved, since the replica never went offline",
+        "Confidentiality was violated, since incorrect prices exposed internal cost data to customers",
+        "Both integrity and availability were violated, since stale data made the system effectively unusable"
+      ],
+      "answer": 0,
+      "explanation": "The system remained up and responsive throughout (availability intact); the data it served was incorrect, which is exactly what integrity protects against, regardless of uptime.",
+      "why_wrong": [
+        "",
+        "Reversed — the system's uptime was never in question; what failed was the correctness of the data it served, which is integrity's domain",
+        "Nothing here discloses information to an unauthorized party — prices are already customer-visible; the defect is accuracy, not exposure",
+        "'Effectively unusable' overstates it — the system responded normally throughout; only the data's correctness failed, a pure integrity issue"
+      ]
+    },
+    {
+      "id": "01-q-ethics-conflict-of-interest",
+      "topic": "ISC2 ethics",
+      "stem": "A CISSP-certified consultant is hired to assess a competitor's security posture as part of due diligence for an acquisition. The consultant's spouse owns a minority stake in the competitor being assessed. The consultant discloses this to no one and proceeds with the assessment, delivering an accurate, unbiased report. A colleague later learns of the stake and files an ethics complaint. Under the ISC2 Code, is there a violation?",
+      "options": [
+        "No, because the ISC2 Code only governs actions taken during certification exams, not client engagements",
+        "Yes, because the undisclosed conflict violates the requirement to both adhere to and be seen to adhere to the Code",
+        "No, because the report itself was accurate and no harm resulted from the assessment",
+        "Yes, but only because a spouse's financial interest counts as the consultant's own principal relationship"
+      ],
+      "answer": 1,
+      "explanation": "The Code's 'be seen to adhere' language means undisclosed conflicts of interest violate the Code independent of whether the delivered work product was actually compromised.",
+      "why_wrong": [
+        "The Code governs a certified professional's conduct broadly, not just exam-related behavior",
+        "",
+        "The Code's 'be seen to adhere' language means undisclosed conflicts violate the Code independent of whether the work product itself was compromised",
+        "The violation is nondisclosure of an appearance-of-conflict situation — canon 3's principal/employer framework doesn't need to be stretched to explain it"
+      ]
+    },
+    {
+      "id": "01-q-accidental-vs-adversarial",
+      "topic": "Risk categories",
+      "stem": "A junior engineer, rushing to meet a deadline, pushes a firewall rule change that accidentally exposes an internal database to the internet. Within hours, automated scanners find and exfiltrate customer records. A postmortem initially labels this an 'adversarial' incident because data was stolen. Why is that classification wrong?",
+      "options": [
+        "It's correct — any incident resulting in data theft is adversarial by definition, regardless of cause",
+        "It should be classified as structural, since the firewall is the equipment that failed",
+        "The root threat source was accidental (human error); the scanner activity was an opportunistic consequence, not the originating cause",
+        "It should be classified as environmental, since the exposure originated from an external network condition"
+      ],
+      "answer": 2,
+      "explanation": "SP 800-30 classifies by the originating threat source. A misconfiguration made by a rushed employee is an accidental source, even though the eventual harm involved an outside actor exploiting the opening.",
+      "why_wrong": [
+        "Outcome doesn't set the classification — SP 800-30 classifies by threat source/origin, and the origin here was human error, not a hostile actor's initiating action",
+        "The firewall didn't fail on its own — a person misconfigured it; structural sources are equipment/software failing without human initiation",
+        "",
+        "Environmental sources are physical/natural conditions; a network exposure caused by a human mistake isn't an environmental event"
+      ]
+    },
+    {
+      "id": "01-q-dad-damage",
+      "topic": "Risk categories",
+      "stem": "A course framework groups risk impact into three categories — damage, disclosure, and losses — each mapped to a pillar. A warehouse fire physically destroys the only copies of a company's backup tapes; no data was read or copied by anyone before the destruction. Under this framework, which category applies?",
+      "options": [
+        "Disclosure, since the tapes' contents are now permanently unrecoverable by their owner",
+        "Losses, since the incident's severity should be expressed as a dollar figure",
+        "Disclosure, since unencrypted backup tapes are always treated as a confidentiality event",
+        "Damage, since physical destruction of the media is the impact, mapping to an integrity/destruction failure"
+      ],
+      "answer": 3,
+      "explanation": "Physical destruction with no evidence of exposure maps to the damage category (integrity/destruction), not disclosure — nothing was read or copied by an unauthorized party.",
+      "why_wrong": [
+        "Disclosure requires the data to be exposed to an unauthorized party; nobody read or copied anything here — irrecoverability is a destruction outcome, not an exposure one",
+        "Losses is the financial/operational-impact category; expressing severity in dollars is a valuation exercise, not what determines which category applies",
+        "Whether tapes are encrypted matters if they're lost to an outside party, but nothing here shows the tapes leaving the org's control or being read",
+        ""
+      ]
+    },
+    {
+      "id": "01-q-planning-axis-swap",
+      "topic": "Security planning",
+      "stem": "A compliance analyst reviewing an organization's planning documents states that the 'strategic plan' and the 'security policy' are the same type of document, because both are long-lived, board-level artifacts. A CISSP colleague disagrees. What's the flaw in the analyst's reasoning?",
+      "options": [
+        "Planning types (strategic/tactical/operational) classify by time horizon; documentation types (policy/standard/procedure) classify by authority level — the analyst is treating two different axes as one",
+        "Strategic plans require annual refresh while policies do not, so their lifespans differ",
+        "Strategic plans are approved by the board while policies only need CISO sign-off",
+        "Policies are mandatory while strategic plans are discretionary, so they cannot be equated"
+      ],
+      "answer": 0,
+      "explanation": "Planning types and documentation types are two separate classification systems — one by time horizon, one by authority/bindingness — and shouldn't be conflated just because both examples are long-lived and senior-approved.",
+      "why_wrong": [
+        "",
+        "Both do get periodic review, and lifespan alone isn't why they're different document types — the real issue is comparing across two unrelated classification systems",
+        "Approval authority for both typically involves senior management; this doesn't identify the actual category error",
+        "Strategic plans are mandatory management direction, not discretionary — and even if this detail were right, it wouldn't explain the taxonomy mismatch"
+      ]
+    },
+    {
+      "id": "01-q-planning-horizon-order",
+      "topic": "Security planning",
+      "stem": "A CISO's team drafts three items in the same quarter: a statement setting the five-year target of achieving a zero-trust architecture, a document listing which teams will receive zero-trust budget and headcount this year, and a checklist for configuring each new zero-trust gateway. Ranked from longest to shortest planning horizon, these are:",
+      "options": [
+        "Operational, tactical, strategic",
+        "Strategic, tactical, operational",
+        "Tactical, strategic, operational",
+        "Strategic, operational, tactical"
+      ],
+      "answer": 1,
+      "explanation": "The five-year target is strategic (longest horizon); this year's budget/headcount allocation is tactical (~1 year); the configuration checklist is operational (shortest, most frequently updated).",
+      "why_wrong": [
+        "Reversed order entirely — the five-year target is strategic (longest), not operational (shortest)",
+        "",
+        "The five-year statement is strategic, not tactical — tactical is the one-year budget/staffing layer beneath it",
+        "The middle item (this year's budget/headcount) is tactical, not operational — operational is the recurring how-to checklist"
+      ]
+    },
+    {
+      "id": "01-q-iso31000-retain",
+      "topic": "Risk responses",
+      "stem": "An organization using ISO 31000 vocabulary documents that it will 'retain' a low-impact risk after evaluating it against its risk criteria. In the more common CISSP/OSG response vocabulary, this is best described as:",
+      "options": [
+        "Reject, since the organization is choosing not to act further on the risk",
+        "Avoid, since the organization is not modifying the activity that creates the risk",
+        "Mitigate, since evaluating against risk criteria is itself a form of risk reduction",
+        "Accept, since the organization has made a documented decision to carry the risk forward"
+      ],
+      "answer": 3,
+      "explanation": "ISO 31000's 'retain' maps to the OSG's 'accept' — a documented decision, after evaluation, to carry a risk forward as-is.",
+      "why_wrong": [
+        "Reject means ignoring a risk without analysis — this risk WAS evaluated against criteria first, which is what distinguishes acceptance from the invalid 'reject' response",
+        "Avoid means eliminating the risk-bearing activity; nothing here says the activity was eliminated, only that the resulting risk is being carried",
+        "Evaluation is part of the assessment process, not a safeguard reducing likelihood/impact — no control was described",
+        ""
+      ]
+    },
+    {
+      "id": "01-q-rmf-vs-csf",
+      "topic": "RMF",
+      "stem": "A private manufacturing company with no federal contracts wants to voluntarily improve its cybersecurity posture using a widely recognized, outcome-based structure (Identify/Protect/Detect/Respond/Recover) without pursuing any government authorization to operate. Which NIST product fits, and why is the RMF not the better fit here?",
+      "options": [
+        "RMF, because Prepare through Monitor applies equally well to private-sector risk programs",
+        "SP 800-53, because it's the control catalog every organization should adopt regardless of sector",
+        "The Cybersecurity Framework (CSF), because it's voluntary and outcome-based, while RMF is built around federal system authorization (ATO)",
+        "SP 800-30, because it's NIST's general-purpose risk guidance for any organization"
+      ],
+      "answer": 2,
+      "explanation": "The CSF is the voluntary, outcome-based framework (Identify/Protect/Detect/Respond/Recover) meant for any organization; the RMF's Authorize step is specifically about issuing a federal ATO, which this company has no need for.",
+      "why_wrong": [
+        "RMF's Authorize step is built around issuing an ATO — a federal-system concept this company has no reason to pursue",
+        "SP 800-53 is a control catalog referenced BY the RMF's Select/Implement steps; adopting the whole federal catalog isn't what a voluntary, outcome-based program calls for",
+        "",
+        "SP 800-30 is a risk assessment methodology, not the outcome-based structure (Identify/Protect/Detect/Respond/Recover) described in the scenario"
+      ]
+    },
+    {
+      "id": "01-q-residual-vs-controls-gap",
+      "topic": "Risk types",
+      "stem": "Before any safeguards are applied, a new payment API carries an estimated exposure of $2M annually. After deploying rate limiting, input validation, and monitoring, the estimated annual exposure drops to $300K. A risk register entry describes the $300K figure as 'the risk the organization has decided to accept.' Is this description accurate?",
+      "options": [
+        "No, because $300K is the controls gap, which measures risk removed rather than risk remaining",
+        "Yes, because $300K is the residual risk, and residual risk is exactly what gets formally accepted",
+        "No, because $300K is the inherent risk, which must be recalculated before any acceptance decision",
+        "Yes, because $300K represents the organization's risk appetite for this system"
+      ],
+      "answer": 1,
+      "explanation": "$300K is what remains after controls — residual risk — which is precisely what senior management formally accepts. The controls gap here is $2M − $300K = $1.7M, the risk removed.",
+      "why_wrong": [
+        "The controls gap is $2M − $300K = $1.7M (the risk REMOVED); $300K is what's left after controls, i.e. residual risk",
+        "",
+        "Inherent risk is the pre-safeguard $2M figure, not the post-control $300K remaining",
+        "Appetite is a target ceiling set independently; $300K here is the measured outcome of controls, which happens to need its own acceptance decision"
+      ]
+    },
+    {
+      "id": "01-q-appetite-capacity-tolerance",
+      "topic": "Risk types",
+      "stem": "A board sets a target that the organization will not knowingly pursue risks likely to cause more than $5M in annual losses, separately estimates it could financially survive up to $40M in a single bad year before insolvency, and separately tracks how well the finance team has weathered smaller loss events without disrupting operations in the past. These three concepts are, in order:",
+      "options": [
+        "Risk appetite, risk capacity, risk tolerance",
+        "Risk tolerance, risk appetite, risk capacity",
+        "Risk capacity, risk appetite, risk tolerance",
+        "Risk appetite, risk tolerance, risk capacity"
+      ],
+      "answer": 0,
+      "explanation": "The $5M chosen ceiling is appetite; the $40M solvency threshold is capacity; the track record absorbing realized losses without disruption is tolerance.",
+      "why_wrong": [
+        "",
+        "The first item ($5M target ceiling) is appetite — a chosen limit — not tolerance, which concerns absorbing losses that already happened",
+        "The first item is a deliberately chosen ceiling (appetite), not a survivability limit (capacity) — capacity is the $40M figure, the second item",
+        "The second item ($40M solvency threshold) is capacity, not tolerance — tolerance is the track record absorbing realized losses, the third item"
+      ]
+    },
+    {
+      "id": "01-q-rot-vs-puf",
+      "topic": "Supply chain",
+      "stem": "A hardware security team is evaluating anti-counterfeiting measures for a new IoT device line. One proposed mechanism derives a unique identifier from microscopic manufacturing variations unique to each chip, useful for verifying a given unit is genuine. A separate proposed mechanism anchors the boot process so only cryptographically verified firmware can execute. These are, respectively:",
+      "options": [
+        "A silicon root of trust, then a physically unclonable function",
+        "An SBOM-derived fingerprint, then a physically unclonable function",
+        "A physically unclonable function, then an SBOM-derived fingerprint",
+        "A physically unclonable function, then a silicon root of trust"
+      ],
+      "answer": 3,
+      "explanation": "The per-chip physical-variation identifier is a PUF (physically unclonable function); the boot-integrity anchor is a silicon root of trust (RoT).",
+      "why_wrong": [
+        "Reversed — the per-chip physical-variation identifier is the PUF; the boot-integrity anchor is the RoT",
+        "An SBOM is a component/dependency inventory list, not a hardware fingerprinting mechanism — it doesn't derive identifiers from physical chip variation",
+        "Same SBOM confusion, and in the wrong position — neither described mechanism is an SBOM",
+        ""
+      ]
+    },
+    {
+      "id": "01-q-scrm-contract-requirement",
+      "topic": "Supply chain",
+      "stem": "During vendor onboarding, a procurement lead proposes relying on a new supplier's verbal assurance that they 'take security seriously' instead of specifying technical requirements in the contract, in order to close the deal faster. A security reviewer objects. What's the strongest basis for the objection?",
+      "options": [
+        "Verbal assurances cannot be entered as evidence in a future breach-of-contract lawsuit",
+        "Minimum security requirements need to be contractual obligations, not trust-based assurances, to be enforceable",
+        "The supplier should instead undergo a full on-site assessment before any contract is signed",
+        "SCRM requires a signed SBOM from every supplier regardless of the product being purchased"
+      ],
+      "answer": 1,
+      "explanation": "Minimum security requirements belong in the contract to be enforceable — a trust-based verbal assurance isn't a substitute, regardless of the assessment method later used.",
+      "why_wrong": [
+        "True as a side effect, but the core SCRM principle at stake is that expectations need to be contractually specified in the first place, not just that verbal statements are weak evidence",
+        "",
+        "On-site assessment is one possible evaluation method, but isn't required for every vendor — the objection hinges on requirements being missing from the contract, not the review format",
+        "SBOMs matter for software supply chains specifically; requiring one from every supplier regardless of product type overgeneralizes the control"
+      ]
+    },
+    {
+      "id": "01-q-itil-vs-cobit",
+      "topic": "COBIT",
+      "stem": "An organization needs a framework specifically for managing incidents and service-level agreements within IT service delivery — not IT governance broadly. Which framework fits, and why is COBIT not the answer?",
+      "options": [
+        "COBIT, because it already addresses IT service management as part of its governance principles",
+        "ISO 27001, because it certifies an organization's incident-handling processes",
+        "ITIL, because it's the IT service management framework, while COBIT addresses IT governance and alignment",
+        "NIST CSF, because Respond and Recover are two of its five functions"
+      ],
+      "answer": 2,
+      "explanation": "ITIL is the IT service management framework (incidents, SLAs); COBIT governs and manages enterprise IT broadly (alignment, control objectives, audit) rather than service-delivery mechanics.",
+      "why_wrong": [
+        "COBIT governs and manages enterprise IT broadly (alignment, control objectives, audit) — service delivery mechanics like incident/SLA management are ITIL's specific domain",
+        "ISO 27001 certifies an information security management system, not service-delivery process maturity — incident handling there means security incidents within the ISMS, not IT service tickets",
+        "",
+        "CSF's Respond/Recover functions describe cybersecurity incident outcomes at an organizational level, not day-to-day service-management practice (ticketing, SLAs)"
+      ]
+    },
+    {
+      "id": "01-q-cobit-end-to-end",
+      "topic": "COBIT",
+      "stem": "A CIO argues that COBIT governance only needs to apply to the IT department, since other business units don't directly manage technology. A governance consultant citing COBIT 2019 disagrees. Which principle supports the consultant's position?",
+      "options": [
+        "A governance system should cover the enterprise end to end",
+        "Provide stakeholder value",
+        "Tailored to enterprise needs",
+        "Dynamic governance system"
+      ],
+      "answer": 0,
+      "explanation": "COBIT 2019's end-to-end principle holds that governance covers all enterprise functions, not just the IT department.",
+      "why_wrong": [
+        "",
+        "Stakeholder value describes balancing benefit/risk/resource trade-offs, not organizational scope",
+        "Tailoring concerns customizing the governance system's design, not whether it extends beyond IT",
+        "Dynamic governance is about reassessing the system as design factors change over time, not organizational breadth"
+      ]
+    },
+    {
+      "id": "01-q-admin-control-names",
+      "topic": "Control categories",
+      "stem": "A junior analyst is confused because one policy document calls background checks a 'managerial control,' another internal audit report calls the same thing a 'procedural control,' and a vendor questionnaire calls it an 'operational control' under the legacy NIST management/operational/technical taxonomy. Which category do all these terms describe?",
+      "options": [
+        "Technical, because background checks feed into an identity management system",
+        "Administrative, because 'managerial,' 'procedural,' and legacy-taxonomy 'operational' are all names for the same people/process-based category",
+        "Physical, because screening controls who is allowed to enter the workplace",
+        "These are three different categories, and the documents conflict with each other"
+      ],
+      "answer": 1,
+      "explanation": "Administrative controls go by several names across sources — managerial, procedural, and (in the legacy NIST management/operational/technical taxonomy) operational — but describe the same people/process-based category.",
+      "why_wrong": [
+        "Background checks are a people/process activity — no hardware or software mechanism performs the screening",
+        "",
+        "The check itself is a paperwork/process activity, not a physical barrier controlling entry — it precedes and informs later access decisions",
+        "They're consistent, not conflicting — administrative controls carry multiple names across sources for the same category"
+      ]
+    },
+    {
+      "id": "01-q-defense-in-depth-category",
+      "topic": "Control categories",
+      "stem": "After a badge-cloning incident lets an intruder walk into a data center despite functioning badge readers (a technical control), the security team adds a mantrap requiring a guard's visual verification before the inner door unlocks. What principle does adding the mantrap best demonstrate?",
+      "options": [
+        "Compensating control, because the badge reader is temporarily out of service",
+        "Redundancy, because two badge readers now protect the same door",
+        "Defense in depth, because a physical-category control now backs up the technical-category control that was defeated",
+        "Corrective control, because the mantrap fixes the vulnerability that allowed cloning"
+      ],
+      "answer": 2,
+      "explanation": "Layering a physical-category control (guard/mantrap) behind a defeated technical-category control (badge reader) is defense in depth — different categories backing each other up.",
+      "why_wrong": [
+        "The badge reader isn't broken or infeasible to use — it was defeated by cloning while working as designed; nothing here substitutes for an unusable primary control",
+        "The mantrap and guard aren't a second badge reader — it's a different category of control (physical/human verification) layered on top, not duplicate technical hardware",
+        "",
+        "The mantrap doesn't repair the badge system's cloning weakness; it adds an independent layer that still catches an intruder who defeats the first"
+      ]
+    },
+    {
+      "id": "01-q-physical-vs-admin-preventive",
+      "topic": "Control categories",
+      "stem": "A facilities team installs perimeter fencing around a substation and separately requires every new hire to complete a security orientation before receiving badge access. Categorized correctly, these two controls are:",
+      "options": [
+        "Physical and preventive; administrative and preventive — different categories, same type",
+        "Both administrative, since both controls exist to establish expected behavior",
+        "Physical and detective; administrative and preventive — different categories and types",
+        "Physical and preventive; technical and preventive — the orientation counts as technical since it's delivered via computer-based training"
+      ],
+      "answer": 0,
+      "explanation": "The fence is physical/preventive (a barrier stopping entry before it happens); the orientation requirement is administrative/preventive (a people/process control applied before access is granted). Same type, different category.",
+      "why_wrong": [
+        "",
+        "The fence is a physical barrier, not a policy/process — categorizing it as administrative ignores what actually implements it",
+        "A fence stops entry before it happens (preventive), not after (detective) — nothing about a fence discovers an intrusion post-facto",
+        "Delivery mechanism doesn't reclassify the control's category — orientation training is still administrative regardless of whether it's delivered on paper or on a screen"
+      ]
+    },
+    {
+      "id": "01-q-cybercrime-incidental",
+      "topic": "Legal",
+      "stem": "An employee runs a counterfeit-ticket scalping operation, meeting buyers in person and taking cash, but keeps a running tally of orders in a spreadsheet on a company laptop for their own bookkeeping. IT confirms the laptop was never itself attacked or compromised. How is the computer's role in this offense best categorized?",
+      "options": [
+        "Computer as target, since company equipment was misused without authorization",
+        "Computer as tool, since the fraud was carried out and organized using the laptop",
+        "Both computer as target and computer as tool, since misuse of company property is itself an attack on the target",
+        "Computer incidental, since the laptop merely happened to store records of a crime that didn't require it"
+      ],
+      "answer": 3,
+      "explanation": "The scheme itself (in-person, cash sales) doesn't depend on a computer — the laptop just happens to hold bookkeeping records, which is the definition of computer-incidental.",
+      "why_wrong": [
+        "'Target' means the computer itself is the object of attack (e.g., a DoS or intrusion) — nothing here attacks the laptop; it runs normally throughout",
+        "'Tool' fits when the computer is integral to carrying out the crime; here the sales happened in person for cash — the laptop only held a bookkeeping spreadsheet",
+        "Misuse of company property is a policy/HR issue, not an 'attack on the target' in the cybercrime-categorization sense; nothing was compromised on the laptop",
+        ""
+      ]
+    },
+    {
+      "id": "01-q-copyright-trade-secret-dual",
+      "topic": "IP",
+      "stem": "A startup's proprietary source code is both registered with the Copyright Office and kept strictly confidential, accessible only to employees under NDA. A new engineer argues the company must choose one protection or the other, since a work can't simultaneously be public enough to copyright and secret enough to be a trade secret. Is the engineer correct?",
+      "options": [
+        "Yes, because copyright registration requires public disclosure of the work's contents",
+        "No, because copyright registration doesn't require public disclosure of source code, and the same code can be protected as a trade secret while registered",
+        "Yes, because trade secret protection is automatically forfeited the moment any formal registration is filed",
+        "No, but only because the company should have chosen patent protection instead of copyright"
+      ],
+      "answer": 1,
+      "explanation": "Unlike patents, copyright registration for software doesn't require public disclosure of the source code, so the same code can carry copyright protection and remain a trade secret at the same time.",
+      "why_wrong": [
+        "Unlike patents, copyright registration for software doesn't require the source code to be made public — deposit copies can be redacted; disclosure isn't the blocker the engineer assumes",
+        "",
+        "Trade secret status is lost when the information stops being kept secret, not by filing a copyright registration that doesn't expose the code",
+        "Patents require public disclosure and would destroy the trade secret entirely — that's the opposite of a fix"
+      ]
+    },
+    {
+      "id": "01-q-patent-vs-trade-secret-duration",
+      "topic": "IP",
+      "stem": "An inventor must choose between patenting a novel manufacturing process (which would require disclosing exactly how it works) and keeping it as a trade secret. The process is expected to remain competitively valuable for at least 40 years if never disclosed. Which factor most strongly favors trade secret protection here?",
+      "options": [
+        "Trade secrets are cheaper to obtain than patents, since no filing fees are required",
+        "Trade secrets provide stronger legal remedies against a competitor who independently invents the same process",
+        "Patent protection caps out at roughly 20 years from filing, while trade secret protection has no fixed expiration as long as secrecy holds",
+        "Patent applications are frequently rejected for manufacturing processes, unlike trade secrets which face no approval process"
+      ],
+      "answer": 2,
+      "explanation": "Patents run out around 20 years from filing; trade secrets last indefinitely as long as secrecy is maintained — decisive when the process's value horizon (40 years) far outlasts a patent term.",
+      "why_wrong": [
+        "Cost is a real factor but doesn't match a 40-year value horizon against a ~20-year patent term — the duration mismatch is decisive here",
+        "The opposite is true: trade secrets offer no protection against independent invention or reverse engineering, whereas a patent blocks even independent inventors",
+        "",
+        "Manufacturing processes are patentable subject matter and rejection isn't a systemic barrier here — nothing suggests this process would fail patentability"
+      ]
+    },
+    {
+      "id": "01-q-drp-vs-bcp-site",
+      "topic": "Business continuity",
+      "stem": "A regional bank's data center loses power for 36 hours after a storm. The DR team activates procedures to stand up a warm site and restore operations — payment processing, teller systems, and the call center together — at that alternate location. Which plan governed this response?",
+      "options": [
+        "COOP, since operations continued at an alternate site during the outage",
+        "ISCP, since each individual system was recovered according to its own procedures",
+        "BCP, since the goal was sustaining the bank's business processes during the disruption",
+        "DRP, since the plan's focus was restoring the physical/IT infrastructure at an alternate site after a major disruption"
+      ],
+      "answer": 3,
+      "explanation": "Standing up an alternate site and restoring facility-level infrastructure after a major disruption is the DRP's defining scope; it may operate in support of the bank's broader BCP, but the described activity is DRP.",
+      "why_wrong": [
+        "COOP is a federally-mandated plan type for restoring mission-essential government functions, capped at 30 days — a regional bank isn't invoking COOP",
+        "ISCP governs recovery of one system regardless of site; this scenario describes standing up an entire alternate site for multiple integrated systems together — that's DRP's site-level scope",
+        "The scenario's activity — standing up an alternate site and restoring infrastructure after a facility-level outage — is DRP's defining scope; a BCP would describe which business processes get prioritized and how, not the site-recovery mechanics themselves",
+        ""
+      ]
+    },
+    {
+      "id": "01-q-rto-wrt-mtd",
+      "topic": "Business continuity",
+      "stem": "A retailer's BIA sets an MTD of 8 hours for its order-management system. The DR team designs a solution with an RTO of 5 hours and separately estimates 2 hours of WRT to reconcile queued orders once the system is back. Backups replicate every 15 minutes. Does this design meet the business requirement, and what does the 15-minute figure represent?",
+      "options": [
+        "No, because RTO (5 hrs) plus WRT (2 hrs) equals 7 hours, which exceeds the 8-hour MTD; the 15-minute figure is the RPO",
+        "Yes, because RTO (5 hrs) plus WRT (2 hrs) equals 7 hours, within the 8-hour MTD; the 15-minute figure is the RPO",
+        "Yes, because RTO alone (5 hrs) is within the 8-hour MTD; the 15-minute figure is the RTO for the backup subsystem specifically",
+        "No, because MTD must equal RTO exactly for a design to be compliant; the 15-minute figure is the WRT"
+      ],
+      "answer": 1,
+      "explanation": "RTO + WRT = 7 hours, inside the 8-hour MTD ceiling, so the design meets the requirement. The 15-minute replication interval describes how much data could be lost — the RPO.",
+      "why_wrong": [
+        "The arithmetic is right (5+2=7) but the conclusion is backwards — 7 hours is within, not beyond, the 8-hour ceiling, so the design does meet the requirement",
+        "",
+        "RTO alone isn't the full test — WRT also has to fit inside MTD. Also, the 15-minute figure describes replication frequency (data-loss exposure), which is RPO, not a second RTO",
+        "MTD is a ceiling, not a target to hit exactly; and the 15-minute backup interval is RPO (data-loss exposure), not WRT (the post-restore catch-up time, already given as 2 hours)"
+      ]
+    },
+    {
+      "id": "01-q-parallel-test",
+      "topic": "Business continuity",
+      "stem": "To validate its DR plan without disrupting production, a company's BC team physically relocates a subset of staff to the contracted alternate site and runs full activation procedures there — logging into systems, verifying connectivity — while the primary site continues normal operations untouched. Which test type is this?",
+      "options": [
+        "Parallel test, since the team relocated to the alternate site and ran activation procedures while the primary site kept running",
+        "Simulation test, since the team is working through a realistic scenario",
+        "Structured walk-through, since the team is verifying the plan step by step",
+        "Full-interruption test, since real systems and real people were involved, not a tabletop discussion"
+      ],
+      "answer": 0,
+      "explanation": "Relocating staff to the alternate site and running activation procedures while the primary site keeps operating is the definition of a parallel test.",
+      "why_wrong": [
+        "",
+        "A simulation test has the team work a scenario and develop a response, often without physically relocating anyone — this scenario is more concrete: an actual site relocation and activation occurred",
+        "A structured walk-through is a verbal/discussion-based review with minimal aids — no one actually relocates or activates anything",
+        "Full-interruption means the primary site is actually shut down and operations shift for real; here the primary site explicitly kept running"
+      ]
+    },
+    {
+      "id": "01-q-iso27001-vs-csf-cert",
+      "topic": "Governance",
+      "stem": "A cloud provider's enterprise customers increasingly require proof of a certified information security management system as a condition of the contract. The provider currently follows the NIST Cybersecurity Framework internally. Can continuing to follow the CSF alone satisfy this customer requirement?",
+      "options": [
+        "Yes, because the CSF's Identify/Protect/Detect/Respond/Recover functions are equivalent to ISO 27001's control objectives",
+        "Yes, because NIST frameworks are automatically recognized as equivalent to ISO standards under a mutual recognition agreement",
+        "No, because the CSF is a voluntary, outcome-based framework with no certification mechanism — only ISO 27001 offers a certifiable ISMS",
+        "No, because the CSF only applies to federal government systems, not commercial cloud providers"
+      ],
+      "answer": 2,
+      "explanation": "The CSF has no certification mechanism; ISO 27001 is the certifiable ISMS standard. A customer requirement for proof of certification can't be satisfied by CSF adherence alone.",
+      "why_wrong": [
+        "The functions cover similar ground conceptually, but 'equivalent' skips the actual customer requirement: proof of certification, which the CSF has no mechanism to provide",
+        "No such mutual recognition agreement exists between NIST and ISO in this context — the two remain separate, non-interchangeable frameworks for this purpose",
+        "",
+        "The CSF is explicitly voluntary and used across sectors, not restricted to federal systems — that's the RMF/FISMA scope, a different NIST product"
+      ]
+    },
+    {
+      "id": "01-q-ma-due-diligence",
+      "topic": "Governance",
+      "stem": "During acquisition due diligence, a security team discovers the target company has no documented incident history, uses end-of-life network hardware throughout, and cannot produce evidence of any past control assessments. Where does this discovery belong in the governance process, and what's its primary purpose at this stage?",
+      "options": [
+        "It belongs in the BIA, to establish the target's recovery time objectives before integration",
+        "It belongs in the divestiture plan, to determine how to separate the target's systems from the acquirer's network",
+        "It belongs in the vendor risk assessment process, since the target is being treated as a third-party supplier",
+        "It belongs in M&A security due diligence, to surface the target's security posture and hidden liabilities before the deal closes"
+      ],
+      "answer": 3,
+      "explanation": "Evaluating a target's security posture before an acquisition closes is exactly what M&A security due diligence is for — surfacing hidden liabilities while there's still time to affect the deal.",
+      "why_wrong": [
+        "BIA identifies criticality and recovery metrics for processes already inside the organization — this target hasn't been integrated yet, and the question here is deal risk, not recovery timing",
+        "Divestiture is the opposite transaction — separating a unit FROM the organization, not evaluating one being acquired",
+        "Vendor risk assessment applies to ongoing third-party relationships; an acquisition target being evaluated for purchase isn't being engaged as a vendor",
+        ""
+      ]
+    },
+    {
+      "id": "01-q-admin-vs-regulatory-investigation",
+      "topic": "Investigations",
+      "stem": "An employee is caught violating the acceptable use policy by installing unauthorized software; HR conducts its own internal review and issues a written warning, entirely separate from any outside body. Weeks later, the SEC opens a formal inquiry into the same company's disclosure practices around a data breach. How should these two investigations be classified under the investigation-types taxonomy?",
+      "options": [
+        "Both are administrative investigations, since neither involves a criminal court",
+        "The HR review is administrative (internal, no formal legal standard); the SEC inquiry is regulatory (a government agency investigating compliance)",
+        "The HR review is regulatory, since it enforces the organization's own regulations; the SEC inquiry is administrative, since it concerns paperwork/disclosure",
+        "Both are regulatory investigations, since both apply written rules the subject is alleged to have violated"
+      ],
+      "answer": 1,
+      "explanation": "'Administrative' in the investigation-types taxonomy means internally conducted; 'regulatory' means a government agency is conducting it. HR's internal review is administrative; the SEC's inquiry is regulatory.",
+      "why_wrong": [
+        "'Administrative' in this taxonomy specifically means internally conducted; the SEC is an external government agency, which makes its inquiry regulatory, not administrative",
+        "",
+        "This swaps the definitions — 'regulatory' means a government agency is conducting it, not that a rule is being enforced. Internal AUP enforcement is administrative regardless of involving a written policy",
+        "Applying written rules is common to nearly every investigation type; what distinguishes regulatory from administrative is who's conducting it, not whether rules exist"
+      ]
+    },
+    {
+      "id": "01-q-best-evidence-rule",
+      "topic": "Investigations",
+      "stem": "During litigation, a company wants to introduce a printed copy of a signed vendor contract as evidence, but the original signed contract has been lost and cannot be located. Opposing counsel objects to the printout. Absent any applicable exception, what governs whether the printout is admissible?",
+      "options": [
+        "The hearsay rule, since the printout is an out-of-court statement offered for its truth",
+        "The chain of custody rule, since the printout must show every person who has handled it",
+        "The parol evidence rule, since the printout might contradict the contract's original terms",
+        "The best evidence rule, which generally requires the original document and treats the printout as secondary evidence"
+      ],
+      "answer": 3,
+      "explanation": "The best evidence rule requires the original document; a copy is secondary evidence and is rejected unless an exception applies — exactly the situation described.",
+      "why_wrong": [
+        "A signed contract isn't a 'statement' offered through a witness's account of what someone said — hearsay isn't the applicable objection to a document copy",
+        "Chain of custody tracks physical evidence handling in a different sense (e.g., digital forensic media); a lost original document is a best-evidence problem, not a custody-tracking one",
+        "The parol evidence rule concerns using outside evidence to contradict/vary a written contract's terms — not at issue when the dispute is simply whether a copy can substitute for a lost original",
+        ""
+      ]
+    },
+    {
+      "id": "01-q-chain-of-custody",
+      "topic": "Investigations",
+      "stem": "A forensic analyst images a suspect's laptop, but during a shift change, the imaged drive is left on an unlocked cart in a shared hallway for two hours before being logged into evidence storage. No log entry documents who had access to it during that window. At trial, what is the most likely consequence?",
+      "options": [
+        "The evidence is inadmissible unless the analyst can prove no tampering occurred during those two hours",
+        "The evidence is automatically excluded, since any custody gap is an absolute bar to admissibility",
+        "The break in chain of custody creates a documentation gap that opposing counsel can use to challenge the evidence's integrity and admissibility",
+        "The evidence remains fully admissible, since the drive was imaged before the gap occurred"
+      ],
+      "answer": 2,
+      "explanation": "An undocumented custody gap is a concrete point of challenge to the evidence's integrity and admissibility — not an automatic bar, but a real vulnerability opposing counsel can exploit.",
+      "why_wrong": [
+        "Overstates it as a burden the analyst must affirmatively satisfy — the practical effect is that the gap becomes a point of challenge, not an automatic bar requiring proof of a negative",
+        "Custody problems are almost always challengeable rather than an automatic, unconditional exclusion — courts weigh the specifics rather than applying an absolute rule",
+        "",
+        "Imaging before the gap doesn't cure it — the two-hour unaccounted period between imaging and logging is itself the break in the documented chain"
+      ]
+    },
+    {
+      "id": "01-q-termination-timing",
+      "topic": "Personnel security",
+      "stem": "An employee is informed in a 2pm meeting that they are being terminated for cause, effective immediately, following a serious policy violation. IT is scheduled to disable the employee's system access at 5pm that day, after the employee has packed up and left. What is wrong with this sequence?",
+      "options": [
+        "For an involuntary/hostile termination, access should be disabled at or before the notification meeting, not hours after it",
+        "Nothing — disabling access after the employee physically leaves the building is standard practice",
+        "The delay is fine as long as an exit interview is conducted before 5pm",
+        "The problem is that IT, not HR, should be the one deciding the termination's effective time"
+      ],
+      "answer": 0,
+      "explanation": "For a hostile/involuntary termination, access revocation should coincide with or precede notification — a multi-hour gap gives a person who just learned they're being fired an opportunity to misuse still-active access.",
+      "why_wrong": [
+        "",
+        "This is exactly the risky sequence the exam tests against — a three-hour window between notification and access revocation gives a person who just learned they're being fired ample opportunity to act on that access",
+        "Exit interviews are an HR/retention practice, unrelated to the security timing problem of when access gets disabled",
+        "The objection isn't about who decides the timing administratively — it's that the timing itself creates risk regardless of which team schedules it"
+      ]
+    },
+    {
+      "id": "01-q-right-to-audit-sla",
+      "topic": "Personnel security",
+      "stem": "A customer negotiating a contract with a cloud service provider wants the contractual ability to investigate the provider's performance, compliance, and any violations directly, rather than relying solely on the provider's self-reported attestations. Which document should this right be written into?",
+      "options": [
+        "The nondisclosure agreement, since investigating the provider requires access to confidential information",
+        "The service-level agreement, via a right-to-audit clause",
+        "The noncompete agreement, since it governs the provider's obligations to the customer",
+        "The acceptable use policy, since it defines what each party may do with the service"
+      ],
+      "answer": 1,
+      "explanation": "A right-to-audit clause in the SLA gives the customer the contractual ability to investigate a provider's performance, compliance, and violations.",
+      "why_wrong": [
+        "An NDA protects confidential information from disclosure — it doesn't grant investigative/audit rights over the other party's operations",
+        "",
+        "A noncompete restricts working for competitors using learned secrets — it has nothing to do with a customer's oversight rights over a vendor",
+        "An AUP governs how users may use a system or resource; it's not the vehicle for a customer's contractual audit rights over a provider"
+      ]
+    },
+    {
+      "id": "01-q-background-check-scaling",
+      "topic": "Personnel security",
+      "stem": "An organization runs the identical background check package — basic employment verification only — on every new hire, from warehouse staff with no system access to database administrators with standing production access to customer financial records. A security reviewer flags this as a weakness. Why?",
+      "options": [
+        "Background checks should never be required for warehouse staff, since they pose no security risk",
+        "Only candidates for administrative roles legally require background checks",
+        "The organization should replace background checks entirely with mandatory vacation policies for all roles",
+        "Background check depth should scale with role sensitivity; a uniform, minimal check under-screens higher-risk roles like DBAs with access to sensitive systems"
+      ],
+      "answer": 3,
+      "explanation": "Screening depth should scale with role risk — a uniform, minimal check under-screens high-access roles like DBAs, even if it's adequate for lower-risk positions.",
+      "why_wrong": [
+        "Eliminating checks for warehouse staff isn't the fix — some baseline screening is still reasonable; the flaw is uniformity, not that low-risk roles are screened at all",
+        "No such blanket legal restriction limits background checks to 'administrative roles' — screening requirements are role-risk-driven, not tied to a job-title category",
+        "Mandatory vacation is a separate fraud-detection control for people already employed; it doesn't substitute for pre-hire screening depth",
+        ""
+      ]
+    },
+    {
+      "id": "01-q-control-assessment-vs-deployment",
+      "topic": "Risk monitoring",
+      "stem": "A compliance report states that 100% of required access controls have been 'deployed' across the environment. An auditor asks for the control assessment results and is told none exist yet — deployment status was tracked, but no one has verified the controls are configured correctly or functioning as intended. What gap does the auditor correctly identify?",
+      "options": [
+        "There is no gap; deployment confirms the controls satisfy the requirement",
+        "The organization has confused control assessment with continuous monitoring, which are the same activity performed at different frequencies",
+        "Deployment shows implementation, not effectiveness; a control assessment (e.g., per NIST SP 800-53A procedures) is a separate step verifying the control actually works as intended",
+        "The gap is that FIPS 199 categorization was never performed before deployment"
+      ],
+      "answer": 2,
+      "explanation": "Deployment answers whether a control was installed, not whether it's effective. A control assessment (SP 800-53A procedures) is the separate verification step the report is missing.",
+      "why_wrong": [
+        "'Deployed' answers whether something was installed, not whether it's configured correctly or achieving its purpose — those are two different questions",
+        "Assessment and continuous monitoring are related but distinct: assessment is point-in-time verification, monitoring is ongoing tracking over time — conflating them isn't the auditor's point here",
+        "",
+        "FIPS 199 categorization determines impact level and informs which controls to select; its absence isn't what's being flagged — the flag is about verifying already-selected controls"
+      ]
+    },
+    {
+      "id": "01-q-continuous-monitoring-stale",
+      "topic": "Risk monitoring",
+      "stem": "A CISO tells the board that the organization satisfies its continuous monitoring obligation because a comprehensive control assessment was completed eight months ago and passed with no findings. Why is this an incomplete answer?",
+      "options": [
+        "Continuous monitoring means ongoing visibility into controls, assets, and threats — an eight-month-old point-in-time assessment doesn't provide current assurance",
+        "It's a complete answer — a clean assessment result is exactly what continuous monitoring is meant to produce",
+        "The answer is incomplete only because the assessment should have used NIST SP 800-30 procedures instead of SP 800-53A",
+        "It's incomplete because board-level reporting requires quarterly assessments specifically, per NIST SP 800-137"
+      ],
+      "answer": 0,
+      "explanation": "Continuous monitoring (ISCM, NIST SP 800-137) requires ongoing visibility, not a point-in-time snapshot — an eight-month-old clean result doesn't establish current assurance.",
+      "why_wrong": [
+        "",
+        "This treats a single snapshot as satisfying an ongoing requirement — exactly the gap the definition of 'continuous' is meant to close",
+        "800-30 is risk assessment methodology, not control assessment procedure — swapping which document was used doesn't address the actual problem, which is staleness",
+        "SP 800-137 (ISCM) doesn't mandate a specific quarterly cadence as a blanket rule — the issue is that monitoring must be ongoing, not that a specific interval was missed"
+      ]
+    },
+    {
+      "id": "01-q-risk-maturity-binary",
+      "topic": "Risk monitoring",
+      "stem": "A risk manager reports that the organization is either 'compliant' or 'not compliant' with its risk management obligations, with no distinction made between programs that are undocumented and ad hoc versus those that are formally defined, actively managed, and undergoing measured improvement. What concept is missing from this reporting?",
+      "options": [
+        "Risk appetite, since compliance should be measured against a stated appetite threshold",
+        "Risk maturity — a progression (e.g., ad hoc through optimized) rather than a binary compliant/non-compliant state",
+        "The controls gap, since compliance should be expressed as risk removed rather than a status label",
+        "Residual risk, since a binary label doesn't capture what risk remains after controls"
+      ],
+      "answer": 1,
+      "explanation": "Risk maturity models describe a program's progression (e.g., ad hoc through optimized), which a binary compliant/non-compliant label collapses and loses.",
+      "why_wrong": [
+        "Appetite defines a target risk ceiling; it doesn't address the missing granularity between ad hoc and well-managed programs",
+        "",
+        "Controls gap measures a quantity of risk removed by safeguards — a different metric than program maturity",
+        "Residual risk is what remains after treatment on a single risk, not a description of how mature the overall program's processes are"
+      ]
+    },
+    {
+      "id": "01-q-awareness-completion-vs-behavior",
+      "topic": "Security awareness",
+      "stem": "A security awareness program reports 98% completion of annual training as its primary success metric to the board. Phishing simulation click-through rates, meanwhile, have not improved in three years. Which assessment is most accurate?",
+      "options": [
+        "The program is succeeding, since completion rate is the standard measure of awareness program effectiveness",
+        "The program is succeeding, because stagnant click-through rates show the baseline threat level hasn't changed",
+        "The program should be considered a failure and cancelled, since click-through rates haven't improved at all",
+        "The program's effectiveness is unproven — completion measures delivery, not behavior change, and the flat click-through trend suggests the training isn't changing outcomes"
+      ],
+      "answer": 3,
+      "explanation": "Completion rate measures delivery, not effectiveness; the flat click-through trend over three years is a behavior-metric signal that the program isn't changing outcomes.",
+      "why_wrong": [
+        "Completion rate answers 'was training delivered,' not 'did behavior change' — the exam explicitly rejects treating delivery as proof of effectiveness",
+        "Flat click-through despite ongoing training is evidence the training isn't moving the needle, not evidence that the threat itself is unchanged — phishing volume/sophistication typically shifts over three years regardless",
+        "Cancelling isn't the ISC2-preferred response to underperformance — the better move is to revise the program's methods/content, not eliminate awareness training entirely",
+        ""
+      ]
+    },
+    {
+      "id": "01-q-phishing-sim-punitive",
+      "topic": "Security awareness",
+      "stem": "After a phishing simulation, a department head proposes publicly listing every employee who clicked the link and docking their annual bonus, arguing this is the fastest way to change behavior. A security awareness lead objects. What is the strongest basis for the objection?",
+      "options": [
+        "Publicly listing results could violate employee privacy regulations in some jurisdictions",
+        "Bonus decisions are outside the security team's authority to influence",
+        "Phishing simulations should train and inform rather than punish, since punitive framing tends to discourage future reporting and damages security culture",
+        "The simulation results are statistically invalid unless every employee received the identical phishing template"
+      ],
+      "answer": 2,
+      "explanation": "ISC2's preferred framing treats phishing simulations as training tools; punitive consequences discourage self-reporting and damage the security culture the program is meant to build.",
+      "why_wrong": [
+        "A real secondary concern in some cases, but not the core security-program reason to object — the primary issue is behavioral, not a compliance technicality",
+        "True organizationally, but this argues procedure/authority, not the substance of why punitive framing is the wrong approach for a security-awareness program",
+        "",
+        "Template consistency affects experimental rigor, not the ethical/behavioral objection to punishing people who click"
+      ]
+    },
+    {
+      "id": "01-q-awareness-content-refresh",
+      "topic": "Security awareness",
+      "stem": "A company's security awareness training has used the same slide deck and phishing examples since it was created five years ago, covering only email-based social engineering. Which gap does the periodic-content-review expectation address?",
+      "options": [
+        "The training should be translated into additional languages to reach more employees",
+        "The training content should be refreshed to keep pace with emerging techniques and technologies beyond what was relevant five years ago",
+        "The training should add gamification elements to increase completion rates",
+        "The training should be shortened, since five-year-old material indicates the original version was too long to maintain"
+      ],
+      "answer": 1,
+      "explanation": "Periodic content review exists specifically to keep training current with emerging threats/technologies — five-year-old, email-only content has fallen behind.",
+      "why_wrong": [
+        "Translation addresses accessibility/reach, not staleness of content relative to current threats",
+        "",
+        "Gamification is an engagement technique (a 'methods' concern), not the content-currency issue the scenario describes",
+        "Length has no logical connection to why content wasn't updated in five years — the gap is currency of content, not verbosity"
+      ]
     }
   ]
 }

@@ -43,11 +43,13 @@
   - Canon order = **precedence** for resolving conflicts (society > legality/honesty > principals > profession). Audit 2026-08-31: current isc2.org/ethics does NOT state precedence (says canons are "not a substitute for the ethical judgment of the professional"); precedence is OSG/common teaching — check OSG ethics chapter [unverified]
   - **Principals** = employers/clients -> canon 3 is the "duty to employer" canon
   - Enforcement: **sworn affidavit** -> Professional Conduct Committee -> board; sanction = **revocation** [ISC2 ethics page]
+  - **Organizational code of ethics** (1.1, distinct from the ISC2 Code above): an org's own conduct code — not certification-enforced, no Professional Conduct Committee; violations are an HR/employment matter, not a cert-revocation matter. Should be published, require acknowledgment, and align with (not contradict) the ISC2 Code for a certified professional's dual obligation [unverified]
 - Exam traps / distractors:
   - Employer-pressure scenarios: canon 3 pull is the trap; canons 1-2 outrank -> refuse/report
   - "**Be seen to adhere**" -> undisclosed conflict of interest violates Code even without bad acts
   - **RFC 1087** (Request for Comments; IAB — Internet Activities Board — "Ethics and the Internet") as distractor for ISC2 Code questions [RFC 1087]
-- Related terms: organizational code of ethics (1.1), due care, RFC 1087
+  - ISC2 Code violation -> **cert revocation** path; org code violation -> **HR/termination** path — different consequence tracks, don't merge them
+- Related terms: security governance principles (1.3, due care), RFC 1087
 - Sources: [ISC2 ethics page], [RFC 1087], [unverified]
 
 ## Security documentation hierarchy (policy -> procedure)
@@ -394,13 +396,19 @@
 
   - FISMA program elements (44 U.S.C. Sec. 3554 territory — verify wording) [unverified]: periodic **risk assessments** (-> FIPS 199), risk-based policies/procedures, per-system **security plans**, awareness **training**, control testing **at least annually** + independent **Inspector General** evaluation, remediation (**POA&M** — Plan of Action and Milestones), **incident response** (-> US-CERT/CISA reporting), **continuity** plans, annual **OMB**/Congress reporting. Operationally = run the **RMF** forever; FISMA is the law that ordered NIST to write FIPS 199/200 + SP 800-53
   - Broader recognition landscape: **HIPAA** (health), **GLBA** (financial privacy), **SOX** (financial reporting), FERPA (education), **GDPR**/CCPA (privacy) [ISC2 outline], **CLOUD Act** 2018 (US access to overseas data) [OSG glossary], ITAR/EAR/Wassenaar (import/export) [unverified]
+  - **Cybercrime categories** — by the computer's role in the offense [unverified, converging secondary sources]:
+    - **Computer as target**: the attack itself harms the system (DoS, destructive malware, rootkit install)
+    - **Computer as tool**: computer used to commit an unrelated crime (fraud, phishing, IP theft)
+    - **Computer incidental**: computer merely stores evidence of a crime that doesn't need it (e.g., a drug ledger kept in a spreadsheet)
+  - **Transborder data flow**: moving personal data across national borders, where the destination country's data-protection law may be weaker than the origin's — the general problem GDPR's Art. 3/Ch. V mechanisms (adequacy decision, **SCCs** = Standard Contractual Clauses, **BCRs** = Binding Corporate Rules) solve for EU data specifically (see privacy laws entry); the concept generalizes to any cross-border transfer, not just EU-origin [unverified]
 - Exam traps / distractors:
   - Classify the proceeding: regulator fine -> **administrative**; lawsuit -> **civil**; prosecution -> **criminal**
   - **PCI as "regulation/legislation"** = wrong option
   - Data-to-law matching: health->HIPAA, cardholder->PCI (contractual), EU persons->GDPR
   - Legal interpretation needed -> involve **legal counsel** (CISO answer)
   - Internal/HR investigation does NOT require criminal standard, but sloppy handling forecloses criminal referral
-- Related terms: regulatory policy (1.6 entry), investigation types (1.5), privacy (GDPR/CCPA future entry), due care
+  - This entry's "administrative" = a **category of law** (agency rulemaking, CFR, substantial-evidence standard). 1.5's "administrative investigation" = a different axis, an **internal/HR-conducted** investigation — same word, two ISC2 taxonomies; don't cross-wire (see investigation types entry)
+- Related terms: regulatory policy (1.6 entry), investigation types and evidence (1.5, own entry), privacy laws (GDPR/CCPA, transborder mechanisms), security governance principles (1.3, due care)
 - Sources: [OSG glossary], [ISC2 outline], [unverified]
 
 ## Intellectual property and licensing
@@ -446,15 +454,15 @@
     - Some countries restrict crypto **import/use** (licenses, escrow) — legality is per-jurisdiction
   - Privacy laws [OSG glossary]:
 
-  | Law | Year | Covers |
+  | Law | Year | Description |
   | --- | --- | --- |
-  | **Privacy Act** | 1974 | Federal agencies' records: necessity, access, amendment |
-  | **ECPA** | **1986** (H.R. 4952, 99th Congress) [congress.gov] | Crime to invade electronic privacy; email/voicemail monitoring + provider disclosure |
-  | **HIPAA** | 1996 | Medical data: hospitals, physicians, insurers |
-  | **GLBA** | 1999 | Financial institutions; deregulation + privacy duties |
-  | **COPPA** | — | Sites catering to / collecting from children |
-  | **GDPR** | Reg. EU **2016/679** | EU/EEA persons' PII incl. transfers out |
-  | **CCPA** | — | California; **modeled on GDPR** |
+  | **Privacy Act** | 1974 | Restricts **federal agencies'** handling of records on individuals — keep only what's necessary for the agency's mission, let individuals inspect/amend their own records, destroy records once no longer needed [OSG glossary] |
+  | **ECPA** | **1986** (H.R. 4952, 99th Congress) [congress.gov] | Makes it a crime to invade electronic privacy — covers monitoring of email/voicemail and bars **providers** from disclosing message content without authorization; binds private parties, not just government [OSG glossary] |
+  | **HIPAA** | 1996 | Sets privacy/security requirements for medical data held by hospitals, physicians, insurers, and HMOs (Health Maintenance Organizations) [OSG glossary] |
+  | **GLBA** | 1999 | Eased barriers between financial institutions (banks, insurers, credit providers could affiliate/share services) but attached privacy duties — disclose data-sharing practices, safeguard customer financial data [OSG glossary] |
+  | **COPPA** | 1998 [FTC] | Requires **verifiable parental consent** before sites/services that target or knowingly collect from children **under 13** gather personal info; FTC-enforced (16 CFR 312) |
+  | **GDPR** | Reg. EU **2016/679** | Single harmonized EU/EEA law on data protection/privacy — governs processing and cross-border transfer of PII belonging to EU/EEA persons; **extraterritorial** reach (applies to any org processing their data, regardless of org's location) [OSG glossary] |
+  | **CCPA** | 2018 [oag.ca.gov] | California statute (**modeled on GDPR**) giving state residents rights to know what personal data is collected, request its deletion, and opt out of its sale [OSG glossary] |
 
   - GDPR specifics [unverified]: extraterritorial (Art. 3); rights = access, rectification, **erasure** (Art. 17), portability; **72-hr** breach notify (Art. 33); fines to **4% global revenue** (Art. 83); transfers need adequacy decision or SCCs. Audit 2026-09-01: eur-lex fetch failed — verify article numbers against Regulation 2016/679 text
 - Exam traps / distractors:
@@ -464,4 +472,178 @@
   - HIPAA -> business associates **directly liable** via **HITECH (2009)** Sec. 13401 — Security Rule safeguards apply to BAs as to covered entities; BAs must notify the covered entity of breaches [HHS]
   - "US law resembling GDPR" -> **CCPA**
 - Related terms: transborder data flow (1.4, own entry later), DMCA/IP (licensing entry), FISMA, data protection methods (2.6)
+- Sources: [OSG glossary], [ISC2 outline], [congress.gov], [FTC], [oag.ca.gov], [HHS], [unverified]
+
+## Business continuity planning (BCP)
+- Definition (ISC2 framing): the discipline of keeping critical business processes running during/after a disruption — a **BIA** (business impact analysis) quantifies how much downtime/data loss the business can tolerate, and that number drives recovery strategy, testing, and maintenance as an ongoing lifecycle, not a one-time document [ISC2 outline]
+- Key facts:
+  - **NIST SP 800-34 Rev.1** 7-step contingency planning process (the technical reference the CBK draws on) [NIST SP 800-34]:
+    1. **Develop the contingency planning policy statement** — gives the effort authority/scope
+    2. **Conduct the BIA** — identify + prioritize critical mission/business processes and their supporting systems
+    3. **Identify preventive controls** — reduce disruption likelihood/impact (UPS, RAID, failover) before recovery is even needed
+    4. **Create contingency strategies** — backup/recovery approach: alternate-site vendor contracts, reciprocal agreements, equipment SLAs
+    5. **Develop the information system contingency plan** — write the detailed recovery procedures per system
+    6. **Ensure plan testing, training, and exercises (TT&E)** — validates the plan actually works
+    7. **Ensure plan maintenance** — living document, updated on org/system change
+  - **ISC2/OSG exam framing** groups the same lifecycle into **4 phases** (exam vocabulary — NIST's step numbers aren't tested directly) [unverified, corroborated by multiple CISSP study sources but not confirmed against ISC2 primary text]:
+
+  | Phase | Maps to NIST steps | Produces |
+  | --- | --- | --- |
+  | **1. Project scope and planning** | Step 1 | BC team, policy, scope |
+  | **2. Business impact analysis** | Step 2 | Criticality ranking, MTD/RTO/RPO |
+  | **3. Continuity planning** | Steps 3-5 | Preventive controls, recovery strategy, written plan |
+  | **4. Approval and implementation** | Steps 6-7 (ongoing) | Management sign-off, rollout, test/maintain cycle |
+
+  - **BIA** = 3-step process [NIST SP 800-34]:
+    1. **Determine mission/business processes and recovery criticality** — impact of disrupting each process, incl. estimated downtime
+    2. **Identify resource requirements** — facilities, personnel, equipment, software, data, **interdependencies** (what each process actually needs to run)
+    3. **Identify recovery priorities** — rank/sequence recovery based on the above
+    - Impact quantification reuses the qualitative/quantitative toolkit (AV/EF/SLE/ARO/ALE, Delphi) — see quant/qual risk analysis entry
+  - Recovery metrics [NIST SP 800-34]:
+
+  | Term | Definition |
+  | --- | --- |
+  | **MTD** (Maximum Tolerable Downtime) | Ceiling — total outage time the business can survive before unacceptable harm |
+  | **RTO** (Recovery Time Objective) | Target time to get the **system** back up; must fit inside MTD |
+  | **WRT** (Work Recovery Time) | Time after the system's back to catch up data entry/backlog and verify |
+  | **RPO** (Recovery Point Objective) | How much **data loss** is tolerable, measured backward in time to the last good backup/replica — not a duration of outage |
+
+    - Relationship: `disruption -> [RTO: system restored] -> [WRT: backlog/data caught up] -> normal ops`, and **RTO + WRT <= MTD**. RPO is a separate axis (data-loss tolerance), not part of that timeline
+  - **External dependencies**: recovery strategy is bounded by third parties you don't control — alternate-site vendor contracts, reciprocal agreements, equipment/ISP/cloud-provider SLAs, supply-chain partners [NIST SP 800-34]. Plan can't promise an RTO faster than its slowest external dependency
+  - Plan types — the classic 4-way exam confusion cluster [NIST SP 800-34]:
+
+  | Plan | Focus | Scope |
+  | --- | --- | --- |
+  | **BCP** | Sustaining **mission/business processes** (e.g., payroll, customer service) during/after disruption | One business unit or whole org; may run long-term alongside COOP |
+  | **DRP** | Restoring the **physical facility/IT infrastructure** at an alternate site after a major disruption | Site-specific; only triggers when relocation is required |
+  | **COOP** (Continuity of Operations) | Restoring **mission-essential functions** at an alternate site, for up to 30 days | Federal-mandated (HSPD-20/NSPD-51); nongovernment orgs use BCP instead |
+  | **ISCP** (Information System Contingency Plan) | Recovering **one system**, regardless of site — can activate in place or at an alternate site | System-level; used *after* DRP has stood up the alternate site |
+    - Also exists but lower exam yield: crisis communications plan (public-facing messaging), CIP (critical infrastructure protection) plan, cyber incident response plan (may be a BCP appendix), OEP (occupant emergency plan — life-safety, not IT) [NIST SP 800-34]
+  - Test/exercise types, least to most rigorous/disruptive [OSG glossary]:
+
+  | Type | What happens |
+  | --- | --- |
+  | **Checklist test** | Recovery checklists distributed to team members for review only |
+  | **Structured walk-through** (aka **tabletop exercise**) | Group talks through the plan verbally/with minimal aids to find gaps |
+  | **Simulation test** | Team gets a scenario, develops a response; may interrupt noncritical activities |
+  | **Parallel test** | Team actually relocates to the alternate site and runs activation procedures |
+  | **Full-interruption test** | Primary site is actually shut down and operations shift to the recovery site |
+  - Governance hook: **NIST SP 800-53 CP (Contingency Planning) family** — CP-2 Contingency Plan, CP-4 Contingency Plan Testing, CP-6/CP-7 Alternate Storage/Processing Site, CP-9 System Backup, CP-10 System Recovery and Reconstitution [NIST SP 800-53]
+  - **ISO 22301** = international BCMS (business continuity management system) standard; PDCA-style continual-improvement structure (plan, implement, monitor, review, improve), org-agnostic (any type/size) [ISO 22301]
+- Exam traps / distractors:
+  - **BCP vs. DRP vs. COOP vs. ISCP**: business processes / physical site+infra / mission-essential functions (federal, 30-day cap) / single system — question gives a scenario, pick the plan by what's being restored, not by "which plan is more important"
+  - **RPO is not "how fast," it's "how much data."** Confusing RPO with RTO is the single most common metric trap
+  - **RTO + WRT <= MTD** — if a scenario's proposed RTO leaves no room for WRT under the stated MTD, the plan fails, even if RTO alone looks fine
+  - Test order = exam favorite for "least disruptive first" / "most realistic but riskiest last" sequencing questions: checklist -> structured walk-through -> simulation -> parallel -> full-interruption
+  - BCP is a **lifecycle**, not a document — "the plan is done once written" is always wrong; testing/maintenance (steps 6-7) never stop
+  - BIA identifies criticality and produces MTD/RTO/RPO; it does **not** select the recovery strategy itself (that's continuity planning/step 4) — don't let a BIA-scoped question answer with a site-selection choice
+- Related terms: qualitative vs. quantitative risk analysis (BIA impact math), supply chain and SCRM (external dependency overlap), risk responses, alternate site types/DR site selection (own entry later, domain 7.13), types of risk
+- Sources: [NIST SP 800-34], [NIST SP 800-53], [ISO 22301], [OSG glossary], [ISC2 outline], [unverified]
+
+## Security governance principles (1.3)
+- Definition (ISC2 framing): aligning the security function with business strategy through organizational structure, accountability, and process — governance decides *who* is accountable for security decisions and *how* they get made, distinct from operating the controls themselves [ISC2 outline]
+- Key facts:
+  - **Due care vs. due diligence** [OSG glossary]:
+
+  | Term | ISC2/OSG framing | Timing |
+  | --- | --- | --- |
+  | **Due diligence** | Establishing the plan/policy/process — **knowing** what should be done | Before / ongoing research |
+  | **Due care** | Practicing it — **doing** the right action, maintaining security after deployment | Ongoing execution |
+    - Due diligence without due care (research done, nobody acts on it) is a real exam scenario — diligence alone isn't a negligence defense
+    - Both together are the legal defense against a **negligence** claim; missing either = exposure
+  - **Organizational processes** [unverified]: M&A due diligence (assess a target's security posture/liabilities before acquisition; plan access/system integration or separation for a divestiture); **governance committees** (security steering committee sets policy direction, reports to the board/executive management on risk posture)
+  - **Roles and responsibilities** (governance layer — contrast with data owner/custodian, which is domain 2's operational layer) [unverified]: board sets risk appetite -> executive management (CISO) owns the program -> steering committee coordinates cross-functional decisions -> operational teams execute
+  - **Control/security framework survey** — pick the right one per scenario [unverified, standard industry framing]:
+
+  | Framework | What it is |
+  | --- | --- |
+  | **ISO 27001** | Certifiable **ISMS** (information security management system) standard — auditable, org gets certified |
+  | **NIST CSF** | Voluntary risk-based framework: Identify/Protect/Detect/Respond/Recover — not prescriptive controls, no certification |
+  | **COBIT** | IT governance/management framework (see own entry) — process maturity + control objectives |
+  | **SABSA** | Business-risk-driven enterprise security **architecture** methodology — layered like Zachman, traces every control back to a business requirement |
+  | **PCI DSS** | Contractual (not law) — card-brand-mandated technical controls |
+  | **FedRAMP** | US federal cloud-service authorization, built on **NIST SP 800-53** controls |
+- Exam traps / distractors:
+  - "We researched and documented the risk but didn't fix it" -> due diligence present, due care absent -> still negligent
+  - **ISO 27001 = certifiable**; **NIST CSF = not certifiable** — a "get certified against the CSF" option is wrong
+  - SABSA answer cue: "traces back to business requirements" / architecture layers; COBIT cue: "IT governance," "process maturity," "control objectives"
+  - Framework choice questions test recognition, not "which is best" — match the cue words in the stem to the framework's defining trait
+- Related terms: ISC2 Code of Professional Ethics (org code contrast), COBIT basics, security planning types (business alignment), legal and regulatory landscape (due care as negligence defense), supply chain and SCRM
+- Sources: [OSG glossary], [ISC2 outline], [unverified]
+
+## Investigation types and evidence (1.5)
+- Definition (ISC2 framing): five investigation types an org may be subject to or conduct, distinguished by *who* investigates and *what standard applies* [ISC2 outline]:
+
+  | Type | Who conducts it | Standard |
+  | --- | --- | --- |
+  | **Administrative** | Internal (HR/security) | No formal legal standard — org's own process |
+  | **Criminal** | Law enforcement | Beyond a reasonable doubt |
+  | **Civil** | Private party (via courts) | Preponderance of evidence |
+  | **Regulatory** | Government agency (SEC, FTC, etc.) | Substantial evidence (admin-law standard) |
+  | **Industry standard** | Contractually mandated third party (e.g., **PCI Forensic Investigator**) | Contract-defined, not legal |
+  - This table's **administrative/regulatory split by investigator** is a different axis than the *Legal and regulatory landscape* entry's three **categories of law** (criminal/civil/administrative-as-law) — same word "administrative," two different ISC2 taxonomies (see that entry's traps)
+  - Evidence fundamentals [OSG glossary]:
+    - **Real evidence** (aka object evidence) — physical items admissible in court
+    - **Direct evidence** — witness testimony from personal (five-senses) knowledge
+    - **Best evidence rule** — original document required; copies rejected unless an exception applies
+    - **Secondary evidence** — a copy or oral description of best evidence (what the rule above excludes, absent an exception)
+    - **Conclusive evidence** — incontrovertible; overrides all other evidence
+    - **Hearsay evidence** — secondhand statements made outside court; unauthenticated log files count as hearsay
+    - **Chain of custody** (aka chain of evidence) — unbroken documentation of who controlled the evidence from collection to court; breaks make it inadmissible
+- Exam traps / distractors:
+  - Collect evidence to the **criminal** standard regardless of which investigation type it started as — it may escalate (cross-ref: legal and regulatory landscape entry)
+  - Unauthenticated log files = **hearsay** by default — a recurring "why was this evidence excluded" trap
+  - **Best evidence rule** trips up "we submitted a printed copy" answers when the original (or an exception) wasn't established
+  - Internal/administrative investigations don't need a criminal standard, but sloppy chain-of-custody handling forecloses a later criminal referral
+- Related terms: legal and regulatory landscape (burden of proof, categories of law), forensics/incident response (domain 7, future entry)
+- Sources: [OSG glossary], [ISC2 outline]
+
+## Personnel security policies (1.8)
+- Definition (ISC2 framing): security controls applied across the employment lifecycle — screening before hire, agreements at hire, access changes during employment, and clean separation at exit — extended to vendors/contractors, not just employees [ISC2 outline]
+- Key facts:
+  - **Screening/hiring**: background checks verify a candidate is qualified and free of disqualifications (criminal history, employment/education verification, credit check for financial-trust roles); depth scales with role sensitivity [OSG glossary]
+  - **Employment agreements**: **NDA** (nondisclosure agreement — protects confidential info from disclosure), **NCA** (noncompete agreement, aka covenant not to compete — restricts working for a competitor using learned secrets), plus policy acknowledgment (**AUP** — see documentation hierarchy entry) [OSG glossary]
+  - **Onboarding/transfers/termination** [OSG glossary]:
+    - **Onboarding** — adding identity to **IAM**; also used for role changes / added privilege
+    - **Offboarding** — removing identity from IAM once the person has left
+    - **Exit interview** — HR-run debrief on why the employee is leaving; feeds retention/process improvements, not a security control itself
+  - **Vendor/consultant/contractor controls**: same agreement toolkit (NDA/NCA) plus **SLA** (service-level agreement) and **right-to-audit clause** — gives the customer the ability to investigate a CSP's/vendor's performance, compliance, and violations [OSG glossary]
+- Exam traps / distractors:
+  - **Termination access revocation timing**: for a hostile/involuntary termination, disable access **at or before** notification, not after — the classic "employee walked out with data" scenario tests whether revocation preceded or followed the conversation
+  - Onboarding/offboarding = **IAM lifecycle** actions, not the agreements themselves — don't confuse the paperwork (NDA/AUP) with the account-provisioning action
+  - Right-to-audit clause lives in the **SLA**, not the NDA — NDA only covers confidentiality
+  - Background check depth is **risk-scaled** to role (a sysadmin candidate warrants deeper screening than a role with no system access) — "same background check for everyone" is the wrong-uniformity trap
+- Related terms: documentation hierarchy (AUP), supply chain and SCRM (vendor risk overlap, different angle — SCRM is product/service supply chain, this is contractual personnel-style vendor controls), security governance principles (roles)
+- Sources: [OSG glossary], [ISC2 outline], [unverified]
+
+## Risk assessment, monitoring, and maturity (1.9)
+- Definition (ISC2 framing): the ongoing half of risk management after a response is chosen — verifying controls still work, watching the environment for change, and reporting/maturing the program over time [ISC2 outline]
+- Key facts:
+  - **Control assessments** (security **and** privacy): formal evaluation of whether a control is implemented correctly, operating as intended, and producing the desired outcome — **NIST SP 800-53A** provides the assessment procedures for the SP 800-53 control catalog [NIST SP 800-34, referencing 800-53A]
+  - **Continuous monitoring**: ongoing (not point-in-time) visibility into assets, threats/vulnerabilities, and control effectiveness so risk posture stays inside tolerance as things change — federal term of art is **ISCM** (Information Security Continuous Monitoring), **NIST SP 800-137** [NIST SP 800-137]
+  - **Reporting**: internal (board/executive risk reporting, feeds governance decisions) vs. external (regulators, customers, auditors — often contractually or legally mandated, e.g. breach notification)
+  - **Continuous improvement / risk maturity modeling**: apply maturity-model thinking (cf. **Capability Maturity Model (CMM)** — originally a software-process model [OSG glossary]) to the risk program itself: ad hoc -> repeatable -> defined -> managed -> optimized. ISC2 doesn't mandate a single named risk-maturity model; the exam tests the *concept* (a risk program matures through stages, doesn't jump to "optimized") rather than exact level names [unverified]
+- Exam traps / distractors:
+  - Control assessment != control implementation — a control can be implemented but the *assessment* is what proves it's effective; "we deployed it" answers a different question than "we assessed it"
+  - **Continuous monitoring is ongoing**, not an annual point-in-time check — "we monitor once a year" fails the definition
+  - Internal reporting drives decisions; external reporting is often a **compliance obligation** — mixing up the audience is a common distractor
+  - Maturity is a **progression**, not a binary "compliant/not compliant" — a scenario describing ad hoc, undocumented practices signals low maturity even if outcomes are currently fine
+- Related terms: risk responses, RMF, qualitative vs. quantitative risk analysis, security governance principles (reporting to governance committees)
+- Sources: [NIST SP 800-137], [OSG glossary], [ISC2 outline], [unverified]
+
+## Security awareness, education, and training program (1.12)
+- Definition (ISC2 framing): the program that keeps the workforce able to recognize and resist threats — distinct from technical controls, this is a **people** control, and it has its own lifecycle (design, deliver, review, measure) [ISC2 outline]
+- Key facts:
+  - **Methods/techniques** [OSG glossary]:
+    - **Phishing simulation** — controlled phishing campaign to measure/train employee resistance (often run by the same team that pentests)
+    - **Gamification** — rewards (and sometimes penalties) tied to compliance behaviors, using gameplay elements to drive engagement
+    - **Security champions** — often non-security employees (frequently in dev teams) who take up peer leadership to spread security practices within their group
+  - **Periodic content review**: training content needs refresh cycles to keep pace with emerging threats/tech — stale annual-only content is a known program weakness
+  - **Program effectiveness evaluation**: measured via behavior metrics (phishing simulation click-through/report rates over time), completion/comprehension rates, and incident trend correlation — not just "training was delivered"
+- Exam traps / distractors:
+  - **Training delivered != program effective** — completion rate alone is a distractor; the exam wants outcome/behavior metrics (falling click-through rate, rising report rate)
+  - Phishing simulation results should train, not punish, in most ISC2-preferred answers — a "fire employees who click" option is usually wrong (culture/behavior-change framing beats punitive framing)
+  - Security champions are **peer influence**, not a replacement for formal training or a compliance/enforcement role
+  - "One-time training at hire" fails the periodic-review expectation — awareness is continuous, same lifecycle framing as BCP/risk maturity
+- Related terms: security governance principles (culture/behavior framing), personnel security policies (onboarding is where initial training typically lands)
 - Sources: [OSG glossary], [ISC2 outline], [unverified]
