@@ -56,22 +56,48 @@
       '.<br><code>' + String(err.message || err) + '</code></p>');
   }
 
+  // segments: [{n, cls, label}]; remainder renders as the neutral track
+  function barHtml(segs, total, mini) {
+    var used = 0;
+    var inner = segs.filter(function (s) { return s.n > 0; }).map(function (s) {
+      used += s.n;
+      return '<i class="seg ' + s.cls + '" style="flex:' + s.n + '" title="' + s.label + ': ' + s.n + '"></i>';
+    }).join('');
+    var rem = Math.max(total - used, 0);
+    if (rem > 0 || !inner) inner += '<i class="seg track" style="flex:' + (rem || 1) + '"></i>';
+    return '<span class="bar' + (mini ? ' mini' : '') + '">' + inner + '</span>';
+  }
+
+  function domainProgress(d) {
+    var fc = store('fc-stats') || {}, qs = store('q-stats') || {}, k;
+    var p = { cards: d.cards || 0, learned: 0, learning: 0, questions: d.questions || 0, correct: 0, missed: 0 };
+    for (k in fc) if (k.indexOf(d.id + '-') === 0) { if ((fc[k].streak || 0) >= 2) p.learned++; else p.learning++; }
+    for (k in qs) if (k.indexOf(d.id + '-') === 0) { if (qs[k].lastWrong) p.missed++; else p.correct++; }
+    return p;
+  }
+
   // ---------- domain pickers ----------
   function domainList(opts) {
-    // opts: {key:'notes'|'flashcards'|'quiz', onPick(domain|null for all), allLabel}
+    // opts: {key:'notes'|'flashcards'|'quiz'|'progress', onPick(domain|null for all), allLabel, headerHtml}
     setBack(null);
-    var html = '<div class="item-list">';
+    var html = (opts.headerHtml || '') + '<div class="item-list">';
     if (opts.allLabel) {
       html += '<button class="item" data-id="__all">' + opts.allLabel + '</button>';
     }
     INDEX.domains.forEach(function (d) {
       var has = !!d[opts.key];
       var sub = '';
+      var extra = '';
       if (opts.key === 'progress') {
         has = !!(d.flashcards || d.quiz);
-        sub = has
-          ? countLearned(d.id) + '/' + d.cards + ' learned · ' + countMissed(d.id) + ' missed'
-          : 'nothing tracked yet';
+        if (has) {
+          var p = domainProgress(d);
+          sub = p.learned + '/' + p.cards + ' learned · ' + p.missed + ' missed';
+          if (p.cards) extra += barHtml([{ n: p.learned, cls: 'g', label: 'learned' }, { n: p.learning, cls: 'o', label: 'learning' }], p.cards, true);
+          if (p.questions) extra += barHtml([{ n: p.correct, cls: 'g', label: 'correct' }, { n: p.missed, cls: 'o', label: 'missed' }], p.questions, true);
+        } else {
+          sub = 'nothing tracked yet';
+        }
       }
       if (opts.key === 'flashcards') {
         var learned = countLearned(d.id);
@@ -83,7 +109,7 @@
       }
       html += '<button class="item" data-id="' + d.id + '"' + (has ? '' : ' disabled') + '>' +
         'Domain ' + d.num + ': ' + d.title +
-        (sub ? '<span class="sub">' + sub + '</span>' : '') + '</button>';
+        (sub ? '<span class="sub">' + sub + '</span>' : '') + extra + '</button>';
     });
     html += '</div>';
     if (INDEX.updated) html += '<p class="hint center">content updated ' + INDEX.updated + '</p>';
@@ -367,7 +393,26 @@
 
   function progressRoot() {
     setTitle('Progress');
-    domainList({ key: 'progress', onPick: progressView });
+    var all = { cards: 0, learned: 0, learning: 0, questions: 0, correct: 0, missed: 0 };
+    INDEX.domains.forEach(function (d) {
+      var p = domainProgress(d);
+      for (var k in all) all[k] += p[k];
+    });
+    var header =
+      '<div class="p-item p-overview">' +
+      '<div class="ov-title">All domains</div>' +
+      '<div class="ov-row"><span class="ov-label">Cards</span>' +
+      barHtml([{ n: all.learned, cls: 'g', label: 'learned' }, { n: all.learning, cls: 'o', label: 'learning' }], all.cards) +
+      '<span class="ov-num">' + all.learned + '/' + all.cards + '</span></div>' +
+      '<div class="ov-row"><span class="ov-label">Questions</span>' +
+      barHtml([{ n: all.correct, cls: 'g', label: 'correct' }, { n: all.missed, cls: 'o', label: 'missed' }], all.questions) +
+      '<span class="ov-num">' + all.correct + '/' + all.questions + '</span></div>' +
+      '<div class="legend">' +
+      '<span><i class="dot g"></i>learned / correct</span>' +
+      '<span><i class="dot o"></i>learning / missed</span>' +
+      '<span><i class="dot t"></i>not seen</span>' +
+      '</div></div>';
+    domainList({ key: 'progress', onPick: progressView, headerHtml: header });
   }
 
   function progressView(domain) {
