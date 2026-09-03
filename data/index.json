@@ -1,13 +1,85 @@
 {
   "updated": "2026-09-03",
   "domains": [
-    { "id": "01", "num": 1, "title": "Security and Risk Management", "notes": "domains/01-security-risk-management.md", "flashcards": "flashcards/01.json", "quiz": "quizzes/01.json", "cards": 50, "questions": 14 },
-    { "id": "02", "num": 2, "title": "Asset Security", "notes": "domains/02-asset-security.md", "flashcards": null, "quiz": null, "cards": 0, "questions": 0 },
-    { "id": "03", "num": 3, "title": "Security Architecture and Engineering", "notes": "domains/03-security-architecture-engineering.md", "flashcards": null, "quiz": null, "cards": 0, "questions": 0 },
-    { "id": "04", "num": 4, "title": "Communication and Network Security", "notes": "domains/04-communication-network-security.md", "flashcards": null, "quiz": null, "cards": 0, "questions": 0 },
-    { "id": "05", "num": 5, "title": "Identity and Access Management", "notes": "domains/05-identity-access-management.md", "flashcards": null, "quiz": null, "cards": 0, "questions": 0 },
-    { "id": "06", "num": 6, "title": "Security Assessment and Testing", "notes": "domains/06-security-assessment-testing.md", "flashcards": null, "quiz": null, "cards": 0, "questions": 0 },
-    { "id": "07", "num": 7, "title": "Security Operations", "notes": "domains/07-security-operations.md", "flashcards": null, "quiz": null, "cards": 0, "questions": 0 },
-    { "id": "08", "num": 8, "title": "Software Development Security", "notes": "domains/08-software-development-security.md", "flashcards": null, "quiz": null, "cards": 0, "questions": 0 }
+    {
+      "id": "01",
+      "num": 1,
+      "title": "Security and Risk Management",
+      "notes": "domains/01-security-risk-management.md",
+      "flashcards": "flashcards/01.json",
+      "quiz": "quizzes/01.json",
+      "cards": 50,
+      "questions": 14
+    },
+    {
+      "id": "02",
+      "num": 2,
+      "title": "Asset Security",
+      "notes": "domains/02-asset-security.md",
+      "flashcards": null,
+      "quiz": null,
+      "cards": 0,
+      "questions": 0
+    },
+    {
+      "id": "03",
+      "num": 3,
+      "title": "Security Architecture and Engineering",
+      "notes": "domains/03-security-architecture-engineering.md",
+      "flashcards": null,
+      "quiz": null,
+      "cards": 0,
+      "questions": 0
+    },
+    {
+      "id": "04",
+      "num": 4,
+      "title": "Communication and Network Security",
+      "notes": "domains/04-communication-network-security.md",
+      "flashcards": null,
+      "quiz": null,
+      "cards": 0,
+      "questions": 0
+    },
+    {
+      "id": "05",
+      "num": 5,
+      "title": "Identity and Access Management (IAM)",
+      "notes": "domains/05-identity-access-management.md",
+      "flashcards": null,
+      "quiz": null,
+      "cards": 0,
+      "questions": 0
+    },
+    {
+      "id": "06",
+      "num": 6,
+      "title": "Security Assessment and Testing",
+      "notes": "domains/06-security-assessment-testing.md",
+      "flashcards": null,
+      "quiz": null,
+      "cards": 0,
+      "questions": 0
+    },
+    {
+      "id": "07",
+      "num": 7,
+      "title": "Security Operations",
+      "notes": "domains/07-security-operations.md",
+      "flashcards": null,
+      "quiz": null,
+      "cards": 0,
+      "questions": 0
+    },
+    {
+      "id": "08",
+      "num": 8,
+      "title": "Software Development Security",
+      "notes": "domains/08-software-development-security.md",
+      "flashcards": null,
+      "quiz": null,
+      "cards": 0,
+      "questions": 0
+    }
   ]
 }
