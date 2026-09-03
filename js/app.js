@@ -436,24 +436,51 @@
       var qStats = store('q-stats') || {};
 
       var mode = cards.length ? 'cards' : 'questions';
+      var filter = 'all';
 
       h('<p class="hint center">Tap a status to change it — the card and quiz modes follow it.</p>' +
         '<div class="pill-row" style="justify-content:center">' +
         '<button class="pill" data-m="cards"' + (cards.length ? '' : ' disabled') + '>Cards (' + cards.length + ')</button>' +
         '<button class="pill" data-m="questions"' + (questions.length ? '' : ' disabled') + '>Questions (' + questions.length + ')</button>' +
-        '</div><div id="p-list"></div>' +
+        '</div><div class="pill-row" id="p-filters" style="justify-content:center"></div><div id="p-list"></div>' +
         '<div class="btn-row"><button class="btn secondary" id="p-reset">Reset domain ' +
         domain.num + ' progress</button></div>');
 
+      function stateOf(x) {
+        return mode === 'cards' ? cardState(fcStats[x.id]) : qState(qStats[x.id]);
+      }
+
+      function renderFilters() {
+        var all = mode === 'cards' ? cards : questions;
+        var states = mode === 'cards' ? ['new', 'learning', 'learned'] : ['new', 'missed', 'correct'];
+        var counts = { all: all.length };
+        states.forEach(function (s) { counts[s] = 0; });
+        all.forEach(function (x) { counts[stateOf(x)]++; });
+        var row = document.getElementById('p-filters');
+        row.innerHTML = ['all'].concat(states).map(function (s) {
+          return '<button class="pill small' + (filter === s ? ' active' : '') + '" data-f="' + s + '">' +
+            s + ' (' + counts[s] + ')</button>';
+        }).join('');
+        row.querySelectorAll('.pill').forEach(function (p) {
+          p.onclick = function () { filter = p.getAttribute('data-f'); renderFilters(); renderList(); };
+        });
+      }
+
       function renderList() {
         var list = document.getElementById('p-list');
-        view.querySelectorAll('.pill').forEach(function (p) {
+        view.querySelectorAll('.pill[data-m]').forEach(function (p) {
           p.classList.toggle('active', p.getAttribute('data-m') === mode);
         });
         var isCard = mode === 'cards';
-        var items = isCard ? cards : questions;
+        var items = (isCard ? cards : questions).filter(function (x) {
+          return filter === 'all' || stateOf(x) === filter;
+        });
+        if (!items.length) {
+          list.innerHTML = '<p class="hint center">nothing with this status</p>';
+          return;
+        }
         list.innerHTML = items.map(function (x, i) {
-          var st = isCard ? cardState(fcStats[x.id]) : qState(qStats[x.id]);
+          var st = stateOf(x);
           return '<div class="p-item"><div class="p-row"><div class="p-text" data-i="' + i + '"><span class="t">' +
             (x.topic || '') + '</span><span class="f">' + mdInline(isCard ? x.front : x.stem) + '</span></div>' +
             '<button class="chip ' + st + '" data-kind="' + (isCard ? 'card' : 'q') + '" data-id="' + x.id + '">' + st + '</button></div>' +
@@ -492,13 +519,20 @@
             else { setQState(qStats, id, nxt); store('q-stats', qStats); }
             chip.className = 'chip ' + nxt;
             chip.textContent = nxt;
+            renderFilters(); // keep counts current; the row itself stays put
           };
         });
       }
 
-      view.querySelectorAll('.pill:not([disabled])').forEach(function (p) {
-        p.onclick = function () { mode = p.getAttribute('data-m'); renderList(); };
+      view.querySelectorAll('.pill[data-m]:not([disabled])').forEach(function (p) {
+        p.onclick = function () {
+          mode = p.getAttribute('data-m');
+          filter = 'all';
+          renderFilters();
+          renderList();
+        };
       });
+      renderFilters();
       renderList();
       document.getElementById('p-reset').onclick = function () {
         if (!confirm('Clear all saved card and quiz progress for domain ' + domain.num + '?')) return;
