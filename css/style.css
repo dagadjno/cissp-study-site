@@ -218,7 +218,7 @@ body {
 .ch-seg { display: block; border-radius: 2px; min-height: 2px; }
 .ch-seg.cb { background: #2f6fb5; }
 .ch-seg.qo { background: var(--accent); }
-.line-chart { display: block; width: 100%; height: 64px; margin-top: 6px; border-top: 1px solid var(--border); }
+.line-chart { display: block; width: 100%; height: 96px; margin-top: 8px; }
 .ln { fill: none; stroke-width: 2; }
 .ln.cb { stroke: #2f6fb5; }
 .ln.o { stroke: var(--accent); }

@@ -148,18 +148,23 @@
         '</svg>';
     }
     var last = days[29];
-    return '<div class="p-item p-overview">' +
-      '<div class="ov-title">Last 30 days' + (total ? '<span class="ov-peak">peak ' + max + '/day</span>' : '') + '</div>' +
-      '<div class="chart">' + cols + '</div>' + lineSvg + '<div class="ch-x">' + labels + '</div>' +
+    var xAxis = '<div class="ch-x">' + labels + '</div>';
+    var barsCard = '<div class="p-item p-overview">' +
+      '<div class="ov-title">Daily activity' + (total ? '<span class="ov-peak">peak ' + max + '/day</span>' : '') + '</div>' +
+      '<div class="chart">' + cols + '</div>' + xAxis +
       '<div class="legend"><span><i class="dot cb"></i>cards reviewed</span>' +
-      '<span><i class="dot o"></i>questions answered</span>' +
-      (hasLine
-        ? '<span><i class="dash cb"></i>learned total (' + last.L + ')</span>' +
-          '<span><i class="dash o"></i>correct total (' + last.Q + ')</span>'
-        : '') +
-      '</div>' +
+      '<span><i class="dot o"></i>questions answered</span></div>' +
       (total ? '' : '<p class="hint" style="margin:8px 0 0">activity will appear here as you study</p>') +
       '</div>';
+    var linesCard = hasLine
+      ? '<div class="p-item p-overview">' +
+        '<div class="ov-title">Totals over time</div>' +
+        lineSvg + xAxis +
+        '<div class="legend"><span><i class="dash cb"></i>cards learned (' + last.L + ')</span>' +
+        '<span><i class="dash o"></i>questions correct (' + last.Q + ')</span></div>' +
+        '</div>'
+      : '';
+    return barsCard + linesCard;
   }
 
   // segments: [{n, cls, label}]; remainder renders as the neutral track
@@ -514,7 +519,7 @@
       var p = domainProgress(d);
       for (var k in all) all[k] += p[k];
     });
-    var header =
+    var header = activityChartHtml() +
       '<div class="p-item p-overview">' +
       '<div class="ov-title">All domains</div>' +
       '<div class="ov-row"><span class="ov-label">Cards</span>' +
@@ -527,7 +532,7 @@
       '<span><i class="dot g"></i>learned / correct</span>' +
       '<span><i class="dot o"></i>learning / missed</span>' +
       '<span><i class="dot t"></i>not seen</span>' +
-      '</div></div>' + activityChartHtml();
+      '</div></div>';
     domainList({ key: 'progress', onPick: progressView, headerHtml: header });
   }
 
