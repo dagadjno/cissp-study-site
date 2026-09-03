@@ -221,10 +221,10 @@ body {
 /* ---- progress bars (palette CVD-validated: #1e6030 / #ff5e3a / track) ---- */
 .bar {
   display: flex; gap: 2px; height: 12px; border-radius: 6px; overflow: hidden;
-  animation: grow-x .5s var(--spring) both; transform-origin: left;
+  animation: grow-x .4s ease-out both; transform-origin: left;
 }
 @keyframes grow-x { from { transform: scaleX(0); } }
-.ch-seg { animation: grow-y .45s var(--spring) both; transform-origin: bottom; }
+.ch-seg { animation: grow-y .35s ease-out both; transform-origin: bottom; }
 @keyframes grow-y { from { transform: scaleY(0); } }
 .chip.bump { animation: pop .3s var(--spring); }
 .bar.mini { height: 6px; border-radius: 3px; margin-top: 8px; }
