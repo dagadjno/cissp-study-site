@@ -382,42 +382,47 @@
       var fcStats = store('fc-stats') || {};
       var qStats = store('q-stats') || {};
 
-      var html = '<p class="hint center">Tap a status to change it — the card and quiz modes follow it.</p>';
-      if (cards.length) {
-        html += '<div class="p-section">Flashcards (' + cards.length + ')</div>' +
-          cards.map(function (c) {
-            var st = cardState(fcStats[c.id]);
-            return '<div class="p-row"><div class="p-text"><span class="t">' +
-              (c.topic || '') + '</span><span class="f">' + mdInline(c.front) + '</span></div>' +
-              '<button class="chip ' + st + '" data-kind="card" data-id="' + c.id + '">' + st + '</button></div>';
-          }).join('');
-      }
-      if (questions.length) {
-        html += '<div class="p-section">Quiz questions (' + questions.length + ')</div>' +
-          questions.map(function (q) {
-            var st = qState(qStats[q.id]);
-            return '<div class="p-row"><div class="p-text"><span class="t">' +
-              (q.topic || '') + '</span><span class="f">' + mdInline(q.stem) + '</span></div>' +
-              '<button class="chip ' + st + '" data-kind="q" data-id="' + q.id + '">' + st + '</button></div>';
-          }).join('');
-      }
-      html += '<div class="btn-row"><button class="btn secondary" id="p-reset">Reset domain ' +
-        domain.num + ' progress</button></div>';
-      h(html);
+      var mode = cards.length ? 'cards' : 'questions';
 
-      view.querySelectorAll('.chip').forEach(function (chip) {
-        chip.onclick = function () {
-          var kind = chip.getAttribute('data-kind');
-          var id = chip.getAttribute('data-id');
-          var order = kind === 'card' ? CARD_STATES : Q_STATES;
-          var cur = chip.textContent.trim();
-          var nxt = order[(order.indexOf(cur) + 1) % order.length];
-          if (kind === 'card') { setCardState(fcStats, id, nxt); store('fc-stats', fcStats); }
-          else { setQState(qStats, id, nxt); store('q-stats', qStats); }
-          chip.className = 'chip ' + nxt;
-          chip.textContent = nxt;
-        };
+      h('<p class="hint center">Tap a status to change it — the card and quiz modes follow it.</p>' +
+        '<div class="pill-row" style="justify-content:center">' +
+        '<button class="pill" data-m="cards"' + (cards.length ? '' : ' disabled') + '>Cards (' + cards.length + ')</button>' +
+        '<button class="pill" data-m="questions"' + (questions.length ? '' : ' disabled') + '>Questions (' + questions.length + ')</button>' +
+        '</div><div id="p-list"></div>' +
+        '<div class="btn-row"><button class="btn secondary" id="p-reset">Reset domain ' +
+        domain.num + ' progress</button></div>');
+
+      function renderList() {
+        var list = document.getElementById('p-list');
+        view.querySelectorAll('.pill').forEach(function (p) {
+          p.classList.toggle('active', p.getAttribute('data-m') === mode);
+        });
+        list.innerHTML = (mode === 'cards' ? cards : questions).map(function (x) {
+          var isCard = mode === 'cards';
+          var st = isCard ? cardState(fcStats[x.id]) : qState(qStats[x.id]);
+          return '<div class="p-row"><div class="p-text"><span class="t">' +
+            (x.topic || '') + '</span><span class="f">' + mdInline(isCard ? x.front : x.stem) + '</span></div>' +
+            '<button class="chip ' + st + '" data-kind="' + (isCard ? 'card' : 'q') + '" data-id="' + x.id + '">' + st + '</button></div>';
+        }).join('');
+        list.querySelectorAll('.chip').forEach(function (chip) {
+          chip.onclick = function () {
+            var kind = chip.getAttribute('data-kind');
+            var id = chip.getAttribute('data-id');
+            var order = kind === 'card' ? CARD_STATES : Q_STATES;
+            var cur = chip.textContent.trim();
+            var nxt = order[(order.indexOf(cur) + 1) % order.length];
+            if (kind === 'card') { setCardState(fcStats, id, nxt); store('fc-stats', fcStats); }
+            else { setQState(qStats, id, nxt); store('q-stats', qStats); }
+            chip.className = 'chip ' + nxt;
+            chip.textContent = nxt;
+          };
+        });
+      }
+
+      view.querySelectorAll('.pill:not([disabled])').forEach(function (p) {
+        p.onclick = function () { mode = p.getAttribute('data-m'); renderList(); };
       });
+      renderList();
       document.getElementById('p-reset').onclick = function () {
         if (!confirm('Clear all saved card and quiz progress for domain ' + domain.num + '?')) return;
         cards.forEach(function (c) { delete fcStats[c.id]; });
