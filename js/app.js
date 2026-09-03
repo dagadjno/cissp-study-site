@@ -386,6 +386,34 @@
     next();
   }
 
+  // confetti burst at viewport point (x, y)
+  function celebrate(x, y, count) {
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!document.body.animate) return;
+    var colors = ['#ff5e3a', '#ffe27a', '#2f7d3f', '#2f6fb5', '#c8451f'];
+    for (var i = 0; i < (count || 26); i++) {
+      var p = document.createElement('i');
+      var size = 5 + Math.random() * 5;
+      p.style.cssText = 'position:fixed;left:' + x + 'px;top:' + y + 'px;' +
+        'width:' + size + 'px;height:' + (Math.random() < .5 ? size : size * .5) + 'px;' +
+        'background:' + colors[i % colors.length] + ';' +
+        'border-radius:' + (Math.random() < .4 ? '50%' : '2px') + ';' +
+        'pointer-events:none;z-index:99;';
+      var ang = Math.random() * Math.PI * 2;
+      var v = 60 + Math.random() * 130;
+      var dx = Math.cos(ang) * v;
+      var dy = Math.sin(ang) * v - 90 - Math.random() * 70;
+      var rot = (Math.random() - .5) * 720;
+      document.body.appendChild(p);
+      p.animate([
+        { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
+        { transform: 'translate(' + dx + 'px,' + dy + 'px) rotate(' + (rot / 2) + 'deg)', opacity: 1, offset: .5 },
+        { transform: 'translate(' + (dx * 1.3) + 'px,' + (dy + 280) + 'px) rotate(' + rot + 'deg)', opacity: 0 }
+      ], { duration: 700 + Math.random() * 500, easing: 'cubic-bezier(.15,.6,.4,1)' })
+        .onfinish = (function (el) { return function () { el.remove(); }; })(p);
+    }
+  }
+
   // ---------- quiz ----------
   function loadQuestions(domain) {
     var srcs = domain ? [domain] : INDEX.domains.filter(function (d) { return d.quiz; });
@@ -447,6 +475,10 @@
         '<button class="btn" id="qz-again">New quiz</button></div></div>');
       document.getElementById('qz-done').onclick = quizRoot;
       document.getElementById('qz-again').onclick = function () { quizSetup(domain); };
+      if (pct >= 80) {
+        celebrate(window.innerWidth / 2, 160, 44);
+        setTimeout(function () { celebrate(window.innerWidth / 2, 160, 30); }, 350);
+      }
     }
 
     function next() {
@@ -467,7 +499,11 @@
         btn.onclick = function () {
           var picked = parseInt(btn.getAttribute('data-i'), 10);
           var right = picked === q.answer;
-          if (right) score++;
+          if (right) {
+            score++;
+            var r = btn.getBoundingClientRect();
+            celebrate(r.left + r.width / 2, r.top + r.height / 2);
+          }
           stats[q.id] = { lastWrong: !right, at: Date.now() };
           store('q-stats', stats);
           logActivity('q');
