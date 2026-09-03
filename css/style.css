@@ -205,6 +205,21 @@ body {
 .dot.g { background: #1e6030; }
 .dot.o { background: var(--accent); }
 .dot.t { background: #dedacd; }
+.dot.cb { background: #2f6fb5; }
+
+/* ---- 30-day activity chart (series pair CVD-validated: #2f6fb5 / #ff5e3a) ---- */
+.ov-peak { float: right; font-size: 11px; font-weight: 700; color: var(--muted); }
+.chart { display: flex; gap: 2px; align-items: flex-end; height: 110px; margin-top: 8px; }
+.ch-col {
+  flex: 1; height: 100%; display: flex; flex-direction: column;
+  justify-content: flex-end; gap: 2px; border-radius: 2px;
+}
+.ch-col:hover { background: var(--accent-soft); }
+.ch-seg { display: block; border-radius: 2px; min-height: 2px; }
+.ch-seg.cb { background: #2f6fb5; }
+.ch-seg.qo { background: var(--accent); }
+.ch-x { display: flex; gap: 2px; margin-top: 4px; }
+.ch-x span { flex: 1; font-size: 9px; color: var(--muted); text-align: center; white-space: nowrap; overflow: visible; }
 
 /* ---- progress ---- */
 .p-section {

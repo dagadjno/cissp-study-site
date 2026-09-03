@@ -56,6 +56,57 @@
       '.<br><code>' + String(err.message || err) + '</code></p>');
   }
 
+  // per-day activity log: {"YYYY-MM-DD": {c: cardReviews, q: questionAnswers}}
+  function logActivity(kind) {
+    var log = store('day-log') || {};
+    var key = new Date().toISOString().slice(0, 10);
+    var e = log[key] || { c: 0, q: 0 };
+    e[kind]++;
+    log[key] = e;
+    var cutoff = new Date(Date.now() - 60 * 864e5).toISOString().slice(0, 10);
+    for (var k in log) if (k < cutoff) delete log[k];
+    store('day-log', log);
+  }
+
+  function activityChartHtml() {
+    var log = store('day-log');
+    if (!log) { // one-time seed from quiz history recorded before this feature
+      log = {};
+      (store('quiz-history') || []).forEach(function (s) {
+        var e = log[s.date] || { c: 0, q: 0 };
+        e.q += s.total;
+        log[s.date] = e;
+      });
+      if (Object.keys(log).length) store('day-log', log);
+    }
+    var days = [], max = 1, total = 0, i, d, key, e;
+    for (i = 29; i >= 0; i--) {
+      d = new Date(Date.now() - i * 864e5);
+      key = d.toISOString().slice(0, 10);
+      e = log[key] || { c: 0, q: 0 };
+      days.push({ label: (d.getMonth() + 1) + '/' + d.getDate(), c: e.c || 0, q: e.q || 0 });
+      max = Math.max(max, (e.c || 0) + (e.q || 0));
+      total += (e.c || 0) + (e.q || 0);
+    }
+    var cols = days.map(function (day) {
+      var t = day.label + ' — ' + day.c + ' cards, ' + day.q + ' questions';
+      return '<div class="ch-col" title="' + t + '">' +
+        (day.q ? '<i class="ch-seg qo" style="height:' + (100 * day.q / max) + '%"></i>' : '') +
+        (day.c ? '<i class="ch-seg cb" style="height:' + (100 * day.c / max) + '%"></i>' : '') +
+        '</div>';
+    }).join('');
+    var labels = days.map(function (day, idx) {
+      return '<span>' + (idx % 7 === 1 ? day.label : '') + '</span>';
+    }).join('');
+    return '<div class="p-item p-overview">' +
+      '<div class="ov-title">Last 30 days' + (total ? '<span class="ov-peak">peak ' + max + '/day</span>' : '') + '</div>' +
+      '<div class="chart">' + cols + '</div><div class="ch-x">' + labels + '</div>' +
+      '<div class="legend"><span><i class="dot cb"></i>cards reviewed</span>' +
+      '<span><i class="dot o"></i>questions answered</span></div>' +
+      (total ? '' : '<p class="hint" style="margin:8px 0 0">activity will appear here as you study</p>') +
+      '</div>';
+  }
+
   // segments: [{n, cls, label}]; remainder renders as the neutral track
   function barHtml(segs, total, mini) {
     var used = 0;
@@ -237,6 +288,7 @@
         s.last = Date.now();
         stats[card.id] = s;
         store('fc-stats', stats);
+        logActivity('c');
       }
       document.getElementById('fc-again').onclick = function (e) {
         e.stopPropagation();
@@ -355,6 +407,7 @@
           if (right) score++;
           stats[q.id] = { lastWrong: !right, at: Date.now() };
           store('q-stats', stats);
+          logActivity('q');
           view.querySelectorAll('.q-opt').forEach(function (b) {
             b.disabled = true;
             var bi = parseInt(b.getAttribute('data-i'), 10);
@@ -419,7 +472,7 @@
       '<span><i class="dot g"></i>learned / correct</span>' +
       '<span><i class="dot o"></i>learning / missed</span>' +
       '<span><i class="dot t"></i>not seen</span>' +
-      '</div></div>';
+      '</div></div>' + activityChartHtml();
     domainList({ key: 'progress', onPick: progressView, headerHtml: header });
   }
 
