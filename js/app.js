@@ -9,7 +9,14 @@
   var backFn = null; // function to run on back press, or null = at tab root
 
   // ---------- utils ----------
-  function h(html) { view.innerHTML = html; view.scrollTop = 0; window.scrollTo(0, 0); }
+  function h(html) {
+    view.innerHTML = html;
+    view.scrollTop = 0;
+    window.scrollTo(0, 0);
+    view.classList.remove('enter');
+    void view.offsetWidth; // restart the enter animation
+    view.classList.add('enter');
+  }
   function setTitle(t) { titleEl.textContent = t; }
   function setBack(fn) { backFn = fn; backBtn.hidden = !fn; }
   function shuffle(a) {
@@ -340,12 +347,19 @@
       cardEl.onclick = function () {
         if (flipped) return;
         flipped = true;
+        cardEl.classList.add('flipped');
         var back = document.getElementById('fc-back');
         back.innerHTML = renderMarkdown(card.back);
         back.hidden = false;
         document.getElementById('fc-tap').hidden = true;
         document.getElementById('fc-btns').hidden = false;
       };
+      function animOut(cls) {
+        document.querySelectorAll('#fc-btns .btn').forEach(function (b) { b.disabled = true; });
+        cardEl.classList.remove('flipped');
+        cardEl.classList.add(cls);
+        setTimeout(next, 190);
+      }
       function record(ok) {
         var s = stats[card.id] || { seen: 0, lapses: 0, streak: 0 };
         s.seen++; if (!ok) s.lapses++;
@@ -360,13 +374,13 @@
         record(false); again++;
         queue.shift();
         queue.splice(Math.min(4, queue.length), 0, card); // resurface soon
-        next();
+        animOut('fc-out-left');
       };
       document.getElementById('fc-good').onclick = function (e) {
         e.stopPropagation();
         record(true); done++;
         queue.shift();
-        next();
+        animOut('fc-out-right');
       };
     }
     next();
@@ -636,6 +650,8 @@
             if (kind === 'card') { setCardState(fcStats, id, nxt); store('fc-stats', fcStats); }
             else { setQState(qStats, id, nxt); store('q-stats', qStats); }
             chip.className = 'chip ' + nxt;
+            void chip.offsetWidth; // restart the bump animation
+            chip.classList.add('bump');
             chip.textContent = nxt;
             snapshotToday(); // flag edits move the totals lines too
             renderFilters(); // keep counts current; the row itself stays put
