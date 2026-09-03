@@ -33,7 +33,23 @@
 .tab:active { transform: scale(.85); }
 .tab.active { animation: pop .35s var(--spring); }
 
-#view.enter { animation: rise .22s ease-out both; }
+/* page-change entrances: cards rise from below and spring-settle in place, cascading */
+#view.enter > *:not(.item-list):not(#p-list) { animation: land .3s ease-out both; }
+#view.enter .item-list > .item,
+#view.enter #p-list > .p-item,
+#view.enter .q-options > .q-opt {
+  animation: land .42s var(--spring) both;
+}
+#view.enter .item-list > .item:nth-child(2), #view.enter #p-list > .p-item:nth-child(2), #view.enter .q-options > .q-opt:nth-child(2) { animation-delay: 40ms; }
+#view.enter .item-list > .item:nth-child(3), #view.enter #p-list > .p-item:nth-child(3), #view.enter .q-options > .q-opt:nth-child(3) { animation-delay: 80ms; }
+#view.enter .item-list > .item:nth-child(4), #view.enter #p-list > .p-item:nth-child(4), #view.enter .q-options > .q-opt:nth-child(4) { animation-delay: 120ms; }
+#view.enter .item-list > .item:nth-child(5), #view.enter #p-list > .p-item:nth-child(5) { animation-delay: 160ms; }
+#view.enter .item-list > .item:nth-child(6), #view.enter #p-list > .p-item:nth-child(6) { animation-delay: 200ms; }
+#view.enter .item-list > .item:nth-child(7), #view.enter #p-list > .p-item:nth-child(7) { animation-delay: 240ms; }
+#view.enter .item-list > .item:nth-child(8), #view.enter #p-list > .p-item:nth-child(8) { animation-delay: 280ms; }
+#view.enter .item-list > .item:nth-child(9), #view.enter #p-list > .p-item:nth-child(9) { animation-delay: 320ms; }
+#view.enter .item-list > .item:nth-child(n+10), #view.enter #p-list > .p-item:nth-child(n+10) { animation-delay: 350ms; }
+@keyframes land { from { opacity: 0; transform: translateY(32px); } }
 @keyframes rise { from { opacity: 0; transform: translateY(10px); } }
 @keyframes pop { 40% { transform: scale(1.12); } }
 @keyframes shake {
