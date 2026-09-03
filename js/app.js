@@ -56,12 +56,31 @@
       '.<br><code>' + String(err.message || err) + '</code></p>');
   }
 
-  // per-day activity log: {"YYYY-MM-DD": {c: cardReviews, q: questionAnswers}}
+  function progressTotals() {
+    var fc = store('fc-stats') || {}, qs = store('q-stats') || {}, L = 0, C = 0, k;
+    for (k in fc) if ((fc[k].streak || 0) >= 2) L++;
+    for (k in qs) if (!qs[k].lastWrong) C++;
+    return { L: L, C: C };
+  }
+
+  // per-day activity log: {"YYYY-MM-DD": {c: reviews, q: answers, L: learned total, Q: correct total}}
+  function snapshotToday() {
+    var log = store('day-log') || {};
+    var key = new Date().toISOString().slice(0, 10);
+    var e = log[key] || { c: 0, q: 0 };
+    var t = progressTotals();
+    e.L = t.L; e.Q = t.C;
+    log[key] = e;
+    store('day-log', log);
+  }
+
   function logActivity(kind) {
     var log = store('day-log') || {};
     var key = new Date().toISOString().slice(0, 10);
     var e = log[key] || { c: 0, q: 0 };
     e[kind]++;
+    var t = progressTotals();
+    e.L = t.L; e.Q = t.C;
     log[key] = e;
     var cutoff = new Date(Date.now() - 60 * 864e5).toISOString().slice(0, 10);
     for (var k in log) if (k < cutoff) delete log[k];
@@ -80,16 +99,28 @@
       if (Object.keys(log).length) store('day-log', log);
     }
     var days = [], max = 1, total = 0, i, d, key, e;
+    // carry totals forward from the newest snapshot before the 30-day window
+    var windowStart = new Date(Date.now() - 29 * 864e5).toISOString().slice(0, 10);
+    var carry = null;
+    Object.keys(log).sort().forEach(function (k) {
+      if (k < windowStart && log[k].L != null) carry = log[k];
+    });
     for (i = 29; i >= 0; i--) {
       d = new Date(Date.now() - i * 864e5);
       key = d.toISOString().slice(0, 10);
       e = log[key] || { c: 0, q: 0 };
-      days.push({ label: (d.getMonth() + 1) + '/' + d.getDate(), c: e.c || 0, q: e.q || 0 });
+      if (e.L != null) carry = e;
+      days.push({
+        label: (d.getMonth() + 1) + '/' + d.getDate(),
+        c: e.c || 0, q: e.q || 0,
+        L: carry ? carry.L : null, Q: carry ? carry.Q : null
+      });
       max = Math.max(max, (e.c || 0) + (e.q || 0));
       total += (e.c || 0) + (e.q || 0);
     }
     var cols = days.map(function (day) {
-      var t = day.label + ' — ' + day.c + ' cards, ' + day.q + ' questions';
+      var t = day.label + ' — ' + day.c + ' cards, ' + day.q + ' questions' +
+        (day.L != null ? ' · totals: ' + day.L + ' learned, ' + day.Q + ' correct' : '');
       return '<div class="ch-col" title="' + t + '">' +
         (day.q ? '<i class="ch-seg qo" style="height:' + (100 * day.q / max) + '%"></i>' : '') +
         (day.c ? '<i class="ch-seg cb" style="height:' + (100 * day.c / max) + '%"></i>' : '') +
@@ -98,11 +129,35 @@
     var labels = days.map(function (day, idx) {
       return '<span>' + (idx % 7 === 1 ? day.label : '') + '</span>';
     }).join('');
+    // companion line panel: cumulative totals on their own scale (never a second axis on the bars)
+    var lineMax = 1, hasLine = false;
+    days.forEach(function (day) {
+      if (day.L != null) { hasLine = true; lineMax = Math.max(lineMax, day.L, day.Q); }
+    });
+    var lineSvg = '';
+    if (hasLine) {
+      var pts = function (prop) {
+        return days.map(function (day, idx) {
+          if (day[prop] == null) return null;
+          return (idx * (300 / 29)).toFixed(1) + ',' + (76 - 72 * day[prop] / lineMax).toFixed(1);
+        }).filter(Boolean).join(' ');
+      };
+      lineSvg = '<svg class="line-chart" viewBox="0 0 300 80" preserveAspectRatio="none" aria-hidden="true">' +
+        '<polyline class="ln cb" vector-effect="non-scaling-stroke" points="' + pts('L') + '"/>' +
+        '<polyline class="ln o" vector-effect="non-scaling-stroke" points="' + pts('Q') + '"/>' +
+        '</svg>';
+    }
+    var last = days[29];
     return '<div class="p-item p-overview">' +
       '<div class="ov-title">Last 30 days' + (total ? '<span class="ov-peak">peak ' + max + '/day</span>' : '') + '</div>' +
-      '<div class="chart">' + cols + '</div><div class="ch-x">' + labels + '</div>' +
+      '<div class="chart">' + cols + '</div>' + lineSvg + '<div class="ch-x">' + labels + '</div>' +
       '<div class="legend"><span><i class="dot cb"></i>cards reviewed</span>' +
-      '<span><i class="dot o"></i>questions answered</span></div>' +
+      '<span><i class="dot o"></i>questions answered</span>' +
+      (hasLine
+        ? '<span><i class="dash cb"></i>learned total (' + last.L + ')</span>' +
+          '<span><i class="dash o"></i>correct total (' + last.Q + ')</span>'
+        : '') +
+      '</div>' +
       (total ? '' : '<p class="hint" style="margin:8px 0 0">activity will appear here as you study</p>') +
       '</div>';
   }
@@ -572,6 +627,7 @@
             else { setQState(qStats, id, nxt); store('q-stats', qStats); }
             chip.className = 'chip ' + nxt;
             chip.textContent = nxt;
+            snapshotToday(); // flag edits move the totals lines too
             renderFilters(); // keep counts current; the row itself stays put
           };
         });
@@ -598,6 +654,7 @@
           questions.forEach(function (q) { delete qStats[q.id]; });
           store('fc-stats', fcStats);
           store('q-stats', qStats);
+          snapshotToday();
           progressView(domain);
           return;
         }
