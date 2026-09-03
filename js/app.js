@@ -102,10 +102,18 @@
       if (opts.key === 'flashcards') {
         var learned = countLearned(d.id);
         sub = has ? d.cards + ' cards' + (learned ? ' · ' + learned + ' learned' : '') : 'no cards yet';
+        if (has) {
+          var pf = domainProgress(d);
+          extra = barHtml([{ n: pf.learned, cls: 'g', label: 'learned' }, { n: pf.learning, cls: 'o', label: 'learning' }], pf.cards, true);
+        }
       }
       if (opts.key === 'quiz') {
         var missed = countMissed(d.id);
         sub = has ? d.questions + ' questions' + (missed ? ' · ' + missed + ' to retry' : '') : 'no questions yet';
+        if (has) {
+          var pq = domainProgress(d);
+          extra = barHtml([{ n: pq.correct, cls: 'g', label: 'correct' }, { n: pq.missed, cls: 'o', label: 'missed' }], pq.questions, true);
+        }
       }
       html += '<button class="item" data-id="' + d.id + '"' + (has ? '' : ' disabled') + '>' +
         'Domain ' + d.num + ': ' + d.title +
