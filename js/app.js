@@ -407,9 +407,10 @@
       document.body.appendChild(p);
       p.animate([
         { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
-        { transform: 'translate(' + dx + 'px,' + dy + 'px) rotate(' + (rot / 2) + 'deg)', opacity: 1, offset: .5 },
-        { transform: 'translate(' + (dx * 1.3) + 'px,' + (dy + 280) + 'px) rotate(' + rot + 'deg)', opacity: 0 }
-      ], { duration: 700 + Math.random() * 500, easing: 'cubic-bezier(.15,.6,.4,1)' })
+        { transform: 'translate(' + dx + 'px,' + dy + 'px) rotate(' + (rot / 2) + 'deg)', opacity: 1, offset: .35 },
+        { transform: 'translate(' + (dx * 1.25) + 'px,' + (dy + 200) + 'px) rotate(' + (rot * .8) + 'deg)', opacity: 1, offset: .8 },
+        { transform: 'translate(' + (dx * 1.4) + 'px,' + (dy + 330) + 'px) rotate(' + rot + 'deg)', opacity: 0 }
+      ], { duration: 1600 + Math.random() * 900, easing: 'cubic-bezier(.15,.5,.45,1)' })
         .onfinish = (function (el) { return function () { el.remove(); }; })(p);
     }
   }
