@@ -435,6 +435,8 @@
   document.querySelectorAll('.tab').forEach(function (t) {
     t.onclick = function () {
       tab = t.getAttribute('data-tab');
+      // mixed cached html/js versions: this js doesn't know the tab — self-heal
+      if (!roots[tab]) { location.reload(); return; }
       document.querySelectorAll('.tab').forEach(function (x) { x.classList.toggle('active', x === t); });
       roots[tab]();
     };

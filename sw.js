@@ -1,13 +1,13 @@
 /* Stale-while-revalidate: serve from cache instantly, refresh in background.
    Everything fetched (shell + data) gets cached, so the app works offline
    for anything visited at least once; the shell is precached on install. */
-var CACHE = 'cissp-study-v1';
+var CACHE = 'cissp-study-v2';
 var SHELL = [
   './',
   'index.html',
-  'css/style.css',
-  'js/md.js',
-  'js/app.js',
+  'css/style.css?v=2',
+  'js/md.js?v=2',
+  'js/app.js?v=2',
   'manifest.webmanifest',
   'icons/icon-192.png',
   'icons/icon-512.png',
@@ -35,6 +35,11 @@ self.addEventListener('fetch', function (e) {
   var url = new URL(e.request.url);
   if (url.origin !== location.origin) return;
 
+  // The page itself is network-first so a fresh index.html (with versioned
+  // asset URLs) is picked up in one visit; everything else stays
+  // stale-while-revalidate. Versioned assets keep html/js in lockstep.
+  var isPage = e.request.mode === 'navigate' || /\/(index\.html)?$/.test(url.pathname);
+
   e.respondWith(
     caches.open(CACHE).then(function (cache) {
       return cache.match(e.request).then(function (cached) {
@@ -42,7 +47,7 @@ self.addEventListener('fetch', function (e) {
           if (resp && resp.ok) cache.put(e.request, resp.clone());
           return resp;
         }).catch(function () { return cached; });
-        return cached || fetched;
+        return isPage ? fetched.then(function (r) { return r || cached; }) : (cached || fetched);
       });
     })
   );
