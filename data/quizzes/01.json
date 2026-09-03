@@ -1,0 +1,271 @@
+{
+  "domain": 1,
+  "questions": [
+    {
+      "id": "01-q-ethics-conflict",
+      "topic": "ISC2 ethics",
+      "stem": "During an internal assessment, a CISSP discovers their employer has been quietly suppressing evidence of a breach that exposed customer financial data. Management instructs them to keep the findings internal. Under the ISC2 Code of Ethics, what should the professional do?",
+      "options": [
+        "Escalate beyond management, because the duty to society and public trust outranks the duty to principals",
+        "Follow the instruction, because canon three requires diligent and competent service to principals",
+        "Resign quietly, because continuing to work for the employer would violate the requirement to act honorably",
+        "Report the employer to the ISC2 Professional Conduct Committee by sworn affidavit"
+      ],
+      "answer": 0,
+      "explanation": "Canon order sets precedence: protecting society (canon 1) and acting honestly and legally (canon 2) outrank service to principals (canon 3).",
+      "why_wrong": [
+        "",
+        "True duty, but canon 3 is subordinate to canons 1 and 2 — the classic employer-pressure trap",
+        "Resigning quietly leaves the public harm unaddressed; the Code requires being seen to adhere, not just avoiding personal taint",
+        "The PCC handles complaints against ISC2 members, not misconduct by employers"
+      ]
+    },
+    {
+      "id": "01-q-doc-standard",
+      "topic": "Documentation hierarchy",
+      "stem": "A CISO wants every business unit to use the same MFA-backed VPN method for remote access, with disciplinary consequences for noncompliance. Which document should define this requirement?",
+      "options": [
+        "A standard, because it imposes a compulsory uniform requirement for an activity",
+        "A baseline, because it establishes the minimum security level systems must meet",
+        "A guideline, because it recommends the methodology business units should follow",
+        "An issue-specific policy, because remote access is a single service or function"
+      ],
+      "answer": 0,
+      "explanation": "A uniform, mandatory rule attached to an activity (remote access) is a standard.",
+      "why_wrong": [
+        "",
+        "Baselines attach to systems (a measurable config floor), not to activities like remote access",
+        "Guidelines are discretionary — this requirement must be enforceable",
+        "A policy states management intent and roles; the specific compulsory mechanism belongs one level down"
+      ]
+    },
+    {
+      "id": "01-q-risk-response",
+      "topic": "Risk responses",
+      "stem": "After a risk assessment, the launch of a customer-facing file-sharing feature is canceled because its residual risk would exceed the organization's appetite even with all feasible controls applied. Which risk response was chosen?",
+      "options": [
+        "Avoidance, because the risk-bearing activity itself was eliminated",
+        "Mitigation, because controls were evaluated to reduce likelihood and impact",
+        "Acceptance, because management made a documented decision after the assessment",
+        "Rejection, because the organization decided not to carry the risk forward"
+      ],
+      "answer": 0,
+      "explanation": "Choosing not to perform the risky activity at all is risk avoidance.",
+      "why_wrong": [
+        "",
+        "Controls were considered but the activity did not continue with them — mitigation means proceeding with safeguards",
+        "Acceptance means proceeding while formally owning the residual risk; here nothing proceeds",
+        "Rejection is ignoring a risk without analysis — negligence, and never a valid response"
+      ]
+    },
+    {
+      "id": "01-q-ale",
+      "topic": "Quantitative analysis",
+      "stem": "A data center asset is valued at $200,000. A flood would destroy 25% of it, and floods are expected once every two years. What is the ALE?",
+      "options": [
+        "$25,000",
+        "$50,000",
+        "$100,000",
+        "$12,500"
+      ],
+      "answer": 0,
+      "explanation": "SLE = AV x EF = $200,000 x 0.25 = $50,000; ALE = SLE x ARO = $50,000 x 0.5 = $25,000.",
+      "why_wrong": [
+        "",
+        "$50,000 is the SLE — the per-incident loss, not annualized",
+        "$100,000 doubles instead of halving: 'once every two years' means ARO = 0.5, not 2",
+        "$12,500 applies the 0.5 ARO twice"
+      ]
+    },
+    {
+      "id": "01-q-rmf-ao",
+      "topic": "RMF",
+      "stem": "A federal system has completed control assessment under the RMF and residual risk remains. Who formally accepts that risk so the system can operate?",
+      "options": [
+        "The authorizing official, by issuing an authorization to operate",
+        "The information system security officer, by signing the plan of action and milestones",
+        "The control assessor, by closing the assessment report findings",
+        "The system owner, by documenting acceptance in the system security plan"
+      ],
+      "answer": 0,
+      "explanation": "The AO is the senior official who accepts residual risk; the ATO is the documented acceptance.",
+      "why_wrong": [
+        "",
+        "The ISSO administers the program; the POA&M tracks remediation, it does not accept risk",
+        "Assessors verify effectiveness — they report risk, they cannot accept it",
+        "The system owner maintains the SSP but lacks the authority to accept risk for the organization"
+      ]
+    },
+    {
+      "id": "01-q-delphi",
+      "topic": "Qualitative analysis",
+      "stem": "A risk manager collects written impact ratings from experts without attribution, circulates an anonymized summary, and repeats the cycle until the group converges. Which technique is this, and why was it chosen over an open workshop?",
+      "options": [
+        "Delphi, to prevent senior participants from anchoring the group's estimates",
+        "Brainstorming, to generate the widest possible range of risk scenarios",
+        "FAIR, to decompose the estimates into loss frequency and magnitude",
+        "A risk matrix, to grade likelihood and impact on an ordinal scale"
+      ],
+      "answer": 0,
+      "explanation": "Anonymous + written + iterative + consensus = Delphi; anonymity removes rank and anchoring bias.",
+      "why_wrong": [
+        "",
+        "Brainstorming is open group discussion — exactly what this process avoids",
+        "FAIR is a quantitative model, not an elicitation technique",
+        "A risk matrix is the output format for qualitative ratings, not the consensus process"
+      ]
+    },
+    {
+      "id": "01-q-stride-repudiation",
+      "topic": "Threat modeling",
+      "stem": "During design review of a payment service, the team notes that a clerk could approve a transaction and later deny having done so, because approvals are not individually signed or logged. In STRIDE terms, which threat is this?",
+      "options": [
+        "Repudiation, because the actor can deny an action they performed",
+        "Tampering, because the approval records lack integrity protection",
+        "Spoofing, because the approval cannot be tied to an authenticated identity",
+        "Elevation of privilege, because the clerk exercises authority beyond their role"
+      ],
+      "answer": 0,
+      "explanation": "Denying an action after the fact is repudiation; the missing control is nonrepudiation (signing, attributable logging).",
+      "why_wrong": [
+        "",
+        "Nothing is being modified — the records are merely insufficient to prove who acted",
+        "The clerk's identity is genuine; the failure is proving the act afterward, not verifying identity at the time",
+        "Approving transactions is within the clerk's role; no unauthorized rights are gained"
+      ]
+    },
+    {
+      "id": "01-q-scrm-audit",
+      "topic": "Supply chain",
+      "stem": "A critical SaaS vendor declines on-site assessments and will not share internal security procedures. Which evaluation approach best provides assurance?",
+      "options": [
+        "Require an independent third-party attestation such as a SOC 2 Type II report",
+        "Conduct a document exchange to review the vendor's artifact-handling records",
+        "Accept the risk, since the vendor's refusal leaves no evaluation path",
+        "Commission a penetration test of the vendor's production environment"
+      ],
+      "answer": 0,
+      "explanation": "When you have no access, an independent audit/attestation provides assurance without it.",
+      "why_wrong": [
+        "",
+        "The vendor already refused to share internal records — there is nothing to exchange",
+        "Premature: an evaluation path (independent attestation) exists, so acceptance is not yet justified",
+        "Testing a vendor's production systems without authorization is not an option, and the vendor has declined access"
+      ]
+    },
+    {
+      "id": "01-q-control-classify",
+      "topic": "Controls",
+      "stem": "To reduce fraud, a bank requires every employee in the trading unit to take two consecutive weeks of vacation annually while their transaction history is examined. How is this control best classified?",
+      "options": [
+        "Administrative and detective",
+        "Administrative and preventive",
+        "Technical and detective",
+        "Administrative and deterrent"
+      ],
+      "answer": 0,
+      "explanation": "It is implemented through people/process (administrative) and discovers fraud after occurrence (detective).",
+      "why_wrong": [
+        "",
+        "The review discovers existing fraud; it does not stop the act from occurring",
+        "Nothing here is a hardware/software mechanism — the examination is a human process",
+        "Deterrence is a side effect; the control's function is discovery, and classification follows function"
+      ]
+    },
+    {
+      "id": "01-q-law-category",
+      "topic": "Legal",
+      "stem": "A financial regulator fines a company for violating data-protection rules published in the Code of Federal Regulations. Which category of law is being enforced, and what burden of proof applies?",
+      "options": [
+        "Administrative law, with a substantial-evidence standard",
+        "Civil law, with a preponderance-of-the-evidence standard",
+        "Criminal law, with proof beyond a reasonable doubt",
+        "Contractual obligation, enforced through agreed penalties"
+      ],
+      "answer": 0,
+      "explanation": "Agency regulations in the CFR are administrative law; agencies generally need substantial evidence.",
+      "why_wrong": [
+        "",
+        "Civil law resolves disputes between parties — this is an agency enforcing its own regulation",
+        "No prosecution or prison exposure here; criminal law's standard is the highest, not the agency's",
+        "The rules come from a regulator, not a merchant agreement — that option describes PCI DSS"
+      ]
+    },
+    {
+      "id": "01-q-trade-secret",
+      "topic": "IP",
+      "stem": "A company's ranking algorithm is its core competitive advantage. Leadership wants legal protection but refuses any disclosure of how it works, indefinitely. Which protection fits?",
+      "options": [
+        "Trade secret, because protection lasts as long as secrecy is maintained",
+        "Patent, because it grants the sole right to make, use, and sell the invention",
+        "Copyright, because the algorithm's implementation is an original work of authorship",
+        "Trademark, because the algorithm is central to the company's brand identity"
+      ],
+      "answer": 0,
+      "explanation": "Trade secrets protect confidential business-critical information indefinitely — but only while it stays secret.",
+      "why_wrong": [
+        "",
+        "Patents require public disclosure and expire after roughly 20 years — the opposite of the stated constraints",
+        "Copyright protects the code's expression, not the method itself; a reimplementation would be legal",
+        "Trademarks protect identifying marks (names, logos), not technology"
+      ]
+    },
+    {
+      "id": "01-q-gdpr-breach",
+      "topic": "Privacy laws",
+      "stem": "A US retailer selling to EU customers suffers a breach of EU residents' personal data on Friday evening. The privacy team debates when regulators must be told. What does GDPR require?",
+      "options": [
+        "Notify the supervisory authority within 72 hours of becoming aware of the breach",
+        "Notify affected individuals within 60 days, as for protected health information",
+        "Nothing, because a US company without EU offices is outside GDPR's reach",
+        "Notify at the next scheduled regulatory filing, documenting the breach internally"
+      ],
+      "answer": 0,
+      "explanation": "GDPR Art. 33 requires notifying the supervisory authority within 72 hours; extraterritorial scope covers foreign companies processing EU residents' data.",
+      "why_wrong": [
+        "",
+        "That is the HIPAA breach-notification timeline for PHI, not GDPR's",
+        "GDPR applies extraterritorially to anyone offering goods or services to EU persons",
+        "72 hours is a hard deadline — waiting for a routine filing violates it"
+      ]
+    },
+    {
+      "id": "01-q-cobit-governance",
+      "topic": "COBIT",
+      "stem": "A board member asks why the directors evaluate and monitor IT objectives while the CIO's team plans and runs them, instead of the board managing IT directly. Which COBIT 2019 principle explains this split?",
+      "options": [
+        "Governance is distinct from management",
+        "A governance system should be tailored to the enterprise's needs",
+        "A governance system should cover the enterprise end to end",
+        "A governance system should provide stakeholder value"
+      ],
+      "answer": 0,
+      "explanation": "COBIT separates governance (board: evaluate, direct, monitor) from management (plan, build, run).",
+      "why_wrong": [
+        "",
+        "Tailoring is about customizing via design factors, not about who does what",
+        "End-to-end scope says governance covers all functions, not how roles divide",
+        "Stakeholder value is the purpose of governance, not the role separation"
+      ]
+    },
+    {
+      "id": "01-q-appetite-capacity",
+      "topic": "Risk types",
+      "stem": "A startup's leadership knowingly pursues aggressive risks whose realized losses could exceed what the company could financially survive. Which statement describes this situation?",
+      "options": [
+        "Risk appetite exceeds risk capacity",
+        "Risk tolerance exceeds risk appetite",
+        "Residual risk exceeds inherent risk",
+        "The controls gap exceeds total risk"
+      ],
+      "answer": 0,
+      "explanation": "Appetite is the risk the org chooses to bear; capacity is what it can survive — appetite can outrun capacity.",
+      "why_wrong": [
+        "",
+        "Tolerance concerns absorbing realized losses; the scenario says losses could NOT be absorbed",
+        "Residual (post-control) risk can never exceed inherent (pre-control) risk",
+        "The controls gap is the portion of total risk removed — it cannot exceed the whole"
+      ]
+    }
+  ]
+}
