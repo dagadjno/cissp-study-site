@@ -396,18 +396,6 @@
     })).then(function (arrs) { return [].concat.apply([], arrs); });
   }
 
-  function pickQuestions(pool, n) {
-    // weight: unseen 3, previously missed 2, previously correct 1
-    var stats = store('q-stats') || {};
-    var weighted = pool.map(function (q) {
-      var s = stats[q.id];
-      var w = !s ? 3 : (s.lastWrong ? 2 : 1);
-      return { q: q, w: w, r: Math.random() * w };
-    });
-    weighted.sort(function (a, b) { return b.r - a.r; });
-    return weighted.slice(0, n).map(function (x) { return x.q; });
-  }
-
   function quizRoot() {
     setTitle('Quiz');
     domainList({
@@ -422,22 +410,18 @@
     h('<p class="hint center">loading…</p>');
     loadQuestions(domain).then(function (pool) {
       var stats = store('q-stats') || {};
-      var missed = pool.filter(function (q) { return stats[q.id] && stats[q.id].lastWrong; });
-      var sizes = [5, 10, pool.length].filter(function (v, i, a) {
-        return v <= pool.length && a.indexOf(v) === i;
+      var toReview = pool.filter(function (q) {
+        return !stats[q.id] || stats[q.id].lastWrong;
       });
-      h('<p class="hint center">How many questions? (' + pool.length + ' available)</p>' +
+      h('<p class="hint center">' + pool.length + ' questions · ' +
+        (pool.length - toReview.length) + ' answered correctly</p>' +
         '<div class="pill-row" style="justify-content:center">' +
-        sizes.map(function (s) {
-          return '<button class="pill" data-n="' + s + '">' +
-            (s === pool.length ? 'All ' + s : s) + '</button>';
-        }).join('') +
-        (missed.length ? '<button class="pill" data-n="missed">Retry missed (' + missed.length + ')</button>' : '') +
-        '</div>');
-      view.querySelectorAll('.pill').forEach(function (p) {
+        '<button class="pill" data-n="review"' + (toReview.length ? '' : ' disabled') + '>To review (' + toReview.length + ')</button>' +
+        '<button class="pill" data-n="all">All (' + pool.length + ')</button></div>' +
+        (toReview.length ? '' : '<p class="hint center">All answered correctly — run All to keep them fresh.</p>'));
+      view.querySelectorAll('.pill:not([disabled])').forEach(function (p) {
         p.onclick = function () {
-          var n = p.getAttribute('data-n');
-          runQuiz(n === 'missed' ? shuffle(missed) : pickQuestions(pool, parseInt(n, 10)), domain);
+          runQuiz(shuffle(p.getAttribute('data-n') === 'review' ? toReview : pool), domain);
         };
       });
     }).catch(fail);
