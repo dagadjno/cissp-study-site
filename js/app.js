@@ -56,6 +56,11 @@
       '.<br><code>' + String(err.message || err) + '</code></p>');
   }
 
+  var TZ_OFFSET_MS = 9 * 3600e3; // day boundaries in UTC+9
+  function dayKey(daysAgo) {
+    return new Date(Date.now() + TZ_OFFSET_MS - (daysAgo || 0) * 864e5).toISOString().slice(0, 10);
+  }
+
   function progressTotals() {
     var fc = store('fc-stats') || {}, qs = store('q-stats') || {}, L = 0, C = 0, k;
     for (k in fc) if ((fc[k].streak || 0) >= 2) L++;
@@ -66,7 +71,7 @@
   // per-day activity log: {"YYYY-MM-DD": {c: reviews, q: answers, L: learned total, Q: correct total}}
   function snapshotToday() {
     var log = store('day-log') || {};
-    var key = new Date().toISOString().slice(0, 10);
+    var key = dayKey();
     var e = log[key] || { c: 0, q: 0 };
     var t = progressTotals();
     e.L = t.L; e.Q = t.C;
@@ -76,13 +81,13 @@
 
   function logActivity(kind) {
     var log = store('day-log') || {};
-    var key = new Date().toISOString().slice(0, 10);
+    var key = dayKey();
     var e = log[key] || { c: 0, q: 0 };
     e[kind]++;
     var t = progressTotals();
     e.L = t.L; e.Q = t.C;
     log[key] = e;
-    var cutoff = new Date(Date.now() - 60 * 864e5).toISOString().slice(0, 10);
+    var cutoff = dayKey(60);
     for (var k in log) if (k < cutoff) delete log[k];
     store('day-log', log);
   }
@@ -98,20 +103,20 @@
       });
       if (Object.keys(log).length) store('day-log', log);
     }
-    var days = [], max = 1, total = 0, i, d, key, e;
+    var days = [], max = 1, total = 0, i, key, e, parts;
     // carry totals forward from the newest snapshot before the 30-day window
-    var windowStart = new Date(Date.now() - 29 * 864e5).toISOString().slice(0, 10);
+    var windowStart = dayKey(29);
     var carry = null;
     Object.keys(log).sort().forEach(function (k) {
       if (k < windowStart && log[k].L != null) carry = log[k];
     });
     for (i = 29; i >= 0; i--) {
-      d = new Date(Date.now() - i * 864e5);
-      key = d.toISOString().slice(0, 10);
+      key = dayKey(i);
+      parts = key.split('-');
       e = log[key] || { c: 0, q: 0 };
       if (e.L != null) carry = e;
       days.push({
-        label: (d.getMonth() + 1) + '/' + d.getDate(),
+        label: (+parts[1]) + '/' + (+parts[2]),
         c: e.c || 0, q: e.q || 0,
         L: carry ? carry.L : null, Q: carry ? carry.Q : null
       });
@@ -432,7 +437,7 @@
     function finish() {
       var hist = store('quiz-history') || [];
       hist.push({
-        date: new Date().toISOString().slice(0, 10),
+        date: dayKey(),
         domain: domain ? domain.num : 'all',
         score: score, total: questions.length
       });
