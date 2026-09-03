@@ -26,6 +26,18 @@
       localStorage.setItem(key, JSON.stringify(val));
     } catch (e) { return null; }
   }
+  // learned = answered "Got it" twice in a row; ids are prefixed "0X-"
+  function countLearned(domId) {
+    var s = store('fc-stats') || {}, n = 0;
+    for (var k in s) if (k.indexOf(domId + '-') === 0 && (s[k].streak || 0) >= 2) n++;
+    return n;
+  }
+  function countMissed(domId) {
+    var s = store('q-stats') || {}, n = 0;
+    for (var k in s) if (s[k].lastWrong && k.indexOf(domId + '-') === 0) n++;
+    return n;
+  }
+
   function getJSON(url) {
     return fetch(url).then(function (r) {
       if (!r.ok) throw new Error(url + ' -> ' + r.status);
@@ -55,8 +67,14 @@
     INDEX.domains.forEach(function (d) {
       var has = !!d[opts.key];
       var sub = '';
-      if (opts.key === 'flashcards') sub = has ? d.cards + ' cards' : 'no cards yet';
-      if (opts.key === 'quiz') sub = has ? d.questions + ' questions' : 'no questions yet';
+      if (opts.key === 'flashcards') {
+        var learned = countLearned(d.id);
+        sub = has ? d.cards + ' cards' + (learned ? ' · ' + learned + ' learned' : '') : 'no cards yet';
+      }
+      if (opts.key === 'quiz') {
+        var missed = countMissed(d.id);
+        sub = has ? d.questions + ' questions' + (missed ? ' · ' + missed + ' to retry' : '') : 'no questions yet';
+      }
       html += '<button class="item" data-id="' + d.id + '"' + (has ? '' : ' disabled') + '>' +
         'Domain ' + d.num + ': ' + d.title +
         (sub ? '<span class="sub">' + sub + '</span>' : '') + '</button>';
@@ -105,17 +123,39 @@
     setTitle('Flashcards');
     domainList({
       key: 'flashcards', allLabel: 'All domains',
-      onPick: function (d) {
-        h('<p class="hint center">loading…</p>');
-        loadDecks(d).then(function (cards) { cardSession(shuffle(cards), d); }).catch(fail);
-      }
+      onPick: cardSetup
     });
+  }
+
+  function cardSetup(domain) {
+    setBack(cardsRoot);
+    setTitle(domain ? 'Cards · Domain ' + domain.num : 'Cards · All');
+    h('<p class="hint center">loading…</p>');
+    loadDecks(domain).then(function (cards) {
+      var stats = store('fc-stats') || {};
+      var toReview = cards.filter(function (c) {
+        var s = stats[c.id];
+        return !s || (s.streak || 0) < 2;
+      });
+      var html = '<p class="hint center">' + cards.length + ' cards · ' +
+        (cards.length - toReview.length) + ' learned (two "Got it" in a row)</p>' +
+        '<div class="pill-row" style="justify-content:center">' +
+        '<button class="pill" data-m="review"' + (toReview.length ? '' : ' disabled') + '>To review (' + toReview.length + ')</button>' +
+        '<button class="pill" data-m="all">All (' + cards.length + ')</button></div>' +
+        (toReview.length ? '' : '<p class="hint center">All learned — run All to keep them fresh.</p>');
+      h(html);
+      view.querySelectorAll('.pill:not([disabled])').forEach(function (p) {
+        p.onclick = function () {
+          cardSession(shuffle(p.getAttribute('data-m') === 'review' ? toReview : cards), domain);
+        };
+      });
+    }).catch(fail);
   }
 
   function cardSession(queue, domain) {
     var stats = store('fc-stats') || {};
     var total = queue.length, done = 0, again = 0;
-    setBack(cardsRoot);
+    setBack(function () { cardSetup(domain); });
     setTitle(domain ? 'Cards · Domain ' + domain.num : 'Cards · All');
 
     function next() {
@@ -123,12 +163,9 @@
         h('<div class="center"><div class="score-big">&#127881;</div>' +
           '<p>' + total + ' cards reviewed' + (again ? ', ' + again + ' marked again' : '') + '.</p>' +
           '<div class="btn-row"><button class="btn secondary" id="fc-done">Done</button>' +
-          '<button class="btn" id="fc-restart">Restart</button></div></div>');
+          '<button class="btn" id="fc-restart">Go again</button></div></div>');
         document.getElementById('fc-done').onclick = cardsRoot;
-        document.getElementById('fc-restart').onclick = function () {
-          h('<p class="hint center">loading…</p>');
-          loadDecks(domain).then(function (cards) { cardSession(shuffle(cards), domain); }).catch(fail);
-        };
+        document.getElementById('fc-restart').onclick = function () { cardSetup(domain); };
         return;
       }
       var card = queue[0];
@@ -154,8 +191,9 @@
         document.getElementById('fc-btns').hidden = false;
       };
       function record(ok) {
-        var s = stats[card.id] || { seen: 0, lapses: 0 };
+        var s = stats[card.id] || { seen: 0, lapses: 0, streak: 0 };
         s.seen++; if (!ok) s.lapses++;
+        s.streak = ok ? (s.streak || 0) + 1 : 0;
         s.last = Date.now();
         stats[card.id] = s;
         store('fc-stats', stats);
@@ -212,6 +250,8 @@
     setTitle(domain ? 'Quiz · Domain ' + domain.num : 'Quiz · All');
     h('<p class="hint center">loading…</p>');
     loadQuestions(domain).then(function (pool) {
+      var stats = store('q-stats') || {};
+      var missed = pool.filter(function (q) { return stats[q.id] && stats[q.id].lastWrong; });
       var sizes = [5, 10, pool.length].filter(function (v, i, a) {
         return v <= pool.length && a.indexOf(v) === i;
       });
@@ -220,10 +260,13 @@
         sizes.map(function (s) {
           return '<button class="pill" data-n="' + s + '">' +
             (s === pool.length ? 'All ' + s : s) + '</button>';
-        }).join('') + '</div>');
+        }).join('') +
+        (missed.length ? '<button class="pill" data-n="missed">Retry missed (' + missed.length + ')</button>' : '') +
+        '</div>');
       view.querySelectorAll('.pill').forEach(function (p) {
         p.onclick = function () {
-          runQuiz(pickQuestions(pool, parseInt(p.getAttribute('data-n'), 10)), domain);
+          var n = p.getAttribute('data-n');
+          runQuiz(n === 'missed' ? shuffle(missed) : pickQuestions(pool, parseInt(n, 10)), domain);
         };
       });
     }).catch(fail);
