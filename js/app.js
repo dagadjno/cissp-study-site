@@ -306,6 +306,21 @@
   }
 
   // ---------- flashcards ----------
+  // ---------- card scheduling (SM-2 lite) ----------
+  // streak doubles as the learning step: 0 and 1 are learning, 2+ means graduated. A learning
+  // card resurfaces STEPS[streak] cards later in the same session; a graduated one gets a day
+  // interval (ivl) and a due date, growing by its ease each time it's recalled.
+  var STEPS = [4, 12];
+  var EASE_START = 2.5, EASE_MIN = 1.3, EASE_DROP = 0.2;
+
+  function isDue(s) {
+    if (!s || (s.streak || 0) < 2) return true;  // new, learning, or relearning after a lapse
+    return !s.due || s.due <= dayKey();
+  }
+  function daysUntil(key) { // both parse as UTC midnight, so this lands on whole days
+    return Math.round((Date.parse(key) - Date.parse(dayKey())) / 864e5);
+  }
+
   function loadDecks(domain) {
     var srcs = domain ? [domain] : INDEX.domains.filter(function (d) { return d.flashcards; });
     return Promise.all(srcs.map(function (d) {
@@ -332,20 +347,25 @@
     h('<p class="hint center">loading…</p>');
     loadDecks(domain).then(function (cards) {
       var stats = store('fc-stats') || {};
-      var toReview = cards.filter(function (c) {
+      var due = cards.filter(function (c) { return isDue(stats[c.id]); });
+      var inReview = cards.filter(function (c) { return (stats[c.id] || {}).streak >= 2; }).length;
+      var soonest = null; // nearest due date among the cards that aren't ready yet
+      cards.forEach(function (c) {
         var s = stats[c.id];
-        return !s || (s.streak || 0) < 2;
+        if (s && s.due && !isDue(s) && (!soonest || s.due < soonest)) soonest = s.due;
       });
-      var html = '<p class="hint center">' + cards.length + ' cards · ' +
-        (cards.length - toReview.length) + ' learned (two "Got it" in a row)</p>' +
+      var wait = soonest ? daysUntil(soonest) : 0;
+      var html = '<p class="hint center">' + cards.length + ' cards · ' + inReview + ' in review</p>' +
         '<div class="pill-row" style="justify-content:center">' +
-        '<button class="pill" data-m="review"' + (toReview.length ? '' : ' disabled') + '>To review (' + toReview.length + ')</button>' +
+        '<button class="pill" data-m="due"' + (due.length ? '' : ' disabled') + '>Due now (' + due.length + ')</button>' +
         '<button class="pill" data-m="all">All (' + cards.length + ')</button></div>' +
-        (toReview.length ? '' : '<p class="hint center">All learned — run All to keep them fresh.</p>');
+        (due.length ? '' : '<p class="hint center">Nothing due' +
+          (soonest ? ' — next in ' + wait + (wait === 1 ? ' day' : ' days') : '') +
+          '. Run All to study ahead.</p>');
       h(html);
       view.querySelectorAll('.pill:not([disabled])').forEach(function (p) {
         p.onclick = function () {
-          cardSession(shuffle(p.getAttribute('data-m') === 'review' ? toReview : cards), domain);
+          cardSession(shuffle(p.getAttribute('data-m') === 'due' ? due : cards), domain);
         };
       });
     }).catch(fail);
@@ -354,7 +374,17 @@
   function cardSession(queue, domain) {
     var stats = store('fc-stats') || {};
     var total = queue.length, done = 0, again = 0;
+    var requeued = {}; // ids put back this session, so repeats spread out instead of looping
     setBack(function () { cardSetup(domain); });
+
+    // put a learning card back STEPS[step] cards later, pushed past the repeats already
+    // waiting — a fixed slot let a handful of hard cards rotate among themselves forever
+    function requeue(card, step) {
+      requeued[card.id] = true;
+      var waiting = queue.filter(function (c) { return requeued[c.id]; }).length;
+      var at = STEPS[Math.min(step, STEPS.length - 1)] + waiting;
+      queue.splice(Math.min(at, queue.length), 0, card);
+    }
     setTitle(domain ? 'Cards · Domain ' + domain.num : 'Cards · All');
 
     function next() {
@@ -398,24 +428,46 @@
       }
       function record(ok) {
         var s = stats[card.id] || { seen: 0, lapses: 0, streak: 0 };
-        s.seen++; if (!ok) s.lapses++;
-        s.streak = ok ? (s.streak || 0) + 1 : 0;
+        var wasGraduated = (s.streak || 0) >= 2;
+        s.seen++;
+        s.ease = s.ease || EASE_START;
+        if (ok) {
+          s.streak = (s.streak || 0) + 1;
+          if (wasGraduated) {          // recalled on schedule — push it further out
+            s.ivl = Math.max(1, Math.round((s.ivl || 1) * s.ease));
+            s.due = dayKey(-s.ivl);
+          } else if (s.streak >= 2) {  // graduating: a day for new cards, while a lapsed one
+            s.ivl = s.ivl || 1;        // resumes at the shortened interval its lapse set
+            s.due = dayKey(-s.ivl);
+          }
+        } else {
+          s.lapses++;
+          s.streak = 0;
+          delete s.due; // back to learning, due again today
+          if (wasGraduated) { // forgetting a scheduled card costs ease and halves its interval
+            s.ease = Math.max(EASE_MIN, s.ease - EASE_DROP);
+            s.ivl = Math.max(1, Math.round((s.ivl || 1) / 2));
+          }
+        }
         s.last = Date.now();
         stats[card.id] = s;
         store('fc-stats', stats);
         logActivity('c');
+        return s;
       }
       document.getElementById('fc-again').onclick = function (e) {
         e.stopPropagation();
         record(false); again++;
         queue.shift();
-        queue.splice(Math.min(4, queue.length), 0, card); // resurface soon
+        requeue(card, 0);
         animOut('fc-out-left');
       };
       document.getElementById('fc-good').onclick = function (e) {
         e.stopPropagation();
-        record(true); done++;
+        var s = record(true);
         queue.shift();
+        if (s.streak >= 2) done++;    // graduated, so it leaves the session
+        else requeue(card, s.streak); // one more correct pass before it graduates
         animOut('fc-out-right');
       };
     }
@@ -580,6 +632,11 @@
     if (state === 'new') { delete stats[id]; return; }
     var s = stats[id] || { seen: 0, lapses: 0 };
     s.streak = state === 'learned' ? 2 : 0;
+    if (state === 'learned') { // schedule it like a card that just graduated
+      s.ease = s.ease || EASE_START;
+      s.ivl = s.ivl || 1;
+      s.due = dayKey(-s.ivl);
+    } else delete s.due;       // learning cards are always due
     s.last = Date.now();
     stats[id] = s;
   }
