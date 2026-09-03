@@ -534,13 +534,31 @@
       });
       renderFilters();
       renderList();
-      document.getElementById('p-reset').onclick = function () {
-        if (!confirm('Clear all saved card and quiz progress for domain ' + domain.num + '?')) return;
-        cards.forEach(function (c) { delete fcStats[c.id]; });
-        questions.forEach(function (q) { delete qStats[q.id]; });
-        store('fc-stats', fcStats);
-        store('q-stats', qStats);
-        progressView(domain);
+      // two-step inline confirmation: native confirm() can be suppressed in installed PWAs
+      var resetBtn = document.getElementById('p-reset');
+      var resetLabel = resetBtn.textContent;
+      var disarmTimer = null;
+      resetBtn.onclick = function () {
+        if (resetBtn.getAttribute('data-armed')) {
+          clearTimeout(disarmTimer);
+          cards.forEach(function (c) { delete fcStats[c.id]; });
+          questions.forEach(function (q) { delete qStats[q.id]; });
+          store('fc-stats', fcStats);
+          store('q-stats', qStats);
+          progressView(domain);
+          return;
+        }
+        resetBtn.setAttribute('data-armed', '1');
+        resetBtn.classList.remove('secondary');
+        resetBtn.classList.add('bad');
+        resetBtn.textContent = 'Tap again to confirm';
+        disarmTimer = setTimeout(function () {
+          if (!document.body.contains(resetBtn)) return;
+          resetBtn.removeAttribute('data-armed');
+          resetBtn.classList.add('secondary');
+          resetBtn.classList.remove('bad');
+          resetBtn.textContent = resetLabel;
+        }, 4000);
       };
     }).catch(fail);
   }
