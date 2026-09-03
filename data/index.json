@@ -8,8 +8,8 @@
       "notes": "domains/01-security-risk-management.md",
       "flashcards": "flashcards/01.json",
       "quiz": "quizzes/01.json",
-      "cards": 50,
-      "questions": 14
+      "cards": 63,
+      "questions": 34
     },
     {
       "id": "02",

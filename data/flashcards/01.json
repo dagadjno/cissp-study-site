@@ -1,55 +1,383 @@
 {
   "domain": 1,
   "cards": [
-    { "id": "01-pillars", "topic": "Five pillars", "front": "The 2024 outline lists five pillars of information security. Name them.", "back": "- Confidentiality, integrity, availability, **authenticity**, **nonrepudiation**\n- Authenticity and nonrepudiation are the two added beyond the CIA triad" },
-    { "id": "01-authenticity", "topic": "Five pillars", "front": "Authenticity vs. integrity — what's the difference?", "back": "- **Authenticity** = genuine, from the claimed origin (about the *source*)\n- **Integrity** = not modified (about the *content*)\n- Spoofed-origin scenario -> authenticity, with integrity as the distractor" },
-    { "id": "01-nonrep-control", "topic": "Five pillars", "front": "Canonical control providing nonrepudiation?", "back": "- **Digital signature** (asymmetric private key)\n- MAC/HMAC gives integrity + authentication but NO nonrepudiation — the symmetric key is shared, so either party could have produced it" },
-    { "id": "01-dad", "topic": "Five pillars", "front": "What is the DAD triad?", "back": "- **D**isclosure, **A**lteration, **D**estruction\n- The failure states of confidentiality, integrity, availability" },
-    { "id": "01-fips199", "topic": "Five pillars", "front": "Where are the formal federal C-I-A definitions written down?", "back": "- **FIPS 199** Section 3, each quoting **44 U.S.C. 3542** (FISMA)\n- FISMA's integrity definition explicitly includes nonrepudiation and authenticity" },
-    { "id": "01-canons", "topic": "ISC2 ethics", "front": "The four ISC2 canons, in order.", "back": "1. Protect **society**, the common good, public trust, infrastructure\n2. Act **honorably**, honestly, justly, responsibly, legally\n3. Diligent and competent service to **principals** (employers/clients)\n4. Advance and protect the **profession**\n\nOrder = precedence for resolving conflicts (OSG teaching)" },
-    { "id": "01-canon-complaints", "topic": "ISC2 ethics", "front": "Who can file an ethics complaint under each canon?", "back": "- Canons 1-2: **anyone**\n- Canon 3: **employers/contractors** only\n- Canon 4: **certified professionals** only" },
-    { "id": "01-ethics-enforcement", "topic": "ISC2 ethics", "front": "ISC2 ethics enforcement path and sanction?", "back": "- **Sworn affidavit** -> Professional Conduct Committee -> board\n- Sanction = **revocation** of certification\n- Must \"adhere, and be seen to adhere\" — undisclosed conflict of interest violates the Code even without bad acts" },
-    { "id": "01-rfc1087", "topic": "ISC2 ethics", "front": "What is RFC 1087 and why does it show up in ethics questions?", "back": "- IAB \"**Ethics and the Internet**\" — lists unacceptable Internet activities (e.g. wasting resources, destroying data integrity)\n- Standard distractor for ISC2 Code of Ethics questions" },
-    { "id": "01-doc-hierarchy", "topic": "Documentation hierarchy", "front": "The five security documentation levels — which one is discretionary?", "back": "| Level | Binding? |\n| --- | --- |\n| Policy | Mandatory |\n| Standard | Mandatory |\n| Baseline | Mandatory |\n| **Guideline** | **Discretionary** |\n| Procedure | Mandatory |" },
-    { "id": "01-baseline-standard", "topic": "Documentation hierarchy", "front": "Baseline vs. standard — how do you tell them apart?", "back": "- **Standard** attaches to an **activity**: uniform org-wide rule (\"remote access = VPN+MFA\")\n- **Baseline** attaches to a **system**: minimum config state vs. a reference (golden image, CIS level, SP 800-53B baselines)" },
-    { "id": "01-policy-types", "topic": "Documentation hierarchy", "front": "The three policy types by purpose, and NIST's policy triple.", "back": "- OSG: **regulatory** (required by law/industry), **advisory** (most policies), **informative** (unenforceable)\n- NIST SP 800-12: **program / issue-specific / system-specific**\n- AUP = an **issue-specific** policy; roles are assigned by the organizational security policy" },
-    { "id": "01-threat-vuln-risk", "topic": "Risk concepts", "front": "Threat vs. vulnerability vs. risk.", "back": "- **Threat**: potential cause of harm (agent + event)\n- **Vulnerability**: weakness — includes the *absence of a safeguard*, not only a flaw\n- **Risk**: likelihood x impact of a threat exploiting a vulnerability" },
-    { "id": "01-80030-sources", "topic": "Risk concepts", "front": "NIST SP 800-30's four threat-source classes.", "back": "- **Adversarial** (attacks), **accidental** (human error), **structural** (equipment/software failure), **environmental** (disasters, outages)\n- Trap: adversarial-*looking* incident caused by misconfiguration = accidental -> answer is training/process" },
-    { "id": "01-planning", "topic": "Planning types", "front": "Strategic vs. tactical vs. operational plans — horizons and the classic example trap.", "back": "| Plan | Horizon | Tell |\n| --- | --- | --- |\n| Strategic | ~5 yrs | mission, goals, risk appetite |\n| Tactical | ~1 yr | projects, hiring, **budget** |\n| Operational | monthly/quarterly | step-by-step, patch schedule |\n\n**Budget = tactical**, not strategic" },
-    { "id": "01-risk-responses", "topic": "Risk responses", "front": "The six risk responses — which one is invalid?", "back": "- Mitigate, assign/transfer, accept, avoid, deter, **reject**\n- **Reject** (ignoring risk without analysis) = invalid, negligence / due care failure\n- Mnemonic: \"My Aunt Accepts Any Dumb Risk\"" },
-    { "id": "01-insurance", "topic": "Risk responses", "front": "Buying cyber insurance is which risk response, and what does NOT transfer?", "back": "- **Transfer/assign** — the financial consequence shifts to a third party\n- **Accountability does not transfer**; senior management still owns the risk" },
-    { "id": "01-avoid-mitigate", "topic": "Risk responses", "front": "Avoid vs. mitigate.", "back": "- **Avoid**: eliminate the risky activity (don't launch the feature)\n- **Mitigate**: continue the activity with safeguards reducing likelihood/impact" },
-    { "id": "01-iso31000-vocab", "topic": "Risk responses", "front": "ISO 31000's names for mitigate / accept / transfer.", "back": "- **Modify** = mitigate\n- **Retain** = accept\n- **Share** = transfer\n- Avoid stays avoid" },
-    { "id": "01-residual", "topic": "Risk types", "front": "Total risk, controls gap, residual risk — formulas and who accepts what.", "back": "- **Total risk** = threats x vulnerabilities x asset value (conceptual)\n- **Controls gap** = risk removed by safeguards (a difference, not a held risk)\n- **Residual** = total - controls gap; never zero; formally **accepted by senior management**" },
-    { "id": "01-appetite", "topic": "Risk types", "front": "Risk appetite vs. tolerance vs. capacity.", "back": "- **Appetite**: total risk the org *chooses* to bear\n- **Tolerance**: ability to absorb realized losses\n- **Capacity**: risk the org is *able* to shoulder — appetite may exceed capacity (testable mismatch)" },
-    { "id": "01-inherent-total", "topic": "Risk types", "front": "Inherent vs. total risk on the exam.", "back": "- Both = pre-safeguard risk; treat as near-synonyms\n- Formula context (\"threats x vulns x asset value\") -> **total**; narrative \"before anything\" -> **inherent**" },
-    { "id": "01-sle-ale", "topic": "Quantitative analysis", "front": "Define EF, SLE, ARO, ALE with formulas.", "back": "- **EF** (exposure factor): % of asset value lost per incident\n- **SLE** = AV x EF (one incident)\n- **ARO**: expected incidents/year (can be fractional or >1)\n- **ALE** = SLE x ARO (per year)" },
-    { "id": "01-safeguard-value", "topic": "Quantitative analysis", "front": "Formula for the value of a safeguard.", "back": "- ALE(before) - ALE(after) - annual safeguard cost\n- Positive -> safeguard is cost-justified" },
-    { "id": "01-delphi", "topic": "Qualitative analysis", "front": "What makes the Delphi technique different from brainstorming?", "back": "- **Anonymous, written, iterative** rounds toward consensus, run by a facilitator\n- Removes rank/anchoring bias (nobody follows the CISO's number)\n- Open group discussion = brainstorming, the standard distractor" },
-    { "id": "01-rmf-steps", "topic": "RMF", "front": "The seven RMF steps (SP 800-37 Rev. 2), in order.", "back": "1. **P**repare (Rev. 2 addition — the \"first step\" answer)\n2. **C**ategorize (FIPS 199)\n3. **S**elect (SP 800-53B baselines)\n4. **I**mplement\n5. **A**ssess (SP 800-53A)\n6. **A**uthorize (AO grants ATO)\n7. **M**onitor (SP 800-137)\n\nMnemonic: P-C-SIAM" },
-    { "id": "01-ao-ato", "topic": "RMF", "front": "In RMF, who accepts residual risk and what is the artifact?", "back": "- The **Authorizing Official (AO)** — a senior official, not the ISSO or assessor\n- Issues the **Authorization to Operate (ATO)** = the federal form of the documented risk-acceptance memo" },
-    { "id": "01-nist-trio", "topic": "RMF", "front": "SP 800-37 vs. SP 800-30 vs. SP 800-39.", "back": "- **800-37**: the RMF *process* (system life cycle)\n- **800-30**: risk *assessment* guide\n- **800-39**: enterprise risk management *strategy*" },
-    { "id": "01-rmf-csf", "topic": "RMF", "front": "RMF vs. CSF.", "back": "- **RMF**: federal, compliance-driven, system-level, ends in ATO\n- **CSF** (Cybersecurity Framework): voluntary, outcome-based, any organization" },
-    { "id": "01-methodologies", "topic": "Risk methodologies", "front": "OCTAVE, FAIR, TARA — one-line each.", "back": "- **OCTAVE** (CMU SEI): self-directed, asset-driven org risk assessment\n- **FAIR**: quantitative — loss frequency x loss magnitude in dollars\n- **TARA** (Intel): prioritizes the threat *agents* most likely to attack" },
-    { "id": "01-scrm-risks", "topic": "Supply chain", "front": "The outline's three supply-chain risks, and the federal anchor document.", "back": "- **Tampering, counterfeits, implants**\n- **NIST SP 800-161** Rev. 1 (C-SCRM — Cybersecurity Supply Chain Risk Management)" },
-    { "id": "01-rot-puf", "topic": "Supply chain", "front": "Silicon root of trust vs. PUF.", "back": "- **Silicon RoT**: tamper-resistant hardware anchor for *boot integrity/authenticity*\n- **PUF** (physically unclonable function): unique per-chip *identity fingerprint* from physical properties — anti-counterfeit\n- Distractors swap these two" },
-    { "id": "01-vendor-eval", "topic": "Supply chain", "front": "You can't inspect a vendor's operations. Best evaluation method?", "back": "- **Third-party audit / attestation** (e.g. SOC 2) — independent assurance without access\n- Minimum security requirements belong **in the contract**; trust-based options lose" },
-    { "id": "01-stride", "topic": "Threat modeling", "front": "STRIDE — each letter and the property it violates.", "back": "| Threat | Property |\n| --- | --- |\n| **S**poofing | Authentication/authenticity |\n| **T**ampering | Integrity |\n| **R**epudiation | Nonrepudiation |\n| **I**nfo disclosure | Confidentiality |\n| **D**oS | Availability |\n| **E**levation of privilege | Authorization |" },
-    { "id": "01-stride-dread", "topic": "Threat modeling", "front": "STRIDE vs. DREAD — the recurring pair.", "back": "- **STRIDE categorizes** threats; **DREAD scores/rates** them\n- DREAD = Damage, Reproducibility, Exploitability, Affected users, Discoverability" },
-    { "id": "01-pasta", "topic": "Threat modeling", "front": "What signals \"PASTA\" in a threat-modeling question?", "back": "- **Risk-centric**, **seven stages**, starts from **business objectives**, includes **attack simulation**, ends at a management risk decision\n- \"Agile\" -> VAST; risk-based open-source with a stakeholder requirements model -> Trike" },
-    { "id": "01-reduction", "topic": "Threat modeling", "front": "Reduction analysis — what is it and what five things do you identify?", "back": "- Decomposing the target into smaller containers (the DFD step; PASTA stage 3)\n- Identify: **trust boundaries, dataflow paths, input points, privileged operations, security stance**\n- Decompose BEFORE categorizing threats; distinct from attack-surface *reduction* (hardening)" },
-    { "id": "01-cobit", "topic": "COBIT", "front": "COBIT — who publishes it, what is it for, and the most-tested principle?", "back": "- **ISACA**; governance and management of enterprise IT\n- COBIT 2019 has **six** principles (COBIT 5 had five)\n- Most tested: **governance distinct from management** — board evaluates/directs/monitors vs. management plans/builds/runs" },
-    { "id": "01-framework-match", "topic": "COBIT", "front": "Match the framework: IT governance / IT service management / certifiable ISMS / voluntary cyber outcomes / SOX internal control.", "back": "| Purpose | Framework |\n| --- | --- |\n| IT governance, audit | **COBIT** |\n| IT service mgmt (SLAs, incidents) | **ITIL** |\n| Certifiable ISMS | **ISO 27001** |\n| Voluntary outcomes, any org | **NIST CSF** |\n| Corporate internal control / SOX | **COSO** |" },
-    { "id": "01-control-categories", "topic": "Controls", "front": "The three control categories (by implementation).", "back": "- **Administrative** (aka management/managerial/procedural): policies, hiring, training\n- **Logical/technical**: authN, encryption, firewalls, IDS\n- **Physical**: locks, guards, fences\n- Category (how implemented) never mixes with type (what it does)" },
-    { "id": "01-control-types", "topic": "Controls", "front": "The seven control types, with the three trap pairs.", "back": "- Preventive, deterrent, detective, corrective, recovery, directive, compensating\n- **Preventive vs. deterrent**: works without attacker's cooperation vs. works on their decision\n- **Corrective vs. recovery**: minor return-to-normal vs. advanced restoration\n- **Directive vs. deterrent**: compliance instruction vs. consequence-based discouragement" },
-    { "id": "01-vacation-review", "topic": "Controls", "front": "Classify: mandatory vacation with review of the absent employee's history.", "back": "- **Administrative + detective** — the canonical combined classification" },
-    { "id": "01-law-categories", "topic": "Legal", "front": "Criminal vs. civil vs. administrative law — burden of proof for each.", "back": "| Category | Burden |\n| --- | --- |\n| Criminal | **Beyond a reasonable doubt** |\n| Civil | **Preponderance of evidence** (>50%) |\n| Administrative | Substantial evidence |\n\nSame breach can trigger all three; collect evidence to the **highest** standard" },
-    { "id": "01-pci", "topic": "Legal", "front": "Is PCI DSS a law?", "back": "- **No — contractual** obligation via merchant agreements; enforced by card-brand fines\n- \"PCI as regulation/legislation\" is always the wrong option" },
-    { "id": "01-us-laws", "topic": "Legal", "front": "CFAA, Federal Sentencing Guidelines, FISMA, DMCA — one hook each.", "back": "- **CFAA** (1986): first major US cybercrime law; computer crimes crossing state lines\n- **Sentencing Guidelines** (1991): prudent person rule, executive **personal liability** for due care failures\n- **FISMA** (2002): federal infosec programs, includes **contractors**; delegated the \"how\" to NIST\n- **DMCA** (1998): Sec. 1201 anti-circumvention + Sec. 512 ISP safe harbor" },
-    { "id": "01-ip-types", "topic": "IP", "front": "Copyright vs. patent vs. trademark vs. trade secret — duration and the catch.", "back": "| Type | Duration | Catch |\n| --- | --- | --- |\n| Copyright | Life + 70 yrs | Protects expression, not ideas |\n| Patent | ~20 yrs from filing | Requires **public disclosure** |\n| Trademark | Renewable forever | Brand identity only |\n| Trade secret | While secret | **Disclosed = gone**, no registration |\n\nSource code can be copyright AND trade secret simultaneously" },
-    { "id": "01-licenses", "topic": "IP", "front": "The four software license types and how each is accepted.", "back": "- **Contractual**: negotiated signature\n- **Shrink-wrap**: opening the package\n- **Click-through**: clicking the EULA\n- **Cloud services**: using the service" },
-    { "id": "01-itar-ear", "topic": "Export controls", "front": "ITAR vs. EAR vs. Wassenaar.", "back": "- **ITAR**: State Dept; defense articles (US Munitions List)\n- **EAR**: Commerce/BIS; **dual-use** items — commercial crypto lives here\n- **Wassenaar**: ~40-country voluntary multilateral dual-use coordination" },
-    { "id": "01-privacy-laws", "topic": "Privacy laws", "front": "Privacy Act, ECPA, HIPAA, GLBA, COPPA, GDPR, CCPA — one hook each.", "back": "- **Privacy Act 1974**: federal agencies' records\n- **ECPA 1986**: electronic privacy crime — binds providers/private parties, not only government\n- **HIPAA 1996**: medical data; HITECH 2009 made business associates directly liable\n- **GLBA 1999**: financial institutions (deregulation + privacy duties)\n- **COPPA**: children's sites\n- **GDPR**: EU persons' PII, extraterritorial\n- **CCPA**: California, modeled on GDPR" },
-    { "id": "01-gdpr", "topic": "Privacy laws", "front": "GDPR: breach notification deadline and maximum fine.", "back": "- **72 hours** to the supervisory authority (Art. 33)\n- Fines up to **4% of global revenue** (Art. 83)\n- Rights: access, rectification, erasure, portability; transfers need adequacy or SCCs" }
+    {
+      "id": "01-pillars",
+      "topic": "Five pillars",
+      "front": "The 2024 outline lists five pillars of information security. Name them.",
+      "back": "- Confidentiality, integrity, availability, **authenticity**, **nonrepudiation**\n- Authenticity and nonrepudiation are the two added beyond the CIA triad"
+    },
+    {
+      "id": "01-authenticity",
+      "topic": "Five pillars",
+      "front": "Authenticity vs. integrity — what's the difference?",
+      "back": "- **Authenticity** = genuine, from the claimed origin (about the *source*)\n- **Integrity** = not modified (about the *content*)\n- Spoofed-origin scenario -> authenticity, with integrity as the distractor"
+    },
+    {
+      "id": "01-nonrep-control",
+      "topic": "Five pillars",
+      "front": "Canonical control providing nonrepudiation?",
+      "back": "- **Digital signature** (asymmetric private key)\n- MAC/HMAC gives integrity + authentication but NO nonrepudiation — the symmetric key is shared, so either party could have produced it"
+    },
+    {
+      "id": "01-dad",
+      "topic": "Five pillars",
+      "front": "What is the DAD triad?",
+      "back": "- **D**isclosure, **A**lteration, **D**estruction\n- The failure states of confidentiality, integrity, availability"
+    },
+    {
+      "id": "01-fips199",
+      "topic": "Five pillars",
+      "front": "Where are the formal federal C-I-A definitions written down?",
+      "back": "- **FIPS 199** Section 3, each quoting **44 U.S.C. 3542** (FISMA)\n- FISMA's integrity definition explicitly includes nonrepudiation and authenticity"
+    },
+    {
+      "id": "01-canons",
+      "topic": "ISC2 ethics",
+      "front": "The four ISC2 canons, in order.",
+      "back": "1. Protect **society**, the common good, public trust, infrastructure\n2. Act **honorably**, honestly, justly, responsibly, legally\n3. Diligent and competent service to **principals** (employers/clients)\n4. Advance and protect the **profession**\n\nOrder = precedence for resolving conflicts (OSG teaching)"
+    },
+    {
+      "id": "01-canon-complaints",
+      "topic": "ISC2 ethics",
+      "front": "Who can file an ethics complaint under each canon?",
+      "back": "- Canons 1-2: **anyone**\n- Canon 3: **employers/contractors** only\n- Canon 4: **certified professionals** only"
+    },
+    {
+      "id": "01-ethics-enforcement",
+      "topic": "ISC2 ethics",
+      "front": "ISC2 ethics enforcement path and sanction?",
+      "back": "- **Sworn affidavit** -> Professional Conduct Committee -> board\n- Sanction = **revocation** of certification\n- Must \"adhere, and be seen to adhere\" — undisclosed conflict of interest violates the Code even without bad acts"
+    },
+    {
+      "id": "01-rfc1087",
+      "topic": "ISC2 ethics",
+      "front": "What is RFC 1087 and why does it show up in ethics questions?",
+      "back": "- IAB \"**Ethics and the Internet**\" — lists unacceptable Internet activities (e.g. wasting resources, destroying data integrity)\n- Standard distractor for ISC2 Code of Ethics questions"
+    },
+    {
+      "id": "01-doc-hierarchy",
+      "topic": "Documentation hierarchy",
+      "front": "The five security documentation levels — which one is discretionary?",
+      "back": "| Level | Binding? |\n| --- | --- |\n| Policy | Mandatory |\n| Standard | Mandatory |\n| Baseline | Mandatory |\n| **Guideline** | **Discretionary** |\n| Procedure | Mandatory |"
+    },
+    {
+      "id": "01-baseline-standard",
+      "topic": "Documentation hierarchy",
+      "front": "Baseline vs. standard — how do you tell them apart?",
+      "back": "- **Standard** attaches to an **activity**: uniform org-wide rule (\"remote access = VPN+MFA\")\n- **Baseline** attaches to a **system**: minimum config state vs. a reference (golden image, CIS level, SP 800-53B baselines)"
+    },
+    {
+      "id": "01-policy-types",
+      "topic": "Documentation hierarchy",
+      "front": "The three policy types by purpose, and NIST's policy triple.",
+      "back": "- OSG: **regulatory** (required by law/industry), **advisory** (most policies), **informative** (unenforceable)\n- NIST SP 800-12: **program / issue-specific / system-specific**\n- AUP = an **issue-specific** policy; roles are assigned by the organizational security policy"
+    },
+    {
+      "id": "01-threat-vuln-risk",
+      "topic": "Risk concepts",
+      "front": "Threat vs. vulnerability vs. risk.",
+      "back": "- **Threat**: potential cause of harm (agent + event)\n- **Vulnerability**: weakness — includes the *absence of a safeguard*, not only a flaw\n- **Risk**: likelihood x impact of a threat exploiting a vulnerability"
+    },
+    {
+      "id": "01-80030-sources",
+      "topic": "Risk concepts",
+      "front": "NIST SP 800-30's four threat-source classes.",
+      "back": "- **Adversarial** (attacks), **accidental** (human error), **structural** (equipment/software failure), **environmental** (disasters, outages)\n- Trap: adversarial-*looking* incident caused by misconfiguration = accidental -> answer is training/process"
+    },
+    {
+      "id": "01-planning",
+      "topic": "Planning types",
+      "front": "Strategic vs. tactical vs. operational plans — horizons and the classic example trap.",
+      "back": "| Plan | Horizon | Tell |\n| --- | --- | --- |\n| Strategic | ~5 yrs | mission, goals, risk appetite |\n| Tactical | ~1 yr | projects, hiring, **budget** |\n| Operational | monthly/quarterly | step-by-step, patch schedule |\n\n**Budget = tactical**, not strategic"
+    },
+    {
+      "id": "01-risk-responses",
+      "topic": "Risk responses",
+      "front": "The six risk responses — which one is invalid?",
+      "back": "- Mitigate, assign/transfer, accept, avoid, deter, **reject**\n- **Reject** (ignoring risk without analysis) = invalid, negligence / due care failure\n- Mnemonic: \"My Aunt Accepts Any Dumb Risk\""
+    },
+    {
+      "id": "01-insurance",
+      "topic": "Risk responses",
+      "front": "Buying cyber insurance is which risk response, and what does NOT transfer?",
+      "back": "- **Transfer/assign** — the financial consequence shifts to a third party\n- **Accountability does not transfer**; senior management still owns the risk"
+    },
+    {
+      "id": "01-avoid-mitigate",
+      "topic": "Risk responses",
+      "front": "Avoid vs. mitigate.",
+      "back": "- **Avoid**: eliminate the risky activity (don't launch the feature)\n- **Mitigate**: continue the activity with safeguards reducing likelihood/impact"
+    },
+    {
+      "id": "01-iso31000-vocab",
+      "topic": "Risk responses",
+      "front": "ISO 31000's names for mitigate / accept / transfer.",
+      "back": "- **Modify** = mitigate\n- **Retain** = accept\n- **Share** = transfer\n- Avoid stays avoid"
+    },
+    {
+      "id": "01-residual",
+      "topic": "Risk types",
+      "front": "Total risk, controls gap, residual risk — formulas and who accepts what.",
+      "back": "- **Total risk** = threats x vulnerabilities x asset value (conceptual)\n- **Controls gap** = risk removed by safeguards (a difference, not a held risk)\n- **Residual** = total - controls gap; never zero; formally **accepted by senior management**"
+    },
+    {
+      "id": "01-appetite",
+      "topic": "Risk types",
+      "front": "Risk appetite vs. tolerance vs. capacity.",
+      "back": "- **Appetite**: total risk the org *chooses* to bear\n- **Tolerance**: ability to absorb realized losses\n- **Capacity**: risk the org is *able* to shoulder — appetite may exceed capacity (testable mismatch)"
+    },
+    {
+      "id": "01-inherent-total",
+      "topic": "Risk types",
+      "front": "Inherent vs. total risk on the exam.",
+      "back": "- Both = pre-safeguard risk; treat as near-synonyms\n- Formula context (\"threats x vulns x asset value\") -> **total**; narrative \"before anything\" -> **inherent**"
+    },
+    {
+      "id": "01-sle-ale",
+      "topic": "Quantitative analysis",
+      "front": "Define EF, SLE, ARO, ALE with formulas.",
+      "back": "- **EF** (exposure factor): % of asset value lost per incident\n- **SLE** = AV x EF (one incident)\n- **ARO**: expected incidents/year (can be fractional or >1)\n- **ALE** = SLE x ARO (per year)"
+    },
+    {
+      "id": "01-safeguard-value",
+      "topic": "Quantitative analysis",
+      "front": "Formula for the value of a safeguard.",
+      "back": "- ALE(before) - ALE(after) - annual safeguard cost\n- Positive -> safeguard is cost-justified"
+    },
+    {
+      "id": "01-delphi",
+      "topic": "Qualitative analysis",
+      "front": "What makes the Delphi technique different from brainstorming?",
+      "back": "- **Anonymous, written, iterative** rounds toward consensus, run by a facilitator\n- Removes rank/anchoring bias (nobody follows the CISO's number)\n- Open group discussion = brainstorming, the standard distractor"
+    },
+    {
+      "id": "01-rmf-steps",
+      "topic": "RMF",
+      "front": "The seven RMF steps (SP 800-37 Rev. 2), in order.",
+      "back": "1. **P**repare (Rev. 2 addition — the \"first step\" answer)\n2. **C**ategorize (FIPS 199)\n3. **S**elect (SP 800-53B baselines)\n4. **I**mplement\n5. **A**ssess (SP 800-53A)\n6. **A**uthorize (AO grants ATO)\n7. **M**onitor (SP 800-137)\n\nMnemonic: P-C-SIAM"
+    },
+    {
+      "id": "01-ao-ato",
+      "topic": "RMF",
+      "front": "In RMF, who accepts residual risk and what is the artifact?",
+      "back": "- The **Authorizing Official (AO)** — a senior official, not the ISSO or assessor\n- Issues the **Authorization to Operate (ATO)** = the federal form of the documented risk-acceptance memo"
+    },
+    {
+      "id": "01-nist-trio",
+      "topic": "RMF",
+      "front": "SP 800-37 vs. SP 800-30 vs. SP 800-39.",
+      "back": "- **800-37**: the RMF *process* (system life cycle)\n- **800-30**: risk *assessment* guide\n- **800-39**: enterprise risk management *strategy*"
+    },
+    {
+      "id": "01-rmf-csf",
+      "topic": "RMF",
+      "front": "RMF vs. CSF.",
+      "back": "- **RMF**: federal, compliance-driven, system-level, ends in ATO\n- **CSF** (Cybersecurity Framework): voluntary, outcome-based, any organization"
+    },
+    {
+      "id": "01-methodologies",
+      "topic": "Risk methodologies",
+      "front": "OCTAVE, FAIR, TARA — one-line each.",
+      "back": "- **OCTAVE** (CMU SEI): self-directed, asset-driven org risk assessment\n- **FAIR**: quantitative — loss frequency x loss magnitude in dollars\n- **TARA** (Intel): prioritizes the threat *agents* most likely to attack"
+    },
+    {
+      "id": "01-scrm-risks",
+      "topic": "Supply chain",
+      "front": "The outline's three supply-chain risks, and the federal anchor document.",
+      "back": "- **Tampering, counterfeits, implants**\n- **NIST SP 800-161** Rev. 1 (C-SCRM — Cybersecurity Supply Chain Risk Management)"
+    },
+    {
+      "id": "01-rot-puf",
+      "topic": "Supply chain",
+      "front": "Silicon root of trust vs. PUF.",
+      "back": "- **Silicon RoT**: tamper-resistant hardware anchor for *boot integrity/authenticity*\n- **PUF** (physically unclonable function): unique per-chip *identity fingerprint* from physical properties — anti-counterfeit\n- Distractors swap these two"
+    },
+    {
+      "id": "01-vendor-eval",
+      "topic": "Supply chain",
+      "front": "You can't inspect a vendor's operations. Best evaluation method?",
+      "back": "- **Third-party audit / attestation** (e.g. SOC 2) — independent assurance without access\n- Minimum security requirements belong **in the contract**; trust-based options lose"
+    },
+    {
+      "id": "01-stride",
+      "topic": "Threat modeling",
+      "front": "STRIDE — each letter and the property it violates.",
+      "back": "| Threat | Property |\n| --- | --- |\n| **S**poofing | Authentication/authenticity |\n| **T**ampering | Integrity |\n| **R**epudiation | Nonrepudiation |\n| **I**nfo disclosure | Confidentiality |\n| **D**oS | Availability |\n| **E**levation of privilege | Authorization |"
+    },
+    {
+      "id": "01-stride-dread",
+      "topic": "Threat modeling",
+      "front": "STRIDE vs. DREAD — the recurring pair.",
+      "back": "- **STRIDE categorizes** threats; **DREAD scores/rates** them\n- DREAD = Damage, Reproducibility, Exploitability, Affected users, Discoverability"
+    },
+    {
+      "id": "01-pasta",
+      "topic": "Threat modeling",
+      "front": "What signals \"PASTA\" in a threat-modeling question?",
+      "back": "- **Risk-centric**, **seven stages**, starts from **business objectives**, includes **attack simulation**, ends at a management risk decision\n- \"Agile\" -> VAST; risk-based open-source with a stakeholder requirements model -> Trike"
+    },
+    {
+      "id": "01-reduction",
+      "topic": "Threat modeling",
+      "front": "Reduction analysis — what is it and what five things do you identify?",
+      "back": "- Decomposing the target into smaller containers (the DFD step; PASTA stage 3)\n- Identify: **trust boundaries, dataflow paths, input points, privileged operations, security stance**\n- Decompose BEFORE categorizing threats; distinct from attack-surface *reduction* (hardening)"
+    },
+    {
+      "id": "01-cobit",
+      "topic": "COBIT",
+      "front": "COBIT — who publishes it, what is it for, and the most-tested principle?",
+      "back": "- **ISACA**; governance and management of enterprise IT\n- COBIT 2019 has **six** principles (COBIT 5 had five)\n- Most tested: **governance distinct from management** — board evaluates/directs/monitors vs. management plans/builds/runs"
+    },
+    {
+      "id": "01-framework-match",
+      "topic": "COBIT",
+      "front": "Match the framework: IT governance / IT service management / certifiable ISMS / voluntary cyber outcomes / SOX internal control.",
+      "back": "| Purpose | Framework |\n| --- | --- |\n| IT governance, audit | **COBIT** |\n| IT service mgmt (SLAs, incidents) | **ITIL** |\n| Certifiable ISMS | **ISO 27001** |\n| Voluntary outcomes, any org | **NIST CSF** |\n| Corporate internal control / SOX | **COSO** |"
+    },
+    {
+      "id": "01-control-categories",
+      "topic": "Controls",
+      "front": "The three control categories (by implementation).",
+      "back": "- **Administrative** (aka management/managerial/procedural): policies, hiring, training\n- **Logical/technical**: authN, encryption, firewalls, IDS\n- **Physical**: locks, guards, fences\n- Category (how implemented) never mixes with type (what it does)"
+    },
+    {
+      "id": "01-control-types",
+      "topic": "Controls",
+      "front": "The seven control types, with the three trap pairs.",
+      "back": "- Preventive, deterrent, detective, corrective, recovery, directive, compensating\n- **Preventive vs. deterrent**: works without attacker's cooperation vs. works on their decision\n- **Corrective vs. recovery**: minor return-to-normal vs. advanced restoration\n- **Directive vs. deterrent**: compliance instruction vs. consequence-based discouragement"
+    },
+    {
+      "id": "01-vacation-review",
+      "topic": "Controls",
+      "front": "Classify: mandatory vacation with review of the absent employee's history.",
+      "back": "- **Administrative + detective** — the canonical combined classification"
+    },
+    {
+      "id": "01-law-categories",
+      "topic": "Legal",
+      "front": "Criminal vs. civil vs. administrative law — burden of proof for each.",
+      "back": "| Category | Burden |\n| --- | --- |\n| Criminal | **Beyond a reasonable doubt** |\n| Civil | **Preponderance of evidence** (>50%) |\n| Administrative | Substantial evidence |\n\nSame breach can trigger all three; collect evidence to the **highest** standard"
+    },
+    {
+      "id": "01-pci",
+      "topic": "Legal",
+      "front": "Is PCI DSS a law?",
+      "back": "- **No — contractual** obligation via merchant agreements; enforced by card-brand fines\n- \"PCI as regulation/legislation\" is always the wrong option"
+    },
+    {
+      "id": "01-us-laws",
+      "topic": "Legal",
+      "front": "CFAA, Federal Sentencing Guidelines, FISMA, DMCA — one hook each.",
+      "back": "- **CFAA** (1986): first major US cybercrime law; computer crimes crossing state lines\n- **Sentencing Guidelines** (1991): prudent person rule, executive **personal liability** for due care failures\n- **FISMA** (2002): federal infosec programs, includes **contractors**; delegated the \"how\" to NIST\n- **DMCA** (1998): Sec. 1201 anti-circumvention + Sec. 512 ISP safe harbor"
+    },
+    {
+      "id": "01-ip-types",
+      "topic": "IP",
+      "front": "Copyright vs. patent vs. trademark vs. trade secret — duration and the catch.",
+      "back": "| Type | Duration | Catch |\n| --- | --- | --- |\n| Copyright | Life + 70 yrs | Protects expression, not ideas |\n| Patent | ~20 yrs from filing | Requires **public disclosure** |\n| Trademark | Renewable forever | Brand identity only |\n| Trade secret | While secret | **Disclosed = gone**, no registration |\n\nSource code can be copyright AND trade secret simultaneously"
+    },
+    {
+      "id": "01-licenses",
+      "topic": "IP",
+      "front": "The four software license types and how each is accepted.",
+      "back": "- **Contractual**: negotiated signature\n- **Shrink-wrap**: opening the package\n- **Click-through**: clicking the EULA\n- **Cloud services**: using the service"
+    },
+    {
+      "id": "01-itar-ear",
+      "topic": "Export controls",
+      "front": "ITAR vs. EAR vs. Wassenaar.",
+      "back": "- **ITAR**: State Dept; defense articles (US Munitions List)\n- **EAR**: Commerce/BIS; **dual-use** items — commercial crypto lives here\n- **Wassenaar**: ~40-country voluntary multilateral dual-use coordination"
+    },
+    {
+      "id": "01-privacy-laws",
+      "topic": "Privacy laws",
+      "front": "Privacy Act, ECPA, HIPAA, GLBA, COPPA, GDPR, CCPA — one hook each.",
+      "back": "- **Privacy Act 1974**: federal agencies' records\n- **ECPA 1986**: electronic privacy crime — binds providers/private parties, not only government\n- **HIPAA 1996**: medical data; HITECH 2009 made business associates directly liable\n- **GLBA 1999**: financial institutions (deregulation + privacy duties)\n- **COPPA**: children's sites\n- **GDPR**: EU persons' PII, extraterritorial\n- **CCPA**: California, modeled on GDPR"
+    },
+    {
+      "id": "01-gdpr",
+      "topic": "Privacy laws",
+      "front": "GDPR: breach notification deadline and maximum fine.",
+      "back": "- **72 hours** to the supervisory authority (Art. 33)\n- Fines up to **4% of global revenue** (Art. 83)\n- Rights: access, rectification, erasure, portability; transfers need adequacy or SCCs"
+    },
+    {
+      "id": "01-due-care-diligence",
+      "topic": "Due care / due diligence",
+      "front": "Due care vs. due diligence — and which one did executives fail if audits ran for years but nobody acted on the findings?",
+      "back": "- **Due care = acting** responsibly on what you know (\"**do** correct\") — the prudent person standard\n- **Due diligence = verifying** — audits, monitoring, investigation (\"**do** detect\")\n- Audits ran, findings ignored → diligence existed, **due care failed**\n- Formalized by the **Federal Sentencing Guidelines (1991)**: prudent person rule; executive **personal liability**; oversight duty is non-delegable"
+    },
+    {
+      "id": "01-policy-authority",
+      "topic": "Documentation hierarchy",
+      "front": "What gives a security policy its authority, and what binds \"mandatory\" documents?",
+      "back": "- Authority = **senior management support/approval** — \"legal requirement\" is the distractor\n- Binds via employment/contract relationship; sanction = **disciplinary, not legal**\n- Law enters only through the regulation behind a **regulatory policy**, or independently criminal acts\n- Enforced policy also evidences **due care** in negligence claims"
+    },
+    {
+      "id": "01-loss-potential-delayed",
+      "topic": "Quantitative analysis",
+      "front": "Loss potential vs. delayed loss.",
+      "back": "- **Loss potential** = what's lost if the threat agent succeeds — glossary maps it to **EF** (same idea, % of asset value)\n- **Delayed loss** = secondary damage after the incident: churn, reputation, later fines, lost future sales — often **exceeds direct loss**\n- Trap: breach-impact estimate that stops at rebuild cost ignores delayed loss"
+    },
+    {
+      "id": "01-hitech",
+      "topic": "Privacy laws",
+      "front": "What did HITECH (2009) change about HIPAA business associates?",
+      "back": "- BAs became **directly liable** under the Security Rule (Sec. 13401) — same safeguards as covered entities, civil + criminal penalties\n- BAs must **notify the covered entity** of breaches on their side\n- Kills the \"our obligations are only whatever the BAA says\" argument (pre-2009 world)"
+    },
+    {
+      "id": "01-evidence-standards",
+      "topic": "Legal",
+      "front": "Same incident: acquitted in criminal court, liable in civil court. How? And what does it mean for evidence handling?",
+      "back": "- Criminal needs **beyond a reasonable doubt**; civil needs only **preponderance** (>50%) — same facts can fail one bar and clear the other\n- One breach can spawn **criminal + civil + administrative** proceedings\n- SOC rule: collect and preserve to the **highest** standard from the start — admissibility lost at collection can't be recovered"
+    },
+    {
+      "id": "01-fisma-program",
+      "topic": "Legal",
+      "front": "FISMA says agencies must \"run an infosec program.\" Name the concrete elements.",
+      "back": "- Periodic **risk assessments**; risk-based policies; per-system **security plans**; awareness **training**\n- Control testing **at least annually** + independent **Inspector General** evaluation\n- **POA&M** (Plan of Action and Milestones) remediation; **incident response**; **continuity** plans; annual **OMB**/Congress reporting\n- Includes **contractors**; delegated the \"how\" to NIST (FIPS 199/200, SP 800-53, RMF)"
+    },
+    {
+      "id": "01-sbom",
+      "topic": "Supply chain",
+      "front": "What is an SBOM and which risk area does it mitigate?",
+      "back": "- **Software bill of materials**: full inventory of components/dependencies with versions, sources, relationships\n- SCRM mitigation (1.11): visibility into upstream software links — counterfeit/tampered/vulnerable components\n- Pairs with: silicon RoT (hardware boot trust), PUF (hardware identity)"
+    },
+    {
+      "id": "01-embargo",
+      "topic": "Export controls",
+      "front": "Computer export controls: who licenses, and which destinations are off-limits per the OSG?",
+      "back": "- **BIS** (Commerce) licenses high-performance computing exports under the EAR\n- OSG embargo list: **Cuba, Iran, North Korea, Sudan, Syria** (answer with the book)\n- Reality has shifted (EAR Country Groups E:1/E:2; Sudan delisted 2020, Crimea added) — recognize, don't fight the book"
+    },
+    {
+      "id": "01-impact-categories",
+      "topic": "Risk concepts",
+      "front": "The three risk impact categories (course framing), and their DAD alignment.",
+      "back": "- **Damage** (physical destruction/alteration) → I / destruction\n- **Disclosure** (sensitive data exposed) → C failure\n- **Losses** (financial, operational, availability) → A / financial\n- Factors (physical damage, malfunction, attacks, human error, application error) are the *events* producing these impacts"
+    },
+    {
+      "id": "01-qual-vs-quant-when",
+      "topic": "Qualitative analysis",
+      "front": "When is qualitative analysis the CORRECT choice, not a fallback?",
+      "back": "- When reliable numbers don't exist (reputation, trust damage) or speed matters\n- Deriving fake SLE/ARO from industry averages = false precision\n- \"Quantitative is always better\" and \"purely quantitative\" options are **always wrong** — some values are always estimates\n- Real programs hybrid: qualitative triage → quantitative workup for big risks"
+    },
+    {
+      "id": "01-aup",
+      "topic": "Documentation hierarchy",
+      "front": "What is an AUP, and what is it NOT?",
+      "back": "- **Acceptable use policy** = issue-specific policy defining acceptable activity/use of company resources; violations → job action\n- NOT a hierarchy level, and NOT the document assigning roles/responsibilities (that's the **organizational security policy**)"
+    },
+    {
+      "id": "01-trike-vast",
+      "topic": "Threat modeling",
+      "front": "Trike and VAST — recognition tells.",
+      "back": "- **Trike**: open-source, risk-based, implements a **requirements model** — per-asset risk \"acceptable\" to **stakeholders**\n- **VAST** (Visual, Agile, and Simple Threat): threat modeling scaled into **Agile/DevOps** pipelines\n- \"Requirements model / stakeholder acceptance\" → Trike; \"Agile integration\" → VAST"
+    },
+    {
+      "id": "01-eea",
+      "topic": "IP",
+      "front": "Economic Espionage Act — the two penalty tiers.",
+      "back": "- Trade-secret theft **benefiting a foreign government**: up to **$500K + 15 years**\n- Ordinary trade-secret theft: up to **$250K + 10 years**\n- The foreign-government element is what moves tiers (year 1996 — verify)"
+    }
   ]
 }

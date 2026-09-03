@@ -6,18 +6,18 @@
       "topic": "ISC2 ethics",
       "stem": "During an internal assessment, a CISSP discovers their employer has been quietly suppressing evidence of a breach that exposed customer financial data. Management instructs them to keep the findings internal. Under the ISC2 Code of Ethics, what should the professional do?",
       "options": [
-        "Escalate beyond management, because the duty to society and public trust outranks the duty to principals",
+        "Report the employer to the ISC2 Professional Conduct Committee by sworn affidavit",
         "Follow the instruction, because canon three requires diligent and competent service to principals",
-        "Resign quietly, because continuing to work for the employer would violate the requirement to act honorably",
-        "Report the employer to the ISC2 Professional Conduct Committee by sworn affidavit"
+        "Escalate beyond management, because the duty to society and public trust outranks the duty to principals",
+        "Resign quietly, because continuing to work for the employer would violate the requirement to act honorably"
       ],
-      "answer": 0,
+      "answer": 2,
       "explanation": "Canon order sets precedence: protecting society (canon 1) and acting honestly and legally (canon 2) outrank service to principals (canon 3).",
       "why_wrong": [
-        "",
+        "The PCC handles complaints against ISC2 members, not misconduct by employers",
         "True duty, but canon 3 is subordinate to canons 1 and 2 — the classic employer-pressure trap",
-        "Resigning quietly leaves the public harm unaddressed; the Code requires being seen to adhere, not just avoiding personal taint",
-        "The PCC handles complaints against ISC2 members, not misconduct by employers"
+        "",
+        "Resigning quietly leaves the public harm unaddressed; the Code requires being seen to adhere, not just avoiding personal taint"
       ]
     },
     {
@@ -25,18 +25,18 @@
       "topic": "Documentation hierarchy",
       "stem": "A CISO wants every business unit to use the same MFA-backed VPN method for remote access, with disciplinary consequences for noncompliance. Which document should define this requirement?",
       "options": [
-        "A standard, because it imposes a compulsory uniform requirement for an activity",
         "A baseline, because it establishes the minimum security level systems must meet",
         "A guideline, because it recommends the methodology business units should follow",
-        "An issue-specific policy, because remote access is a single service or function"
+        "An issue-specific policy, because remote access is a single service or function",
+        "A standard, because it imposes a compulsory uniform requirement for an activity"
       ],
-      "answer": 0,
+      "answer": 3,
       "explanation": "A uniform, mandatory rule attached to an activity (remote access) is a standard.",
       "why_wrong": [
-        "",
         "Baselines attach to systems (a measurable config floor), not to activities like remote access",
         "Guidelines are discretionary — this requirement must be enforceable",
-        "A policy states management intent and roles; the specific compulsory mechanism belongs one level down"
+        "A policy states management intent and roles; the specific compulsory mechanism belongs one level down",
+        ""
       ]
     },
     {
@@ -44,18 +44,18 @@
       "topic": "Risk responses",
       "stem": "After a risk assessment, the launch of a customer-facing file-sharing feature is canceled because its residual risk would exceed the organization's appetite even with all feasible controls applied. Which risk response was chosen?",
       "options": [
-        "Avoidance, because the risk-bearing activity itself was eliminated",
         "Mitigation, because controls were evaluated to reduce likelihood and impact",
-        "Acceptance, because management made a documented decision after the assessment",
-        "Rejection, because the organization decided not to carry the risk forward"
+        "Avoidance, because the risk-bearing activity itself was eliminated",
+        "Rejection, because the organization decided not to carry the risk forward",
+        "Acceptance, because management made a documented decision after the assessment"
       ],
-      "answer": 0,
+      "answer": 1,
       "explanation": "Choosing not to perform the risky activity at all is risk avoidance.",
       "why_wrong": [
-        "",
         "Controls were considered but the activity did not continue with them — mitigation means proceeding with safeguards",
-        "Acceptance means proceeding while formally owning the residual risk; here nothing proceeds",
-        "Rejection is ignoring a risk without analysis — negligence, and never a valid response"
+        "",
+        "Rejection is ignoring a risk without analysis — negligence, and never a valid response",
+        "Acceptance means proceeding while formally owning the residual risk; here nothing proceeds"
       ]
     },
     {
@@ -63,18 +63,18 @@
       "topic": "Quantitative analysis",
       "stem": "A data center asset is valued at $200,000. A flood would destroy 25% of it, and floods are expected once every two years. What is the ALE?",
       "options": [
-        "$25,000",
-        "$50,000",
+        "$12,500",
         "$100,000",
-        "$12,500"
+        "$25,000",
+        "$50,000"
       ],
-      "answer": 0,
+      "answer": 2,
       "explanation": "SLE = AV x EF = $200,000 x 0.25 = $50,000; ALE = SLE x ARO = $50,000 x 0.5 = $25,000.",
       "why_wrong": [
-        "",
-        "$50,000 is the SLE — the per-incident loss, not annualized",
+        "$12,500 applies the 0.5 ARO twice",
         "$100,000 doubles instead of halving: 'once every two years' means ARO = 0.5, not 2",
-        "$12,500 applies the 0.5 ARO twice"
+        "",
+        "$50,000 is the SLE — the per-incident loss, not annualized"
       ]
     },
     {
@@ -82,17 +82,17 @@
       "topic": "RMF",
       "stem": "A federal system has completed control assessment under the RMF and residual risk remains. Who formally accepts that risk so the system can operate?",
       "options": [
+        "The control assessor, by closing the assessment report findings",
         "The authorizing official, by issuing an authorization to operate",
         "The information system security officer, by signing the plan of action and milestones",
-        "The control assessor, by closing the assessment report findings",
         "The system owner, by documenting acceptance in the system security plan"
       ],
-      "answer": 0,
+      "answer": 1,
       "explanation": "The AO is the senior official who accepts residual risk; the ATO is the documented acceptance.",
       "why_wrong": [
+        "Assessors verify effectiveness — they report risk, they cannot accept it",
         "",
         "The ISSO administers the program; the POA&M tracks remediation, it does not accept risk",
-        "Assessors verify effectiveness — they report risk, they cannot accept it",
         "The system owner maintains the SSP but lacks the authority to accept risk for the organization"
       ]
     },
@@ -101,18 +101,18 @@
       "topic": "Qualitative analysis",
       "stem": "A risk manager collects written impact ratings from experts without attribution, circulates an anonymized summary, and repeats the cycle until the group converges. Which technique is this, and why was it chosen over an open workshop?",
       "options": [
-        "Delphi, to prevent senior participants from anchoring the group's estimates",
-        "Brainstorming, to generate the widest possible range of risk scenarios",
         "FAIR, to decompose the estimates into loss frequency and magnitude",
-        "A risk matrix, to grade likelihood and impact on an ordinal scale"
+        "A risk matrix, to grade likelihood and impact on an ordinal scale",
+        "Delphi, to prevent senior participants from anchoring the group's estimates",
+        "Brainstorming, to generate the widest possible range of risk scenarios"
       ],
-      "answer": 0,
+      "answer": 2,
       "explanation": "Anonymous + written + iterative + consensus = Delphi; anonymity removes rank and anchoring bias.",
       "why_wrong": [
-        "",
-        "Brainstorming is open group discussion — exactly what this process avoids",
         "FAIR is a quantitative model, not an elicitation technique",
-        "A risk matrix is the output format for qualitative ratings, not the consensus process"
+        "A risk matrix is the output format for qualitative ratings, not the consensus process",
+        "",
+        "Brainstorming is open group discussion — exactly what this process avoids"
       ]
     },
     {
@@ -120,18 +120,18 @@
       "topic": "Threat modeling",
       "stem": "During design review of a payment service, the team notes that a clerk could approve a transaction and later deny having done so, because approvals are not individually signed or logged. In STRIDE terms, which threat is this?",
       "options": [
-        "Repudiation, because the actor can deny an action they performed",
         "Tampering, because the approval records lack integrity protection",
+        "Elevation of privilege, because the clerk exercises authority beyond their role",
         "Spoofing, because the approval cannot be tied to an authenticated identity",
-        "Elevation of privilege, because the clerk exercises authority beyond their role"
+        "Repudiation, because the actor can deny an action they performed"
       ],
-      "answer": 0,
+      "answer": 3,
       "explanation": "Denying an action after the fact is repudiation; the missing control is nonrepudiation (signing, attributable logging).",
       "why_wrong": [
-        "",
         "Nothing is being modified — the records are merely insufficient to prove who acted",
+        "Approving transactions is within the clerk's role; no unauthorized rights are gained",
         "The clerk's identity is genuine; the failure is proving the act afterward, not verifying identity at the time",
-        "Approving transactions is within the clerk's role; no unauthorized rights are gained"
+        ""
       ]
     },
     {
@@ -139,18 +139,18 @@
       "topic": "Supply chain",
       "stem": "A critical SaaS vendor declines on-site assessments and will not share internal security procedures. Which evaluation approach best provides assurance?",
       "options": [
+        "Commission a penetration test of the vendor's production environment",
         "Require an independent third-party attestation such as a SOC 2 Type II report",
-        "Conduct a document exchange to review the vendor's artifact-handling records",
         "Accept the risk, since the vendor's refusal leaves no evaluation path",
-        "Commission a penetration test of the vendor's production environment"
+        "Conduct a document exchange to review the vendor's artifact-handling records"
       ],
-      "answer": 0,
+      "answer": 1,
       "explanation": "When you have no access, an independent audit/attestation provides assurance without it.",
       "why_wrong": [
+        "Testing a vendor's production systems without authorization is not an option, and the vendor has declined access",
         "",
-        "The vendor already refused to share internal records — there is nothing to exchange",
         "Premature: an evaluation path (independent attestation) exists, so acceptance is not yet justified",
-        "Testing a vendor's production systems without authorization is not an option, and the vendor has declined access"
+        "The vendor already refused to share internal records — there is nothing to exchange"
       ]
     },
     {
@@ -158,17 +158,17 @@
       "topic": "Controls",
       "stem": "To reduce fraud, a bank requires every employee in the trading unit to take two consecutive weeks of vacation annually while their transaction history is examined. How is this control best classified?",
       "options": [
-        "Administrative and detective",
         "Administrative and preventive",
         "Technical and detective",
+        "Administrative and detective",
         "Administrative and deterrent"
       ],
-      "answer": 0,
+      "answer": 2,
       "explanation": "It is implemented through people/process (administrative) and discovers fraud after occurrence (detective).",
       "why_wrong": [
-        "",
         "The review discovers existing fraud; it does not stop the act from occurring",
         "Nothing here is a hardware/software mechanism — the examination is a human process",
+        "",
         "Deterrence is a side effect; the control's function is discovery, and classification follows function"
       ]
     },
@@ -177,18 +177,18 @@
       "topic": "Legal",
       "stem": "A financial regulator fines a company for violating data-protection rules published in the Code of Federal Regulations. Which category of law is being enforced, and what burden of proof applies?",
       "options": [
-        "Administrative law, with a substantial-evidence standard",
         "Civil law, with a preponderance-of-the-evidence standard",
+        "Contractual obligation, enforced through agreed penalties",
         "Criminal law, with proof beyond a reasonable doubt",
-        "Contractual obligation, enforced through agreed penalties"
+        "Administrative law, with a substantial-evidence standard"
       ],
-      "answer": 0,
+      "answer": 3,
       "explanation": "Agency regulations in the CFR are administrative law; agencies generally need substantial evidence.",
       "why_wrong": [
-        "",
         "Civil law resolves disputes between parties — this is an agency enforcing its own regulation",
+        "The rules come from a regulator, not a merchant agreement — that option describes PCI DSS",
         "No prosecution or prison exposure here; criminal law's standard is the highest, not the agency's",
-        "The rules come from a regulator, not a merchant agreement — that option describes PCI DSS"
+        ""
       ]
     },
     {
@@ -196,18 +196,18 @@
       "topic": "IP",
       "stem": "A company's ranking algorithm is its core competitive advantage. Leadership wants legal protection but refuses any disclosure of how it works, indefinitely. Which protection fits?",
       "options": [
+        "Trademark, because the algorithm is central to the company's brand identity",
         "Trade secret, because protection lasts as long as secrecy is maintained",
         "Patent, because it grants the sole right to make, use, and sell the invention",
-        "Copyright, because the algorithm's implementation is an original work of authorship",
-        "Trademark, because the algorithm is central to the company's brand identity"
+        "Copyright, because the algorithm's implementation is an original work of authorship"
       ],
-      "answer": 0,
+      "answer": 1,
       "explanation": "Trade secrets protect confidential business-critical information indefinitely — but only while it stays secret.",
       "why_wrong": [
+        "Trademarks protect identifying marks (names, logos), not technology",
         "",
         "Patents require public disclosure and expire after roughly 20 years — the opposite of the stated constraints",
-        "Copyright protects the code's expression, not the method itself; a reimplementation would be legal",
-        "Trademarks protect identifying marks (names, logos), not technology"
+        "Copyright protects the code's expression, not the method itself; a reimplementation would be legal"
       ]
     },
     {
@@ -215,18 +215,18 @@
       "topic": "Privacy laws",
       "stem": "A US retailer selling to EU customers suffers a breach of EU residents' personal data on Friday evening. The privacy team debates when regulators must be told. What does GDPR require?",
       "options": [
-        "Notify the supervisory authority within 72 hours of becoming aware of the breach",
+        "Notify at the next scheduled regulatory filing, documenting the breach internally",
         "Notify affected individuals within 60 days, as for protected health information",
         "Nothing, because a US company without EU offices is outside GDPR's reach",
-        "Notify at the next scheduled regulatory filing, documenting the breach internally"
+        "Notify the supervisory authority within 72 hours of becoming aware of the breach"
       ],
-      "answer": 0,
+      "answer": 3,
       "explanation": "GDPR Art. 33 requires notifying the supervisory authority within 72 hours; extraterritorial scope covers foreign companies processing EU residents' data.",
       "why_wrong": [
-        "",
+        "72 hours is a hard deadline — waiting for a routine filing violates it",
         "That is the HIPAA breach-notification timeline for PHI, not GDPR's",
         "GDPR applies extraterritorially to anyone offering goods or services to EU persons",
-        "72 hours is a hard deadline — waiting for a routine filing violates it"
+        ""
       ]
     },
     {
@@ -234,18 +234,18 @@
       "topic": "COBIT",
       "stem": "A board member asks why the directors evaluate and monitor IT objectives while the CIO's team plans and runs them, instead of the board managing IT directly. Which COBIT 2019 principle explains this split?",
       "options": [
-        "Governance is distinct from management",
-        "A governance system should be tailored to the enterprise's needs",
+        "A governance system should provide stakeholder value",
         "A governance system should cover the enterprise end to end",
-        "A governance system should provide stakeholder value"
+        "Governance is distinct from management",
+        "A governance system should be tailored to the enterprise's needs"
       ],
-      "answer": 0,
+      "answer": 2,
       "explanation": "COBIT separates governance (board: evaluate, direct, monitor) from management (plan, build, run).",
       "why_wrong": [
-        "",
-        "Tailoring is about customizing via design factors, not about who does what",
+        "Stakeholder value is the purpose of governance, not the role separation",
         "End-to-end scope says governance covers all functions, not how roles divide",
-        "Stakeholder value is the purpose of governance, not the role separation"
+        "",
+        "Tailoring is about customizing via design factors, not about who does what"
       ]
     },
     {
@@ -253,18 +253,398 @@
       "topic": "Risk types",
       "stem": "A startup's leadership knowingly pursues aggressive risks whose realized losses could exceed what the company could financially survive. Which statement describes this situation?",
       "options": [
-        "Risk appetite exceeds risk capacity",
         "Risk tolerance exceeds risk appetite",
-        "Residual risk exceeds inherent risk",
-        "The controls gap exceeds total risk"
+        "The controls gap exceeds total risk",
+        "Risk appetite exceeds risk capacity",
+        "Residual risk exceeds inherent risk"
       ],
-      "answer": 0,
+      "answer": 2,
       "explanation": "Appetite is the risk the org chooses to bear; capacity is what it can survive — appetite can outrun capacity.",
       "why_wrong": [
-        "",
         "Tolerance concerns absorbing realized losses; the scenario says losses could NOT be absorbed",
-        "Residual (post-control) risk can never exceed inherent (pre-control) risk",
-        "The controls gap is the portion of total risk removed — it cannot exceed the whole"
+        "The controls gap is the portion of total risk removed — it cannot exceed the whole",
+        "",
+        "Residual (post-control) risk can never exceed inherent (pre-control) risk"
+      ]
+    },
+    {
+      "id": "01-q-hmac-nonrepudiation",
+      "topic": "Five pillars",
+      "stem": "A trading partner denies having submitted a batch of transaction instructions. The integration authenticates every message with HMAC over a shared secret, and all MACs on the disputed batch verify correctly. Legal counsel says this evidence will not hold up. Why?",
+      "options": [
+        "The messages were not encrypted, so their contents cannot be introduced as evidence",
+        "HMAC verifies the sender but cannot detect whether messages were altered in transit",
+        "Message authentication requires the submitting operator to have used multifactor authentication",
+        "Verification with a shared key cannot prove to a third party which key holder generated the messages"
+      ],
+      "answer": 3,
+      "explanation": "Both parties hold the symmetric key, so either could have produced valid HMACs — integrity and inter-party authentication exist, but nonrepudiation requires a digital signature with a private key only one party holds.",
+      "why_wrong": [
+        "Confidentiality is irrelevant to admissibility of origin proof; unencrypted records are used as evidence routinely",
+        "Inverted: HMAC does detect alteration (integrity); what it cannot do is prove origin to outsiders",
+        "MFA authenticates a login session; it does not bind individual messages to a sender cryptographically",
+        ""
+      ]
+    },
+    {
+      "id": "01-q-authenticity-hash",
+      "topic": "Five pillars",
+      "stem": "An engineer downloads a firmware image from a third-party mirror and confirms its SHA-256 digest matches the value published on the same mirror. The security team objects that one of the five pillars remains unverified. Which one?",
+      "options": [
+        "Availability, because a compromised mirror could withhold future updates",
+        "Nonrepudiation, because the mirror operator could deny having hosted the file",
+        "Authenticity, because nothing ties the image or the digest to the claimed source",
+        "Integrity, because a matching digest does not rule out modification of the image"
+      ],
+      "answer": 2,
+      "explanation": "A hash and image from the same untrusted location verify integrity relative to each other but say nothing about origin — authenticity needs the vendor's signature or a digest obtained from the vendor directly.",
+      "why_wrong": [
+        "True as a general concern but not the property left unverified by this download procedure",
+        "Nonrepudiation concerns an actor denying an action they took; no such dispute exists here",
+        "",
+        "A matching digest is exactly what integrity verification means; the gap is origin, not modification"
+      ]
+    },
+    {
+      "id": "01-q-ethics-standing",
+      "topic": "ISC2 ethics",
+      "stem": "A security blogger with no ISC2 certification and no business relationship with the parties publishes evidence that a CISSP-certified consultant delivered negligent, incompetent work to a client. The blogger files an ISC2 ethics complaint citing the canon on diligent and competent service. What happens to the complaint?",
+      "options": [
+        "It proceeds, because any member of the public may report violations of the ISC2 Code",
+        "It fails because ethics complaints require the affected client to waive confidentiality first",
+        "It proceeds under a different canon, because incompetent work also harms the profession",
+        "It fails for lack of standing, because only employers or contracting parties may complain under that canon"
+      ],
+      "answer": 3,
+      "explanation": "Canon 3 (service to principals) complaints require standing as an employer or contracting party; the blogger is neither.",
+      "why_wrong": [
+        "Public standing exists only for canons 1 and 2; canon 3 and 4 complaints are restricted",
+        "No such waiver requirement exists; the defect is standing, not confidentiality",
+        "Canon 4 complaints require the complainant to be a certified professional subscribing to an ethics code — the blogger is not",
+        ""
+      ]
+    },
+    {
+      "id": "01-q-policy-purpose",
+      "topic": "Documentation hierarchy",
+      "stem": "A hospital drafts a document requiring encryption and access logging for all systems handling patient records, citing HIPAA obligations, with sanctions for violations. By purpose, what type of policy is this?",
+      "options": [
+        "Informative, because it communicates the organization's compliance posture",
+        "System-specific, because it applies only to systems that handle patient records",
+        "Advisory, because it defines expected behavior and the consequences of violations",
+        "Regulatory, because an external legal requirement drives its existence"
+      ],
+      "answer": 3,
+      "explanation": "A policy required because industry or legal standards apply to the organization is a regulatory policy.",
+      "why_wrong": [
+        "Informative policies are unenforceable background information; this one carries sanctions",
+        "Scope classification, not purpose — and the policy covers a data category across many systems, not one system",
+        "Most policies are advisory, and this one does describe behavior and sanctions — but the defining feature here is the external legal driver",
+        ""
+      ]
+    },
+    {
+      "id": "01-q-policy-scope",
+      "topic": "Documentation hierarchy",
+      "stem": "Under the NIST SP 800-12 policy taxonomy, a document governing acceptable use of generative AI tools across the entire organization, reviewed frequently because the technology changes, is best classified as which policy type?",
+      "options": [
+        "Issue-specific policy, because it addresses one area of current concern and needs regular revision",
+        "System-specific policy, because it constrains the operational rules of particular tools",
+        "Organizational policy, because senior management issued it for the whole enterprise",
+        "Program policy, because it applies to every employee in the organization"
+      ],
+      "answer": 0,
+      "explanation": "SP 800-12 issue-specific policies address a single area of current relevance (a technology or service), and unlike program policy they require frequent review as technology changes.",
+      "why_wrong": [
+        "",
+        "System-specific policy attaches to one system's security objectives and operational rules, not a technology category used org-wide",
+        "Organizational policy is the OSG's name for program policy — same wrong scope, different vocabulary",
+        "Program policy establishes the security program itself — strategic, stable, structural — regardless of how many people a narrower policy touches"
+      ]
+    },
+    {
+      "id": "01-q-planning-budget",
+      "topic": "Security planning",
+      "stem": "A newly hired CISO produces three documents: a five-year security vision endorsed by the board, this fiscal year's staffing and budget plan, and a monthly patching calendar. An auditor asks which document will require the most frequent scheduled maintenance and which is midterm. The correct pairing is:",
+      "options": [
+        "The budget plan is maintained most frequently; the patching calendar is midterm",
+        "The patching calendar is maintained most frequently; the security vision is midterm",
+        "The security vision is maintained most frequently, since it must be refreshed annually",
+        "The patching calendar is maintained most frequently; the budget plan is midterm"
+      ],
+      "answer": 3,
+      "explanation": "Operational plans (patching calendar) are updated monthly or quarterly; tactical plans (budget, staffing) are the ~1-year midterm layer; the strategic vision is long-term with annual refresh.",
+      "why_wrong": [
+        "Reversed: the budget is the tactical one-year plan; the calendar is operational and churns most",
+        "The five-year vision is strategic (long-term); tactical is the midterm layer",
+        "Annual refresh is the least frequent cadence of the three, not the most",
+        ""
+      ]
+    },
+    {
+      "id": "01-q-threat-source",
+      "topic": "Risk categories",
+      "stem": "A data center's cooling system fails over a holiday weekend and several storage arrays shut down from heat. Under the SP 800-30 threat-source taxonomy, this event is classified as:",
+      "options": [
+        "Accidental, because no one intended the outage to occur",
+        "Structural, because an equipment or facility component failed in operation",
+        "Environmental, because temperature caused the equipment damage",
+        "Adversarial, unless sabotage of the cooling system can be ruled out"
+      ],
+      "answer": 1,
+      "explanation": "SP 800-30 classifies failures of equipment, software, or facility systems (like HVAC) as structural threat sources.",
+      "why_wrong": [
+        "Accidental sources are erroneous human actions; no person acted here",
+        "",
+        "The temperature was the mechanism of damage, but environmental sources are external events like natural disasters — the origin here is a failed component",
+        "Classification follows the evidence at hand; absence of certainty about sabotage does not default an equipment failure to adversarial"
+      ]
+    },
+    {
+      "id": "01-q-insurance-accountability",
+      "topic": "Risk responses",
+      "stem": "After transferring breach-related financial risk to a cyber insurance carrier, an organization suffers a covered incident that also violates a privacy regulation. Management argues the regulatory response is now the insurer's concern. This position is wrong because:",
+      "options": [
+        "Cyber insurance policies universally exclude incidents involving regulatory violations",
+        "Insurance is a form of risk mitigation, so the organization retains the full obligation to remediate",
+        "Risk transfer moves financial consequences, while accountability to regulators stays with the organization",
+        "Transferring risk requires regulator approval before the policy takes effect"
+      ],
+      "answer": 2,
+      "explanation": "Assignment/transfer shifts the financial consequence of a realized risk; legal and regulatory accountability cannot be contracted away.",
+      "why_wrong": [
+        "Coverage terms vary; some policies do cover regulatory fines where law permits — the flaw in management's position is accountability, not coverage",
+        "Insurance is transfer/assignment, not mitigation — and the accountability point, not the response label, is what defeats the argument",
+        "",
+        "No such approval mechanism exists; transfer is a private contract"
+      ]
+    },
+    {
+      "id": "01-q-safeguard-value",
+      "topic": "Quantitative analysis",
+      "stem": "A risk carries an ALE of $80,000. A proposed control would reduce the ALE to $15,000 and costs $50,000 per year to operate. What should the cost/benefit analysis conclude?",
+      "options": [
+        "Reject the control, because its annual cost approaches the original ALE",
+        "Deploy the control, because it eliminates $65,000 of annualized loss",
+        "Deploy the control, because it yields a net benefit of $15,000 per year",
+        "Reject the control, because residual ALE of $15,000 remains after spending $50,000"
+      ],
+      "answer": 2,
+      "explanation": "Safeguard value = ALE(before) - ALE(after) - annual cost = 80,000 - 15,000 - 50,000 = +$15,000/yr, so the control is cost-justified.",
+      "why_wrong": [
+        "The comparison is reduction minus cost, not cost versus original ALE",
+        "$65,000 is the gross reduction; ignoring the $50,000 operating cost overstates the case",
+        "",
+        "Residual risk always remains; the decision metric is net value, which is positive"
+      ]
+    },
+    {
+      "id": "01-q-qualitative-when",
+      "topic": "Qualitative analysis",
+      "stem": "A CISO must rank the risk that a pending product recall damages customer trust. No reliable historical data exists for frequency or dollar impact. The MOST defensible approach is:",
+      "options": [
+        "Deferring the risk until enough incident data accumulates to quantify it",
+        "Assigning the asset value of the affected product line as the expected loss",
+        "Scenario-based ranking by a panel of stakeholders, graded on likelihood and impact scales",
+        "Deriving SLE and ARO from industry averages so the risk register stays quantitative"
+      ],
+      "answer": 2,
+      "explanation": "Qualitative analysis is the correct choice — not a fallback — when reliable numbers do not exist, such as reputational impact.",
+      "why_wrong": [
+        "Risks cannot be deferred out of the register; unranked risk is unmanaged risk",
+        "Asset value is an input to loss magnitude, not an estimate of a reputation-driven loss",
+        "",
+        "Industry averages for a company-specific reputational event produce false precision — numbers without validity"
+      ]
+    },
+    {
+      "id": "01-q-delayed-loss",
+      "topic": "Quantitative analysis",
+      "stem": "Estimating breach impact for a customer database, an analyst sums forensic response, system rebuild, and notification costs. The risk manager says the estimate materially understates the loss. What is missing?",
+      "options": [
+        "The exposure factor, since only a percentage of the database's value would be lost",
+        "The controls gap, which must be added back into any post-incident loss estimate",
+        "Annualization, since single-incident figures cannot be compared to yearly budgets",
+        "Secondary losses that surface after the incident, such as customer churn and later regulatory fines"
+      ],
+      "answer": 3,
+      "explanation": "Delayed loss — reputation damage, churn, fines arriving months later — often exceeds the direct incident costs and belongs in the impact estimate.",
+      "why_wrong": [
+        "EF shapes how much value is lost per incident but does not identify a missing cost category",
+        "The controls gap measures risk removed by safeguards; it is not a component of loss",
+        "Annualizing (ALE) serves comparison over time; the flaw named is scope of the loss, not its timeframe",
+        ""
+      ]
+    },
+    {
+      "id": "01-q-nist-doc-match",
+      "topic": "RMF",
+      "stem": "A security team needs authoritative guidance for the assessment activity itself: identifying threat sources, vulnerabilities, likelihood, and impact for an information system. Which publication should they follow?",
+      "options": [
+        "NIST SP 800-53A, which provides procedures for assessing implemented controls",
+        "NIST SP 800-37, which defines the assessment step within the system life cycle",
+        "NIST SP 800-30, the guide for conducting risk assessments",
+        "NIST SP 800-39, which establishes how organizations frame and assess risk enterprise-wide"
+      ],
+      "answer": 2,
+      "explanation": "SP 800-30 is the Guide for Conducting Risk Assessments — threat sources, vulnerabilities, likelihood, impact.",
+      "why_wrong": [
+        "800-53A assesses whether implemented controls work — control assessment, not risk assessment",
+        "800-37 is the RMF process wrapper; it tells you an assessment happens, not how to perform one",
+        "",
+        "800-39 sets enterprise risk management strategy and governance context, not assessment procedure"
+      ]
+    },
+    {
+      "id": "01-q-pasta-vs-stride",
+      "topic": "Threat modeling",
+      "stem": "A bank wants its threat modeling effort to start from business objectives, simulate realistic attacks against the design, and end with a management decision on residual risk. Which methodology matches this requirement?",
+      "options": [
+        "Trike, which validates that per-asset risk is acceptable to stakeholders",
+        "STRIDE, which ensures every threat class is systematically enumerated",
+        "PASTA, a staged process that aligns attacker simulation with business impact",
+        "DREAD, which scores each identified threat for prioritized treatment"
+      ],
+      "answer": 2,
+      "explanation": "PASTA's seven stages run from business objective definition through attack simulation to risk analysis and management — the full lifecycle described.",
+      "why_wrong": [
+        "Trike's requirements model is stakeholder-acceptance driven but lacks the attack-simulation emphasis the scenario names",
+        "STRIDE categorizes threats at design time but has no business-objective stage and no risk-decision endpoint",
+        "",
+        "DREAD rates threats already found; it is a scoring scheme, not a process"
+      ]
+    },
+    {
+      "id": "01-q-trust-boundary",
+      "topic": "Threat modeling",
+      "stem": "During reduction analysis of a payment application, an architect marks the interface where requests pass from the customer-facing web tier into the transaction service that runs with elevated database rights. What has the architect identified?",
+      "options": [
+        "A trust boundary where the privilege and trust level of execution changes",
+        "A dataflow path showing how transaction data moves between components",
+        "A privileged operation that must be logged for accountability",
+        "An input point where external data enters the application"
+      ],
+      "answer": 0,
+      "explanation": "A crossing between components of different trust and privilege levels is a trust boundary — the decomposition artifact that anchors later threat categorization.",
+      "why_wrong": [
+        "",
+        "The data does flow here, but the security-relevant feature named is the change in trust level, not the movement",
+        "The elevated-rights service performs privileged operations, but the identified location is the crossing into it",
+        "Input points are where external data first enters; this interface is internal, between tiers"
+      ]
+    },
+    {
+      "id": "01-q-deterrent-preventive",
+      "topic": "Control types",
+      "stem": "After repeated tailgating into a server room, the security team must choose between prominent camera signage with prosecution warnings and an access control vestibule. The argument that decides in favor of the vestibule is that it:",
+      "options": [
+        "Discourages casual violators more strongly than signage can",
+        "Functions regardless of whether an intruder cares about consequences",
+        "Provides recorded evidence usable in later disciplinary proceedings",
+        "Detects each unauthorized entry attempt as it occurs"
+      ],
+      "answer": 1,
+      "explanation": "Preventive controls stop the act without the violator's cooperation; deterrents work only on the violator's decision-making, which tailgaters have already shown they ignore.",
+      "why_wrong": [
+        "Discouragement is the deterrent mechanism — the very approach being argued against",
+        "",
+        "Evidence collection describes the cameras (detective value), not the vestibule's advantage",
+        "A vestibule blocks entry rather than detecting it; detection is a different type"
+      ]
+    },
+    {
+      "id": "01-q-compensating",
+      "topic": "Control types",
+      "stem": "A manufacturing line depends on a control system whose vendor no longer issues patches, and downtime for replacement is unacceptable this fiscal year. The security team isolates it on a dedicated segment with strict allow-listing and enhanced monitoring. These measures are best described as:",
+      "options": [
+        "Directive controls, confining the system's communications to approved paths",
+        "Corrective controls, restoring the environment to a secure state after the vendor's lapse",
+        "Recovery controls, sustaining the production capability the unpatched system threatens",
+        "Compensating controls, providing alternative protection where the primary control is infeasible"
+      ],
+      "answer": 3,
+      "explanation": "When the primary control (patching) cannot be applied, equivalent alternative measures supporting the same policy objective are compensating controls.",
+      "why_wrong": [
+        "Directive controls direct the behavior of people toward compliance; segmentation acts on the system, not on subjects' choices",
+        "Nothing occurred to correct; the measures address an ongoing inability to apply the primary control",
+        "Recovery restores capability after damage; production has not been disrupted",
+        ""
+      ]
+    },
+    {
+      "id": "01-q-proof-standards",
+      "topic": "Legal",
+      "stem": "A company's former administrator is acquitted in a criminal trial over destroyed servers, yet six months later the company wins a lawsuit against the same person over the same incident. The outcome differs because:",
+      "options": [
+        "The civil court was not bound by the criminal court's factual findings",
+        "The company only needed to show the administrator owed it a duty of care",
+        "Civil discovery produced new evidence unavailable to the prosecution",
+        "The civil case required only that the claim be more likely true than not"
+      ],
+      "answer": 3,
+      "explanation": "Criminal conviction requires proof beyond a reasonable doubt; civil liability requires only a preponderance of the evidence — the same facts can fail the first standard and satisfy the second.",
+      "why_wrong": [
+        "True in general, but it explains the possibility of retrial, not why identical evidence produces opposite outcomes",
+        "Duty of care is one element of negligence, not the reason acquittal and liability coexist",
+        "Plausible in some cases, but nothing in the scenario says new evidence appeared — the standards alone explain it",
+        ""
+      ]
+    },
+    {
+      "id": "01-q-due-care-diligence",
+      "topic": "Due care / due diligence",
+      "stem": "For three years, a company's security team has produced quarterly control-effectiveness reports, and for three years the executive committee has filed them without acting on the flagged deficiencies. In due care / due diligence terms, the organization has:",
+      "options": [
+        "Exercised due care but failed in due diligence",
+        "Satisfied both, since the prudent person standard requires monitoring, not perfection",
+        "Exercised due diligence but failed in due care",
+        "Failed both, since unremediated findings show the monitoring was ineffective"
+      ],
+      "answer": 2,
+      "explanation": "The verification activity (due diligence) happened — the reports exist. Acting reasonably on known deficiencies is due care, and that is what the executives failed to do.",
+      "why_wrong": [
+        "Reversed: the ongoing checking existed; the prudent response to its findings did not",
+        "The prudent person standard demands acting on known risks, not merely observing them",
+        "",
+        "The monitoring worked — it found the problems; effectiveness of response is a due care question"
+      ]
+    },
+    {
+      "id": "01-q-export-regime",
+      "topic": "Export controls",
+      "stem": "A U.S. vendor plans to ship VPN appliances with strong encryption to distributors in several countries. Compliance asks which regime governs the licensing decision. The correct answer is:",
+      "options": [
+        "No regime, because commercial encryption was decontrolled after the 1990s crypto wars",
+        "The Wassenaar Arrangement, whose member states must enforce its export prohibitions",
+        "ITAR administered by the State Department, because strong encryption is a controlled munition",
+        "The EAR administered by the Commerce Department, because encryption appliances are dual-use items"
+      ],
+      "answer": 3,
+      "explanation": "Commercial encryption products are dual-use items under the Export Administration Regulations, administered by Commerce/BIS.",
+      "why_wrong": [
+        "Licensing was liberalized, not eliminated — destination and end-user restrictions still apply",
+        "Wassenaar coordinates member policies but is voluntary; it binds no licensing decision",
+        "Historically crypto sat on the Munitions List, but commercial encryption moved to the EAR — the ITAR answer is decades out of date",
+        ""
+      ]
+    },
+    {
+      "id": "01-q-hitech-ba",
+      "topic": "Privacy laws",
+      "stem": "A claims-processing vendor handling PHI for several insurers argues that HIPAA compliance is its clients' problem, and that its only obligations are whatever the business associate agreements say. Since 2009, this position is wrong because:",
+      "options": [
+        "State breach notification laws preempt the business associate agreement's terms",
+        "The HITECH Act made business associates directly liable under the Security Rule, including for breach notification to the covered entity",
+        "HHS guidance requires covered entities to indemnify their business associates",
+        "The Privacy Rule reclassified claims processors as covered entities in their own right"
+      ],
+      "answer": 1,
+      "explanation": "HITECH Section 13401 applies the Security Rule's safeguards to business associates directly, with civil and criminal liability, plus the duty to notify the covered entity of breaches.",
+      "why_wrong": [
+        "State laws add obligations but do not create the federal direct liability that defeats the vendor's argument",
+        "",
+        "Indemnification is a private contract matter; no such HHS requirement exists",
+        "Claims processors remain business associates; HITECH changed their liability, not their classification"
       ]
     }
   ]
