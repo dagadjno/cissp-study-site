@@ -17,9 +17,9 @@
       "title": "Asset Security",
       "notes": "domains/02-asset-security.md",
       "flashcards": "flashcards/02.json",
-      "quiz": null,
-      "cards": 29,
-      "questions": 0
+      "quiz": "quizzes/02.json",
+      "cards": 57,
+      "questions": 31
     },
     {
       "id": "03",

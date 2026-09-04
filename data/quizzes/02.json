@@ -1,0 +1,594 @@
+{
+  "domain": 2,
+  "questions": [
+    {
+      "id": "02-q-states-in-use",
+      "topic": "Data states",
+      "stem": "A database holding customer records uses full-disk encryption on the storage array and TLS for all client connections. An auditor notes that one state of the data remains unprotected by these two controls. Which state, and why?",
+      "options": [
+        "Data at rest, because full-disk encryption protects the volume but not individual database files",
+        "Data in transit, because TLS terminates at the load balancer rather than at the database",
+        "Data in use, because records must be decrypted into memory for the database engine to process them",
+        "All three states are covered; the auditor's finding is unfounded"
+      ],
+      "answer": 2,
+      "explanation": "Full-disk encryption covers at rest and TLS covers in transit. Data in use must be decrypted into memory to be processed, which neither control addresses - it is the hardest state to protect.",
+      "why_wrong": [
+        "Full-disk encryption is precisely the at-rest control here; the finding is not about which at-rest mechanism was chosen",
+        "TLS termination points are a real architectural concern, but nothing in the scenario says it terminates early",
+        "",
+        "Two controls cover two states; the third is left uncovered by both"
+      ]
+    },
+    {
+      "id": "02-q-tls-scope",
+      "topic": "Data states",
+      "stem": "A team argues that because all traffic to their SaaS application is TLS-encrypted, customer data is protected throughout its lifecycle. What is the flaw in this claim?",
+      "options": [
+        "TLS protects data in transit only - it does nothing for data once stored or being processed at either endpoint",
+        "TLS protects data at rest but not in transit unless perfect forward secrecy is enabled",
+        "TLS is valid protection only when the certificate is issued by an internal certificate authority",
+        "TLS cannot protect data in transit unless mutual authentication is configured"
+      ],
+      "answer": 0,
+      "explanation": "TLS is the canonical in-transit control and addresses exactly one of the three data states; at rest and in use remain the responsibility of other controls.",
+      "why_wrong": [
+        "",
+        "Inverted - TLS is an in-transit control, and forward secrecy concerns key compromise over time, not which state is covered",
+        "Certificate authority choice affects trust in the endpoint, not which data state the protocol protects",
+        "Mutual TLS strengthens authentication, but one-way TLS still protects data in transit; the gap is the other two states"
+      ]
+    },
+    {
+      "id": "02-q-tailoring-scope",
+      "topic": "Scoping and tailoring",
+      "stem": "A security architect starts from the NIST SP 800-53B moderate baseline, removes controls addressing wireless because the facility has none, assigns organization-defined values to password parameters, and substitutes an alternative where a required control is technically infeasible. How are these activities best characterized?",
+      "options": [
+        "Scoping, which encompasses parameter assignment and control substitution",
+        "Baselining, since the end product is a new baseline for the organization",
+        "Supplementing, since the control set was adjusted to fit the environment",
+        "Tailoring, of which removing inapplicable controls is one action among several"
+      ],
+      "answer": 3,
+      "explanation": "Tailoring is the umbrella process; scoping considerations, compensating control selection, and parameter assignment are all tailoring actions within it.",
+      "why_wrong": [
+        "Scoping is only the removal of non-applicable controls - it does not cover assigning parameters or selecting compensating controls",
+        "The baseline was the input, not the output; a tailored control set is not itself called a baseline",
+        "Supplementing specifically means adding controls beyond the baseline, which is only part of what happened",
+        ""
+      ]
+    },
+    {
+      "id": "02-q-drm-persist",
+      "topic": "Data protection methods",
+      "stem": "A media company shares pre-release video files with external post-production partners. The requirement is that files remain viewing-restricted and non-copyable after partners download them onto their own infrastructure. Which control meets it?",
+      "options": [
+        "Endpoint DLP deployed on partner workstations under contractual obligation",
+        "DRM, because the encryption-based usage restrictions travel with the file itself",
+        "A CASB in reverse-proxy mode brokering all partner access to the file share",
+        "Network DLP inspecting egress at the company's perimeter"
+      ],
+      "answer": 1,
+      "explanation": "DRM binds usage restrictions to the object through encryption, so protection persists after the file leaves the organization's control - the one requirement the other options cannot meet.",
+      "why_wrong": [
+        "Deploying DLP on a partner's estate requires controlling it, and even then enforcement sits at their boundary rather than in the file",
+        "",
+        "A CASB governs access to cloud services; once a file is downloaded to partner infrastructure it is outside the broker's path",
+        "Perimeter DLP can stop a file leaving, but the requirement is that it does leave and stays protected afterward"
+      ]
+    },
+    {
+      "id": "02-q-casb-shadow-it",
+      "topic": "Data protection methods",
+      "stem": "A CISO discovers that several departments independently signed up for cloud storage services, with no central record of which services hold company data. Which technology most directly addresses discovering and governing this?",
+      "options": [
+        "A CASB, whose visibility pillar surfaces cloud applications in use, including unsanctioned ones",
+        "DRM applied to all documents before they are uploaded to any cloud service",
+        "A configuration management database recording all approved software",
+        "Endpoint DLP configured to block uploads to non-approved domains"
+      ],
+      "answer": 0,
+      "explanation": "Shadow-IT discovery is the CASB visibility pillar; the CASB then applies compliance, data security, and threat protection policy to those services.",
+      "why_wrong": [
+        "",
+        "DRM protects individual files but reveals nothing about which services exist or are in use",
+        "A CMDB records what was approved and registered - it is blind to services nobody declared, which is the problem",
+        "Blocking uploads treats a symptom without discovering or governing services already in use"
+      ]
+    },
+    {
+      "id": "02-q-standards-selection",
+      "topic": "Standards selection",
+      "stem": "A healthcare startup processes patient records and also takes card payments through its portal. Which framework determines the security requirements for the cardholder data specifically?",
+      "options": [
+        "HIPAA, because the organization is a covered entity and its obligations apply across all its data",
+        "ISO 27001, because certification demonstrates control over all data types",
+        "NIST SP 800-53, because it provides the most comprehensive control catalog",
+        "PCI DSS, because the requirement follows the data type regardless of the organization's sector"
+      ],
+      "answer": 3,
+      "explanation": "Standards selection follows the data type, jurisdiction, and contract. Cardholder data brings PCI DSS obligations even though the same organization is a HIPAA covered entity for its PHI.",
+      "why_wrong": [
+        "HIPAA governs the PHI; being a covered entity does not extend HIPAA over payment card data",
+        "ISO 27001 certifies a management system rather than supplying the card-brand requirements attached to cardholder data",
+        "SP 800-53 is a federal control catalog, and nothing indicates a federal system here",
+        ""
+      ]
+    },
+    {
+      "id": "02-q-degauss-ssd",
+      "topic": "Data destruction",
+      "stem": "A batch of decommissioned SSDs held Confidential data and will be sold to a recycler. A technician proposes running them through the same degausser used for retired hard drives. Why is this inadequate?",
+      "options": [
+        "Degaussing is adequate for the media, but the drives must additionally be verified afterward",
+        "Flash storage holds no magnetic domains, so a degausser does not sanitize it",
+        "Degaussing is appropriate only when media remains under organizational control",
+        "The degausser's coercivity rating would need to be doubled for solid-state media"
+      ],
+      "answer": 1,
+      "explanation": "Degaussing works by disrupting magnetic domains. Flash memory has none, so NIST guidance is that degaussing must never be relied on alone for flash-based storage.",
+      "why_wrong": [
+        "Verification is a genuine requirement for most techniques, but it cannot rescue a method that does nothing to the media",
+        "",
+        "Purge-level techniques are exactly what is called for when media leaves organizational control; the flaw is incompatibility with flash",
+        "Coercivity matching applies to magnetic media; flash has no coercivity figure to match"
+      ]
+    },
+    {
+      "id": "02-q-clear-purge-reuse",
+      "topic": "Data destruction",
+      "stem": "Laptops used inside a single accredited facility are being reassigned to other staff in that same facility. Classification is unchanged and the devices never leave organizational control. Per NIST SP 800-88, what is the appropriate minimum sanitization category?",
+      "options": [
+        "Destroy, because the drives previously held classified data",
+        "Purge, because reassignment constitutes a change of custody",
+        "Clear, because the media stays under organizational control in the same environment",
+        "No sanitization is required, since environment and classification are unchanged"
+      ],
+      "answer": 2,
+      "explanation": "Clear is the minimum category for media being reused within the same secured environment under continued organizational control; Purge and Destroy escalate for media leaving that control.",
+      "why_wrong": [
+        "Destroying reusable equipment that is being kept in service is disproportionate to the disposition described",
+        "Purge is warranted when media leaves organizational control or goes to an uncleared recipient - neither applies inside the same accredited facility",
+        "",
+        "Reassignment to a different user still requires sanitization; the next user should not inherit the previous user's data"
+      ]
+    },
+    {
+      "id": "02-q-crypto-erase-precondition",
+      "topic": "Data destruction",
+      "stem": "An administrator proposes cryptographic erase to sanitize a set of drives quickly before disposal. Which fact would make this method invalid for these drives?",
+      "options": [
+        "The drives stored data in plaintext, with no encryption applied as it was written",
+        "The drives are solid-state rather than magnetic",
+        "The drives will leave organizational control after disposal",
+        "The organization cannot verify sanitization for every technique it uses"
+      ],
+      "answer": 0,
+      "explanation": "Cryptographic erase sanitizes the key rather than the storage locations, leaving ciphertext behind. With no encryption applied in the first place, there is no key whose destruction renders anything unreadable.",
+      "why_wrong": [
+        "",
+        "Cryptographic erase is well suited to self-encrypting solid-state media; media type is not the disqualifier",
+        "Media leaving organizational control calls for a Purge-level technique, and cryptographic erase can serve as one",
+        "Verification requirements apply broadly and do not single out this method as invalid"
+      ]
+    },
+    {
+      "id": "02-q-failed-drive",
+      "topic": "Data destruction",
+      "stem": "A drive holding Private data has failed and no longer responds to read or write commands. It is under warranty and the vendor requests its return. What should the organization do?",
+      "options": [
+        "Return the drive, relying on the warranty contract's confidentiality clause",
+        "Perform a Clear operation by overwriting all user-addressable locations before returning it",
+        "Degauss the drive and then return it to the vendor for credit",
+        "Destroy the drive and forgo the warranty return, since overwrite-based sanitization is impossible on unresponsive media"
+      ],
+      "answer": 3,
+      "explanation": "Clear and most Purge techniques require the ability to write to the media. On a drive that accepts no commands, physical destruction is the only assured sanitization - the warranty value does not outweigh releasing readable data.",
+      "why_wrong": [
+        "A contract clause is not a sanitization control; the data would leave organizational control intact",
+        "Clear depends on being able to write to the media, which an unresponsive drive cannot accept",
+        "Degaussing would sanitize magnetic media but renders the drive permanently unusable, defeating the warranty return anyway",
+        ""
+      ]
+    },
+    {
+      "id": "02-q-confidential-collision",
+      "topic": "Data classification",
+      "stem": "A defense contractor's internal wiki labels a business document \"Confidential.\" An engineer holding a Secret clearance assumes the document sits below their clearance and forwards it to a cleared colleague on an unrelated program. What is wrong with that reasoning?",
+      "options": [
+        "Confidential is the highest government classification, so the document required special handling",
+        "The label may be the commercial level, which is that scheme's highest - the scheme in use must be established before inferring sensitivity",
+        "Clearance level alone governs access, so sharing with any cleared colleague was appropriate",
+        "Documents labeled Confidential are always unclassified in the government scheme"
+      ],
+      "answer": 1,
+      "explanation": "Confidential is the lowest classified tier in the government scheme but the highest tier in the commercial scheme. Without knowing which scheme applies, sensitivity cannot be inferred - and need-to-know still applies regardless.",
+      "why_wrong": [
+        "Top Secret is the highest government level; Confidential is the lowest classified tier there",
+        "",
+        "Clearance is necessary but not sufficient - need-to-know is a separate gate, and an unrelated program is exactly where it applies",
+        "Confidential in the government scheme is classified, not unclassified"
+      ]
+    },
+    {
+      "id": "02-q-private-vs-sensitive",
+      "topic": "Data classification",
+      "stem": "Using the four commercial classification levels, an analyst must classify a spreadsheet of employee home addresses and emergency contacts. Which level fits, and on what basis?",
+      "options": [
+        "Sensitive, because the data is internal and disclosure would have a modest negative impact",
+        "Public, because home addresses are often obtainable from other sources",
+        "Private, because the data concerns individuals rather than organizational operations",
+        "Confidential, because all employee data is proprietary to the organization"
+      ],
+      "answer": 2,
+      "explanation": "The commercial discriminator between Private and Sensitive is what the data is about: Private covers personal and personnel data, Sensitive covers organizational data.",
+      "why_wrong": [
+        "Sensitive covers organizationally related data; personnel records fall on the other side of that discriminator",
+        "Availability elsewhere does not reclassify records the organization holds about its own staff",
+        "",
+        "Confidential/Proprietary is reserved for trade-secret-grade business information whose loss damages competitive position"
+      ]
+    },
+    {
+      "id": "02-q-who-classifies",
+      "topic": "Data classification",
+      "stem": "During an audit, the security operations team is asked who determines the classification level of a new customer analytics dataset. The best answer is:",
+      "options": [
+        "The data owner, a senior business role accountable for the data",
+        "The data custodian, since they administer the systems where it is stored",
+        "The security team, since classification determines which controls they must apply",
+        "The system owner, based on the FIPS 199 impact level of the hosting system"
+      ],
+      "answer": 0,
+      "explanation": "Classification is the data owner's decision - a senior business role carrying accountability. Custodians implement and apply labels but do not choose the level.",
+      "why_wrong": [
+        "",
+        "The custodian implements protection and applies labels; the decision is not theirs",
+        "Security advises and enforces, but the accountable decision belongs to the business owner of the data",
+        "FIPS 199 categorizes a system's impact level, a different axis that does not set the data's classification"
+      ]
+    },
+    {
+      "id": "02-q-phi-scope",
+      "topic": "Sensitive data",
+      "stem": "A consumer fitness app company stores users' heart rate, weight, and sleep history. It has no relationship with any health plan, provider, or clearinghouse. Is this data PHI under HIPAA?",
+      "options": [
+        "Yes, because heart rate and weight are health information about identifiable individuals",
+        "Yes, because the company acts as a business associate to its users",
+        "No, because HIPAA applies only to data that includes a medical record number",
+        "No, because HIPAA reaches health data held by covered entities and their business associates, and this company is neither"
+      ],
+      "answer": 3,
+      "explanation": "PHI is individually identifiable health information held by a covered entity or business associate. The relationship, not the content, is the gate - the same data inside a hospital would be PHI.",
+      "why_wrong": [
+        "It is health information, but HIPAA's definition attaches to who holds it",
+        "A business associate acts on behalf of a covered entity; individual users are not covered entities",
+        "No particular identifier is required - the limiting factor is the holder's status, not the field list",
+        ""
+      ]
+    },
+    {
+      "id": "02-q-linkable-pii",
+      "topic": "Sensitive data",
+      "stem": "A product team argues a dataset of device identifiers and coarse location traces contains no PII because it holds no names, emails, or account numbers. Under NIST SP 800-122, why is that reasoning unsound?",
+      "options": [
+        "Device identifiers are enumerated as direct identifiers, making the dataset PII on its face",
+        "Information that is linked or linkable to an individual is PII, and other available sources may make these records attributable",
+        "Any dataset an organization holds is PII until it is formally anonymized and documented",
+        "PII status depends on the dataset's classification level, which has not yet been assigned"
+      ],
+      "answer": 1,
+      "explanation": "PII covers both information that distinguishes or traces identity and any other information linked or linkable to an individual - including data made attributable through separately held or publicly obtainable sources.",
+      "why_wrong": [
+        "Device identifiers are not in the distinguish-or-trace list the way a name or SSN is; linkability is why they matter here",
+        "",
+        "Far too broad - a great deal of organizational data has no relationship to individuals at all",
+        "Classification is a label the organization applies; it does not determine whether data meets the definition of PII"
+      ]
+    },
+    {
+      "id": "02-q-anonymization-irreversible",
+      "topic": "Sensitive data",
+      "stem": "A research partner must receive a dataset with a contractual guarantee that individuals can never be re-identified by anyone. Which technique satisfies that requirement?",
+      "options": [
+        "Pseudonymization, replacing direct identifiers with consistent pseudonyms",
+        "Tokenization, with the token vault retained by the originating organization",
+        "Anonymization, removing the PII so that no path back to individuals remains",
+        "Encryption of the identifying columns, with keys held only by the data owner"
+      ],
+      "answer": 2,
+      "explanation": "Anonymization removes PII outright and is one-way. Pseudonymization, tokenization, and encryption all preserve a path back to the individuals, so none can support a never-re-identifiable guarantee.",
+      "why_wrong": [
+        "Pseudonyms are reversible by design - the mapping still exists, so re-identification remains possible",
+        "Tokenization is reversible through the vault; retaining it preserves exactly the path the requirement forbids",
+        "",
+        "Encryption is reversible by anyone holding the key, so the guarantee would rest on key custody rather than on the data"
+      ]
+    },
+    {
+      "id": "02-q-owner-accountability",
+      "topic": "Data ownership",
+      "stem": "After a breach exposes an unencrypted archive, an executive states that responsibility lies entirely with IT, since the data owner had delegated all storage and protection duties to them. How should this be assessed?",
+      "options": [
+        "The delegation transferred execution, but accountability for protecting the data remained with the owner",
+        "Correct, since the custodian's role is defined as protecting and storing the data",
+        "Correct, provided the delegation was documented in a formal agreement",
+        "Incorrect, because data owners cannot delegate implementation tasks to custodians at all"
+      ],
+      "answer": 0,
+      "explanation": "Owners delegate execution to custodians; accountability does not move with the task. The owner remains answerable for protection of the data.",
+      "why_wrong": [
+        "",
+        "Custodians do perform protection and storage, but performing a task is not the same as bearing accountability for it",
+        "Documentation clarifies the delegation; it does not relocate liability",
+        "Delegating implementation to a custodian is the normal and correct model - the error is where responsibility is claimed to land"
+      ]
+    },
+    {
+      "id": "02-q-owner-negligence",
+      "topic": "Data ownership",
+      "stem": "A data owner never reviewed access lists, ignored two years of audit findings about excessive permissions, and approved no remediation. A breach follows. Which principle most directly establishes the owner's personal exposure?",
+      "options": [
+        "Separation of duties, because the owner both approved and audited access",
+        "Least privilege, because permissions exceeded what the roles required",
+        "Defense in depth, because a single control failure led to compromise",
+        "Due care - the owner may be liable for negligence in failing to act on what due diligence surfaced"
+      ],
+      "answer": 3,
+      "explanation": "The audits supplied the knowledge (due diligence); failing to act reasonably on known deficiencies is the due care failure, and it is what exposes the owner to a negligence claim.",
+      "why_wrong": [
+        "Nothing indicates the owner performed the audits, so no conflicting-duties problem is described",
+        "Excessive permissions describe the technical condition, not what establishes the owner's personal exposure",
+        "Layering is a design principle and does not speak to an individual's accountability for ignoring findings",
+        ""
+      ]
+    },
+    {
+      "id": "02-q-controller-processor",
+      "topic": "Data ownership",
+      "stem": "A retailer contracts a marketing platform to run email campaigns using the retailer's customer list. The retailer specifies who is targeted and why; the platform stores the list and sends the messages. Under GDPR, how are the parties classified?",
+      "options": [
+        "Both are joint controllers, since both handle the personal data operationally",
+        "The retailer is the controller and the platform is the processor",
+        "The platform is the controller, since it holds and processes the data day to day",
+        "The platform is a controller for storage and a processor for sending"
+      ],
+      "answer": 1,
+      "explanation": "The controller determines the purposes and means of processing. The retailer decides who is targeted and why; the platform executes on those instructions, making it the processor.",
+      "why_wrong": [
+        "Joint control requires jointly determining purposes and means; here the retailer alone sets them",
+        "",
+        "Possession and hands-on processing do not confer controller status - determining purposes and means does",
+        "Splitting the role by activity misreads the test; the platform acts on the retailer's instructions throughout"
+      ]
+    },
+    {
+      "id": "02-q-handling-medium",
+      "topic": "Handling requirements",
+      "stem": "An employee copies a Confidential design document onto a USB drive to work from home, reasoning that the organization's removable media policy permits USB use for internal files. Which principle does this violate?",
+      "options": [
+        "Data minimization, since a full copy exceeded what was needed",
+        "Least privilege, since the employee's access should not extend to removable media",
+        "Handling requirements follow the data's classification, not the medium's general policy",
+        "Separation of duties, since one person both accessed and transported the data"
+      ],
+      "answer": 2,
+      "explanation": "Handling requirements attach to the classification of the data. Confidential data carries Confidential handling onto whatever medium it touches, regardless of what a general media policy permits.",
+      "why_wrong": [
+        "Minimization concerns how much data is collected or retained, not whether a permitted medium may carry a given classification",
+        "The employee legitimately had access to the document; the issue is the classification travelling onto the medium",
+        "",
+        "No conflicting duties are described - one person handling their own work product is not a duties problem"
+      ]
+    },
+    {
+      "id": "02-q-copy-inherits",
+      "topic": "Handling requirements",
+      "stem": "A team exports rows from a Confidential customer database into a spreadsheet for analysis and saves it to a departmental share with no classification marking. How should the spreadsheet be treated?",
+      "options": [
+        "As Confidential - a copy or extract inherits the classification of its source",
+        "As Sensitive, since aggregation into a spreadsheet reduces the granularity of the original",
+        "As unclassified until the data owner formally classifies the new artifact",
+        "According to the departmental share's classification, since storage location determines handling"
+      ],
+      "answer": 0,
+      "explanation": "Classification travels with the data. An extract or copy carries the source's classification whether or not anyone remembered to mark it.",
+      "why_wrong": [
+        "",
+        "Extracting rows does not reduce sensitivity, and nothing here aggregates or de-identifies anything",
+        "A missing marking does not create an unclassified artifact - treating unlabeled derivatives as unclassified is a common cause of leaks",
+        "The storage location does not set the data's classification; the classification constrains where it may be stored"
+      ]
+    },
+    {
+      "id": "02-q-inventory-gap",
+      "topic": "Asset inventory",
+      "stem": "A vulnerability management program reports 100% patch compliance, yet an incident originates from an unpatched server nobody in IT knew existed. Which failure best explains this?",
+      "options": [
+        "The patch management tool's scan schedule was too infrequent",
+        "The vulnerability scanner lacked credentials for authenticated scanning",
+        "The control baseline omitted a patching control",
+        "The asset inventory was incomplete, so compliance was measured against a population that excluded the server"
+      ],
+      "answer": 3,
+      "explanation": "Metrics are computed over the known population. An incomplete inventory produces confident compliance numbers that simply do not cover assets nobody recorded.",
+      "why_wrong": [
+        "Scan frequency affects how current results are, not whether an unknown host appears in them at all",
+        "Credentialed scanning improves depth on hosts already being scanned; it does not discover hosts missing from the inventory",
+        "A patching control clearly existed - the metric it produced was computed over an incomplete population",
+        ""
+      ]
+    },
+    {
+      "id": "02-q-intangible-assets",
+      "topic": "Asset inventory",
+      "stem": "An asset management program tracks servers, laptops, and network devices, with an owner assigned to each. An auditor finds the program incomplete. Which omission is the auditor most likely citing?",
+      "options": [
+        "Physical security controls protecting the tracked devices",
+        "Intangible assets such as software licenses, intellectual property, and cloud instances",
+        "Purchase cost and depreciation schedules for each tracked device",
+        "Network diagrams showing how the tracked devices interconnect"
+      ],
+      "answer": 1,
+      "explanation": "Asset management covers both tangible and intangible assets. A hardware-only inventory misses licenses, IP, data, and cloud resources that equally require ownership and protection.",
+      "why_wrong": [
+        "Protecting the assets is a separate control domain from what the inventory covers",
+        "",
+        "Financial attributes support asset valuation but are not what makes a security asset inventory complete",
+        "Topology documentation is useful but is not the scope of an asset inventory"
+      ]
+    },
+    {
+      "id": "02-q-legal-hold-purge",
+      "topic": "Data retention",
+      "stem": "A company's retention policy purges email after 180 days. Litigation is filed and counsel issues a hold covering six employees' mailboxes. The mail administrator asks whether the automated purge should continue for those mailboxes. The correct answer is:",
+      "options": [
+        "Yes, because a consistently applied retention policy is itself a defense against spoliation claims",
+        "Yes, provided the purge is documented as routine and not targeted at the litigation",
+        "No - the legal hold suspends the retention schedule for data within its scope",
+        "No, but only until the court issues a separate preservation order"
+      ],
+      "answer": 2,
+      "explanation": "A legal hold is a notice that specific data must be preserved with good-faith effort. It overrides the retention schedule for the data in scope until the hold is lifted.",
+      "why_wrong": [
+        "Consistent application helps only where no preservation duty exists; once a hold is in place, continuing to destroy is the problem",
+        "Routine operation is not a shield once notice to preserve exists",
+        "",
+        "The hold notice itself triggers the obligation; waiting for a further order risks destroying evidence in the meantime"
+      ]
+    },
+    {
+      "id": "02-q-hold-vs-erasure",
+      "topic": "Data retention",
+      "stem": "An EU customer submits a valid erasure request. That customer's records fall within the scope of an active legal hold for pending litigation. How should the organization proceed?",
+      "options": [
+        "Retain the data under the hold and inform the customer that an exemption applies to their request",
+        "Delete the data, because the right to erasure overrides other retention obligations",
+        "Delete the data but preserve a hash of each record as evidence of what existed",
+        "Delete the production copy while retaining backups, satisfying both obligations"
+      ],
+      "answer": 0,
+      "explanation": "The right to erasure is not absolute. Where data is needed for the establishment, exercise, or defense of legal claims, the hold prevails and the requester is told an exemption applies.",
+      "why_wrong": [
+        "",
+        "Erasure yields to several exemptions, including legal claims - it is not an override of all other obligations",
+        "A hash proves integrity of something no longer held; it does not preserve the evidence the hold requires",
+        "Backups remain the organization's data, so this satisfies neither the request nor a clean preservation posture"
+      ]
+    },
+    {
+      "id": "02-q-eol-vs-eos",
+      "topic": "Asset retention",
+      "stem": "A vendor announces that a widely deployed appliance will no longer be sold after March, and that security updates will cease two years later. Which date drives the remediation timeline, and why?",
+      "options": [
+        "The sales end date, because replacement units become unobtainable after it",
+        "The sales end date, because support contracts cannot be renewed past it",
+        "Neither, since appliances can be operated safely indefinitely if segmented",
+        "The update end date, because after it vulnerabilities accumulate with no vendor fix available"
+      ],
+      "answer": 3,
+      "explanation": "End-of-life ends sales; end-of-support ends patches. The security exposure begins at EOS, when newly discovered vulnerabilities can no longer be remediated by the vendor.",
+      "why_wrong": [
+        "Procurement difficulty is a supply concern and does not change the security exposure of deployed units",
+        "Support renewal is a commercial matter and does not itself determine when patches stop",
+        "Segmentation is a compensating control, not a reason the timeline stops mattering - the underlying flaws remain unfixable",
+        ""
+      ]
+    },
+    {
+      "id": "02-q-location-terms",
+      "topic": "Data location",
+      "stem": "A multinational must keep certain citizen records physically within their country of origin because national law compels it. Separately, it chooses to host EU customer data in Frankfurt for latency reasons. Which terms describe these two situations, in order?",
+      "options": [
+        "Data sovereignty, then data localization",
+        "Data localization, then data residency",
+        "Data residency, then data sovereignty",
+        "Data localization, then data sovereignty"
+      ],
+      "answer": 1,
+      "explanation": "A legal mandate to keep data in-country is localization; a discretionary choice of where data sits is residency. Sovereignty describes whose law governs data given where it resides.",
+      "why_wrong": [
+        "Sovereignty describes the law that applies given a storage location - it is not the mandate itself",
+        "",
+        "The first case is a legal mandate (localization); residency describes the second, discretionary case",
+        "The second case is a business choice about where data sits, which is residency rather than a statement about applicable law"
+      ]
+    },
+    {
+      "id": "02-q-cloud-jurisdiction",
+      "topic": "Data location",
+      "stem": "An EU company hosts all personal data in a US provider's Frankfurt region and concludes that US authorities therefore have no route to the data. What is the flaw?",
+      "options": [
+        "Encryption at rest in that region would be provider-managed, voiding any protection",
+        "GDPR prohibits storing EU personal data with US-headquartered providers entirely",
+        "A provider subject to US jurisdiction may face legal compulsion regarding data it controls, regardless of storage region",
+        "Data stored in Frankfurt is subject only to German law, which mirrors US disclosure requirements"
+      ],
+      "answer": 2,
+      "explanation": "Storage location determines which local law applies but does not displace the provider's home jurisdiction - a US-subject provider can be compelled regarding data under its control wherever it sits.",
+      "why_wrong": [
+        "Key management is a real consideration, but the conclusion fails on jurisdiction over the provider rather than on encryption design",
+        "GDPR imposes transfer conditions and safeguards; it does not bar US-headquartered providers outright",
+        "",
+        "Local law does apply, but it does not displace the provider's home jurisdiction, and the claim about mirrored requirements is wrong"
+      ]
+    },
+    {
+      "id": "02-q-compensating-tailoring",
+      "topic": "Scoping and tailoring",
+      "stem": "A moderate-baseline control requires automated session termination, but the legacy manufacturing application cannot support it without breaking production runs. The team documents the limitation and implements supervised terminal access with session logging and periodic review instead. Within the tailoring process, what has the team done?",
+      "options": [
+        "Scoped the control out, since it does not apply to the legacy application",
+        "Selected a compensating control, because the baseline control is technically infeasible but its protection is still needed",
+        "Supplemented the baseline, since additional monitoring was introduced",
+        "Assigned a control parameter value appropriate to the legacy environment"
+      ],
+      "answer": 1,
+      "explanation": "Compensating controls are chosen when a baseline control is tailored out by necessity - technically infeasible, not cost-effective, or harmful to the mission - but the protection it provided is still required.",
+      "why_wrong": [
+        "Scoping removes controls that do not apply at all; here the control applies and its protection is still needed, which is why a substitute was required",
+        "",
+        "Supplementing adds controls beyond the baseline; these measures replace a baseline control rather than extending the set",
+        "Parameter assignment fills in organization-defined values within a control, not a substitute for a control that cannot be implemented"
+      ]
+    },
+    {
+      "id": "02-q-fedramp-selection",
+      "topic": "Standards selection",
+      "stem": "A federal agency plans to move a moderate-impact system to a commercial cloud service. The contracting officer asks which authorization framework governs the provider's security requirements. The best answer is:",
+      "options": [
+        "FedRAMP, which applies NIST SP 800-53 controls to cloud services used by federal agencies",
+        "ISO 27001, because the provider maintains a certified information security management system",
+        "PCI DSS, because the system processes payments among other functions",
+        "SOC 2 Type II, because an independent attestation satisfies federal review"
+      ],
+      "answer": 0,
+      "explanation": "FedRAMP is the federal authorization program for cloud services and is built on the NIST SP 800-53 control catalog - the applicable framework when a federal agency consumes a commercial cloud service.",
+      "why_wrong": [
+        "",
+        "ISO 27001 certification is useful evidence but does not substitute for federal cloud authorization requirements",
+        "PCI DSS attaches to cardholder data specifically, not to the authorization of a federal system as a whole",
+        "A SOC 2 report is a third-party attestation that may support a package, but it is not the governing authorization framework"
+      ]
+    },
+    {
+      "id": "02-q-eos-in-production",
+      "topic": "Asset retention",
+      "stem": "A critical production system reached end-of-support eight months ago. Replacement is funded but eighteen months out, and the vendor will issue no further patches. What is the most appropriate course of action in the interim?",
+      "options": [
+        "Accept the risk formally and take no further action, since a replacement is already funded",
+        "Continue routine patching using third-party community patches as the primary control",
+        "Isolate the system with segmentation and allow-listing, add enhanced monitoring, and document the residual risk",
+        "Disconnect the system from the network immediately regardless of the operational impact"
+      ],
+      "answer": 2,
+      "explanation": "Past end-of-support the vulnerabilities cannot be remediated at source, so compensating controls carry the protection until replacement, with the remaining exposure formally documented and accepted.",
+      "why_wrong": [
+        "Documented acceptance without mitigating action leaves an unpatchable system exposed for eighteen months - acceptance is the endpoint, not a substitute for treatment",
+        "Unofficial patches for an unsupported product are unreliable and unsupported themselves; they cannot be the primary control",
+        "",
+        "Disconnecting a critical production system without regard to operational impact is disproportionate when compensating controls can hold the risk within tolerance"
+      ]
+    }
+  ]
+}
