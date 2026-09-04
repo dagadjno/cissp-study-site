@@ -1,5 +1,7 @@
 # CISSP Study Site
 
+https://dagadjno.github.io/cissp-study-site/
+
 Static, offline-capable PWA with CISSP study notes, flashcards, and practice
 questions. Served via GitHub Pages.
 
