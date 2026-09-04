@@ -1,13 +1,13 @@
 ﻿/* Stale-while-revalidate: serve from cache instantly, refresh in background.
    Everything fetched (shell + data) gets cached, so the app works offline
    for anything visited at least once; the shell is precached on install. */
-var CACHE = 'cissp-study-v28';
+var CACHE = 'cissp-study-v29';
 var SHELL = [
   './',
   'index.html',
-  'css/style.css?v=28',
-  'js/md.js?v=28',
-  'js/app.js?v=28',
+  'css/style.css?v=29',
+  'js/md.js?v=29',
+  'js/app.js?v=29',
   'manifest.webmanifest',
   'icons/icon-192.png',
   'icons/icon-512.png',

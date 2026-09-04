@@ -2,6 +2,7 @@
   'use strict';
 
   var view = document.getElementById('view');
+  var topbarEl = document.getElementById('topbar');
   var titleEl = document.getElementById('title');
   var backBtn = document.getElementById('back-btn');
   var INDEX = null;
@@ -290,19 +291,274 @@
   }
 
   // ---------- notes ----------
+  var NOTES = {};     // domain id -> raw markdown, fetched once per session
+  var noteQuery = ''; // last search on the notes list, restored when you come back to it
+
+  function escHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function escAttr(s) { return escHtml(s).replace(/"/g, '&quot;'); }
+  // markdown syntax a search result shouldn't show
+  function plain(s) {
+    return s.replace(/^\s*([-*]|\d+\.)\s+/, '')
+      .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+      .replace(/^\s*\|\s*/, '').replace(/\s*\|\s*$/, '').replace(/\s*\|\s*/g, ' · ')
+      .replace(/[*`#]/g, '')
+      .trim();
+  }
+  function termsOf(q) {
+    return q.toLowerCase().split(/\s+/).filter(function (t) { return t.length > 1; });
+  }
+  function hasAll(text, ts) { // every term present, in any order
+    var low = text.toLowerCase();
+    return ts.every(function (t) { return low.indexOf(t) >= 0; });
+  }
+  function countIn(text, ts) { // occurrences, to match what the in-note search marks up
+    var low = text.toLowerCase(), n = 0;
+    ts.forEach(function (t) {
+      var i = 0, at;
+      while ((at = low.indexOf(t, i)) >= 0) { n++; i = at + t.length; }
+    });
+    return n;
+  }
+  function loadNotes() {
+    return Promise.all(INDEX.domains.filter(function (d) { return d.notes; }).map(function (d) {
+      return NOTES[d.id] != null ? null
+        : getText('data/' + d.notes).then(function (md) { NOTES[d.id] = md; });
+    }));
+  }
+  function noteText(d) {
+    return NOTES[d.id] != null ? Promise.resolve(NOTES[d.id])
+      : getText('data/' + d.notes).then(function (md) { NOTES[d.id] = md; return md; });
+  }
+
+  // hits grouped under their heading, so a common word lists sections instead of flooding
+  function searchNote(md, ts) {
+    var out = [], cur = null, heading = '';
+    function hit(text) {
+      if (!cur) { cur = { heading: heading, snippet: text, n: 0 }; out.push(cur); }
+      cur.n += countIn(text, ts);
+    }
+    md.replace(/\r\n/g, '\n').split('\n').forEach(function (line) {
+      var head = line.match(/^#{1,4}\s+(.*)$/);
+      if (head) {
+        heading = head[1]; cur = null;
+        if (hasAll(heading, ts)) hit(heading);
+        return;
+      }
+      if (hasAll(line, ts)) hit(line);
+    });
+    return out;
+  }
+
+  // escaped text with each term hit wrapped in <mark>, windowed around the first one
+  function snippetHtml(text, ts, max) {
+    var low = text.toLowerCase(), first = -1;
+    ts.forEach(function (t) {
+      var at = low.indexOf(t);
+      if (at >= 0 && (first < 0 || at < first)) first = at;
+    });
+    var start = Math.max(0, (first < 0 ? 0 : first) - 40);
+    var cut = text.slice(start, start + (max || 160));
+    var lowCut = cut.toLowerCase(), ranges = [];
+    ts.forEach(function (t) {
+      var i = 0, at;
+      while ((at = lowCut.indexOf(t, i)) >= 0) { ranges.push([at, at + t.length]); i = at + t.length; }
+    });
+    ranges.sort(function (a, b) { return a[0] - b[0]; });
+    var html = '', pos = 0;
+    ranges.forEach(function (r) {
+      if (r[0] < pos) return; // overlapping terms: the first one already covered this
+      html += escHtml(cut.slice(pos, r[0])) + '<mark>' + escHtml(cut.slice(r[0], r[1])) + '</mark>';
+      pos = r[1];
+    });
+    html += escHtml(cut.slice(pos));
+    return (start ? '…' : '') + html + (start + cut.length < text.length ? '…' : '');
+  }
+
+  // innermost blocks holding every term — the rendered stand-in for "one line", so a
+  // multi-word search marks the same passages the results list counted
+  function blocksWithAll(root, ts) {
+    var all = Array.prototype.slice.call(root.querySelectorAll('p, li, td, th, h1, h2, h3, h4, pre'))
+      .filter(function (el) { return hasAll(el.textContent, ts); });
+    return all.filter(function (el) {
+      return !all.some(function (other) { return other !== el && el.contains(other); });
+    });
+  }
+
+  // wrap every hit in the rendered note; returns them in document order
+  function markHits(root, ts) {
+    var scopes = ts.length > 1 ? blocksWithAll(root, ts) : [root];
+    scopes.forEach(function (scope) { markTerms(scope, ts); });
+    return Array.prototype.slice.call(root.querySelectorAll('mark.hit'));
+  }
+  function markTerms(root, ts) {
+    ts.forEach(function (t) {
+      var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+      var nodes = [], n;
+      while ((n = walker.nextNode())) {
+        if (n.parentNode.nodeName !== 'MARK' && n.nodeValue.toLowerCase().indexOf(t) >= 0) nodes.push(n);
+      }
+      nodes.forEach(function (node) {
+        var text = node.nodeValue, low = text.toLowerCase();
+        var frag = document.createDocumentFragment(), i = 0, at, m;
+        while ((at = low.indexOf(t, i)) >= 0) {
+          if (at > i) frag.appendChild(document.createTextNode(text.slice(i, at)));
+          m = document.createElement('mark');
+          m.className = 'hit';
+          m.textContent = text.slice(at, at + t.length);
+          frag.appendChild(m);
+          i = at + t.length;
+        }
+        if (i < text.length) frag.appendChild(document.createTextNode(text.slice(i)));
+        node.parentNode.replaceChild(frag, node);
+      });
+    });
+  }
+
+  function searchBarHtml(placeholder, nav) {
+    return '<div class="nsearch"><input id="n-q" type="search" placeholder="' + placeholder + '" ' +
+      'autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">' +
+      (nav ? '<span class="nfind" id="n-count"></span>' +
+        '<button class="icon-btn nnav" id="n-prev" aria-label="Previous match">&#8593;</button>' +
+        '<button class="icon-btn nnav" id="n-next" aria-label="Next match">&#8595;</button>' : '') +
+      '</div>';
+  }
+  function stickUnderTopbar() { // park the search bar right below the sticky topbar
+    var bar = view.querySelector('.nsearch');
+    if (bar) bar.style.top = topbarEl.offsetHeight + 'px';
+  }
+
   function notesRoot() {
     setTitle('Notes');
     domainList({
       key: 'notes',
-      onPick: function (d) {
-        setTitle('Domain ' + d.num);
-        setBack(notesRoot);
-        h('<p class="hint center">loading…</p>');
-        getText('data/' + d.notes).then(function (md) {
-          h(renderMarkdown(md));
-        }).catch(fail);
-      }
+      headerHtml: searchBarHtml('Search all notes…') + '<div id="n-hits"></div>',
+      onPick: function (d) { openNote(d); }
     });
+    wireNotesSearch();
+  }
+
+  function wireNotesSearch() {
+    var input = document.getElementById('n-q');
+    var hits = document.getElementById('n-hits');
+    var list = view.querySelector('.item-list');
+    var foot = view.querySelector('.item-list ~ .hint');
+    var loading = null;
+    stickUnderTopbar();
+
+    function show(ts) {
+      var html = '', total = 0;
+      INDEX.domains.forEach(function (d) {
+        if (!NOTES[d.id]) return;
+        searchNote(NOTES[d.id], ts).forEach(function (s) {
+          total += s.n;
+          var head = plain(s.heading), snip = plain(s.snippet);
+          html += '<button class="item" data-d="' + d.id + '" data-h="' + escAttr(head) + '">' +
+            (s.n > 1 ? '<span class="n-tally">' + s.n + '</span>' : '') +
+            'D' + d.num + ' · ' + escHtml(head) +
+            // the hit is the heading itself when a stub note has nothing else in it
+            (snip === head ? '' : '<span class="sub">' + snippetHtml(snip, ts) + '</span>') +
+            '</button>';
+        });
+      });
+      hits.innerHTML = html
+        ? '<p class="hint center">' + total + (total === 1 ? ' match' : ' matches') + '</p>' +
+          '<div class="item-list">' + html + '</div>'
+        : '<p class="hint center">No matches.</p>';
+      hits.querySelectorAll('.item').forEach(function (b) {
+        b.onclick = function () {
+          openNote(INDEX.domains.find(function (d) { return d.id === b.getAttribute('data-d'); }),
+            input.value, b.getAttribute('data-h'));
+        };
+      });
+    }
+
+    function update() {
+      var q = input.value;
+      noteQuery = q;
+      var ts = termsOf(q);
+      list.hidden = !!ts.length;
+      if (foot) foot.hidden = !!ts.length;
+      if (!ts.length) { hits.innerHTML = ''; return; }
+      if (!hits.innerHTML) hits.innerHTML = '<p class="hint center">searching…</p>';
+      if (!loading) loading = loadNotes();
+      loading.then(function () {
+        if (input.value === q) show(ts); // ignore a pass overtaken by later keystrokes
+      }).catch(fail);
+    }
+    input.oninput = update;
+    if (noteQuery) { input.value = noteQuery; update(); }
+  }
+
+  // query/heading arrive when opening from a search result, to land on that section's hit
+  function openNote(d, query, heading) {
+    setTitle('Domain ' + d.num);
+    setBack(notesRoot);
+    h('<p class="hint center">loading…</p>');
+    noteText(d).then(function (md) {
+      h(searchBarHtml('Search this note…', true) + '<div id="n-body">' + renderMarkdown(md) + '</div>');
+      wireNoteSearch(query, heading);
+    }).catch(fail);
+  }
+
+  function wireNoteSearch(query, heading) {
+    var input = document.getElementById('n-q');
+    var body = document.getElementById('n-body');
+    var count = document.getElementById('n-count');
+    var clean = body.innerHTML; // pristine copy, re-marked from scratch on every query
+    var marks = [], at = -1, timer = null;
+    stickUnderTopbar();
+
+    function show() { if (marks[at]) marks[at].scrollIntoView({ block: 'center' }); }
+    function go(i) {
+      if (!marks.length) return;
+      at = (i + marks.length) % marks.length;
+      marks.forEach(function (m, k) { m.classList.toggle('on', k === at); });
+      count.textContent = (at + 1) + '/' + marks.length;
+      show();
+    }
+    function run() {
+      var ts = termsOf(input.value);
+      body.innerHTML = clean;
+      marks = ts.length ? markHits(body, ts) : [];
+      at = -1;
+      count.textContent = !ts.length ? '' : marks.length ? '' : 'none';
+      if (marks.length) go(0);
+    }
+    input.oninput = function () {
+      clearTimeout(timer);
+      timer = setTimeout(run, 150); // a long note re-renders on each pass
+    };
+    input.onkeydown = function (e) {
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+      go(at + (e.shiftKey ? -1 : 1));
+    };
+    document.getElementById('n-prev').onclick = function () { go(at - 1); };
+    document.getElementById('n-next').onclick = function () { go(at + 1); };
+
+    if (!query) return;
+    input.value = query;
+    run();
+    if (heading) jumpToSection(body, heading, marks, go);
+    // #view animates in on a transform and long tables lay out late, so a jump fired this
+    // early can land short — re-assert it once the entrance is done
+    requestAnimationFrame(show);
+    setTimeout(show, 350);
+  }
+
+  // land on the first hit at or after the heading the result came from
+  function jumpToSection(body, heading, marks, go) {
+    var heads = body.querySelectorAll('h1, h2, h3, h4'), target = null, i;
+    for (i = 0; i < heads.length; i++) {
+      if (heads[i].textContent.indexOf(heading) === 0) { target = heads[i]; break; }
+    }
+    if (!target) return;
+    for (i = 0; i < marks.length; i++) {
+      if (target.compareDocumentPosition(marks[i]) & Node.DOCUMENT_POSITION_FOLLOWING) { go(i); return; }
+    }
+    target.scrollIntoView({ block: 'start' });
   }
 
   // ---------- flashcards ----------
