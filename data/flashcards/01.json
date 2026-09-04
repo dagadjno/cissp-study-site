@@ -299,7 +299,25 @@
       "id": "01-gdpr",
       "topic": "Privacy laws",
       "front": "GDPR: breach notification deadline and maximum fine.",
-      "back": "- **72 hours** to the supervisory authority (Art. 33)\n- Fines up to **4% of global revenue** (Art. 83)\n- Rights: access, rectification, erasure, portability; transfers need adequacy or SCCs"
+      "back": "- **72 hours** to the supervisory authority (Art. 33), measured from **becoming aware** — not from occurrence\n- Data subjects (Art. 34): **without undue delay**, only on **high risk** to rights and freedoms\n- Fines (Art. 83) are **two tiers**, each **whichever is higher**: **83(4) €10M or 2%**, **83(5) €20M or 4%** of **worldwide** annual turnover\n- Rights: access, rectification, erasure, portability; transfers need adequacy or SCCs"
+    },
+    {
+      "id": "01-gdpr-principles-bases",
+      "topic": "GDPR",
+      "front": "GDPR's six principles (Art. 5) and six lawful bases (Art. 6) — and the accountability twist.",
+      "back": "**Principles (5(1))**: lawfulness/fairness/transparency · purpose limitation · data minimisation · accuracy · storage limitation · integrity and confidentiality\n**Lawful bases (6(1))**: consent · contract · legal obligation · vital interests · public task · legitimate interests\n- **Art. 5(2) accountability**: must be responsible for **and able to demonstrate** compliance\n- Trap: **consent is one of six bases**, not the default or the strongest"
+    },
+    {
+      "id": "01-gdpr-requirements",
+      "topic": "GDPR",
+      "front": "GDPR organizational requirements — which article does what?",
+      "back": "| Requirement | Art. |\n|---|---|\n| Data protection by design/default | 25 |\n| Processor contracts | 28 |\n| Records of processing | 30 |\n| Security of processing | 32 |\n| Breach → supervisory authority | 33 |\n| Breach → data subject | 34 |\n| DPIA (high-risk only) | 35 |\n| DPO designation | 37 |\n- Transfers (Ch. V): **adequacy** (45), **SCCs** (46), **BCRs** (47)"
+    },
+    {
+      "id": "01-gdpr-scope",
+      "topic": "GDPR",
+      "front": "Who does GDPR reach, and why does \"we have no EU offices\" fail?",
+      "back": "- **Art. 3 territorial scope**: reaches controllers/processors **outside the EU** who offer goods/services to, or **monitor the behaviour of**, data subjects in the EU\n- **No EU establishment required**\n- It's a **Regulation, not a Directive** — directly applicable, no national implementing law needed\n- **Special categories (Art. 9)** (health, biometrics for ID, beliefs, sex life) need an Art. 9 condition **on top of** an Art. 6 basis"
     },
     {
       "id": "01-due-care-diligence",

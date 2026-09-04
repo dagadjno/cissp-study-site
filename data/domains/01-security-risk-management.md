@@ -464,7 +464,7 @@
   | **GDPR** | Reg. EU **2016/679** | Single harmonized EU/EEA law on data protection/privacy — governs processing and cross-border transfer of PII belonging to EU/EEA persons; **extraterritorial** reach (applies to any org processing their data, regardless of org's location) [OSG glossary] |
   | **CCPA** | 2018 [oag.ca.gov] | California statute (**modeled on GDPR**) giving state residents rights to know what personal data is collected, request its deletion, and opt out of its sale [OSG glossary] |
 
-  - GDPR specifics [unverified]: extraterritorial (Art. 3); rights = access, rectification, **erasure** (Art. 17), portability; **72-hr** breach notify (Art. 33); fines to **4% global revenue** (Art. 83); transfers need adequacy decision or SCCs. Audit 2026-09-01: eur-lex fetch failed — verify article numbers against Regulation 2016/679 text
+  - GDPR specifics: extraterritorial (Art. 3); rights = access, rectification, **erasure** (Art. 17), portability; **72-hr** breach notify to the supervisory authority (Art. 33); transfers need adequacy decision or SCCs. Article numbers corroborated 2026-09-04 against a faithful GDPR text mirror (gdpr.algolia.com); **eur-lex full-text fetch failed again** (2nd attempt, after 2026-09-01) — treat numbers as corroborated-not-primary [GDPR text mirror]. **Correction 2026-09-04**: the earlier "fines to 4% global revenue (Art. 83)" was incomplete — Art. 83 has **two tiers**: 83(4) up to **EUR 10M or 2%** of worldwide annual turnover, 83(5) up to **EUR 20M or 4%**, in each case **whichever is higher**. Full treatment in the dedicated GDPR entry below
 - Exam traps / distractors:
   - **ITAR vs. EAR**: munitions/State vs. dual-use/Commerce — standard swap
   - **ECPA** restrains providers/private parties, not only government
@@ -647,3 +647,66 @@
   - "One-time training at hire" fails the periodic-review expectation — awareness is continuous, same lifecycle framing as BCP/risk maturity
 - Related terms: security governance principles (culture/behavior framing), personnel security policies (onboarding is where initial training typically lands)
 - Sources: [OSG glossary], [ISC2 outline], [unverified]
+
+## GDPR - terms and requirements (1.4)
+- Definition (ISC2 framing): Regulation (EU) **2016/679** — a **Regulation, not a Directive**, so it is directly applicable across the EU/EEA with no national transposition; single harmonized data protection and privacy law governing processing and transfer of EU/EEA persons' personal data [OSG glossary]
+- Sourcing note: article numbers below corroborated 2026-09-04 against a faithful GDPR text mirror (gdpr.algolia.com). **eur-lex full text remains unfetchable** (failed 2026-09-01 and again 2026-09-04, multiple URL forms) — treat as corroborated-not-primary and re-verify if a number is decisive [GDPR text mirror]
+- Key facts:
+  - **Territorial scope (Art. 3)**: reaches controllers/processors **outside the EU** who offer goods or services to, or **monitor the behaviour of**, data subjects in the EU — **no EU office required**
+  - **Terms (Art. 4 definitions)**: **personal data** (information relating to an identified or identifiable natural person), **processing** (essentially any operation, collection through erasure), **controller** (determines purposes and means), **processor** (acts on behalf of controller), **data subject** (the individual). Roles in depth: D2 data ownership entry
+  - **Six principles (Art. 5(1))**:
+    1. **Lawfulness, fairness and transparency**
+    2. **Purpose limitation** — specified, explicit, legitimate purposes
+    3. **Data minimisation** — adequate, relevant, limited to what is necessary
+    4. **Accuracy** — kept up to date; inaccuracies erased/rectified without delay
+    5. **Storage limitation** — identifiable form no longer than necessary
+    6. **Integrity and confidentiality** — appropriate security
+    - **Art. 5(2) = accountability**: the controller must be **responsible for AND able to demonstrate** compliance — being compliant is not enough, it must be provable
+  - **Six lawful bases (Art. 6(1))** — need **at least one**: **(a) consent**, **(b) contract**, **(c) legal obligation**, **(d) vital interests**, **(e) public task**, **(f) legitimate interests**. Basis (f) is **unavailable to public authorities** performing statutory functions
+  - **Special categories (Art. 9)**: health, biometrics for ID, racial/ethnic origin, political opinions, religious beliefs, trade union membership, sex life/orientation — **prohibited by default**, need an Art. 9 condition **on top of** the Art. 6 basis
+  - **Data subject rights (Ch. III, Arts. 12-22)**:
+
+  | Right | Article |
+  | --- | --- |
+  | **Access** | 15 |
+  | **Rectification** | 16 |
+  | **Erasure** ("right to be forgotten") | 17 |
+  | **Restriction** of processing | 18 |
+  | **Portability** | 20 |
+  | **Object** | 21 |
+  | Not subject to solely **automated decision-making**/profiling | 22 |
+
+  - **Organizational requirements**:
+
+  | Requirement | Article |
+  | --- | --- |
+  | Data protection **by design and by default** | 25 |
+  | **Processor contracts** (binding written terms) | 28 |
+  | **Records of processing activities** | 30 |
+  | **Security of processing** | 32 |
+  | Breach notification to **supervisory authority** | 33 |
+  | Breach communication to **data subject** | 34 |
+  | **DPIA** (data protection impact assessment), high-risk processing | 35 |
+  | **DPO** (data protection officer) designation | 37 |
+
+    - **Breach timing** — the most-tested mechanic: **72 hours to the supervisory authority** (Art. 33), clock starts when the controller **becomes aware**, not when the breach occurred. Notification to **data subjects** (Art. 34) is a different trigger: **without undue delay**, and only where there is **high risk to their rights and freedoms**
+  - **Transfers (Ch. V, Arts. 44-49)**: need **adequacy decision** (45), or **appropriate safeguards** (46) such as **SCCs** (standard contractual clauses), or **BCRs** (binding corporate rules, 47)
+  - **Fines (Art. 83)** — two tiers, in each case **whichever is HIGHER**:
+
+  | Tier | Maximum | Covers |
+  | --- | --- | --- |
+  | **83(4)** | **EUR 10M or 2%** worldwide annual turnover | Controller/processor obligations — design, records, security, DPO, processor duties |
+  | **83(5)** | **EUR 20M or 4%** worldwide annual turnover | Principles, consent, **data subject rights**, unlawful transfers, ignoring supervisory authority orders |
+
+- Exam traps / distractors:
+  - **Consent is one of six lawful bases** — options treating it as always required, or as inherently the strongest, are wrong
+  - **72 hours is to the supervisory authority, measured from awareness** — not to individuals, not from occurrence
+  - **Fines: two tiers, "whichever is higher"** — a 4%-only answer, or a "whichever is lower" answer, fails; it is **worldwide turnover**, not EU revenue or profit
+  - **Extraterritorial** — "we have no EU offices/entity" does not exempt an organization
+  - **Right to erasure is not absolute** — yields to legal obligations and other exemptions
+  - **DPIA is for high-risk processing**, not every processing activity
+  - **Accountability (5(2)) means demonstrable** — "we comply but keep no records" fails
+  - Distractor pairings: **CCPA** as the US analog; **HIPAA's 60-day** individual breach notification against GDPR's **72-hour** supervisory-authority notification
+  - **Regulation vs. Directive** — directly applicable; an option saying member states must pass implementing law first is wrong
+- Related terms: privacy laws table (export controls and privacy laws entry, same domain), data ownership and roles (D2 2.3/2.4, controller/processor), sensitive data types (D2 2.1, PII), transborder data flow (1.4), HITECH business associate liability (1.4)
+- Sources: [OSG glossary], [GDPR text mirror], [ISC2 outline]

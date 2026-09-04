@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-03",
+  "updated": "2026-09-04",
   "domains": [
     {
       "id": "01",
@@ -8,7 +8,7 @@
       "notes": "domains/01-security-risk-management.md",
       "flashcards": "flashcards/01.json",
       "quiz": "quizzes/01.json",
-      "cards": 73,
+      "cards": 76,
       "questions": 71
     },
     {
@@ -16,9 +16,9 @@
       "num": 2,
       "title": "Asset Security",
       "notes": "domains/02-asset-security.md",
-      "flashcards": null,
+      "flashcards": "flashcards/02.json",
       "quiz": null,
-      "cards": 0,
+      "cards": 29,
       "questions": 0
     },
     {

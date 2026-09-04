@@ -1,0 +1,179 @@
+{
+  "domain": 2,
+  "cards": [
+    {
+      "id": "02-data-states",
+      "topic": "Data security controls",
+      "front": "The three data states, and the primary protection for each.",
+      "back": "- **At rest**: stored statically on a device → disk/file/DB encryption, access controls\n- **In transit**: communicated over a network → **TLS**, IPsec/VPN\n- **In use**: actively processed by an application → session access control, secure enclaves\n- **Data in use is the hardest to protect** — it must be decrypted to be processed\n- Trap: at-rest encryption does nothing for data already decrypted in memory"
+    },
+    {
+      "id": "02-scoping-tailoring",
+      "topic": "Data security controls",
+      "front": "Scoping vs. tailoring — how do they relate?",
+      "back": "- **Tailoring** = the umbrella process: modify a baseline's control list to align with the org's mission\n- **Scoping** = one part of tailoring: keep only the controls that apply to your systems\n- Trap: options presenting them as two independent steps are wrong\n- Tailoring ≠ weakening the baseline — it's justified alignment, with compensating controls where a control is removed"
+    },
+    {
+      "id": "02-tailoring-actions",
+      "topic": "Data security controls",
+      "front": "NIST SP 800-53B tailoring actions.",
+      "back": "1. Identify/designate **common controls** (inherited)\n2. Apply **scoping considerations** (drop non-applicable controls)\n3. Select **compensating controls** (baseline control tailored out, protection still needed)\n4. Assign **control parameter** values\n5. **Supplement** with additional controls\n6. Provide **implementation** information\n- Baselines: low/moderate/high + a **privacy baseline applied regardless of impact level**"
+    },
+    {
+      "id": "02-drm-dlp-casb",
+      "topic": "Data security controls",
+      "front": "DRM vs. DLP vs. CASB — where does each act?",
+      "back": "| Method | Acts |\n|---|---|\n| **DRM** | Travels **with the object** — persists after the file leaves your control |\n| **DLP** | Egress paths (network + endpoint) — stops exfiltration |\n| **CASB** | Policy enforcement point between users and cloud services |\n- \"Must stay protected after a partner downloads it\" → **DRM**, not DLP\n- \"Shadow IT / unsanctioned SaaS discovery\" → **CASB**"
+    },
+    {
+      "id": "02-casb-pillars",
+      "topic": "Data security controls",
+      "front": "The four pillars of CASB.",
+      "back": "- **Visibility** — uncovers cloud apps in use, including shadow IT\n- **Compliance** — enforces regulatory and data policy\n- **Data security** — prevents unauthorized sharing (DLP, encryption)\n- **Threat protection** — detects malware and compromised accounts\n- CASB deploys **on-premises or cloud-based**, via proxy or API"
+    },
+    {
+      "id": "02-standards-selection",
+      "topic": "Data security controls",
+      "front": "Standards selection — what drives which standard governs your data?",
+      "back": "- Data type + jurisdiction + contract, not preference\n- Cardholder data → **PCI DSS** (contractual, *not* law)\n- PHI → **HIPAA**; EU personal data → **GDPR**\n- Federal systems → NIST SP 800-53 / **FedRAMP**\n- Certifiable ISMS → **ISO 27001**"
+    },
+    {
+      "id": "02-remanence-ladder",
+      "topic": "Data destruction",
+      "front": "Erasing vs. clearing vs. purging vs. sanitization vs. declassification.",
+      "back": "- **Erasing**: delete operation — removes only the directory link, **data remains** (remanence)\n- **Clearing** (overwriting): for media **reused in the same secured environment**\n- **Purging**: more intensive; defeats a **laboratory** attack\n- **Sanitization**: umbrella term for any process ensuring data can't be recovered\n- **Declassification**: assigns a **lower classification** — not destruction at all"
+    },
+    {
+      "id": "02-nist-800-88-categories",
+      "topic": "Data destruction",
+      "front": "NIST SP 800-88 Rev. 1 — the three sanitization categories.",
+      "back": "- **Clear**: logical techniques over all **user-addressable** locations; defeats simple non-invasive recovery\n- **Purge**: physical or logical techniques rendering recovery **infeasible with state-of-the-art lab techniques**\n- **Destroy**: same infeasibility **plus** the media can no longer store data\n- Chosen by: data confidentiality, media type, whether media leaves org control, final disposition"
+    },
+    {
+      "id": "02-degauss-ssd",
+      "topic": "Data destruction",
+      "front": "Why is degaussing the wrong answer for an SSD — and what else does degaussing break?",
+      "back": "- Flash has **no magnetic domains** — NIST: degaussing should never be solely relied on for flash-based storage, or magnetic devices that also hold non-volatile non-magnetic storage\n- Degaussing a magnetic disk **typically renders it permanently unusable** → never a \"sanitize for reuse\" answer\n- Works as *Purge* on legacy magnetic media only when degausser strength matches media **coercivity**\n- Verification is required for every Clear/Purge technique **except degaussing**"
+    },
+    {
+      "id": "02-overwrite-passes",
+      "topic": "Data destruction",
+      "front": "Multiple overwrite passes — what does ISC2 say vs. what does NIST say?",
+      "back": "- **ISC2/OSG (answer this on the exam)**: purging \"typically involved **multiple overwrites**\"\n- **NIST SP 800-88 (reality)**: for magnetic media, a **single pass** with a fixed pattern typically defeats even state-of-the-art lab recovery; multi-pass DoD 5220.22-M folklore is obsolete\n- Related limit: native Read/Write overwrite **misses non-LBA-mapped areas** (defect areas, unallocated space, SSD overprovisioning) — use dedicated sanitize commands"
+    },
+    {
+      "id": "02-crypto-erase",
+      "topic": "Data destruction",
+      "front": "Cryptographic erase — what does it actually sanitize, and when is it not a valid answer?",
+      "back": "- Sanitizes the **encryption key**, not the storage locations — leaves only ciphertext, making data unrecoverable\n- Fast, and supports partial sanitization\n- **Not valid unless the data was encrypted as stored** — a stem that never establishes encryption at rest rules this out\n- Aka **cryptoshredding**"
+    },
+    {
+      "id": "02-gov-classification",
+      "topic": "Data classification",
+      "front": "Government/military classification levels and the damage each maps to.",
+      "back": "| Level | Disclosure causes |\n|---|---|\n| **Top Secret** | **Exceptionally grave damage** |\n| **Secret** | **Serious damage** |\n| **Confidential** | **Damage** |\n| **SBU** | Internal/office use only; privacy-related |\n| **Unclassified** | No noticeable damage |\n- Damage language is from **EO 13526** (2009)\n- **\"Classified\"** = anything above SBU (Confidential, Secret, Top Secret)"
+    },
+    {
+      "id": "02-commercial-classification",
+      "topic": "Data classification",
+      "front": "Commercial/private-sector classification levels — and the Private vs. Sensitive discriminator.",
+      "back": "- **Confidential/Proprietary** (highest): trade-secret grade; **significant damage**, hits competitive edge\n- **Private**: **personnel/personal** data → significant negative impact to company *or individuals*\n- **Sensitive**: **organizational**, not personnel → **modest** negative impact; aka FIUO/FOUO\n- **Public** (lowest): disclosure shouldn't be seriously negative\n- Discriminator: **Private = about people, Sensitive = about the organization**"
+    },
+    {
+      "id": "02-confidential-collision",
+      "topic": "Data classification",
+      "front": "Why is \"Confidential\" a trap word in classification questions?",
+      "back": "- It appears in **both** schemes with opposite standing\n- Government: **lowest classified** tier (just above SBU)\n- Commercial: the **highest** level\n- A stem using \"confidential\" without naming the scheme is testing exactly this\n- The two schemes do **not** map 1:1"
+    },
+    {
+      "id": "02-sensitive-two-senses",
+      "topic": "Sensitive data",
+      "front": "\"Sensitive data\" is used two ways in ISC2 material — what are they, and why does it matter?",
+      "back": "- **Umbrella sense**: any non-public data — **PII, PHI, proprietary data**\n- **Label sense**: the commercial tier **Sensitive**, defined as *organizationally* related, **not** personnel-related\n- They conflict on PII/PHI: those are personnel-related, so as a *tier* they're **Private**, not Sensitive\n- \"Is this sensitive data?\" → yes. \"How should it be classified?\" → **Private**"
+    },
+    {
+      "id": "02-pii-linked-linkable",
+      "topic": "Sensitive data",
+      "front": "PII per NIST SP 800-122 — the two prongs, and linked vs. linkable.",
+      "back": "1. Information that can **distinguish or trace** identity — name, SSN, DOB/place, mother's maiden name, biometrics\n2. Any other information **linked or linkable** to an individual — medical, educational, financial, employment\n- **Linked**: secondary source on the same/closely-related system, not segregated\n- **Linkable**: obtainable remotely — unrelated system, public records, search engine\n- Trap: a field that identifies nobody alone **is still PII** once something makes it linkable"
+    },
+    {
+      "id": "02-phi-scope",
+      "topic": "Sensitive data",
+      "front": "What makes health data PHI under HIPAA — and what doesn't?",
+      "back": "- **45 CFR 160.103**: individually identifiable health information **transmitted or maintained by a covered entity or business associate**, any form or medium\n- The **relationship** is the gate — health data held outside it (consumer fitness app) is health info but **not HIPAA PHI**\n- Pairs with HITECH making business associates **directly liable** (D1)"
+    },
+    {
+      "id": "02-deidentification-methods",
+      "topic": "Sensitive data",
+      "front": "HIPAA de-identification — the two permitted methods.",
+      "back": "- **Safe Harbor** (45 CFR 164.514(b)(2)): remove **18 identifiers** + no actual knowledge the rest could identify someone\n- **Expert determination**: qualified expert documents re-identification risk is **very small**\n- 18 identifiers include names, geography **below state**, all **dates except year**, SSN/MRN, URLs, **IP addresses**, biometrics, full-face photos\n- \"We removed the names\" is **not** de-identification"
+    },
+    {
+      "id": "02-anonymization-vs-pseudonymization",
+      "topic": "Sensitive data",
+      "front": "Anonymization vs. pseudonymization vs. tokenization.",
+      "back": "- **Anonymization**: PII **removed** from the dataset (aka de-identification) — **one-way**\n- **Pseudonymization**: masks with **pseudonyms** — reversible by design\n- **Tokenization**: masks with **tokens** (unique symbols) — reversible via the token vault\n- Trap: pseudonymization offered where the requirement is data can **never** be re-identified"
+    },
+    {
+      "id": "02-owner-vs-custodian",
+      "topic": "Data ownership",
+      "front": "Data owner vs. custodian — who does what, and what can't be delegated?",
+      "back": "- **Owner**: final corporate responsibility for classifying/labeling and protecting data; **decides** classification; may be **liable for negligence** if due diligence fails\n- Typically the **CEO, president, or department head** — *not* the CISO, IT, or security team\n- **Custodian** (aka data steward): **delegated day-to-day** implementation of protection defined by policy and upper management; typically IT staff/security admin\n- **Execution delegates, accountability doesn't** — \"the owner handed responsibility to IT\" is always wrong"
+    },
+    {
+      "id": "02-controller-vs-processor",
+      "topic": "Data ownership",
+      "front": "Data controller vs. data processor vs. data subject.",
+      "back": "- **Controller**: determines the **purposes and means** of processing — the \"why\" and the \"how\"\n- **Processor**: processes personal data **solely on behalf of** the controller\n- **Data subject**: the individual the data is *about* — not an internal role\n- SaaS vendor = **processor**; your organization = **controller**. Buying a tool doesn't move determination of purpose\n- The processor still carries **direct obligations** — \"processor has no liability\" is wrong"
+    },
+    {
+      "id": "02-controller-not-owner",
+      "topic": "Data ownership",
+      "front": "Why is \"data controller\" not just another word for \"data owner\"?",
+      "back": "- They come from **different frameworks**: owner/custodian is the security-management model; controller/processor is **privacy law** (GDPR)\n- Owner = internal accountability for classification and protection\n- Controller = the legal entity deciding **why and how** personal data is processed\n- Read the stem's vocabulary: privacy-law language wants **controller/processor**, not owner/custodian"
+    },
+    {
+      "id": "02-classification-vs-categorization",
+      "topic": "Data classification",
+      "front": "Classification vs. categorization — and who assigns the label?",
+      "back": "- **Classification** (TS/S/C, or Confidential→Public): sensitivity/value of the **data**\n- **Categorization** (**FIPS 199** low/moderate/high): impact level of a federal **system**, from worst-case C/I/A loss\n- Different axes; paired as distractors because both are tiered\n- **The data owner classifies** — custodian implements, doesn't decide\n- Access = **clearance ≥ classification AND need-to-know** (clearance alone is insufficient)"
+    },
+    {
+      "id": "02-handling-requirements",
+      "topic": "Handling requirements",
+      "front": "What drives handling requirements, and what's the marking vs. labeling split?",
+      "back": "- Handling follows the **classification**, not the medium — Secret data on a USB gets Secret handling\n- Covers marking, labeling, storing, transporting, transmitting, destroying\n- **Marking** = human-readable (headers/footers, media stickers); **labeling** = the system/metadata attribute tooling enforces\n- A **copy inherits the original's classification** — printing or exporting downgrades nothing"
+    },
+    {
+      "id": "02-asset-inventory",
+      "topic": "Asset inventory",
+      "front": "Why is asset inventory the prerequisite control, and what counts as an asset?",
+      "back": "- **You can't classify, protect, or retire what you don't know you have**\n- **Tangible**: physical assets. **Intangible**: IP, licenses, the data itself, cloud instances\n- **CIS Controls v8**: Control 1 = enterprise assets (incl. IoT, virtual, cloud), Control 2 = software assets\n- Inventory records carry an **owner** — links inventory to accountability\n- **Shadow IT** is an inventory/governance failure, surfaced by inventory + CASB discovery"
+    },
+    {
+      "id": "02-legal-hold",
+      "topic": "Data retention",
+      "front": "What does a legal hold do to your retention schedule?",
+      "back": "- **Legal hold**: a legal notice to a data custodian that specific data must be **preserved**, with good-faith preservation efforts (e-discovery step)\n- It **suspends the retention schedule** — scheduled destruction stops for data in scope\n- \"Our policy says delete at 90 days\" is **not** a defense once a hold is in place\n- Generally overrides a GDPR **erasure** request (legal obligation/claim exemption)"
+    },
+    {
+      "id": "02-eol-eos",
+      "topic": "Asset retention",
+      "front": "EOL vs. EOS — which one is the security problem?",
+      "back": "- **EOL** (end-of-life): vendor stops selling/producing\n- **EOS** (end-of-support): vendor stops issuing **patches** — this is the security-relevant date\n- Past EOS, vulnerabilities accumulate permanently → **compensating controls** (segmentation, allow-listing, enhanced monitoring) plus a replacement plan\n- \"Accept and ignore\" is never the answer for an unsupported production system"
+    },
+    {
+      "id": "02-sovereignty-residency-localization",
+      "topic": "Data location",
+      "front": "Data sovereignty vs. residency vs. localization.",
+      "back": "- **Sovereignty**: data is subject to the **laws of the country where the storage device resides** — *whose law applies*\n- **Residency**: *where it sits* — usually a business/contractual choice\n- **Localization**: *legally required to stay* in-country, by regulation or government mandate\n- Trap: \"we host in an EU region so US law can't reach it\" ignores provider-jurisdiction reach (**CLOUD Act**)"
+    },
+    {
+      "id": "02-collection-maintenance",
+      "topic": "Data lifecycle",
+      "front": "Collection and maintenance — what security principle sits behind each?",
+      "back": "- **Collection**: minimize at the point of collection (GDPR **data minimisation**) — data never collected can't be breached or subject to a SAR. It's a **security** control, not just privacy hygiene\n- **Maintenance**: keep held data accurate and current (GDPR **accuracy**) — correct stale records, de-duplicate\n- Classification isn't set once: maintenance includes **re-evaluating** it as data ages (→ declassification)"
+    }
+  ]
+}
