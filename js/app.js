@@ -769,12 +769,67 @@
     })).then(function (arrs) { return [].concat.apply([], arrs); });
   }
 
+  // An in-flight quiz lives in localStorage so leaving the tab (to check the notes, say)
+  // or closing the app doesn't lose it. Cleared when the quiz finishes or a new one starts.
+  function savedQuiz() {
+    var s = store('quiz-session');
+    return s && s.ids && s.ids.length ? s : null;
+  }
+  function clearQuiz() { store('quiz-session', null); }
+
+  function quizTab() { // tapping the Quiz tab picks up where you left off
+    if (!resumeQuiz()) quizRoot();
+  }
+
   function quizRoot() {
     setTitle('Quiz');
+    var s = savedQuiz();
+    var header = '';
+    if (s) {
+      var d = s.dom ? INDEX.domains.find(function (x) { return x.id === s.dom; }) : null;
+      header = '<p class="hint center" style="margin-bottom:8px">Quiz in progress · ' +
+        (d ? 'Domain ' + d.num : 'all domains') + ' · question ' +
+        Math.min(s.i + 1, s.ids.length) + ' of ' + s.ids.length + '</p>' +
+        '<div class="btn-row" style="margin:0 0 14px"><button class="btn" id="qz-resume">Resume quiz</button>' +
+        '<button class="btn secondary" id="qz-drop">Discard</button></div>';
+    }
     domainList({
-      key: 'quiz', allLabel: 'All domains',
+      key: 'quiz', allLabel: 'All domains', headerHtml: header,
       onPick: function (d) { quizSetup(d); }
     });
+    var resume = document.getElementById('qz-resume');
+    if (resume) resume.onclick = function () { resumeQuiz(); };
+    var drop = document.getElementById('qz-drop');
+    if (drop) drop.onclick = function () { clearQuiz(); quizRoot(); };
+  }
+
+  function resumeQuiz() {
+    var s = savedQuiz();
+    if (!s) return false;
+    var domain = s.dom ? INDEX.domains.find(function (d) { return d.id === s.dom; }) : null;
+    if (s.dom && !domain) { clearQuiz(); return false; } // that domain is gone from the index
+    setTitle(domain ? 'Quiz · Domain ' + domain.num : 'Quiz · All');
+    setBack(quizRoot);
+    h('<p class="hint center">loading…</p>');
+    loadQuestions(domain).then(function (pool) {
+      var byId = {};
+      pool.forEach(function (q) { byId[q.id] = q; });
+      // a content sync can retire questions mid-quiz: keep what survives, shift the position
+      var kept = [], at = 0;
+      var here = byId[s.ids[s.i]]; // still the same question at the saved spot?
+      s.ids.forEach(function (id, k) {
+        if (!byId[id]) return;
+        if (k < s.i) at++;
+        kept.push(byId[id]);
+      });
+      if (at >= kept.length) { clearQuiz(); quizRoot(); return; }
+      runQuiz(kept, domain, {
+        i: at, score: s.score || 0,
+        order: here ? s.order : null,
+        picked: here ? s.picked : null
+      });
+    }).catch(fail);
+    return true;
   }
 
   function quizSetup(domain) {
@@ -800,12 +855,24 @@
     }).catch(fail);
   }
 
-  function runQuiz(questions, domain) {
-    var i = 0, score = 0;
+  function runQuiz(questions, domain, resume) {
+    var i = resume ? resume.i : 0, score = resume ? resume.score : 0;
     var stats = store('q-stats') || {};
+    var order = null, picked = null; // display order and answer for the question on screen
+    var resumeOrder = resume ? resume.order : null;
+    var resumePicked = resume ? resume.picked : null;
     setBack(quizRoot);
 
+    function save() {
+      store('quiz-session', {
+        dom: domain ? domain.id : null,
+        ids: questions.map(function (q) { return q.id; }),
+        i: i, score: score, order: order, picked: picked
+      });
+    }
+
     function finish() {
+      clearQuiz();
       var hist = store('quiz-history') || [];
       hist.push({
         date: dayKey(),
@@ -829,7 +896,13 @@
     function next() {
       if (i >= questions.length) return finish();
       var q = questions[i];
-      var order = shuffle(q.options.map(function (_, k) { return k; }));
+      // a resumed question keeps the lettering it had when you left it
+      order = resumeOrder && resumeOrder.length === q.options.length
+        ? resumeOrder
+        : shuffle(q.options.map(function (_, k) { return k; }));
+      var replay = resumePicked;
+      resumeOrder = null; resumePicked = null;
+      picked = null;
       var letters = ['A', 'B', 'C', 'D', 'E'];
       h('<div class="q-progress">' + (i + 1) + ' / ' + questions.length +
         ' · D' + q.domain + (q.topic ? ' · ' + q.topic : '') + '</div>' +
@@ -840,10 +913,11 @@
             letters[pos] + '</span>' + mdInline(q.options[optIdx]) + '</button>';
         }).join('') + '</div><div id="q-after"></div>');
 
-      view.querySelectorAll('.q-opt').forEach(function (btn) {
-        btn.onclick = function () {
-          var picked = parseInt(btn.getAttribute('data-i'), 10);
-          var right = picked === q.answer;
+      // again = replaying an answer given before you left the tab: show it, don't re-score it
+      function answer(pick, again, btn) {
+        picked = pick;
+        var right = pick === q.answer;
+        if (!again) {
           if (right) {
             score++;
             var r = btn.getBoundingClientRect();
@@ -852,27 +926,35 @@
           stats[q.id] = { lastWrong: !right, at: Date.now() };
           store('q-stats', stats);
           logActivity('q');
-          view.querySelectorAll('.q-opt').forEach(function (b) {
-            b.disabled = true;
-            var bi = parseInt(b.getAttribute('data-i'), 10);
-            if (bi === q.answer) b.classList.add('correct');
-            else if (bi === picked) b.classList.add('wrong');
-          });
-          var expl = '<div class="q-expl"><strong>' + (right ? 'Correct.' : 'Incorrect.') + '</strong> ' +
-            mdInline(q.explanation || '');
-          if (q.why_wrong) {
-            expl += '<ul>' + q.why_wrong.map(function (w, k) {
-              if (k === q.answer) return '';
-              return '<li>' + mdInline(q.options[k].split(/[.;—]/)[0]) + ' — ' + mdInline(w) + '</li>';
-            }).join('') + '</ul>';
-          }
-          expl += '</div><div class="btn-row"><button class="btn" id="q-next">' +
-            (i + 1 < questions.length ? 'Next' : 'Finish') + '</button></div>';
-          document.getElementById('q-after').innerHTML = expl;
-          document.getElementById('q-next').onclick = function () { i++; next(); };
-          document.getElementById('q-next').scrollIntoView({ block: 'nearest' });
-        };
+        }
+        view.querySelectorAll('.q-opt').forEach(function (b) {
+          b.disabled = true;
+          var bi = parseInt(b.getAttribute('data-i'), 10);
+          if (bi === q.answer) b.classList.add('correct');
+          else if (bi === pick) b.classList.add('wrong');
+        });
+        var expl = '<div class="q-expl"><strong>' + (right ? 'Correct.' : 'Incorrect.') + '</strong> ' +
+          mdInline(q.explanation || '');
+        if (q.why_wrong) {
+          expl += '<ul>' + q.why_wrong.map(function (w, k) {
+            if (k === q.answer) return '';
+            return '<li>' + mdInline(q.options[k].split(/[.;—]/)[0]) + ' — ' + mdInline(w) + '</li>';
+          }).join('') + '</ul>';
+        }
+        expl += '</div><div class="btn-row"><button class="btn" id="q-next">' +
+          (i + 1 < questions.length ? 'Next' : 'Finish') + '</button></div>';
+        document.getElementById('q-after').innerHTML = expl;
+        document.getElementById('q-next').onclick = function () { i++; next(); };
+        save();
+        // on a fresh answer, bring the verdict into view; on a replay, start back at the stem
+        if (!again) document.getElementById('q-next').scrollIntoView({ block: 'nearest' });
+      }
+
+      view.querySelectorAll('.q-opt').forEach(function (btn) {
+        btn.onclick = function () { answer(parseInt(btn.getAttribute('data-i'), 10), false, btn); };
       });
+      if (replay != null) answer(replay, true);
+      else save();
     }
     next();
   }
@@ -1071,7 +1153,7 @@
   }
 
   // ---------- shell ----------
-  var roots = { notes: notesRoot, cards: cardsRoot, quiz: quizRoot, progress: progressRoot };
+  var roots = { notes: notesRoot, cards: cardsRoot, quiz: quizTab, progress: progressRoot };
 
   document.querySelectorAll('.tab').forEach(function (t) {
     t.onclick = function () {
