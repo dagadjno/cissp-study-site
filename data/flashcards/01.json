@@ -4,7 +4,7 @@
     {
       "id": "01-pillars",
       "topic": "Five pillars",
-      "front": "The five pillars of information security",
+      "front": "The five pillars of information security — name them",
       "back": "Confidentiality, integrity, availability, **authenticity**, **nonrepudiation**.\n\nAuthenticity and nonrepudiation are the two the 2024 outline adds beyond the CIA triad."
     },
     {
@@ -40,13 +40,13 @@
     {
       "id": "01-canon-complaints",
       "topic": "ISC2 ethics",
-      "front": "Standing to file an ISC2 ethics complaint",
+      "front": "Who can file an ISC2 ethics complaint under each canon?",
       "back": "- Canons 1-2: **anyone** may complain\n- Canon 3: **employers/contracting parties** only\n- Canon 4: **certified professionals** only"
     },
     {
       "id": "01-ethics-enforcement",
       "topic": "ISC2 ethics",
-      "front": "ISC2 ethics enforcement",
+      "front": "How are ISC2 ethics complaints enforced — path and sanction?",
       "back": "Complaint by **sworn affidavit** → Professional Conduct Committee → board. Sanction: **revocation** of certification.\n\nThe Code requires members to \"adhere, and be seen to adhere\" — an undisclosed conflict of interest violates it even without bad acts."
     },
     {
@@ -70,7 +70,7 @@
     {
       "id": "01-policy-types",
       "topic": "Documentation hierarchy",
-      "front": "Policy types by purpose, and NIST's policy triple",
+      "front": "The three policy types by purpose, and NIST SP 800-12's three policy scopes — name both sets",
       "back": "- OSG purpose types: **regulatory** (required by law/industry), **advisory** (most policies — behavior plus consequences), **informative** (unenforceable)\n- NIST SP 800-12 scope triple: **program / issue-specific / system-specific**"
     },
     {
@@ -112,13 +112,13 @@
     {
       "id": "01-iso31000-vocab",
       "topic": "Risk responses",
-      "front": "ISO 31000 risk-treatment vocabulary",
+      "front": "ISO 31000's names for mitigate, accept, and transfer",
       "back": "- **Modify** = mitigate\n- **Retain** = accept\n- **Share** = transfer\n- Avoid stays avoid"
     },
     {
       "id": "01-residual",
       "topic": "Risk types",
-      "front": "Total risk, controls gap, residual risk",
+      "front": "Total risk, controls gap, residual risk — define each",
       "back": "- **Total risk** = threats × vulnerabilities × asset value (conceptual formula)\n- **Controls gap** = the risk removed by safeguards (a difference, not a held risk)\n- **Residual risk** = total − controls gap; never zero; formally **accepted by senior management**"
     },
     {
@@ -136,7 +136,7 @@
     {
       "id": "01-sle-ale",
       "topic": "Quantitative analysis",
-      "front": "EF, SLE, ARO, ALE",
+      "front": "EF, SLE, ARO, ALE — define each, with formulas",
       "back": "- **EF** (exposure factor) — % of asset value lost per incident\n- **SLE** (single loss expectancy) = AV × EF — loss from one incident\n- **ARO** (annualized rate of occurrence) — expected incidents/year; can be fractional or >1\n- **ALE** (annualized loss expectancy) = SLE × ARO — loss per year"
     },
     {
@@ -178,7 +178,7 @@
     {
       "id": "01-methodologies",
       "topic": "Risk methodologies",
-      "front": "OCTAVE, FAIR, TARA",
+      "front": "OCTAVE, FAIR, TARA — what is each?",
       "back": "- **OCTAVE** (CMU SEI) — self-directed, asset-driven organizational risk assessment\n- **FAIR** — quantitative model: loss frequency × loss magnitude in dollars\n- **TARA** (Intel) — prioritizes the threat *agents* most likely to attack"
     },
     {
@@ -268,7 +268,7 @@
     {
       "id": "01-us-laws",
       "topic": "Legal",
-      "front": "CFAA, Federal Sentencing Guidelines, FISMA, DMCA",
+      "front": "CFAA, Federal Sentencing Guidelines, FISMA, DMCA — what does each do?",
       "back": "- **CFAA** (1986) — first major US cybercrime law; computer crimes crossing state lines\n- **Federal Sentencing Guidelines** (1991) — prudent person rule; executive **personal liability** for due care failures\n- **FISMA** (2002) — federal infosec programs, including **contractors**; delegated the \"how\" to NIST\n- **DMCA** (1998) — Sec. 1201 anti-circumvention ban + Sec. 512 ISP safe harbor"
     },
     {
@@ -292,7 +292,7 @@
     {
       "id": "01-privacy-laws",
       "topic": "Privacy laws",
-      "front": "Privacy Act, ECPA, HIPAA, GLBA, COPPA, GDPR, CCPA",
+      "front": "Privacy Act, ECPA, HIPAA, GLBA, COPPA, GDPR, CCPA — what does each cover?",
       "back": "- **Privacy Act 1974** — federal agencies' records on individuals\n- **ECPA 1986** — crime to invade electronic privacy; binds providers and private parties, not only government\n- **HIPAA 1996** — medical data; HITECH 2009 made business associates directly liable\n- **GLBA 1999** — financial institutions; deregulation plus privacy duties\n- **COPPA 1998** — children under 13 online\n- **GDPR** — EU persons' personal data, extraterritorial\n- **CCPA 2018** — California, modeled on GDPR"
     },
     {
@@ -346,7 +346,7 @@
     {
       "id": "01-fisma-program",
       "topic": "Legal",
-      "front": "FISMA program elements",
+      "front": "What must a FISMA-compliant infosec program include?",
       "back": "- Periodic **risk assessments**; risk-based policies; per-system **security plans**; awareness **training**\n- Control testing **at least annually**, plus independent **Inspector General** evaluation\n- **POA&M** remediation tracking; **incident response**; **continuity** plans; annual **OMB**/Congress reporting\n- Applies to **contractors** too; NIST writes the \"how\" (FIPS 199/200, SP 800-53, RMF)"
     },
     {
@@ -358,7 +358,7 @@
     {
       "id": "01-embargo",
       "topic": "Export controls",
-      "front": "Computer export controls and embargoed destinations",
+      "front": "Who licenses computer exports, and which destinations does the OSG list as embargoed?",
       "back": "**BIS** (Commerce) licenses high-performance computing exports under the EAR.\n\nOSG's embargo list: **Cuba, Iran, North Korea, Sudan, Syria**. Real-world membership has shifted since (Sudan delisted 2020, Crimea added) — the book's list is what the exam uses."
     },
     {
@@ -382,7 +382,7 @@
     {
       "id": "01-trike-vast",
       "topic": "Threat modeling",
-      "front": "Trike and VAST",
+      "front": "Trike and VAST — what is each?",
       "back": "- **Trike** — open-source, risk-based threat modeling built on a **requirements model**: the risk assigned to each asset must be \"acceptable\" to **stakeholders**\n- **VAST** (Visual, Agile, and Simple Threat) — threat modeling designed to scale inside **Agile/DevOps** pipelines"
     },
     {
@@ -400,7 +400,7 @@
     {
       "id": "01-mtd-rto-rpo-wrt",
       "topic": "Business continuity",
-      "front": "MTD, RTO, WRT, RPO",
+      "front": "MTD, RTO, WRT, RPO — define each and how they relate",
       "back": "- **MTD** (maximum tolerable downtime) — the ceiling: total outage the business survives\n- **RTO** (recovery time objective) — target time to restore the *system*\n- **WRT** (work recovery time) — time after restore to catch up backlog and verify data\n- **RTO + WRT ≤ MTD**\n- **RPO** (recovery point objective) — how much *data loss* is tolerable, as a point in time; a separate axis from the downtime clock"
     },
     {
@@ -418,7 +418,7 @@
     {
       "id": "01-governance-frameworks",
       "topic": "Governance",
-      "front": "ISO 27001, NIST CSF, SABSA, FedRAMP",
+      "front": "ISO 27001, NIST CSF, SABSA, FedRAMP — what is each?",
       "back": "- **ISO 27001** — certifiable ISMS: an organization can be audited and certified against it\n- **NIST CSF** — voluntary, outcome-based framework (Identify/Protect/Detect/Respond/Recover); no certification mechanism\n- **SABSA** — business-risk-driven security *architecture*; every control traces to a business requirement\n- **FedRAMP** — US federal cloud-service authorization, built on NIST SP 800-53"
     },
     {
@@ -430,13 +430,13 @@
     {
       "id": "01-evidence-types",
       "topic": "Investigations",
-      "front": "Evidence fundamentals",
+      "front": "Real evidence, direct evidence, best evidence rule, hearsay, chain of custody — define each",
       "back": "- **Real (object) evidence** — physical items admissible in court\n- **Direct evidence** — witness testimony from personal (five-senses) knowledge\n- **Best evidence rule** — the original document is required; copies are secondary evidence, rejected absent an exception\n- **Hearsay** — secondhand out-of-court statements; unauthenticated logs can count\n- **Chain of custody** — the unbroken record of control from collection to court; a gap invites exclusion"
     },
     {
       "id": "01-termination-access",
       "topic": "Personnel security",
-      "front": "Termination and access revocation",
+      "front": "In an involuntary termination, when is system access disabled?",
       "back": "For an involuntary or hostile termination, system access is disabled **at or before** the notification meeting — never hours afterward.\n\nOnboarding/offboarding are the IAM lifecycle actions of adding and removing the identity; the agreements (NDA, AUP) are separate paperwork."
     },
     {
@@ -454,7 +454,7 @@
     {
       "id": "01-awareness-effectiveness",
       "topic": "Security awareness",
-      "front": "Measuring security-awareness program effectiveness",
+      "front": "How is security-awareness program effectiveness measured?",
       "back": "Measured by **behavior change**, not delivery: phishing-simulation click-through and report rates over time, incident trend correlation — completion rate alone only proves training was delivered.\n\nSimulations are run to train and inform rather than punish, and content is refreshed periodically to track emerging threats."
     }
   ],

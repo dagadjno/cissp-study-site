@@ -286,7 +286,7 @@
     {
       "id": "02-cis-controls-1-2",
       "topic": "Asset inventory",
-      "front": "CIS Controls 1 and 2",
+      "front": "CIS Controls 1 and 2 — what does each require?",
       "back": "- **Control 1** — Inventory and Control of Enterprise Assets: all end-user, network, IoT, and server assets, whether physical, virtual, remote, or cloud.\n- **Control 2** — Inventory and Control of Software Assets: only authorized software installed and able to execute."
     },
     {
