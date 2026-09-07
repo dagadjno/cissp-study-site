@@ -456,6 +456,24 @@
       "topic": "Security awareness",
       "front": "How is security-awareness program effectiveness measured?",
       "back": "Measured by **behavior change**, not delivery: phishing-simulation click-through and report rates over time, incident trend correlation — completion rate alone only proves training was delivered.\n\nSimulations are run to train and inform rather than punish, and content is refreshed periodically to track emerging threats."
+    },
+    {
+      "id": "01-mef",
+      "topic": "BCP",
+      "front": "What are mission-essential functions (MEFs) in COOP, and what is the first step of COOP planning?",
+      "back": "- **MEF** = the deliberately small subset of functions that cannot pause without mission failure — what COOP restores at the alternate site; all else consciously lapses\n- Federal analog of the BIA's critical business processes; FEMA **FCD-2** governs MEF identification; **PMEF**s support **NEF**s (National Essential Functions)\n- Targets: resume within **12 hrs**, sustain **30 days** (verify FCD-1)\n- First COOP step = **identify MEFs via BIA** — not alternate-site selection\n- Examples: benefit payments, air traffic control, 911 dispatch (corporate: payment clearing, patient care); payroll = borderline — pausable, gets a longer BIA window instead"
+    },
+    {
+      "id": "01-sp800-core",
+      "topic": "NIST SP 800",
+      "front": "Name the job of each: SP 800-30, 800-34, 800-37, 800-53, 800-61, 800-63, 800-88.",
+      "back": "| SP | Job |\n| --- | --- |\n| 800-30 | Risk assessments |\n| 800-34 | Contingency planning (BCP/DRP/ISCP) |\n| 800-37 | RMF authorization process |\n| 800-53 (+A/B) | Control catalog / assess / baselines |\n| 800-61 | Incident handling |\n| 800-63 | Digital identity / authN levels |\n| 800-88 | Media sanitization |"
+    },
+    {
+      "id": "01-sp800-rmf-spine",
+      "topic": "NIST SP 800",
+      "front": "Attach an SP number to each RMF step (the memory spine).",
+      "back": "- Categorize -> **800-60** (+ FIPS 199)\n- Select -> **800-53B** (+ FIPS 200)\n- Implement -> **800-53**\n- Assess -> **800-53A**\n- Authorize -> **800-37**\n- Monitor -> **800-137**\n- Traps: 30 vs 37 vs 39 (assess/process/strategy); 53 vs 171 (federal vs CUI on nonfederal); 53A vs 115 (control assessment vs technical testing)"
     }
   ],
   "retired": [

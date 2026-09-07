@@ -519,6 +519,7 @@
   | **COOP** (Continuity of Operations) | Restoring **mission-essential functions** at an alternate site, for up to 30 days | Federal-mandated (HSPD-20/NSPD-51); nongovernment orgs use BCP instead |
   | **ISCP** (Information System Contingency Plan) | Recovering **one system**, regardless of site — can activate in place or at an alternate site | System-level; used *after* DRP has stood up the alternate site |
     - Also exists but lower exam yield: crisis communications plan (public-facing messaging), CIP (critical infrastructure protection) plan, cyber incident response plan (may be a BCP appendix), OEP (occupant emergency plan — life-safety, not IT) [NIST SP 800-34]
+    - **MEF** (mission-essential function) = the deliberately small subset of functions that cannot pause without mission failure — what COOP restores; everything else consciously lapses. Federal analog of the BIA's critical business processes. Examples: benefit payment issuance, air traffic control, 911 dispatch, disease surveillance (corporate: payment clearing, patient care, call routing); tell = externally facing + time-critical + mandated. Payroll = classic borderline: essential eventually, pausable for days -> longer BIA window, not MEF. FEMA **FCD-2** (Federal Continuity Directive) = MEF identification/BIA process; hierarchy: agency MEFs -> **PMEF**s supporting **NEF**s (National Essential Functions). Targets: resume within **12 hrs**, sustain **30 days** (verify FCD-1) [unverified]. Trap: COOP's first step = identify MEFs via BIA, not pick the alternate site
   - Test/exercise types, least to most rigorous/disruptive [OSG glossary]:
 
   | Type | What happens |
@@ -710,3 +711,38 @@
   - **Regulation vs. Directive** — directly applicable; an option saying member states must pass implementing law first is wrong
 - Related terms: privacy laws table (export controls and privacy laws entry, same domain), data ownership and roles (D2 2.3/2.4, controller/processor), sensitive data types (D2 2.1, PII), transborder data flow (1.4), HITECH business associate liability (1.4)
 - Sources: [OSG glossary], [GDPR text mirror], [ISC2 outline]
+
+## NIST SP 800 quick reference
+- Definition (ISC2 framing): recognition set — scenario options name SP numbers; know each document's job and its adjacent distractor
+- Key facts:
+  - Core tier (verified in entries above except where tagged):
+
+  | SP | Job | Domain |
+  | --- | --- | --- |
+  | **800-30** | Conducting risk assessments | 1 |
+  | **800-34** | Contingency planning (BCP/DRP/ISCP) | 1/7 |
+  | **800-37** | RMF authorization process | 1 |
+  | **800-53** (+A/B) | Control catalog / assess / baselines | 1 |
+  | **800-61** | Incident handling [unverified] | 7 |
+  | **800-63** | Digital identity, authentication levels [unverified] | 5 |
+  | **800-88** | Media sanitization (clear/purge/destroy) | 2 |
+
+  - Recognition tier:
+
+  | SP | Job | Pairing/tell |
+  | --- | --- | --- |
+  | **800-12** | Intro to infosec; policy triple | program/issue/system [NIST SP 800-12] |
+  | **800-39** | Enterprise risk mgmt strategy | vs. 800-30 assessment |
+  | **800-60** | Info types -> security categories | feeds RMF **Categorize** [NIST SP 800-60] |
+  | **800-115** | Security testing/assessment [unverified] | Domain 6 |
+  | **800-137** | Continuous monitoring (ISCM) [unverified] | feeds RMF **Monitor** |
+  | **800-161** | C-SCRM supply chain | 1.11 [NIST SP 800-161] |
+  | **800-171** | CUI in **nonfederal** systems [unverified] | contractor tell; vs. 800-53 federal |
+
+  - Memory spine = RMF: 60 categorize -> 53B select -> 53 implement -> 53A assess -> 37 authorize -> 137 monitor; FIPS 199/200 before Select
+- Exam traps / distractors:
+  - **800-30 vs. 37 vs. 39**: assessment / process / enterprise strategy
+  - **800-53 vs. 171**: federal systems vs. CUI on contractor systems
+  - **800-53A vs. 115**: control assessment vs. technical security testing
+- Related terms: RMF entry, FIPS 199/200, control baselines
+- Sources: [NIST SP 800-12], [NIST SP 800-30], [NIST SP 800-34], [NIST SP 800-37], [NIST SP 800-53B], [NIST SP 800-60], [NIST SP 800-161], [unverified]
