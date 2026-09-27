@@ -1,0 +1,143 @@
+{
+  "domain": 6,
+  "cards": [
+    {
+      "id": "06-test-assessment-audit",
+      "topic": "Assessment, test, and audit strategy",
+      "front": "Distinguish security test, security assessment, and security audit. What is the single discriminator between assessment and audit?",
+      "back": "| Term | Who / purpose | Output |\n| --- | --- | --- |\n| **Test** | Verifies one control works (scan, pentest, manual attempt) | Pass/fail |\n| **Assessment** | Trained pro; comprehensive review + risk assessment + recommendations | Report to management |\n| **Audit** | Same techniques, by **independent** auditors, to prove effectiveness to a **third party** | Attestation / opinion |\n\nDiscriminator: **independence** (and audience). Staff who design/operate controls have a conflict of interest as evaluators."
+    },
+    {
+      "id": "06-sp800-115-methods-phases",
+      "topic": "Assessment, test, and audit strategy",
+      "front": "NIST SP 800-115: title, three assessment methods, and the three-phase assessment lifecycle.",
+      "back": "**Technical Guide to Information Security Testing and Assessment** (Sep 2008)\n- Methods: **testing** (exercise object, compare actual vs expected), **examination** (inspect/review/observe to get evidence), **interviewing** (discussions to clarify or locate evidence)\n- Lifecycle: 1. **Planning** (assets, threats, controls, approach) 2. **Execution** (identify + validate vulns) 3. **Post-execution** (root cause, mitigation recommendations, report)"
+    },
+    {
+      "id": "06-sp800-53a-depth-coverage",
+      "topic": "Assessment, test, and audit strategy",
+      "front": "SP 800-53A Rev. 5: what are the three assessment methods, the two method attributes and their values, and the two possible findings?",
+      "back": "- Methods: **examine / interview / test**\n- Attributes: **depth** (rigor, level of detail) and **coverage** (scope, breadth) — each **basic / focused / comprehensive**\n- Finding per determination statement: **satisfied** or **other than satisfied**\n- Trap: \"sample more systems\" = coverage; \"trace the logic rather than read the policy\" = depth"
+    },
+    {
+      "id": "06-internal-external-thirdparty",
+      "topic": "Assessment, test, and audit strategy",
+      "front": "Internal vs external vs third-party assessment/audit — what does each mean in ISC2's outline, and how does the OSG glossary differ?",
+      "back": "- **Internal**: within organization control; own staff; low independence; continuous, audit readiness\n- **External**: outside organization control; org hires an outside firm; high independence; certification/attestation\n- **Third-party**: outside **enterprise** control — commissioned by a regulator/customer/partner, who sets scope; highest independence\n- OSG glossary equates external and third-party audit; the outline splits them — follow the outline. Discriminator: who **commissions** it and sets scope"
+    },
+    {
+      "id": "06-scan-vs-assessment-vs-pentest",
+      "topic": "Vulnerability assessment and penetration testing",
+      "front": "Vulnerability scan vs vulnerability assessment vs penetration test — what does each establish, and which is \"most thorough\" vs \"least disruptive\"?",
+      "back": "- **Scan**: automated probe for *known* holes; checks *possible existence*; high false-positive rate -> least disruptive, most frequent\n- **Assessment**: scan + risk assessment context + remediation recommendations (OSG: normally combined with risk assessment)\n- **Pentest**: authorized specialists *verify by exploitation* and show impact -> most thorough\n- Credentialed scan = fewer false positives, host-level config; unauthenticated = attacker's view. Neither is a pentest"
+    },
+    {
+      "id": "06-pentest-phases-roe",
+      "topic": "Vulnerability assessment and penetration testing",
+      "front": "SP 800-115 four-stage pentest methodology, and what belongs in the rules of engagement (RoE). What is the first step of any pentest?",
+      "back": "1. **Planning** — RoE, documented management approval, goals\n2. **Discovery** — info gathering/scanning, then vulnerability analysis\n3. **Attack** — exploit to verify; loops back to discovery as access grows\n4. **Reporting** — concurrent with all phases\n\n**RoE** (OSG): scope, test types, depth. SP 800-115 App. B adds purpose, assumptions/limitations, risks, personnel + incident-response contacts, schedule/hours, test site/access, data handling.\nFirst step = planning / **written authorization**, never reconnaissance. External testing usually precedes internal."
+    },
+    {
+      "id": "06-knowledge-levels-teams",
+      "topic": "Vulnerability assessment and penetration testing",
+      "front": "Current ISC2 terms for black/gray/white box testing; roles of red, blue, purple, and white teams; overt vs covert testing.",
+      "back": "| Current | Legacy | Tester knows |\n| --- | --- | --- |\n| **Unknown environment** | Black box | Nothing |\n| **Partially known** | Gray box | Some design |\n| **Known environment** | White box | Everything |\n\n- **Red** attackers; **Blue** defenders; **Purple** one team doing both, offense feeds defense in real time; **White** referees — set RoE/boundaries (white team != white box)\n- **Overt** (white hat): staff aware, cheaper, common. **Covert** (black hat): tests detection/response realistically, slower, costlier, stops at agreed boundary"
+    },
+    {
+      "id": "06-scap-components",
+      "topic": "Vulnerability assessment and penetration testing",
+      "front": "Name the six SCAP components and what each names or describes. What are CVSS's three metric groups?",
+      "back": "| Component | Names / describes |\n| --- | --- |\n| **CVE** | Known vulnerabilities |\n| **CVSS** | Severity 0–10 + vector string |\n| **CPE** | OS, apps, devices |\n| **CCE** | Configuration issues |\n| **XCCDF** | Security checklists |\n| **OVAL** | Testing procedures |\n\nCVSS groups: **Base / Temporal / Environmental**. Compliance checks run SCAP content against a **benchmark** (secure configuration guide). Compliant != effective."
+    },
+    {
+      "id": "06-code-review-types",
+      "topic": "Control testing: code review, coverage, interface testing",
+      "front": "Rank the code review types by formality and describe Fagan inspection's six phases.",
+      "back": "Lowest -> highest: **over-the-shoulder** -> **email pass-around** -> **pair programming** (continuous, Agile/XP) / **tool-assisted** -> **Fagan inspection**\n\nFagan: planning, overview, preparation, inspection meeting, rework, follow-up — formal; used where code flaws have catastrophic impact.\nTrap: Fagan = most formal, not fastest; pair programming is a dev practice that yields review, not a review event."
+    },
+    {
+      "id": "06-static-dynamic-fuzzing",
+      "topic": "Control testing: code review, coverage, interface testing",
+      "front": "Static vs dynamic vs interactive testing; mutation vs generational fuzzing. When is dynamic the only option?",
+      "back": "- **Static** (SAST): no execution; analyzes source or compiled binary\n- **Dynamic** (DAST): runtime; often the *only* option for someone else's software (no source)\n- **Interactive** (IAST): agent instrumented inside the running app; combines both\n- **Fuzzing** = dynamic; invalid/random/crafted input, watch for crashes/overflows\n  - **Mutation** (dumb): modify known-good inputs (zzuf)\n  - **Generational** (intelligent): build inputs from a model of expected input; needs protocol knowledge, reaches deeper"
+    },
+    {
+      "id": "06-misuse-coverage-interface",
+      "topic": "Control testing: code review, coverage, interface testing",
+      "front": "Define misuse case testing, test coverage analysis (with its five criteria), and interface testing. What does coverage analysis NOT measure?",
+      "back": "- **Misuse/abuse case**: enumerate known misuse cases, then attempt them — models the attacker; inverse of use-case testing; development-phase, not a pentest\n- **Coverage analysis**: estimates degree of testing = tested cases / total. Criteria: **statement, branch, condition, function, loop**. Measures the *testing*, not code quality; 100% statement != all branches\n- **Interface testing**: modules vs interface specs so they work together — **UI, network interfaces, APIs** (the seams, not the components)"
+    },
+    {
+      "id": "06-synthetic-log-review",
+      "topic": "Control testing: log review and synthetic transactions",
+      "front": "Synthetic transactions vs real user monitoring; what does log review verify and which NIST SP covers log management?",
+      "back": "- **Synthetic transactions**: scripted, known expected results; deviations = possible flaws. Proactive — finds outages *before* users. **RUM** = passive capture of real users\n- Synthetic verifies functionality/availability/SLA, not vulnerabilities\n- **Log review**: passive review technique (SP 800-115) — detects policy violations *and* validates that logging itself works (config, retention, clock sync). **NIST SP 800-92** Guide to Computer Security Log Management; SP 800-53 **AU-6**\n- Not continuous monitoring (7.2), not an audit"
+    },
+    {
+      "id": "06-kpi-vs-kri",
+      "topic": "Security process data collection",
+      "front": "KPI vs KRI — which is leading, which lagging, and classify: \"incidents last quarter\" and \"% of critical systems past patch SLA\".",
+      "back": "- **KPI** (key performance indicator): **lagging**; measures achievement of security operations so management can adjust (OSG) — patch-SLA compliance, MTTD/MTTR, training completion\n- **KRI** (key risk indicator): **leading**; signals rising exposure before loss — trend in unpatched criticals, orphaned privileged accounts. Feeds the risk register\n- \"Incidents last quarter\" = KPI; \"% critical systems past patch SLA\" = KRI (predicts incidents)\n- Good indicator: tied to objective, measurable, threshold, trended, owned"
+    },
+    {
+      "id": "06-management-review-iso",
+      "topic": "Security process data collection",
+      "front": "ISO/IEC 27001 clause 9: who performs monitoring (9.1), internal audit (9.2), and management review (9.3), and what are management review's inputs?",
+      "back": "- **9.1** monitoring/measurement — control owners produce data\n- **9.2** internal audit — auditors test conformity and effectiveness at planned intervals\n- **9.3** management review — **top management** reviews the ISMS: prior actions, changes, performance feedback (nonconformities, measurements, audit results), interested-party feedback, risk assessment/treatment status, improvement opportunities\n- Clause 10 = improvement. Discriminator between the three: *who does it*\n- Clause numbers: verify against 27001:2022 text"
+    },
+    {
+      "id": "06-backup-dr-verification",
+      "topic": "Security process data collection",
+      "front": "What counts as backup verification, and rank the DR/BC test types from least to most disruptive.",
+      "back": "- Backup verified = **test restore** of a sample to a clean system and compare, at defined frequency; also offsite/immutable copies and restore *time* vs RTO. \"Job succeeded\" log or checksum alone is not verification (SP 800-53 **CP-9(1)**)\n- DR tests: **checklist/read-through** -> **structured walk-through/tabletop** (talk only) -> **simulation** (some measures executed) -> **parallel** (alternate site activated, primary running) -> **full interruption** (primary shut down; senior approval) (SP 800-53 **CP-4**)"
+    },
+    {
+      "id": "06-account-training-data",
+      "topic": "Security process data collection",
+      "front": "For account management and training/awareness, what process data does management collect and what does it prove?",
+      "back": "- **Account management** (SP 800-53 **AC-2**): creation/privilege-change approvals, terminations, dormant accounts, periodic **access review** (full or sampled — privileged and service accounts first). Proves the provisioning lifecycle is enforced. Review = detective; provisioning = preventive (5.5)\n- **Training/awareness** (SP 800-53 **AT-4**): completion rates, phishing click/report-rate trends, training records. Effectiveness = behavior change, not attendance"
+    },
+    {
+      "id": "06-remediation-exception",
+      "topic": "Analyze test output and report",
+      "front": "Remediation vs mitigation vs exception handling in a test report. What makes an exception legitimate, and who signs it?",
+      "back": "- **Remediation**: fix root cause, **retest** to confirm closure, track open items (federal: **POA&M**, SP 800-53 **CA-5**)\n- **Mitigation**: reduce likelihood/impact via compensating control; report must say which\n- **Exception**: documented business justification, **compensating controls**, residual risk, **risk owner** (business, not IT/security) sign-off, **expiry/review date** — risk acceptance made auditable. Not \"ignore\"\n- Distinct from programming exception/error handling (code anticipating errors)"
+    },
+    {
+      "id": "06-ethical-disclosure",
+      "topic": "Analyze test output and report",
+      "front": "Define ethical disclosure and contrast full, responsible/coordinated, and nondisclosure. Which ISO standards apply, and where does a pentester report a third-party product bug?",
+      "back": "- **Ethical disclosure** (OSG): finder reports to the **vendor**, giving them opportunity to patch — vendor first, reasonable time, then public\n- **Full**: publish immediately. **Responsible/coordinated**: private report, publish after fix or agreed window (e.g., 90 days). **Nondisclosure**: hoard/sell. **Bug bounty**: vendor-run coordinated disclosure with reward\n- **ISO/IEC 29147** vulnerability disclosure (vendor <-> finder); **ISO/IEC 30111** vulnerability handling (vendor internal) — verify 30111\n- Third-party bug found during a client pentest -> report to the **client** per RoE; coordinate with vendor together"
+    },
+    {
+      "id": "06-report-analysis",
+      "topic": "Analyze test output and report",
+      "front": "What does SP 800-115 say happens after execution, and what does a good assessment report lead with? Severity vs priority?",
+      "back": "- Post-execution: **analysis** (root cause, categorize, strip **false positives** — before the report), then 8.1 mitigation recommendations, 8.2 reporting, 8.3 remediation/mitigation\n- Report: executive summary leads with **business risk** and trend, not the vuln list; scope/RoE; risk-ranked findings; evidence; recommendations with owner and date. Findings are **sensitive** — restrict distribution, protect at rest/in transit (data handling in RoE)\n- **Severity** (CVSS base, generic) != **priority** (adds exposure, criticality, compensating controls)"
+    },
+    {
+      "id": "06-soc-1-2-3",
+      "topic": "Security audits",
+      "front": "SOC 1 vs SOC 2 vs SOC 3: subject, audience, and restricted vs general use. Under what standard, and what are the five Trust Services Criteria?",
+      "back": "AICPA **SOC** (System and Organization Controls) reports under **SSAE** (SSAE No. 18; verify)\n\n| Report | Subject | Use |\n| --- | --- | --- |\n| **SOC 1** | Controls over user entities' **financial reporting** (ICFR) | Restricted — customer's financial auditors |\n| **SOC 2** | **Trust Services Criteria** | Restricted, under NDA, detailed |\n| **SOC 3** | Same criteria, less detail | **General use** — publishable |\n\nTSC: **security** (mandatory), availability, processing integrity, confidentiality, privacy. CISO vetting a SaaS vendor -> SOC 2; vendor posts on website -> SOC 3."
+    },
+    {
+      "id": "06-soc-type1-type2",
+      "topic": "Security audits",
+      "front": "SOC Type I vs Type II — what question does each answer, over what time frame, and which gives more assurance? International counterpart?",
+      "back": "- **Type I**: controls fairly described and suitably **designed** — at a **point in time**; lower assurance; a new provider may only have this\n- **Type II**: controls **operating effectively** over a **period** (commonly 6–12 months; verify); higher assurance — \"best evidence controls actually worked last year\"\n- **ISAE 3402** (IAASB): assurance reports on controls at a service organization relevant to financial reporting = SOC 1 counterpart; type 1/type 2 split mirrors SOC"
+    },
+    {
+      "id": "06-audit-independence",
+      "topic": "Security audits",
+      "front": "How is auditor independence achieved for internal, external, and third-party audits, and what audit-related trap does \"compliance audit passed\" set?",
+      "back": "- **Internal**: staff auditors report functionally to the **audit committee**/board, not the CISO; never audit controls they designed or operate; read-only access, no remediation role\n- **External**: outside firm hired by the org — no conflict of interest (OSG \"high external validity\"); rotate firms\n- **Third-party**: commissioned by regulator/customer/partner who sets scope — outside enterprise control\n- Auditor who also fixes findings = conflict of interest / SoD violation\n- Audits test against **criteria** (the standard), not threats: passing != secure. Internal team finding gaps to fix = assessment, even if called an audit"
+    },
+    {
+      "id": "06-audit-cloud-location",
+      "topic": "Security audits",
+      "front": "How does audit approach change across on-premises, cloud, and hybrid locations?",
+      "back": "- **On-premises**: direct access to systems and evidence\n- **Cloud**: shared responsibility — provider layer assured via provider attestations (**SOC 2 Type II**, ISO/IEC 27001 certificate, FedRAMP); hyperscalers do not accept customer audits; **right-to-audit clause** is the lever for smaller vendors; customer layer tested directly\n- **Hybrid**: map each control to the responsible party first, then audit each side; the seams (identity federation, connectivity) are the risk\n- Trap: \"demand to pentest the provider's hypervisor\" is wrong; review the attestation"
+    }
+  ]
+}

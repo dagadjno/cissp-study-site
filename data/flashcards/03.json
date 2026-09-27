@@ -54,6 +54,222 @@
       "topic": "Secure design principles",
       "front": "Privacy by design, shared responsibility (3.1 sense), and SASE — one line each.",
       "back": "- **Privacy by design**: privacy built in at the design phase = security by design (Cavoukian principles)\n- **Shared responsibility** (3.1): orgs are intertwined with the world — take your role seriously; *broader* than the cloud provider/customer split (that is 3.5)\n- **SASE**: converges network security functions with WAN capability for cloud/mobile access (SD-WAN + SWG/CASB/ZTNA/FWaaS)"
+    },
+    {
+      "id": "03-blp-biba-rules",
+      "topic": "Security models",
+      "front": "State the read and write rules of Bell-LaPadula and of Biba. Which word marks the write rule in both?",
+      "back": "| Model | Read | Write |\n| --- | --- | --- |\n| **Bell-LaPadula** (confidentiality) | Simple Security: **no read up** | * (star) Security: **no write down** |\n| **Biba** (integrity) | Simple Integrity: **no read down** | * (star) Integrity: **no write up** |\n\n- \"Simple\" = read rule, \"star\" = write rule, in both\n- Biba is BLP inverted; both are state-machine + lattice + MAC"
+    },
+    {
+      "id": "03-clark-wilson-terms",
+      "topic": "Security models",
+      "front": "Clark-Wilson: what are CDI, UDI, TP, IVP, and what is the access triple? How does it differ from Biba?",
+      "back": "- **CDI** constrained data item: data the model protects\n- **UDI** unconstrained data item: unvalidated input / output, outside the model\n- **TP** transformation procedure: the only thing allowed to modify a CDI\n- **IVP** integrity verification procedure: scans CDIs, confirms integrity\n- Access triple: **subject / program / object** — well-formed transactions + SoD\n- vs. **Biba**: both integrity, but Biba uses labels/lattice (military); CW mediates via programs (commercial)"
+    },
+    {
+      "id": "03-brewer-nash-others",
+      "topic": "Security models",
+      "front": "Which security model changes permissions dynamically based on the user's prior activity, and what are its other names? Name the models focused on secure creation/deletion of subjects and objects.",
+      "back": "- **Brewer and Nash**: access changes with history to prevent conflict of interest; aka Chinese Wall (deprecated), ethical wall, cone of silence\n- **Graham-Denning**: secure creation/deletion of subjects and objects; **HRU** (Harrison-Ruzzo-Ullman) extends it — assignment and resilience of rights\n- Integrity-via-noninterference family: **Goguen-Meseguer**, **Sutherland**"
+    },
+    {
+      "id": "03-cc-pp-st-eal",
+      "topic": "Security models",
+      "front": "Common Criteria: which standard is it, and what are PP, ST, TOE, and EAL? Does a higher EAL mean a more secure product?",
+      "back": "- **ISO/IEC 15408** (methodology ISO/IEC 18045)\n- **PP** protection profile = customer's \"I want\"\n- **ST** security target = vendor's \"I will provide\"\n- **TOE** target of evaluation = the product\n- **EAL** 1–7 = depth of evaluation testing (EAL1 functionally tested ... EAL4 methodically designed/tested/reviewed ... EAL7 formally verified)\n- No — EAL measures assurance rigor, not security strength; deployment config is outside the TOE"
+    },
+    {
+      "id": "03-tcb-refmon-kernel",
+      "topic": "Security models",
+      "front": "Distinguish TCB, security perimeter, reference monitor, security kernel, and trusted path.",
+      "back": "- **TCB** trusted computing base: hardware + software + controls that enforce policy\n- **Security perimeter**: imaginary boundary between TCB and the rest\n- **Reference monitor**: the *concept* — validates every access against policy\n- **Security kernel**: OS core that *implements* the reference monitor\n- **Trusted path**: TCB's secure channel to the rest of the system\n- Trap: concept vs. implementation (reference monitor vs. kernel)"
+    },
+    {
+      "id": "03-security-modes",
+      "topic": "Security models",
+      "front": "The four U.S. security modes (dedicated, system high, compartmented, multilevel): who needs clearance, who needs need-to-know?",
+      "back": "| Mode | All cleared for all data | Need-to-know for all |\n| --- | --- | --- |\n| **Dedicated** | Yes | Yes |\n| **System high** | Yes | No |\n| **Compartmented** | Yes | No; formal approval per compartment |\n| **Multilevel** | No | No; labels enforced (multistate) |"
+    },
+    {
+      "id": "03-control-selection-chain",
+      "topic": "Control selection",
+      "front": "Walk the NIST control-selection chain: which document does each step (categorize, minimum requirements, baselines, RMF steps), and what is the high water mark?",
+      "back": "1. **FIPS 199** categorize: SC = {(C, impact), (I, impact), (A, impact)}, low/moderate/high; system category = **high water mark** (highest of the three)\n2. **FIPS 200** minimum security requirements\n3. **SP 800-53B** baselines low/moderate/high + **privacy baseline**; tailoring guidance\n4. **SP 800-37 Rev 2** RMF: Prepare, Categorize, **Select**, Implement, Assess, Authorize, Monitor\n- Trap: baseline is not the average of C/I/A"
+    },
+    {
+      "id": "03-tailoring-vs-scoping",
+      "topic": "Control selection",
+      "front": "Tailoring vs. scoping in control selection — which contains which, and what does a stem about \"removing controls for components that don't exist\" describe?",
+      "back": "- **Tailoring** = adjusting the baseline to the mission: scoping + compensating controls + parameter values + supplements\n- **Scoping** = one step inside tailoring — dropping controls that don't apply\n- \"Removing controls for nonexistent components\" -> scoping\n- Selecting/tailoring is RMF step **Select**, after Categorize, before Implement"
+    },
+    {
+      "id": "03-functional-vs-assurance-req",
+      "topic": "Control selection",
+      "front": "Functional vs. assurance security requirements — and what does an EAL or FIPS 140-3 level tell you about a deployment?",
+      "back": "- **Functional**: what the system must do (authenticate, log, encrypt) — CC Part 2\n- **Assurance**: confidence it does it correctly — CC Part 3, EALs\n- EAL / FIPS 140-3 level validate the **TOE / module**, not your configuration or operating environment\n- Requirement-driven selection beats \"industry best practice\" when the stem states a requirement"
+    },
+    {
+      "id": "03-tpm-vs-hsm",
+      "topic": "Security capabilities of information systems",
+      "front": "TPM vs. HSM: what does each do, which standard governs each, and which do you pick to protect a CA's private key vs. bind disk encryption to a laptop?",
+      "back": "- **TPM**: mainboard cryptoprocessor; stores/processes keys for hardware-backed disk encryption; platform integrity measurements — **ISO/IEC 11889**\n- **HSM**: appliance/card that manages keys, accelerates crypto, faster signatures — validated to **FIPS 140-3** (4 levels, aligned to ISO/IEC 19790)\n- CA private key -> **HSM**; laptop disk key bound to that platform -> **TPM**"
+    },
+    {
+      "id": "03-secure-vs-measured-boot",
+      "topic": "Security capabilities of information systems",
+      "front": "Secure boot vs. measured boot vs. attestation — which blocks, which records, and what does SP 800-193 add?",
+      "back": "- **Secure boot** (UEFI): refuses unsigned drivers/OS — *blocks* bootkits\n- **Measured boot**: hashes every boot element — *records*, does not block\n- **Attestation**: verifying that record as true/accurate (not authentication)\n- **SP 800-193** Platform Firmware Resiliency: **protection, detection, recovery**; built on a hardware **root of trust / trust anchor**"
+    },
+    {
+      "id": "03-covert-channels-isolation",
+      "topic": "Security capabilities of information systems",
+      "front": "Covert storage vs. covert timing channel; memory protection vs. process isolation vs. hardware segmentation.",
+      "back": "- **Covert storage**: write to a shared storage area another process reads (files, locks, disk space)\n- **Covert timing**: modulate performance/timing predictably (CPU load, latency)\n- **Memory protection**: OS blocks a process touching memory not allocated to it\n- **Process isolation**: each process has its own memory space for data + code\n- **Hardware segmentation**: process isolation enforced in hardware\n- **Protection rings**: ring 0 kernel, ring 3 user; higher ring calls lower via system call (mediated access)"
+    },
+    {
+      "id": "03-emanations-tempest",
+      "topic": "Security capabilities of information systems",
+      "front": "TEMPEST, Faraday cage, white noise, control zone — define and distinguish.",
+      "back": "- **Emanations**: EM/RF signals carrying data that can be eavesdropped\n- **TEMPEST**: study/control of those signals; keep radiation inside a defined area\n- **Faraday cage**: conductive mesh blocking EM in/out\n- **White noise**: broadcast false signal to mask real emanations\n- **Control zone**: Faraday cage and/or noise applied to *one area* only\n- Related capability trap: **homomorphic encryption** protects data **in use**"
+    },
+    {
+      "id": "03-aggregation-vs-inference",
+      "topic": "Vulnerabilities of security architectures",
+      "front": "Database: aggregation vs. inference, and which control defends inference? Name the DBMS integrity mechanisms.",
+      "back": "- **Aggregation**: combining many authorized low-value records yields something more sensitive\n- **Inference**: *deducing* higher-classified facts from lower-classified data\n- **Polyinstantiation** (same primary key, different rows per classification level) defends inference; also **cell suppression**, partitioning, noise/perturbation\n- Integrity: **ACID** (atomicity, consistency, isolation, durability), **concurrency** locks, **semantic integrity** rules; **contamination** = levels commingled"
+    },
+    {
+      "id": "03-cloud-models-145",
+      "topic": "Vulnerabilities of security architectures",
+      "front": "SP 800-145: the 5-3-4 of cloud. And how does shared responsibility shift across SaaS/PaaS/IaaS?",
+      "back": "- **5 characteristics**: on-demand self-service, broad network access, resource pooling, rapid elasticity, measured service\n- **3 service models**: SaaS, PaaS, IaaS\n- **4 deployment models**: private, community, public, hybrid\n- Responsibility clue = who controls the **OS**: IaaS customer owns OS up; PaaS provider owns OS/runtime, customer owns app + data; SaaS customer owns only data/access config\n- Private cloud can be third-party hosted (single tenant); public = multitenant"
+    },
+    {
+      "id": "03-containers-vms-serverless",
+      "topic": "Vulnerabilities of security architectures",
+      "front": "Containers vs. VMs vs. serverless: what is each one's characteristic vulnerability, and which NIST guides cover containers and virtualization?",
+      "back": "- **Containers** share the **host kernel** — escape hits host + neighbors; risk areas: image, registry, orchestrator, runtime, host OS (**SP 800-190**)\n- **VMs**: hypervisor is the TCB — **VM escape**, **VM sprawl** (no management plan); Type I bare-metal vs. Type II hosted (**SP 800-125**)\n- **Serverless/FaaS**: there is still a server; CSP owns platform, *customer* owns code, secrets, IAM\n- \"Strongest isolation\" -> separate VMs/hosts, not containers"
+    },
+    {
+      "id": "03-ics-iot-edge",
+      "topic": "Vulnerabilities of security architectures",
+      "front": "ICS/OT priority order and guide; IoT mitigation and guides; edge vs. fog.",
+      "back": "- **OT** (SCADA, DCS, PLC): **safety, availability, integrity over confidentiality**; patching constrained; real-time; legacy — **SP 800-82 Rev 3** (Sept 2023); segment IT/OT, DMZ\n- **IoT**: weak defaults, no update path -> **network segmentation**, vendor lifecycle; **NIST IR 8259** (manufacturers), **SP 800-213** (federal acquisition)\n- **Edge** = intelligence in each device at the edge; **fog** = LAN-positioned node collects/processes before central\n- Trap: \"patch immediately\" is usually wrong for OT; compensating controls + window"
+    },
+    {
+      "id": "03-crypto-services-primitives",
+      "topic": "Cryptographic solutions",
+      "front": "Which primitive gives which service? Confidentiality, integrity, authentication, nonrepudiation — and why can't HMAC give nonrepudiation? Which direction do you sign/encrypt?",
+      "back": "- Confidentiality: symmetric encryption (bulk) / asymmetric (key transport)\n- Integrity: hash; integrity + authentication: **HMAC** / MAC\n- **Nonrepudiation**: **digital signature only** — HMAC fails because both parties hold the key\n- Sign with **your private**, verify with signer's public; encrypt with **recipient's public**, decrypt with recipient's private\n- **Diffie-Hellman** = key agreement only, never encryption or signing\n- **Kerckhoffs**: algorithm public, key secret; hashing is not encryption (no key, one-way)"
+    },
+    {
+      "id": "03-symmetric-status-modes",
+      "topic": "Cryptographic solutions",
+      "front": "DES, 3DES, AES: block/key sizes and current NIST status. Which mode is weakest and which one authenticates?",
+      "back": "- **DES**: 64-bit block, 56-bit key; superseded Dec 2001\n- **3DES/TDEA**: 2-key encryption disallowed; 3-key deprecated through 2023, **disallowed after 2023**; decrypt = legacy only (SP 800-131A)\n- **AES**: 128-bit block; 128/192/256 keys — FIPS 197 (Nov 2001, upd May 2023)\n- Modes (SP 800-38A): ECB, CBC, CFB, OFB, CTR; **ECB** weakest (no IV, identical blocks repeat)\n- **GCM** (SP 800-38D) = authenticated encryption (AEAD); GMAC = MAC only"
+    },
+    {
+      "id": "03-strength-equivalence",
+      "topic": "Cryptographic solutions",
+      "front": "SP 800-57 comparable strengths: what RSA modulus and ECC key match 112-, 128-, and 192-bit symmetric strength? What is the current minimum, and what is DSA's status under FIPS 186-5?",
+      "back": "| Bits | Symmetric | RSA | ECC |\n| --- | --- | --- | --- |\n| 112 | 3TDEA | 2048 | 224–255 |\n| 128 | AES-128 | 3072 | 256–383 |\n| 192 | AES-192 | 7680 | 384–511 |\n\n- Minimum **112 bits**; < 112 disallowed; 112 legacy-use after 2030\n- **FIPS 186-5** (Feb 2023): DSA **no longer approved for generating** signatures; RSA, ECDSA, **EdDSA** approved\n- ECC shorter key != weaker"
+    },
+    {
+      "id": "03-key-lifecycle-escrow",
+      "topic": "Cryptographic solutions",
+      "front": "SP 800-57 key states and phases; define cryptoperiod; distinguish key escrow, key recovery, M of N, split knowledge.",
+      "back": "- States: **pre-activation -> active -> suspended -> deactivated -> compromised -> destroyed**\n- Phases: pre-operational, operational, post-operational, destroyed\n- **Cryptoperiod** = time span a key is authorized for use; limits cryptanalysis exposure and compromise damage (not the same as certificate validity)\n- **Key escrow**: copies held centrally (agency = law-enforcement access)\n- **Key recovery**: the act of extracting from backup/escrow\n- **M of N**: minimum M of N agents must cooperate to retrieve\n- **Split knowledge**: no one person holds the whole key"
+    },
+    {
+      "id": "03-pki-components",
+      "topic": "Cryptographic solutions",
+      "front": "PKI: roles of CA, RA, intermediate CA, CRL, OCSP (and stapling), CSR, CP vs. CPS. Which RFCs profile X.509 and OCSP?",
+      "back": "- **CA** issues/signs; **root CA** self-signed, kept **offline**; **intermediate** does daily issuance\n- **RA** validates identity/registration — **never issues**\n- **CRL**: periodic list of revoked serials (stale); **OCSP** (RFC 6960): real-time **good / revoked / unknown**; **stapling** = server presents CA-signed timestamped response\n- **CSR**: PKCS#10 request\n- **CP** = rules of certificate use; **CPS** = how the CA operates\n- **RFC 5280**: X.509 v3 cert / v2 CRL profile — version, serial, signature alg, issuer, validity, subject, subjectPublicKeyInfo, extensions"
+    },
+    {
+      "id": "03-qkd-vs-pqc",
+      "topic": "Cryptographic solutions",
+      "front": "QKD vs. post-quantum cryptography: which is physics, which is math, and which NIST FIPS standardize PQC?",
+      "back": "- **QKD**: quantum physics distributes a shared **symmetric** key (same goal as DH); point-to-point hardware, not an algorithm\n- **PQC**: classical math believed quantum-resistant — deployable in software today\n- **FIPS 203 ML-KEM** (key encapsulation), **FIPS 204 ML-DSA**, **FIPS 205 SLH-DSA** (SPHINCS+) — Aug 13 2024; stateful hash-based LMS/XMSS in SP 800-208\n- \"Quantum-safe TLS today\" -> PQC, not QKD\n- Quantum cryptography itself: no current real-world use per OSG"
+    },
+    {
+      "id": "03-attacks-by-material",
+      "topic": "Cryptanalytic attacks",
+      "front": "Classify by what the attacker has: ciphertext-only, known plaintext, chosen plaintext, chosen ciphertext. Where does frequency analysis fit and what does it beat?",
+      "back": "- **Ciphertext-only**: only ciphertext — weakest position\n- **Known plaintext**: has plaintext/ciphertext pairs — exploits key reuse\n- **Chosen plaintext**: can *generate* pairs by encrypting chosen input\n- **Chosen ciphertext**: can *decrypt* chosen ciphertext (padding-oracle style)\n- **Frequency analysis**: ciphertext-only tool using language letter statistics (E, T, A, O, N...); beats **monoalphabetic substitution**; polyalphabetic flattens it"
+    },
+    {
+      "id": "03-sidechannel-fault-timing",
+      "topic": "Cryptanalytic attacks",
+      "front": "Side-channel vs. timing vs. fault injection vs. implementation attack — passive or active, and what does each exploit?",
+      "back": "- **Side-channel**: **passive, noninvasive** observation of the device (power, EM, timing); smartcards\n- **Timing**: a *subtype* of side-channel using operation duration\n- **Fault injection**: **active** — induce an external fault (voltage, clock, heat, laser) to corrupt the device's integrity; not a side-channel\n- **Implementation attack**: umbrella for flaws in code/methodology, not the math; contrast **analytic** (algorithm math) and **statistical** (host RNG)\n- \"Attacker varies supply voltage to skip an instruction\" -> fault injection"
+    },
+    {
+      "id": "03-birthday-mitm-rainbow",
+      "topic": "Cryptanalytic attacks",
+      "front": "Birthday attack, meet-in-the-middle, rainbow table: what does each target and what defeats each?",
+      "back": "- **Birthday/collision**: hash — substitute a signed message with one of equal digest; 23 people -> >50% shared birthday; defense = **longer digest**, not longer key\n- **Meet-in-the-middle**: known plaintext, encrypt with all k1 / decrypt with all k2 — why double-DES fails and 3DES exists; not man-in-the-middle\n- **Rainbow table**: precomputed hash chains vs. stored hashes — defeated by **salt**; brute force is defeated by length\n- **Replay**: retransmit captured valid data — nonce/timestamp"
+    },
+    {
+      "id": "03-pth-kerberos-ransomware",
+      "topic": "Cryptanalytic attacks",
+      "front": "Pass the hash, golden ticket, ransomware: what is each, and what is the managerial control the exam wants?",
+      "back": "- **Pass the hash**: reuse cached credential hash without plaintext (mostly Windows) — credential *reuse*, not cracking; longer passwords don't help -> credential tiering, PAWs\n- **Golden ticket**: **KRBTGT** hash -> forge any TGT domain-wide; mimikatz dumps hashes/tickets; fix = rotate KRBTGT, not user passwords\n- **Ransomware**: malware encrypts/blocks system for payment -> **offline/immutable tested backups**, segmentation, IR; not decryption or paying\n- **Crypto-malware** (cryptojacking/mining) is *not* ransomware\n- **AitM/on-path** is OSG's preferred name for MITM"
+    },
+    {
+      "id": "03-cpted",
+      "topic": "Site and facility design principles",
+      "front": "CPTED: name and distinguish its three strategies. How does it differ from target hardening?",
+      "back": "- **Natural access control**: guide entry/exit via entranceway placement, fences, bollards, lighting (funnel to the lobby)\n- **Natural surveillance**: make offenders feel observed — open sightlines, no obstacles at entrances (glass lobby)\n- **Natural territorial reinforcement**: area looks cared for, owned, defended (signage, upkeep)\n- **Target hardening** (locks, bars, fences as barriers) is not CPTED — CPTED is design that changes behavior"
+    },
+    {
+      "id": "03-physical-layers-safety",
+      "topic": "Site and facility design principles",
+      "front": "Order the layered physical defense functions, classify lighting / fences / CCTV by control type, and state the top priority of physical security.",
+      "back": "- **Deter -> deny -> detect -> delay -> determine -> decide/respond**; each ring buys time for response\n- **Lighting**, signage = deterrent (lighting = most common perimeter control)\n- **Fences**, locks = preventive/deny\n- **CCTV**, motion sensors = detective (not preventive unless monitored + responded to)\n- Top priority: **personnel safety** — fail-safe egress even in a data center\n- Facility plan derives from risk assessment + **critical path analysis**"
+    },
+    {
+      "id": "03-water-suppression",
+      "topic": "Site and facility security controls",
+      "front": "Wet pipe, dry pipe, preaction, deluge: how does each work and which is right for a room with both people and computers?",
+      "back": "| System | Works | Where |\n| --- | --- | --- |\n| **Wet pipe** | Always full; immediate | General office |\n| **Dry pipe** | Compressed air, valve opens then water | Freeze-risk areas |\n| **Preaction** | Dry until early detection fills; releases only when head melts; abortable | **People + computers** |\n| **Deluge** | Big pipes, all heads open | **Never for electronics** |\n\n- Fire triangle: fuel, heat, oxygen (+ chemical reaction) — remove one"
+    },
+    {
+      "id": "03-fire-classes-agents",
+      "topic": "Site and facility security controls",
+      "front": "Fire classes A–D and K, and why halon and CO2 are distractors.",
+      "back": "- **A** ordinary combustibles (wood, paper) — water\n- **B** flammable liquids/gases/greases — CO2, foam, dry powder\n- **C** energized electrical — gas or dry powder (water conducts)\n- **D** combustible metals — dry powder\n- **K** commercial kitchen oils — wet chemical\n- **Halon**: works, but toxic at 900°F and ozone-depleting -> clean-agent replacements (FM-200, Inergen, argon...)\n- **CO2**: suppresses but suffocates — unmanned spaces only\n- Detectors: fixed-temp (most common), smoke (ionization/photoelectric), flame-actuated (IR, expensive), incipient/aspirating (earliest, costliest)"
+    },
+    {
+      "id": "03-power-anomalies",
+      "topic": "Site and facility security controls",
+      "front": "Power vocabulary: fault/blackout, sag/brownout, spike/surge, inrush, noise; EMI common vs. traverse mode; UPS vs. generator.",
+      "back": "| Momentary | Prolonged |\n| --- | --- |\n| **Fault** (loss) | **Blackout** |\n| **Sag** (low) | **Brownout** |\n| **Spike** (high) | **Surge** |\n\n- **Inrush**: surge on connecting to power; **noise**: steady interference (transient = short)\n- **EMI common mode** = hot–ground; **traverse mode** = hot–neutral; **RFI** = radio spectrum\n- **UPS**: minutes of clean power (double conversion vs. line-interactive); **generator**: sustained outage; surge protector cuts power on overvoltage"
+    },
+    {
+      "id": "03-facility-areas-hvac",
+      "topic": "Site and facility security controls",
+      "front": "Wiring closet vs. MDF vs. entrance facility; media storage vs. evidence storage; humidity extremes; tailgating vs. piggybacking.",
+      "back": "- **IDF** per-floor wiring closet feeds the **MDF** (main); **entrance facility** = telco demarcation; closets are the forgotten physical entry point -> lock, no shared use\n- **Media storage**: locked cabinet/safe, inventory; **evidence storage**: adds **chain of custody**, tamper seals — keep separate\n- **SCIF**: restricted work area for compartmented info\n- Low humidity -> **ESD**; high humidity -> corrosion; hot/cold aisles; plenum-rated cable\n- **Tailgating**: victim unaware; **piggybacking**: victim convinced to hold the door\n- **Access control vestibule** replaces \"mantrap\"; **dual-technology** sensor (IR + microwave) cuts false alarms"
+    },
+    {
+      "id": "03-lifecycle-frameworks",
+      "topic": "Information system lifecycle",
+      "front": "Which standards frame the system life cycle in 3.10, what happened to SP 800-64, and how does the system life cycle differ from the SDLC of Domain 8?",
+      "back": "- **ISO/IEC/IEEE 15288:2023** system life cycle processes (software-dominant -> 12207); stages concept, development, production, utilization, support, retirement\n- **NIST SP 800-160 Vol 1 Rev 1** (Nov 2022) Engineering Trustworthy Secure Systems — security aspects of the 15288 technical processes\n- **SP 800-64 Rev 2** withdrawn May 2019 -> SP 800-160\n- **SP 800-37 Rev 2** RMF = \"a system life cycle approach\"\n- System life cycle covers hardware, facilities, people, **disposal**; SDLC (8.1) is software only"
+    },
+    {
+      "id": "03-verification-validation-ato",
+      "topic": "Information system lifecycle",
+      "front": "Verification vs. validation; certification vs. accreditation (ATO). Who accepts the risk?",
+      "back": "- **Verification**: built to spec — \"did we build it right\" (meets documented requirements)\n- **Validation**: meets stakeholder need — \"did we build the right thing\" (solves the business problem); acceptance testing\n- **Certification**: technical evaluation; **accreditation / ATO**: management's formal, time-limited, revocable acceptance of risk\n- The **authorizing official** accepts risk — not engineers or assessors\n- Requirements = *what*; design = *how*; a firewall in the requirements phase is a scope error"
+    },
+    {
+      "id": "03-disposal-sanitization",
+      "topic": "Information system lifecycle",
+      "front": "Retirement/disposal stage: SP 800-88 Rev 2 sanitization categories, what else must be retired besides data, and EOL vs. EOS.",
+      "back": "- **SP 800-88 Rev 2** (Sept 2025): **clear** (logical read/write), **purge** (e.g., **cryptographic erase**, degauss), **destroy**; CE only works if keys were never exposed\n- Also revoke **certificates, keys, accounts**; honor retention obligations; terminate contracts/licenses; document decommission\n- \"Delete the data\" / \"format the drive\" are the distractors (remanence, 2.4)\n- **EOL**: no longer produced (support may continue); **EOS/EOSL**: no longer supported — risk spikes here; **legacy platform** = unsupported\n- O&M/sustainment is the longest, costliest stage"
     }
   ]
 }

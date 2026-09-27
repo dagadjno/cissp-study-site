@@ -1,0 +1,221 @@
+{
+  "domain": 7,
+  "cards": [
+    {
+      "id": "07-evidence-types",
+      "topic": "Investigations - evidence, forensics, and artifacts",
+      "front": "Name the four evidence types and the one-line distinguisher for each. Which type do log files fall under, and what turns them into hearsay?",
+      "back": "| Type | Distinguisher |\n| --- | --- |\n| **Real** (object) | Physical item brought into court |\n| **Documentary** | Written item proving a fact; must be **authenticated** |\n| **Testimonial** | Witness testimony (court or deposition) |\n| **Demonstrative** | Supports testimony; may not be admitted itself |\n\nLogs = **documentary**; **unauthenticated** logs (no custodian attesting) can be treated as **hearsay**."
+    },
+    {
+      "id": "07-admissibility",
+      "topic": "Investigations - evidence, forensics, and artifacts",
+      "front": "State the three admissibility requirements. Which one does an illegal search fail?",
+      "back": "- **Relevant**: helps determine a fact\n- **Material**: that fact relates to the case\n- **Competent**: obtained legally (warrant, consent)\n\nIllegal search -> not **competent** (trap: not \"irrelevant\")."
+    },
+    {
+      "id": "07-order-of-volatility",
+      "topic": "Investigations - evidence, forensics, and artifacts",
+      "front": "Give the RFC 3227 order of volatility (most to least) and the SP 800-86 forensic process phases.",
+      "back": "RFC 3227:\n1. Registers, cache\n2. Routing/ARP table, process table, kernel stats, **memory**\n3. Temp file systems\n4. Disk\n5. Remote logging/monitoring data\n6. Physical config, topology\n7. Archival media\n\nSP 800-86: **collection -> examination -> analysis -> reporting**. Don't power off before collecting; don't trust the box's own binaries."
+    },
+    {
+      "id": "07-evidence-rules-pairs",
+      "topic": "Investigations - evidence, forensics, and artifacts",
+      "front": "Distinguish: best evidence rule vs. parol evidence rule; interview vs. interrogation; enticement vs. entrapment.",
+      "back": "- **Best evidence**: original document, not a copy. **Parol**: written contract is complete; oral changes excluded\n- **Interview**: non-suspect, information gathering. **Interrogation**: suspect\n- **Enticement**: luring someone already intent (honeypot, legal). **Entrapment**: inducing a crime they would not have committed (defense for the intruder)"
+    },
+    {
+      "id": "07-monitoring-vocab",
+      "topic": "Logging and monitoring",
+      "front": "Define clipping level, sampling, and audit trail in ISC2 terms.",
+      "back": "- **Clipping level**: threshold in violation analysis; crossing it triggers logging/alerting (e.g. 3 failed logons) - noise filter, not retention\n- **Sampling**: data reduction to pull important events from an audit trail (aka data extraction)\n- **Audit trail**: records of user/system activity supporting **accountability**"
+    },
+    {
+      "id": "07-threat-hunting-vs-intel",
+      "topic": "Logging and monitoring",
+      "front": "Threat intelligence vs. threat feed vs. threat hunting vs. UEBA - what does each mean and what is the adjacent trap?",
+      "back": "- **Threat intelligence**: information about actors/threats to build defenses\n- **Threat feed**: the source of that information\n- **Threat hunting**: **proactive** search through IoCs/logs for intruders already inside (vs. reactive IDS alerting)\n- **UEBA**: baselines user **and entity** (host/service) behavior, flags deviation; sits on SIEM data, not a SIEM replacement"
+    },
+    {
+      "id": "07-egress-monitoring",
+      "topic": "Logging and monitoring",
+      "front": "What is egress monitoring, and which three techniques does the exam pair with it?",
+      "back": "Monitoring **outbound** traffic to detect/prevent **exfiltration** (egress filter = outbound packet filter).\nPaired with: **DLP** (the control), **steganography** (data hidden inside another file) and **watermarking** (hidden ownership marker) as what it must detect. Distractor: ingress filtering/IDS."
+    },
+    {
+      "id": "07-cm-baseline-terms",
+      "topic": "Configuration management",
+      "front": "Configuration management vs. change management - which is which? Define baseline, baseline configuration, and baseline reporting.",
+      "back": "- **CM**: tracks/enforces the secure consistent **state** (baseline, inventory, drift). **Change mgmt**: the **approval process** for altering that state\n- **Baseline**: minimum security every system must meet (also performance baseline for IDS, config baseline for CM)\n- **Baseline configuration**: initial implementation at the standardized minimum\n- **Baseline reporting**: comparing current state against the claimed baseline\n- SP 800-53 **CM-2** Baseline Configuration; **CM-3** Configuration Change Control"
+    },
+    {
+      "id": "07-cm-automation-terms",
+      "topic": "Configuration management",
+      "front": "Define provisioning, infrastructure as code, and immutable architecture as the OSG frames them.",
+      "back": "- **Provisioning**: preallocating resources to deploy new server instances (from the baseline image)\n- **IaC**: hardware config managed like code under DevOps\n- **Immutable architecture**: a deployed server is never changed; build/clone a new one with the change and replace\n\nAutomation's security value: less **configuration drift**, less human error."
+    },
+    {
+      "id": "07-need-to-know-vs-least-priv",
+      "topic": "Foundational security operations concepts",
+      "front": "Need to know vs. least privilege vs. separation of duties - which one is violated in each: (a) reading a file outside your project, (b) deleting files you only need to read, (c) one clerk creates vendors and approves payments?",
+      "back": "- (a) **Need to know** - about data/knowledge; clearance alone never grants access\n- (b) **Least privilege** - about actions/rights\n- (c) **Separation of duties** - the *combination* is the flaw even if each right is minimal; forces **collusion**"
+    },
+    {
+      "id": "07-rotation-vacation-splitknowledge",
+      "topic": "Foundational security operations concepts",
+      "front": "Job rotation vs. mandatory vacation; two-person control vs. split knowledge. What control type are rotation and vacation?",
+      "back": "- **Job rotation**: staff permanently move between positions -> knowledge redundancy + fraud detection\n- **Mandatory vacation**: 1-2 weeks/yr so tasks and privileges can be audited\n- Both primarily **detective** (fraud), also deterrent\n- **Two-person control**: two people present and acting\n- **Split knowledge**: SoD + two-person control; each holds part of the secret (key custodians), nobody has the whole"
+    },
+    {
+      "id": "07-pam-sla-mou",
+      "topic": "Foundational security operations concepts",
+      "front": "Define privileged account management (PAM). Contrast SLA, MOU, and service-level requirement.",
+      "back": "- **PAM**: IAM solutions restricting access to privileged accounts or detecting elevated-privilege use (separate admin accounts, MFA, session recording, JIT elevation)\n- **SLA**: binding contract with measurable service metrics and remedies\n- **MOU**: expression of aligned intent; not typically legally binding\n- **SLR**: what you specify *before* contracting (D1 1.11)\n- SP 800-53 **AC-5** SoD, **AC-6** Least Privilege"
+    },
+    {
+      "id": "07-sanitization-categories",
+      "topic": "Resource protection and media management",
+      "front": "SP 800-88 Rev. 2: define clear, purge, destroy. Where does cryptographic erase sit? What does degaussing do to an SSD?",
+      "back": "- **Clear**: logical techniques on all user-addressable locations; defeats simple non-invasive recovery (reuse in same environment)\n- **Purge**: physical/logical; recovery infeasible even with state-of-the-art lab techniques\n- **Destroy**: recovery infeasible **and** media unusable\n- **Cryptographic erase** = a **purge** technique (sanitize the keys)\n- Degaussing works on **magnetic** media only; SSD -> nothing (use purge commands/CE/destroy)\n- Rev. 2 (Sept 2025) supersedes Rev. 1 (Dec 2014); SP 800-53 **MP-6**"
+    },
+    {
+      "id": "07-media-lifecycle",
+      "topic": "Resource protection and media management",
+      "front": "List the media management lifecycle controls the exam expects, and classify data on a backup tape in a courier's van.",
+      "back": "- **Label/mark** with classification\n- Secure **storage** (media storage facility: locked cabinet/safe), environmental controls\n- **Inventory** and check-out\n- Encrypted **transport** with chain of custody\n- Track age; replace before **MTBF**\n- **Sanitize/destroy** at end of life\n\nTape in a van = **data at rest** (not in transit); protect with encryption + custody."
+    },
+    {
+      "id": "07-ir-seven-steps",
+      "topic": "Incident management",
+      "front": "List ISC2's seven incident management steps in order. Which step equals containment, and what is the order trap versus NIST?",
+      "back": "1. **Detection**\n2. **Response**\n3. **Mitigation** (= containment)\n4. **Reporting**\n5. **Recovery**\n6. **Remediation** (root cause; = eradication)\n7. **Lessons learned**\n\nTrap: ISC2 puts **recovery before remediation**; NIST SP 800-61r2 bundles eradication before recovery. Answer in the question's vocabulary."
+    },
+    {
+      "id": "07-nist-61-phases",
+      "topic": "Incident management",
+      "front": "NIST SP 800-61 Rev. 2 life cycle phases, and how Rev. 3 (Apr 2025) reframes them.",
+      "back": "Rev. 2 (Aug 2012, withdrawn Apr 2025): **Preparation -> Detection & Analysis -> Containment, Eradication & Recovery -> Post-Incident Activity**\n\nRev. 3 = CSF 2.0 Community Profile:\n| Rev. 2 phase | CSF 2.0 Functions |\n| --- | --- |\n| Preparation | Govern, Identify, Protect |\n| Detection & Analysis | Detect |\n| Contain/Eradicate/Recover | Respond, Recover |\n| Post-Incident | Identify (Improvement) |"
+    },
+    {
+      "id": "07-ir-traps",
+      "topic": "Incident management",
+      "front": "Event vs. incident; recovery vs. remediation; why is \"power off the compromised host\" wrong; what do SP 800-61r2 containment criteria include?",
+      "back": "- **Event**: any occurrence. **Incident**: negative CIA impact / policy violation\n- **Recovery** restores service; **remediation** removes the cause (reimage without patching = recovery only)\n- Power-off destroys **volatile evidence** and may trigger attacker logic -> isolate at the network\n- Containment criteria: damage/theft potential, **evidence preservation**, service availability, time/resources, effectiveness, duration\n- SP 800-53 **IR-4** Incident Handling"
+    },
+    {
+      "id": "07-firewall-types",
+      "topic": "Detection and preventive measures",
+      "front": "Match firewall types to what they decide on: static packet filter, stateful, application-level/WAF, circuit-level, DPI, NGFW/UTM.",
+      "back": "| Type | Decides on |\n| --- | --- |\n| **Static packet-filtering** | Header: addresses, ports (screening router) |\n| **Circuit-level** | Session/handshake validity, not content |\n| **Stateful inspection** | State table; session context |\n| **Application-level** (WAF) | Full payload of one protocol |\n| **DPI** | Payload contents; rides on app-level/stateful |\n| **NGFW/UTM** | All-in-one inline: FW + IDS/IPS + filtering |"
+    },
+    {
+      "id": "07-ids-detection-methods",
+      "topic": "Detection and preventive measures",
+      "front": "Signature/knowledge-based vs. anomaly/behavior-based vs. heuristic detection - strengths, weaknesses, and the scenario cue for each.",
+      "back": "- **Signature/knowledge/pattern**: matches known patterns; misses **zero-day**; cue: \"needs definition updates\"\n- **Anomaly/behavior**: deviation from learned baseline; **false positives**, learning period; cue: \"never-seen attack\"\n- **Heuristic**: compares suspicious programs to known malware examples\n- **IPS** inline can cause self-inflicted outage on false positives; **NIDS** blind to encrypted payload and host activity; **HIDS** sees host but is itself a target"
+    },
+    {
+      "id": "07-deception-terms",
+      "topic": "Detection and preventive measures",
+      "front": "Define honeypot, honeynet, padded cell, pseudo flaw, darknet, warning banner. Which is legal: enticement or entrapment?",
+      "back": "- **Honeypot**: single 100%-fake system that snares intruders\n- **Honeynet**: 2+ networked honeypots\n- **Padded cell**: IDS **diverts** a detected intruder into a harmless simulated environment\n- **Pseudo flaw**: emulated known vulnerability as bait\n- **Darknet**: unused address space monitored for scans\n- **Warning banner**: electronic no-trespassing sign\n\n**Enticement** (legal - attacker already intent) vs. **entrapment** (inducing a crime; intruder's defense). Get legal review before deploying."
+    },
+    {
+      "id": "07-allowlist-sandbox-antimalware",
+      "topic": "Detection and preventive measures",
+      "front": "Allow list vs. deny list; sandbox vs. honeypot; how does the OSG classify anti-malware; what is ML vs. AI vs. expert system?",
+      "back": "- **Allow list** = deny by default, stronger (whitelist/blacklist deprecated -> allow/block list); deny list = signature logic, always incomplete\n- **Sandbox** isolates *your* suspicious code; **honeypot** attracts *their* activity\n- **Anti-malware** = HIDS example, **preventive and corrective** (not detective-only)\n- **ML**: solve problems from large datasets; **AI**: simulate human intelligence; **expert system**: encoded human knowledge + **inference engine**; **neural network**: chained decisions (deep learning)\n- MSSP/SECaaS transfers work, **not accountability**"
+    },
+    {
+      "id": "07-patch-lifecycle",
+      "topic": "Patch, vulnerability, and change management",
+      "front": "Give the patch management lifecycle in ISC2 order and the step most often missing from distractors. Hotfix vs. patch?",
+      "back": "1. **Evaluate** applicability/criticality\n2. **Test** in non-production\n3. **Approve** via change management\n4. **Deploy** staged\n5. **Verify/audit** applied and not removed <- the forgotten step\n\n**Hotfix** = modestly tested, single problem. \"Deploy immediately everywhere\" is wrong unless active exploitation justifies an *emergency change* (still documented). SP 800-53 **SI-2** Flaw Remediation."
+    },
+    {
+      "id": "07-vuln-vs-patch-mgmt",
+      "topic": "Patch, vulnerability, and change management",
+      "front": "Vulnerability management vs. patch management; scan vs. assessment vs. pen test; what are valid outcomes for a finding besides patching?",
+      "back": "- **Vuln mgmt**: program to detect weaknesses incl. misconfigs, missing controls, EOL software; **scans** (regular technical) + **assessments** (evaluate/prioritize) are its two elements. **Patch mgmt** fixes specific flaws\n- **Scan** finds candidates; **assessment** prioritizes; **pen test** exploits (D6)\n- Outcomes: patch, **compensating control**, documented **risk acceptance** by the owner; then **rescan**\n- CVE = identifier; CVSS = severity score"
+    },
+    {
+      "id": "07-change-mgmt-steps",
+      "topic": "Patch, vulnerability, and change management",
+      "front": "List the change management steps and the security purposes of the process. What do emergency changes skip and what do they never skip?",
+      "back": "Steps: **request -> review -> approve (CAB/CCB) -> test -> implement -> document**; plus rollback plan, scheduling, versioning, stakeholder communication.\nPurposes: prevent **unintended outages**, prevent changes that undo security, preserve the **baseline**, audit trail of who/what/when.\nEmergency changes skip the *timing* of approval, never the *documentation* (retrospective review). Control against authorized-user error, not attackers."
+    },
+    {
+      "id": "07-backup-types",
+      "topic": "Recovery strategies - backups, sites, resilience",
+      "front": "Full vs. incremental vs. differential: what is copied, what happens to the archive bit, and what does each restore need?",
+      "back": "| Type | Copies | Archive bit | Restore |\n| --- | --- | --- | --- |\n| **Full** | Everything | Cleared | Last full |\n| **Incremental** | Since last full *or* incremental | Cleared | Full + **every** incremental |\n| **Differential** | Since last **full** | **Not cleared** | Full + **last** differential |\n\nFastest nightly = incremental; fastest restore short of full = differential. Only difference = archive bit."
+    },
+    {
+      "id": "07-vaulting-journaling-mirroring",
+      "topic": "Recovery strategies - backups, sites, resilience",
+      "front": "Electronic vaulting vs. remote journaling vs. remote mirroring - mechanism and RPO.",
+      "back": "- **Electronic vaulting**: bulk transfer of backups to a remote site; RPO hours-day\n- **Remote journaling**: transaction logs since the last bulk transfer shipped remotely; RPO minutes-hour\n- **Remote mirroring**: live database server at the backup site; most advanced; RPO near zero\n\nSP 800-53 **CP-9** System Backup. Keep a copy offsite and offline/immutable (ransomware)."
+    },
+    {
+      "id": "07-recovery-sites",
+      "topic": "Recovery strategies - backups, sites, resilience",
+      "front": "Cold, warm, hot, mirrored, mobile sites: what each has and readiness. What are the exam weaknesses of a reciprocal agreement, and what is a resource capacity agreement?",
+      "back": "| Site | Has | Ready |\n| --- | --- | --- |\n| **Cold** | Space, power, HVAC, telecom | Weeks |\n| **Warm** | Hardware + circuits, **no current data** | Days-hours |\n| **Hot** | Full systems + comms | **Hours** |\n| **Mirrored** | Live real-time mirror, identical | Immediate |\n| **Mobile** | Self-contained trailer | Variable |\n\n**Reciprocal/MAA**: cheap but unenforceable, shared regional disaster, capacity/compatibility doubts. **Resource capacity agreement**: cloud provider guarantees resources for the client's DR. **Service bureau** leases compute under contract. SP 800-53 **CP-7**."
+    },
+    {
+      "id": "07-ft-ha-raid-metrics",
+      "topic": "Recovery strategies - backups, sites, resilience",
+      "front": "Fault tolerance vs. high availability vs. QoS; RAID 0/1/5/6/10; RTO vs. RPO vs. MTD; MTBF vs. MTTR.",
+      "back": "- **Fault tolerance**: keep operating through a component fault (RAID, redundant servers). **HA**: brief disruption then quick recovery (load balancing + failover, % uptime). **QoS**: manage throughput/latency/jitter/loss - performance, not security\n- **RAID 0** stripe (no FT); **1** mirror (duplexing = separate controllers); **5** stripe + parity (1 disk); **6** double parity (2 disks); **10** mirrored stripes\n- **RPO** = tolerable data loss -> backup **frequency**; **RTO** = time to restore, must be <= **MTD**; RTO drives **site type**\n- **MTBF** failure interval; **MTTR** repair time"
+    },
+    {
+      "id": "07-drp-test-types",
+      "topic": "Disaster recovery processes and DRP testing",
+      "front": "Order the DRP test types least to most disruptive and give the one-line distinguisher for each.",
+      "back": "1. **Read-through / checklist**: copies distributed for **individual** review\n2. **Structured walk-through / tabletop**: **group** discussion of roles and steps\n3. **Simulation**: scenario, team responds, some measures executed; may interrupt **noncritical** activities\n4. **Parallel**: personnel relocate and **activate the alternate site**; production continues\n5. **Full interruption**: primary **shut down**, operations moved - real risk, needs senior sign-off\n\nSP 800-34: tabletop (low impact) vs. functional (moderate) vs. full-scale functional (high)."
+    },
+    {
+      "id": "07-dr-process-elements",
+      "topic": "Disaster recovery processes and DRP testing",
+      "front": "What are the seven DR process elements on the outline, and what is the restoration-order trap?",
+      "back": "**Response** (activation, life safety first), **Personnel** (roles, alternates, welfare), **Communications** (out-of-band, spokesperson, regulators), **Assessment** (damage -> restore vs. relocate), **Restoration** (facility back to workable state), **Training and awareness**, **Lessons learned** (after activations *and* tests).\n\nTrap: during disaster move **most critical** functions to the alternate site first; when returning, move **least critical** back to the unproven primary first."
+    },
+    {
+      "id": "07-sp800-34-process",
+      "topic": "Disaster recovery processes and DRP testing",
+      "front": "SP 800-34 Rev. 1: seven contingency planning steps and the plan family it defines.",
+      "back": "Steps: 1. policy statement 2. **BIA** 3. identify preventive controls 4. contingency strategies 5. develop the plan 6. **TT&E** (testing, training, exercises) 7. maintenance.\n\nPlans: **BCP**, **COOP**, Crisis Communications, **CIP** Plan, Cyber Incident Response Plan, **DRP**, **ISCP**, **OEP** (occupant emergency plan)."
+    },
+    {
+      "id": "07-bcp-vs-drp-coop",
+      "topic": "Business continuity planning and exercises",
+      "front": "BCP vs. DRP vs. COOP; who approves the BCP; where does the BIA belong?",
+      "back": "- **BCP**: strategic, business-wide - keep operating through disruption; DRP nests inside it\n- **DRP**: tactical, IT-focused - restore systems after the disaster\n- **COOP**: continuity of the organization's essential functions (government usage); OSG: measures preventing downtime incl. policy, BCP, DRP\n- Approval: **senior management** (not CISO/BCP team); they accept residual risk, fund, champion\n- **BIA** = planning (D1 1.7); produces MTD -> RTO/RPO -> strategy"
+    },
+    {
+      "id": "07-bcp-phases-exercises",
+      "topic": "Business continuity planning and exercises",
+      "front": "Name the four BCP phases (OSG structure) and how BC exercises relate to DRP tests.",
+      "back": "1. **Project scope and planning** (org analysis, team, resources, legal)\n2. **BIA**\n3. **Continuity planning** (strategy, provisions/processes)\n4. **Approval and implementation** (sign-off, documentation, training)\n\nExercises use the same disruption ladder as DRP tests but target business processes/people (tabletop for execs, functional for a department's manual workarounds). ISC2 says \"exercise\" for BC, \"test\" for DRP. Plan is a living document, reviewed at least annually. People before property before process."
+    },
+    {
+      "id": "07-perimeter-controls",
+      "topic": "Physical security and personnel safety",
+      "front": "Fence heights and their effect; PIDAS; lighting; which physical control can make judgments; CPTED's three elements.",
+      "back": "- **Fence**: 3-4 ft deters casual; 6-7 ft too hard to climb easily; **8 ft + 3 strands barbed wire** deters determined intruders\n- **PIDAS**: 2-3 fences; main 8-20 ft (electrified/razor/touch sensors), outer 4-6 ft keeps animals/casual trespassers off\n- **Lighting**: most common perimeter control; deterrent; 2 ft-candles at 8 ft (NIST-cited)\n- **Guards**: only control that adapts and makes decisions; costly, unreliable, social-engineerable\n- **CPTED**: natural surveillance, natural access control, territorial reinforcement"
+    },
+    {
+      "id": "07-entry-and-sensors",
+      "topic": "Physical security and personnel safety",
+      "front": "Piggybacking vs. tailgating and the control that defeats both; deterrent vs. repellent vs. notification alarms; name the motion detector types.",
+      "back": "- **Piggybacking**: authorized person knowingly lets you in. **Tailgating**: they are **unaware**. Both defeated by the **access control vestibule** (person trap; \"mantrap\" deprecated) / turnstile, not badges alone\n- **Deterrent** alarm: engages locks/doors. **Repellent**: siren + lights. **Notification**: silent, logs and notifies guards/LE\n- Sensors: **infrared** (heat), **wave pattern** (ultrasonic/microwave), **capacitance** (field change), **photoelectric** (light), **infrared linear beam** (threshold), **dual-technology**\n- CCTV = **detective**; deters only when visible. SP 800-53 **PE-3**"
+    },
+    {
+      "id": "07-personnel-safety",
+      "topic": "Physical security and personnel safety",
+      "front": "Duress system vs. emergency management vs. OEP; what does the exam expect on travel and MFA fatigue; what wins when safety and data conflict?",
+      "back": "- **Duress system**: button/code sends a distress call; monitoring entity responds; lone workers. Duress code word for coerced logins\n- **Emergency management**: plans/practices for personnel safety after a disaster. **OEP**: minimize threats to life, prevent injury, manage duress, handle travel, monitor safety, protect property\n- **Travel**: loaner/minimal devices, no untrusted Wi-Fi, encryption, know local device-search/crypto laws, check-ins\n- **MFA fatigue** (prompt bombing): number matching, rate limits, phishing-resistant authn, train users to **report** unexpected prompts\n- **Life safety first**, always; human spaces **fail-safe**, vaults **fail-secure**"
+    }
+  ]
+}

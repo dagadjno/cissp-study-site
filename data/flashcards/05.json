@@ -1,0 +1,173 @@
+{
+  "domain": 5,
+  "cards": [
+    {
+      "id": "05-physical-logical-asset-map",
+      "topic": "Control physical and logical access to assets",
+      "front": "Outline 5.1 lists six asset classes. Name them and give one typical access control for each.",
+      "back": "| Asset | Control |\n| --- | --- |\n| Information | Classification labels, encryption, DLP, file ACLs |\n| Systems | Logon + MFA, host hardening |\n| Devices | Device certificates, MDM, NAC (802.1X) |\n| Facilities | Badges, locks, guards, **access control vestibule** |\n| Applications | **Constrained interface**, app roles |\n| Services | API keys, service accounts, OAuth scopes |\n\n- Physical controls restrict physical contact; logical/technical controls are hardware/software (encryption, smartcards, ACLs)"
+    },
+    {
+      "id": "05-acl-vs-capability",
+      "topic": "Control physical and logical access to assets",
+      "front": "In an access control matrix, what is a column vs a row? Which is object-focused and which is subject-focused?",
+      "back": "- Matrix = subjects x objects\n- **Column** = **ACL**: object-focused — which subjects may access this object\n- **Row** = **capability table/list**: subject-focused — what this subject may access\n- Trap: \"what can this user touch\" -> capability table; \"who can touch this file\" -> ACL"
+    },
+    {
+      "id": "05-content-vs-context",
+      "topic": "Control physical and logical access to assets",
+      "front": "Content-dependent vs context-dependent access control — what does each key on? And what is the current term for a mantrap?",
+      "back": "- **Content-dependent**: decision based on the object's *payload* (e.g. hide the salary column)\n- **Context-dependent**: based on surroundings/sequence — time of day, location, prior step completed\n- **Mantrap** is deprecated -> **access control vestibule**: double doors, holds the subject until identity + authentication are verified; a physical *preventive* control\n- Biometrics: authentication for logical access, *identification* for physical access"
+    },
+    {
+      "id": "05-aaa-five-elements",
+      "topic": "Identification, authentication, and AAA",
+      "front": "\"AAA\" actually covers five elements per ISC2. List them and give the one-line discriminator for each.",
+      "back": "| Element | Gloss |\n| --- | --- |\n| **Identification** | Subject *professes* an identity (username, badge) — a claim |\n| **Authentication** | Verifies the claim via factors |\n| **Authorization** | Requested activity allowed given assigned rights |\n| **Auditing** | Records subject activity |\n| **Accounting/accountability** | Holds the subject responsible — needs strong authN + audit trail |\n\n- Trap: typing a username is identification, not authentication; shared accounts break accountability"
+    },
+    {
+      "id": "05-auth-factors",
+      "topic": "Identification, authentication, and AAA",
+      "front": "List the authentication factor types (Type 1/2/3 plus the extra three). Is password + PIN multifactor? What is \"strong authentication\" per OSG?",
+      "back": "- Type 1 something you **know** (password, PIN, cognitive/KBA questions)\n- Type 2 something you **have** (smartcard, token, phone)\n- Type 3 something you **are** (fingerprint, iris, face)\n- Somewhere you **are** (location); something you **do** (signature/keystroke dynamics); something you **exhibit** (discoverable fact about subject/connection)\n- Password + PIN = **single factor** used twice, not MFA; MFA needs *different* factor types\n- OSG **strong authentication** = two or more factors \"even if not unique\" — looser than MFA"
+    },
+    {
+      "id": "05-biometric-errors",
+      "topic": "Identification, authentication, and AAA",
+      "front": "Define FRR, FAR, and CER. Which is Type I vs Type II, how does each move with sensitivity, and is a lower CER better?",
+      "back": "| Metric | Meaning | With more sensitivity |\n| --- | --- | --- |\n| **FRR** (Type I) | Valid subject rejected — device too sensitive | Rises |\n| **FAR** (Type II) | Invalid subject accepted — not sensitive enough | Falls |\n| **CER** | Point where FAR = FRR | — |\n\n- **Lower CER = more accurate**; used to compare devices, not as a tuning target\n- High-security tuning accepts more false *rejections*\n- Throughput ~6 s or faster for user acceptance; enrollment needs physical proof of identity"
+    },
+    {
+      "id": "05-nist-63b-passwords",
+      "topic": "Identification, authentication, and AAA",
+      "front": "NIST SP 800-63B-4 password rules: minimum length, composition rules, periodic rotation, blocklists, SMS OTP status. How does this differ from the classic OSG framing?",
+      "back": "- Min **15 chars** single-factor / **8** when part of MFA; allow >= 64\n- Composition rules **SHALL NOT** be imposed\n- **No periodic rotation** — change only on evidence of compromise\n- Check against **blocklists** of common/compromised passwords\n- PSTN/SMS out-of-band = **restricted** authenticator type\n- OSG classic: **password complexity** = 3 of 4 character classes, no username/real name; age limits\n- Exam: if stem cites NIST, pick length + blocklist over complexity/rotation"
+    },
+    {
+      "id": "05-ial-aal-fal",
+      "topic": "Identification, authentication, and AAA",
+      "front": "SP 800-63-4: what do IAL, AAL, and FAL each measure, and what distinguishes level 3 in each?",
+      "back": "- **IAL** = identity *proofing* strength; **AAL** = *authentication* strength; **FAL** = *federation assertion* strength\n\n| Level | IAL | AAL | FAL |\n| --- | --- | --- | --- |\n| 1 | Core attributes validated, remote OK | Single- or multi-factor | Signed assertion, bearer OK |\n| 2 | More evidence, rigorous validation | **Two distinct factors** | Single-RP audience, injection protection |\n| 3 | **On-site attended** + **biometric** | **Phishing-resistant crypto authenticator**, non-exportable key, hardware | **Holder-of-key** / bound authenticator |\n\n- Rev. 4 (2025) supersedes 800-63-3; volumes A = proofing, B = authentication, C = federation"
+    },
+    {
+      "id": "05-phishing-resistant",
+      "topic": "Identification, authentication, and AAA",
+      "front": "Which authenticators count as phishing-resistant and why? Are TOTP and push notifications phishing-resistant? TOTP vs HOTP — which is synchronous?",
+      "back": "- Phishing-resistant = origin-bound public-key credentials: **FIDO2/WebAuthn** (credential scoped to the relying-party origin, so a lookalike site cannot use it), **PIV** smartcard (FIPS 201-3)\n- **TOTP, SMS, push** are *not* phishing-resistant — codes/approvals can be relayed in real time; push also suffers **MFA fatigue** (control: number matching)\n- **TOTP** (RFC 6238, 30 s step) = **synchronous** dynamic token (time-synced clocks)\n- **HOTP** (RFC 4226, HMAC counter) = **asynchronous** dynamic token (counter / challenge-response)"
+    },
+    {
+      "id": "05-identity-proofing-steps",
+      "topic": "Identity strategy",
+      "front": "SP 800-63A: name the three identity proofing steps in order and what enrollment adds. Who is the CSP?",
+      "back": "1. **Resolution** — collect evidence + core attributes; is the applicant a *unique* identity in the population?\n2. **Validation** — evidence genuine; attributes checked against authoritative/credible sources\n3. **Verification** — link the claimed identity to the *person present* (biometric comparison, confirmation code)\n4. **Enrollment** — applicant becomes a **subscriber**; authenticators bound to the account\n\n- **CSP** (credential service provider) runs proofing + enrollment\n- IAL3 = on-site attended by trained agent + at least one biometric\n- Weak proofing caps effective assurance regardless of AAL"
+    },
+    {
+      "id": "05-fim-sso-vault",
+      "topic": "Identity strategy",
+      "front": "Distinguish SSO, FIM, a credential management system (password vault), and IDaaS.",
+      "back": "- **SSO**: authenticate once, access resources without rechallenge; LAN SSO = Kerberos, web SSO = SAML/OIDC; risk = single point of compromise -> pair with MFA\n- **FIM**: linking a subject's accounts across sites/organizations — a *means* of SSO across trust domains (IdP -> SP), commonly SAML\n- **Credential management system / password vault**: encrypted store for the *different* credentials needed where SSO isn't available; **secrets management** is the broader term (keys, certs, API tokens)\n- **IDaaS**: third-party IAM — \"SSO for the cloud,\" especially for SaaS access"
+    },
+    {
+      "id": "05-jit-two-meanings",
+      "topic": "Identity strategy",
+      "front": "\"Just-in-time (JIT)\" in outline 5.2 has two readings. State both and how to tell which a question means. Also: SPML vs SCIM?",
+      "back": "- **JIT provisioning** (OSG): federated identity auto-creates the account/relationship at first login, no administrator action\n- **JIT access/privilege**: elevated rights granted for a bounded window on request — zero standing privilege (PAM feature)\n- Stem about *account creation at first federated login* -> provisioning; stem about *temporary admin rights* -> access\n- **SPML** = legacy XML provisioning language; **SCIM** (RFC 7643 schema / 7644 protocol, REST/JSON) = current cross-domain provisioning\n- **SAML** is not a provisioning protocol (assertions, not account creation)"
+    },
+    {
+      "id": "05-groups-roles-sessions",
+      "topic": "Identity strategy",
+      "front": "Group vs role — what is the exam distinction? Give the NIST reauthentication bounds for AAL2 and AAL3 and the SP 800-53 control for session termination.",
+      "back": "- **Group** = directory/administrative container; access assigned to the group, members inherit it\n- **Role** = *job function* (RBAC); business-defined. \"Accountants get ledger access\" -> role; \"Finance-RW\" -> group implementing it\n- Reauth (SP 800-63B-4): **AAL2** 24 h overall / 1 h idle; **AAL3** 12 h overall / 15 min idle\n- **AC-12 Session Termination** (SP 800-53 Rev. 5); session timeout is a technical control against unattended sessions — not lockout (failed logons), not expiration (date)"
+    },
+    {
+      "id": "05-federation-models",
+      "topic": "Federated identity with a third-party service",
+      "front": "On-premises vs cloud vs hybrid federation — define each and give the main weakness the exam attaches to each.",
+      "back": "| Model | Definition | Weakness |\n| --- | --- | --- |\n| **On-premises** | SSO/IdP hosted fully on-site | Org owns availability, HA, patching; manual SaaS scaling |\n| **Cloud** (IDaaS) | Third-party service holds/authenticates identities | **Vendor dependency**, data residency, provider outage = no logins |\n| **Hybrid** | On-prem directory is source of truth, synced/federated to cloud IdP | Two control planes; sync agents / password-hash sync are prime targets |\n\n- Hybrid != multi-cloud (two cloud IdPs is still \"cloud\")\n- Federation transfers *authentication*; the RP still *authorizes* and the org stays accountable"
+    },
+    {
+      "id": "05-assertion-types-63c",
+      "topic": "Federated identity with a third-party service",
+      "front": "SP 800-63C: bearer vs holder-of-key assertion, front-channel vs back-channel presentation, and what a trust agreement is. Which FAL requires holder-of-key?",
+      "back": "- **Bearer assertion**: possession alone grants access (replayable by whoever holds it) — allowed at FAL1-2\n- **Holder-of-key / bound assertion**: subscriber must also prove the authenticator referenced in the assertion — required at **FAL3**; protects against IdP compromise\n- **Front-channel**: assertion passes through the subscriber's browser — injection-prone\n- **Back-channel**: IdP <-> RP server-to-server — stronger\n- **Trust agreement**: documented permissions, xAL requirements, attribute purposes, obligations among CSP/IdP/RP\n- Vocabulary map: SAML **SP** = OIDC/NIST **RP**; SAML **IdP** = OIDC **OP**"
+    },
+    {
+      "id": "05-third-party-idp-governance",
+      "topic": "Federated identity with a third-party service",
+      "front": "A CISO is adopting a third-party (cloud) IdP. What governance items belong on the checklist, and what does NOT transfer to the provider?",
+      "back": "- Contract/SLA + right to audit (SCRM); incident notification terms\n- **Attribute minimization** in assertions (privacy)\n- **Deprovisioning propagation** — does offboarding at the IdP end RP sessions?\n- Assertion signing-key rotation; MFA and hardening *at the IdP* (IdP compromise = every RP falls)\n- Break-glass local admin for IdP outage; logging at both IdP (authN) and RP (authZ)\n- Does **not** transfer: accountability for access decisions and the **authorization** decision on the org's own resources\n- Primary risk = availability + third-party risk, not \"weaker crypto\""
+    },
+    {
+      "id": "05-access-control-models",
+      "topic": "Authorization mechanisms",
+      "front": "For DAC, MAC, RBAC, rule-based, ABAC, and risk-based: who/what decides and what is the one-line discriminator?",
+      "back": "| Model | Decider | Discriminator |\n| --- | --- | --- |\n| **DAC** | Object **owner** | Per-object ACL, identity/group based |\n| **MAC** | **System** via **labels** | Clearance vs label; owner cannot override |\n| **RBAC** | Admin via **job roles** | Nondiscretionary; follows org chart |\n| **Rule-based** | Global **rules** for all subjects | Not identity-specific (firewall, proxy) |\n| **ABAC** | Policy over **attributes** (subject, object, operation, environment) | Fine-grained; fixes role explosion |\n| **Risk-based** | Computed **risk score** at request time | Changes with threat; step-up MFA or deny |\n\n- Only DAC is discretionary; **nondiscretionary** = roles/tasks (RBAC, task-based)"
+    },
+    {
+      "id": "05-mac-details",
+      "topic": "Authorization mechanisms",
+      "front": "Name the three MAC environment types, define lattice-based access control, and state how need-to-know relates to clearance.",
+      "back": "- **Hierarchical**: ordered levels (Confidential < Secret < Top Secret)\n- **Compartmentalized**: isolated domains with no level relationship\n- **Hybrid**: levels that contain compartments\n- **Lattice-based**: nondiscretionary variant defining **upper and lower bounds** for each subject-object relationship, usually along label levels — how MAC bounds are expressed, not a separate exam model\n- **Need to know** is required *in addition to* equal/greater clearance; clearance alone never grants access\n- Bell-LaPadula/Biba (3.2) are *models*; MAC is the *mechanism*"
+    },
+    {
+      "id": "05-pdp-pep-xacml",
+      "topic": "Authorization mechanisms",
+      "front": "XACML 3.0 / access policy enforcement: what do PAP, PDP, PEP, and PIP each do? Which one denies the packet and which evaluates policy?",
+      "back": "- **PAP** (policy administration point): *writes* the policy\n- **PDP** (policy decision point): *evaluates* applicable policy, renders the decision\n- **PEP** (policy enforcement point): intercepts access, asks the PDP, *enforces* permit/deny\n- **PIP** (policy information point): *supplies attribute values* (directory, device posture)\n- Flow: `subject -> PEP -> PDP (policy from PAP, attributes from PIP) -> PEP enforces`\n- \"Denies the packet\" -> PEP; \"evaluates the request against policy\" -> PDP\n- Zero trust (SP 800-207): PDP = policy engine + policy administrator; PEP = gateway/agent"
+    },
+    {
+      "id": "05-abac-vs-rbac-vs-risk",
+      "topic": "Authorization mechanisms",
+      "front": "Discriminate ABAC vs RBAC vs risk-based, and rule-based vs role-based. Which SP defines ABAC and what are its four attribute categories?",
+      "back": "- **RBAC**: standard access for a job -> new hire scenario; suffers **role explosion** when conditions multiply\n- **ABAC**: policy over attributes — **NIST SP 800-162**: subject, object, requested **operation**, **environment conditions**; the fix for role explosion\n- **Risk-based**: adds a *computed score* that can demand step-up authentication mid-session; both ABAC and risk-based are \"dynamic\" — risk-based is the one that changes with *threat*\n- **Rule-based** (RuBAC) applies to everyone regardless of identity (firewall); **role-based** (RBAC) is per job — watch the acronym\n- Content-/context-dependent are *techniques*, not among the six models"
+    },
+    {
+      "id": "05-provisioning-lifecycle-steps",
+      "topic": "Identity and access provisioning lifecycle",
+      "front": "Walk the identity and access provisioning lifecycle. On termination, disable or delete? On transfer, what is the rule?",
+      "back": "1. Request + **owner** approval (not IT/IAM admin)\n2. Provision — bind authenticators, assign role, least privilege\n3. Use + monitor privileged activity\n4. **Recertify** — periodic review of user, system, *and* service accounts\n5. Modify on transfer — **remove old role before adding new** (transfers breed privilege creep)\n6. Deprovision — **disable first, delete later** (retain audit trail, encrypted data, mailbox); account revocation = deletion\n\n- HR event must trigger IAM action within a defined SLA; orphaned/dormant accounts are what auditors count"
+    },
+    {
+      "id": "05-creep-vs-excessive",
+      "topic": "Identity and access provisioning lifecycle",
+      "front": "Distinguish privilege creep, excessive privilege, access aggregation, and the generic account prohibition. Access review vs audit?",
+      "back": "- **Privilege creep**: unneeded rights *accumulate over time* as roles change — the process\n- **Excessive privilege**: more access than tasks dictate — the *state* at a point in time; curtail immediately\n- **Access aggregation**: combining nonsensitive pieces to derive sensitive info — counter with need to know\n- **Generic account prohibition**: no shared/guest/anonymous accounts where security matters (accountability)\n- **Access review** = owner/manager recertifies entitlements (SP 800-53 **AC-2 Account Management**); **audit** = independent verification that the review works\n- Lockout (failed attempts) vs expiration (date) vs revocation (deletion)"
+    },
+    {
+      "id": "05-priv-escalation-controls",
+      "topic": "Identity and access provisioning lifecycle",
+      "front": "How does OSG define privilege escalation, and which controls address it? Which sudo control is preventive vs detective? What does PAM mean on the exam?",
+      "back": "- **Privilege escalation**: user gains access they would not normally have — inadvertently via **SUID/SGID** programs, or by becoming another user via **su/sudo** (Linux) or **RunAs** (Windows)\n- Controls: **PAM** (privileged account/access management — *not* Pluggable Authentication Modules), SP 800-53 **AC-6 Least Privilege**, per-command sudo rules, no direct root/shared admin logon, **JIT elevation** over standing rights, **separation of privilege** (granular rights per privileged operation)\n- **sudo restriction** = preventive; **sudo logging shipped centrally** = detective"
+    },
+    {
+      "id": "05-service-accounts",
+      "topic": "Identity and access provisioning lifecycle",
+      "front": "What is a service account per OSG, and what does \"best\" service account management look like on the exam?",
+      "back": "- **Service account**: user account controlling the access and capabilities of an *application*; aka managed service account — a non-person entity that still needs the full lifecycle\n- Best practice set: named **owner** + documented purpose; inventory; **deny interactive logon**; long random secrets **vaulted and rotated** (secrets management); least privilege (no Domain Admin for a backup job); included in **access reviews**; monitor for interactive/off-host use\n- Traps: \"reset password every 90 days\" loses to the vault + deny-interactive + owner set; humans sharing a service account = accountability failure"
+    },
+    {
+      "id": "05-kerberos-flow",
+      "topic": "Authentication systems",
+      "front": "Kerberos at exam level: what is the KDC made of, and what are the three exchanges? What does Kerberos NOT do?",
+      "back": "- **KDC** = **AS** (authentication service) + **TGS** (ticket-granting service); **realm** ~ domain; trusted third party, **symmetric** keys\n1. **AS_REQ/AS_REP**: client proves password-derived key, receives **TGT**\n2. **TGS_REQ/TGS_REP**: presents TGT, receives **service ticket** — no password re-entry (this is the SSO)\n3. **AP_REQ/AP_REP**: presents service ticket to the server; AP_REP = optional **mutual authentication**\n\n- Clocks loosely synced (~5 min skew) — clock drift breaks Kerberos, not RADIUS\n- Kerberos provides identification + authentication + SSO; **authorization** is done by the resource\n- Weaknesses: KDC = SPOF/high-value target; **golden ticket** = KRBTGT hash forges TGTs; pass the hash"
+    },
+    {
+      "id": "05-radius-tacacs-diameter",
+      "topic": "Authentication systems",
+      "front": "RADIUS vs TACACS+ vs Diameter: transport/port, AAA separation, what is protected, and typical use.",
+      "back": "| | RADIUS (RFC 2865) | TACACS+ (RFC 8907) | Diameter (RFC 6733) |\n| --- | --- | --- | --- |\n| Transport | UDP 1812/1813 | TCP 49 | TCP/SCTP 3868 |\n| AAA | AuthN + authZ **combined** | **Separated** | Separated; failover, agents |\n| Protection | Only **User-Password** hidden | Whole body **obfuscated** (weak) | **TLS/DTLS/IPsec** mandated |\n| Use | Network access (Wi-Fi, VPN, 802.1X) | Device administration (Cisco) | RADIUS successor (mobile/telecom) |\n\n- OSG: TACACS -> XTACACS (separated AAA) -> TACACS+ (adds two-factor; most used)\n- Diameter not backward-compatible with RADIUS"
+    },
+    {
+      "id": "05-saml-oauth-oidc",
+      "topic": "Authentication systems",
+      "front": "SAML vs OAuth 2.0 vs OIDC: purpose, roles, token. Which one authenticates? Match: \"log in with Google\" / \"app posts to your calendar without your password\" / \"enterprise SSO to SaaS\".",
+      "back": "| | Purpose | Roles | Token |\n| --- | --- | --- | --- |\n| **SAML 2.0** (OASIS 2005) | XML authN + attribute exchange; web SSO | **IdP** -> **SP** | Signed XML **assertion** |\n| **OAuth 2.0** (RFC 6749) | Delegated **authorization** to APIs | Resource owner, client, **authorization server**, resource server | **Access token** — not identity proof |\n| **OIDC** | Identity layer **on OAuth** — authentication | **OP** -> **RP** | **ID token** (JWT: iss, sub, aud, exp, iat) |\n\n- Authenticates: SAML and OIDC. OAuth alone does not (OSG glossary loosely says \"authentication\"; RFC says authorization framework — exam wants OIDC for authN)\n- Log in with Google -> **OIDC**; calendar delegation -> **OAuth**; enterprise SaaS SSO -> **SAML** (or OIDC)\n- SP = RP; IdP = OP. OpenID (legacy) != OpenID Connect"
+    },
+    {
+      "id": "05-oauth-grants-ldap",
+      "topic": "Authentication systems",
+      "front": "Name the four OAuth 2.0 grant types and when each fits. What is LDAP for, and is it an SSO protocol?",
+      "back": "- **Authorization code**: redirect-based, confidential clients — the recommended flow (hardened with PKCE)\n- **Implicit**: browser-only, deprecated in current practice\n- **Resource owner password credentials**: legacy — shares the password with the client\n- **Client credentials**: service-to-service, no user\n- **LDAP** (RFC 4511): X.500-derived *directory access* protocol, port 389; LDAPS = TLS-wrapped; **SASL** = auth option. A bind authenticates *against the directory*, but LDAP is not an SSO/federation protocol — Kerberos is LAN SSO, SAML/OIDC is web SSO"
+    }
+  ]
+}

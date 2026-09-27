@@ -28,7 +28,7 @@
       "notes": "domains/03-security-architecture-engineering.md",
       "flashcards": "flashcards/03.json",
       "quiz": null,
-      "cards": 9,
+      "cards": 45,
       "questions": 0
     },
     {
@@ -36,9 +36,9 @@
       "num": 4,
       "title": "Communication and Network Security",
       "notes": "domains/04-communication-network-security.md",
-      "flashcards": null,
+      "flashcards": "flashcards/04.json",
       "quiz": null,
-      "cards": 0,
+      "cards": 25,
       "questions": 0
     },
     {
@@ -46,9 +46,9 @@
       "num": 5,
       "title": "Identity and Access Management (IAM)",
       "notes": "domains/05-identity-access-management.md",
-      "flashcards": null,
+      "flashcards": "flashcards/05.json",
       "quiz": null,
-      "cards": 0,
+      "cards": 28,
       "questions": 0
     },
     {
@@ -56,9 +56,9 @@
       "num": 6,
       "title": "Security Assessment and Testing",
       "notes": "domains/06-security-assessment-testing.md",
-      "flashcards": null,
+      "flashcards": "flashcards/06.json",
       "quiz": null,
-      "cards": 0,
+      "cards": 23,
       "questions": 0
     },
     {
@@ -66,9 +66,9 @@
       "num": 7,
       "title": "Security Operations",
       "notes": "domains/07-security-operations.md",
-      "flashcards": null,
+      "flashcards": "flashcards/07.json",
       "quiz": null,
-      "cards": 0,
+      "cards": 36,
       "questions": 0
     },
     {
@@ -76,9 +76,9 @@
       "num": 8,
       "title": "Software Development Security",
       "notes": "domains/08-software-development-security.md",
-      "flashcards": null,
+      "flashcards": "flashcards/08.json",
       "quiz": null,
-      "cards": 0,
+      "cards": 32,
       "questions": 0
     }
   ]

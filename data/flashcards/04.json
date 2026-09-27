@@ -1,0 +1,155 @@
+{
+  "domain": 4,
+  "cards": [
+    {
+      "id": "04-osi-containers",
+      "topic": "OSI/TCP-IP models, IP addressing, secure protocols",
+      "front": "Name the data container at each OSI layer, and map the seven OSI layers onto the four TCP/IP layers.",
+      "back": "| OSI | Container | TCP/IP |\n| --- | --- | --- |\n| 7-5 App/Pres/Session | **PDU** | Application |\n| 4 Transport | **segment** (TCP) / **datagram** (UDP) | Transport |\n| 3 Network | **packet** | Internet |\n| 2 Data Link | **frame** (header + payload + footer) | Link |\n| 1 Physical | bits | Link |\n\n- OSI = ISO; TCP/IP model = DARPA/DoD\n- Encapsulation: each layer's content becomes the next-lower layer's payload"
+    },
+    {
+      "id": "04-cast-types",
+      "topic": "OSI/TCP-IP models, IP addressing, secure protocols",
+      "front": "Distinguish unicast, broadcast, multicast, and anycast. Which one does IPv6 lack, and what replaces it?",
+      "back": "- **Unicast**: one identified recipient\n- **Broadcast**: multiple *unidentified* recipients — IPv4 only; \"no broadcast addresses in IPv6\" (RFC 4291)\n- **Multicast**: multiple *identified* recipients — supersedes broadcast in IPv6\n- **Anycast**: same address on many nodes, delivered to the *nearest* per routing metric — CDNs, DNS roots\n- Trap: anycast (one of a group) vs multicast (all of a group)"
+    },
+    {
+      "id": "04-ipsec-ah-esp",
+      "topic": "OSI/TCP-IP models, IP addressing, secure protocols",
+      "front": "IPsec AH vs ESP: protocol numbers, services, and which is mandatory to implement?",
+      "back": "| | AH (51) | ESP (50) |\n| --- | --- | --- |\n| Services | integrity, data-origin auth, anti-replay; **no confidentiality** (RFC 4302) | **confidentiality** + optional integrity/auth, anti-replay (RFC 4303) |\n| RFC 4301 | **MAY** implement | **MUST** implement |\n| Trap | header covered by integrity -> NAT breaks it | outer IP header not integrity-protected |\n\n- SA = simplex; SPD decides policy; SAD stores SA parameters; IKEv2 (RFC 7296) negotiates them"
+    },
+    {
+      "id": "04-ipsec-modes-tls-status",
+      "topic": "OSI/TCP-IP models, IP addressing, secure protocols",
+      "front": "IPsec transport vs tunnel mode — when is each the answer? And what is the current status of SSL, TLS 1.0/1.1, and TLS 1.3?",
+      "back": "- **Transport**: payload only encrypted, IP header in clear; host-to-host / end-to-end\n- **Tunnel**: whole original packet protected + new outer header; gateway-to-gateway, \"link encryption VPN\" — \"between two office gateways\" -> tunnel\n- **SSL**: legacy, replaced by TLS; SSLv3 deprecated (RFC 7568)\n- **TLS 1.0/1.1**: deprecated March 2021 (RFC 8996)\n- **TLS 1.3** (RFC 8446, 2018): static RSA/DH removed -> forward secrecy always, AEAD only, encrypted handshake, 1-RTT, optional replayable 0-RTT\n- NIST SP 800-52r2: TLS 1.2 required, 1.3 by Jan 2024\n- Any option prescribing \"SSL\" today is the distractor"
+    },
+    {
+      "id": "04-multilayer-implications",
+      "topic": "Multilayer and converged protocols, transport architecture, performance metrics",
+      "front": "What are multilayer protocols, and what are their benefits and drawbacks per ISC2? How do converged protocols differ?",
+      "back": "- **Multilayer** = suite spanning several OSI layers via encapsulation (TCP/IP)\n- Benefits: many higher-layer protocols, encryption possible at several layers, flexibility/resiliency\n- Drawbacks: **covert channels**, **filter bypass** (encapsulation hides content), logical segment boundaries crossed\n- **Converged** = specialty/proprietary protocol merged onto standard TCP/IP: iSCSI, FCoE, MPLS, VoIP, InfiniBand over Ethernet (RoCE), CXL\n- Trap: questions flip benefit/drawback; \"spans layers\" = multilayer, \"rides on TCP/IP\" = converged"
+    },
+    {
+      "id": "04-converged-storage",
+      "topic": "Multilayer and converged protocols, transport architecture, performance metrics",
+      "front": "iSCSI vs FCoE vs FCIP vs MPLS — what distinguishes each, and what is the common security misconception?",
+      "back": "- **iSCSI**: SCSI over TCP/IP, routable, low-cost SAN; CHAP auth, spec mandates IPsec (RFC 7143)\n- **FCoE**: Fibre Channel frames in Ethernet (10 Gbps), **Layer 2, not routable**\n- **FCIP**: Fibre Channel over IP — routable, the FCoE distractor\n- **MPLS**: label-based forwarding; provides *separation*, **not encryption**\n- Misconception: converged storage/carrier networks are \"private\" so need no encryption — isolate the storage network and encrypt above the carrier"
+    },
+    {
+      "id": "04-planes-switching",
+      "topic": "Multilayer and converged protocols, transport architecture, performance metrics",
+      "front": "Define the data, control, and management planes (RFC 7426) with a SOC example each. Then contrast store-and-forward with cut-through switching.",
+      "back": "- **Data/forwarding**: moves packets — ASIC path, ACL hits\n- **Control**: decides how to forward, time-critical — OSPF/BGP updates, STP, SDN southbound; route injection, BPDU spoofing\n- **Management**: monitor/configure/maintain, slower — SSH/SNMP/NETCONF to the device; protect with OOB + MFA\n- \"Admin configures router over SSH\" = management; \"routers exchange updates\" = control\n- **Store-and-forward**: buffer whole frame, check CRC, then forward — higher latency, drops corrupt frames\n- **Cut-through**: forward after destination MAC — lowest latency, propagates errors"
+    },
+    {
+      "id": "04-performance-metrics",
+      "topic": "Multilayer and converged protocols, transport architecture, performance metrics",
+      "front": "Distinguish bandwidth, throughput, latency, jitter, and signal-to-noise ratio. Which does a jammer attack, and which ruins VoIP with stable delay?",
+      "back": "| Metric | Meaning |\n| --- | --- |\n| **Bandwidth** | link capacity (max bit rate) |\n| **Throughput** | bits actually delivered (<= bandwidth) |\n| **Latency** | delay, one-way or RTT |\n| **Jitter** | *variation* in latency; packets arrive out of sequence (SP 800-58) |\n| **SNR** | signal power vs noise |\n\n- **Jamming** lowers effective SNR\n- Stable delay but choppy VoIP -> **jitter** (fix: jitter buffer, QoS)\n- QoS tracks throughput, bit rate, loss, latency, jitter, delay, availability"
+    },
+    {
+      "id": "04-traffic-flows",
+      "topic": "Segmentation and traffic flows: physical, logical, micro, edge",
+      "front": "North-south vs east-west traffic: define each, and name the control class that addresses each.",
+      "back": "- **North-south**: inbound/outbound between internal and external systems — perimeter firewall, screened subnet, ingress/egress filtering\n- **East-west**: within the network, data center, or cloud (server-to-server) — **microsegmentation**, internal segmentation firewalls, NDR\n- Lateral movement is east-west; a perimeter firewall never sees it\n- Trap: \"perimeter firewall inspects...\" answers a north-south question only"
+    },
+    {
+      "id": "04-physical-segmentation",
+      "topic": "Segmentation and traffic flows: physical, logical, micro, edge",
+      "front": "Air gap vs out-of-band vs in-band: define each and give the exam discriminator.",
+      "back": "- **Air gap**: physical network segregation — no physical connection, any logical transfer is manual under human control (CNSSI 4009); residual vector = removable media\n- **Out-of-band**: information carried on a *separate* communications channel (NISTIR 7711) — dedicated management network/console; still reachable when production is down\n- **In-band**: management rides the production network — cheaper; compromised production = compromised management\n- Discriminator: \"management still reachable during an outage\" -> OOB, not air gap (air gap = no connection at all)"
+    },
+    {
+      "id": "04-logical-segmentation",
+      "topic": "Segmentation and traffic flows: physical, logical, micro, edge",
+      "front": "VLAN vs VPN vs VRF vs virtual domain: layer/scope of each and the isolation limit the exam tests.",
+      "back": "| Tech | Scope | Limit |\n| --- | --- | --- |\n| **VLAN** | Layer 2 broadcast domains, IEEE 802.1Q tagging | **VLAN hopping** (double tagging); needs a router to cross; not encryption |\n| **VPN** | encrypted path over shared network (C + I) | protects a path, does not segment the interior |\n| **VRF** | multiple independent routing tables in one router (Layer 3) | shared hardware/control plane |\n| **Virtual domain** | isolated instances of one firewall/switch, own config | shared chassis |\n\n- Trap: VLAN alone offered as *the* security boundary; VPN offered as segmentation"
+    },
+    {
+      "id": "04-microsegmentation-edge",
+      "topic": "Segmentation and traffic flows: physical, logical, micro, edge",
+      "front": "What is microsegmentation and its three enablers per the outline? Also: what replaced the term DMZ, and what is an extranet?",
+      "back": "- **Microsegmentation**: internal network split into many subzones (down to one device) by ISFWs/subnets/VLANs; all inter-zone traffic filtered, may authenticate, often encrypted\n- Enablers: **overlays/encapsulation** (VXLAN, RFC 7348 — L2 over L3 in UDP 4789, 24-bit VNI ~16M segments; encapsulation, *not* encryption); **distributed firewalls/routers** (policy at hypervisor/vNIC/host, SP 800-125B); **zero trust** (per-session identity policy, SP 800-207; landscape in SP 800-215)\n- **DMZ** is deprecated -> **screened subnet** (hardened public-facing hosts outside internal trust)\n- **Extranet** = screened subnet for B2B partners, usually via VPN; **intranet** = private LAN\n- Ingress filter = inbound; egress filter = outbound (exfiltration, spoofed-source DDoS)"
+    },
+    {
+      "id": "04-wifi-generations",
+      "topic": "Wireless and cellular networks",
+      "front": "WEP, WPA, WPA2, WPA3: cipher, authentication, and status of each. What does SAE replace and what does PMF stop?",
+      "back": "| Gen | Cipher | Auth | Status |\n| --- | --- | --- | --- |\n| **WEP** | RC4, weak IVs | shared key | cracked in under a minute |\n| **WPA** | RC4 + TKIP (or LEAP) | PSK / 802.1X | insecure, replaced 2004 |\n| **WPA2** (802.11i) | AES-CCMP | **PSK** or **802.1X** | PSK handshake open to offline dictionary |\n| **WPA3** | AES-CCMP, 192-bit enterprise mode | **SAE** replaces PSK | PMF (802.11w) mandatory |\n\n- **SAE** (Dragonfly, DH-derived zero-knowledge) replaces the PSK handshake — forward secrecy, offline-dictionary resistance; it is *not* 802.1X\n- **PMF** stops deauthentication/disassociation DoS\n- Wi-Fi Enhanced Open (OWE) = encryption for open networks; disable **WPS** (PIN brute force < 6 h)"
+    },
+    {
+      "id": "04-eap-8021x",
+      "topic": "Wireless and cellular networks",
+      "front": "What is 802.1X, what is EAP, and which EAP methods are the strong, acceptable, and legacy options?",
+      "back": "- **802.1X**: port-based authentication, an \"authentication proxy\" to RADIUS/TACACS+ (supplicant / authenticator / authentication server)\n- **EAP**: an authentication *framework*, not a method; runs over the link layer without IP (RFC 3748)\n- Strong: **EAP-TLS** — certificate-based mutual auth (RFC 5216)\n- Acceptable: **EAP-TTLS**, **PEAP** (EAP inside a TLS tunnel, server cert only), **EAP-FAST** (Cisco, replaced LEAP)\n- Legacy/avoid: **LEAP** (Cisco proprietary), **EAP-MD5** (no mutual auth)\n- EAP-SIM = GSM SIM auth\n- Trap: \"Lightweight\" (LEAP) != secure; WPA2-Enterprise = 802.1X, not a shared PSK"
+    },
+    {
+      "id": "04-wireless-attacks",
+      "topic": "Wireless and cellular networks",
+      "front": "Evil twin vs rogue AP; deauth vs disassociation; bluejacking vs bluesnarfing vs bluebugging vs bluesmacking.",
+      "back": "- **Rogue AP**: any unauthorized AP plugged into your network\n- **Evil twin**: attacker AP clones a *known* SSID so clients auto-reconnect to it\n- **Deauthentication** / **disassociation** frames: both wireless DoS by forcing disconnects — defeated by PMF (802.11w)\n- Bluetooth (IEEE 802.15): **bluejacking** = send unsolicited messages; **bluesnarfing** = connect and *extract data*; **bluebugging** = *remote control* (mic as bug); **bluesmacking** = DoS; **bluesniffing** = eavesdrop\n- Hiding the SSID / MAC filtering = obscurity — scanners still see the base station"
+    },
+    {
+      "id": "04-zigbee-satellite-cellular",
+      "topic": "Wireless and cellular networks",
+      "front": "Zigbee: what standard is it built on? Satellite orbits: which has highest latency vs best signal? Cellular: what NIST guides cover 4G and 5G, and what does 5G fix?",
+      "back": "- **Zigbee**: OSG glossary says \"based on Bluetooth\"; technically IEEE **802.15.4** low-rate WPAN, mesh, AES-128; low power, low throughput, short range\n- **LEO** 160–2,000 km: strong signal, low latency, needs many satellites (Starlink)\n- **MEO** 2,000–35,786 km\n- **GEO** 35,786 km: fixed position/antennas, largest footprint, **highest latency**\n- Satellite risk: wide footprint interception, jamming, third-party ground segment -> encrypt end to end\n- **4G/LTE**: NIST SP 800-187; rogue base stations / IMSI catchers, downgrade attacks\n- **5G**: NIST SP 1800-33 (draft); service-based architecture, network slicing, subscriber ID concealed (SUPI -> SUCI)\n- Carrier network is not your trust boundary — VPN/TLS over it"
+    },
+    {
+      "id": "04-sdn-interfaces",
+      "topic": "SDN, SD-WAN, NFV, VPC, CDN, and network monitoring/management",
+      "front": "SDN: what does it separate, what are the northbound and southbound interfaces, and what does the OSG glossary call them? Where is the security risk concentrated?",
+      "back": "- **SDN** separates the infrastructure (hardware/forwarding) layer from the control layer; central, programmable, vendor-neutral\n- **Southbound** = controller -> network devices; **northbound** = controller -> applications via APIs (RFC 7426)\n- OSG glossary labels the same pair **eastbound** (to devices) and **westbound** (to applications)\n- Risk: the **controller** is a single point of failure/compromise; northbound **APIs** inherit API attacks — secure the controller and its APIs before hardening individual switches\n- OpenFlow = southbound protocol example"
+    },
+    {
+      "id": "04-sdwan-nfv-vpc-cdn",
+      "topic": "SDN, SD-WAN, NFV, VPC, CDN, and network monitoring/management",
+      "front": "Distinguish SDN, SD-WAN, and NFV. Then VPC vs VPN, and what a CDN does and does not protect.",
+      "back": "- **SDN**: separate control from forwarding\n- **SD-WAN**: SDN applied to WAN links between data centers, branches, cloud — encrypted overlay, central policy (SP 800-215 alongside SASE/ZTNA)\n- **NFV**: virtualize network *functions* (firewall, router, LB) off dedicated hardware; SDN + NFV = programmable infrastructure; hypervisor risk (SP 800-125B)\n- **VPC**: isolated customer-controlled section of a CSP's network (subnets, security groups = stateful/instance, NACLs = stateless/subnet) — isolation, *not* encryption; **VPN** = encrypted path\n- **CDN**: distributed hosts for low latency/HA via anycast; absorbs DDoS, edge WAF — but TLS terminates at the CDN, so it is a third party in the confidentiality path"
+    },
+    {
+      "id": "04-monitoring-management",
+      "topic": "SDN, SD-WAN, NFV, VPC, CDN, and network monitoring/management",
+      "front": "Define network observability, traffic shaping, capacity management, and fault handling. Fault-tolerant vs fault-resistant network?",
+      "back": "- **Observability**: infer internal state from telemetry (flows, metrics, logs, traces) — *why*, not just *whether* (monitoring)\n- **Traffic shaping**: delay/prioritize packets to policy (vs policing = drop); QoS measures throughput, bit rate, loss, latency, jitter, delay, availability\n- **Capacity management**: resources meet current and forecast demand — bandwidth on demand (premium rates), cloud resource capacity agreement\n- **Fault handling**: **fault-tolerant** network recovers from minor errors; **fault-resistant** survives faults to minimize downtime (OSG glossary distinction)\n- Bandwidth monitor: usage tracking that also exposes malware comms and misuse"
+    },
+    {
+      "id": "04-nac",
+      "topic": "Secure network components",
+      "front": "NAC: ISC2's three goals, and the axes preadmission/postadmission, agent/agentless, physical/virtual. How does NAC differ from 802.1X and from a firewall?",
+      "back": "- **NAC** = controlling access to the environment through strict adherence to security policy; goals: prevent/reduce **zero-day** attacks, enforce policy network-wide, identity-based access control\n- NIST (SP 800-41): access based on credentials plus **health checks** of the device\n- **Preadmission** (check before connect) vs **postadmission** (monitor behavior after — \"found infected an hour later\")\n- Agent-based vs agentless (guests/IoT); enforcement via 802.1X, DHCP/ARP, inline; quarantine VLAN, captive portal\n- **Physical** (switch ports, WLAN) vs **virtual** (VPN posture, cloud conditional access, vSwitch)\n- vs **802.1X**: one enforcement mechanism NAC may use; vs **firewall**: NAC decides who joins, firewall filters traffic afterwards"
+    },
+    {
+      "id": "04-endpoint-media",
+      "topic": "Secure network components",
+      "front": "State ISC2's endpoint security principle, EDR vs antivirus vs HIDS, and which transmission medium answers any emanation/EMI/tapping question.",
+      "back": "- **Endpoint security**: each device maintains local security whether or not the network does — \"the end device is responsible for its own security\"; NAC *checks* posture, endpoint controls *provide* it\n- **EDR**: evolution of antimalware — detect, record, evaluate, respond (behavioral); antivirus = signature prevention; HIDS = detect only\n- **Fiber-optic**: no EMI, no RF emanation, tapping detectable — the answer for emanation/EMI/tapping\n- UTP: attenuation, EMI, crosstalk, 100 m; **STP** = shielded twisted pair *or* Spanning Tree Protocol\n- **Plenum**-rated cable = fire code, not security; **TEMPEST** / control zone (Faraday cage, white noise) = emanation control\n- Redundant power, warranty, support = availability controls; the *security* benefit of support = timely patches/firmware"
+    },
+    {
+      "id": "04-voip",
+      "topic": "Secure communication channels",
+      "front": "SIP vs RTP vs SRTP, and the VoIP threat vocabulary (vishing, SPIT, toll fraud/phreaking).",
+      "back": "- **SIP** (RFC 3261): signaling — create/modify/terminate sessions; secure with SIPS/TLS\n- **RTP**: the media stream; **SRTP** (RFC 3711): confidentiality, message authentication, replay protection for RTP/RTCP\n- \"Calls set up fine but audio intercepted\" -> SRTP\n- **Vishing** = phishing over VoIP (spoofed caller ID); **SPIT** = spam over internet telephony\n- **Toll fraud / phreaking** = abusing PBX remote dial-in — a PBX control problem\n- Voice VLAN separation, QoS (latency/jitter), NIST SP 800-58"
+    },
+    {
+      "id": "04-aaa-protocols",
+      "topic": "Secure communication channels",
+      "front": "RADIUS vs TACACS+ vs Diameter: transport, what is encrypted, and typical use.",
+      "back": "| | RADIUS | TACACS+ | Diameter |\n| --- | --- | --- | --- |\n| Transport | UDP 1812/1813 (RFC 2865) | TCP 49 (RFC 8907) | TCP/SCTP + TLS/DTLS/IPsec (RFC 6733) |\n| Encrypted | **password attribute only** | **whole packet body** | transport-secured |\n| Use | network access (wireless, VPN, dial-up) | device administration; **separates** authN/authZ/accounting | RADIUS successor; mobile/roaming |\n\n- \"Granular command authorization for router admins\" -> TACACS+"
+    },
+    {
+      "id": "04-vpn-remote-access",
+      "topic": "Secure communication channels",
+      "front": "PPTP, L2TP, IPsec, TLS VPN, GRE — which encrypt? Split vs full tunnel; remote node vs remote control; jump server vs bastion host.",
+      "back": "- **PPTP**: legacy, replaced by L2TP\n- **L2TP**: **no built-in encryption** — relies on IPsec ESP\n- **IPsec**: AH/ESP, transport/tunnel (SP 800-77)\n- **TLS VPN**: clientless browser portal, application-scoped (SP 800-113) — \"contractor needs one web app\"\n- **GRE**: encapsulation only, no encryption\n- **Split tunnel**: corporate via VPN + internet direct -> bypasses egress controls; **full tunnel** for visibility/DLP\n- **Remote node**: client becomes a LAN member via RAS/VPN; **remote control**: drive a distant host (RDP 3389) — never exposed directly\n- **Jump server**: chokepoint for admin sessions in extranet/screened subnet/cloud; **bastion host**: any hardened exposed system\n- Callback to a *preconfigured* number = secure; user-defined = insecure"
+    },
+    {
+      "id": "04-third-party-connectivity",
+      "topic": "Secure communication channels",
+      "front": "Third-party connectivity: what is an ISA and how does it differ from MOU, SLA, and NDA? What is the trap about carrier MPLS/backhaul?",
+      "back": "- **ISA** (interconnection security agreement): document specifying security requirements for system interconnections, incl. impact level of the exchanged information (NIST SP 800-47 Rev 1); SP 800-53 **CA-3** Information Exchange, **SC-7** Boundary Protection\n- **MOU/MOA**: intent and responsibilities; **SLA**: performance/availability; **NDA**: confidentiality of information\n- Vendor remote support: dedicated VPN/jump path, time-bound JIT enablement, named accounts, session recording, disabled when idle\n- **Backhaul** = edge/access-to-core links (cell sites, branches), often microwave/fiber/satellite; carrier encryption is operator-dependent\n- Trap: \"MPLS/backhaul is a private circuit so no encryption needed\" -> wrong; separation is not confidentiality — SC-8 Transmission Confidentiality and Integrity"
+    }
+  ]
+}
