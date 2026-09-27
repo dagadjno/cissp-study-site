@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-07",
+  "updated": "2026-09-27",
   "domains": [
     {
       "id": "01",
@@ -26,9 +26,9 @@
       "num": 3,
       "title": "Security Architecture and Engineering",
       "notes": "domains/03-security-architecture-engineering.md",
-      "flashcards": null,
+      "flashcards": "flashcards/03.json",
       "quiz": null,
-      "cards": 0,
+      "cards": 9,
       "questions": 0
     },
     {

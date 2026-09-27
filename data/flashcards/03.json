@@ -1,0 +1,59 @@
+{
+  "domain": 3,
+  "cards": [
+    {
+      "id": "03-zero-trust-def",
+      "topic": "Zero trust",
+      "front": "Define zero trust vs. trust but verify. Which is the legacy model?",
+      "back": "- **Zero trust** = nothing trusted by default; **deny by default, grant by explicit exception**\n- **Trust but verify** = the *traditional* model — internal entities trusted automatically because they're inside the perimeter -> insider risk, easy lateral movement\n- Trap: trust-but-verify offered as the modern posture; outline 3.1 pairs them so you discriminate"
+    },
+    {
+      "id": "03-zt-tenets",
+      "topic": "Zero trust",
+      "front": "SP 800-207: what does it cover, and what are the seven zero trust tenets (condensed)?",
+      "back": "NIST SP 800-207 \"Zero Trust Architecture\" (Aug 2020) — defenses move from network perimeters to users/assets/resources.\n1. All data/compute = **resources**\n2. Secure comms regardless of **location**\n3. Access **per session**, least privilege\n4. **Dynamic policy** (identity + device + behavior + environment)\n5. Monitor **posture** of all assets\n6. AuthN/AuthZ **dynamic, before access**\n7. Collect telemetry to **improve policy**"
+    },
+    {
+      "id": "03-zt-pdp-pep",
+      "topic": "Zero trust",
+      "front": "In a zero trust architecture, what do the PE, PA, PDP, and PEP each do — and which one terminates a connection?",
+      "back": "- **PE** (policy engine): makes the grant/deny/revoke decision via trust algorithm; logs it\n- **PA** (policy administrator): executes it — sets up/tears down the path, issues session tokens, configures the PEP\n- **PDP** = PE + PA (control plane)\n- **PEP** (policy enforcement point): enables, monitors, **terminates** connections (data plane)\n- Trap: PDP *decides*, PEP *enforces*"
+    },
+    {
+      "id": "03-zt-enablers",
+      "topic": "Zero trust",
+      "front": "Are microsegmentation, SASE, MFA, and ZTNA \"zero trust\"?",
+      "back": "- No — they are **enablers** of zero trust, not the principle; an option calling a product \"zero trust\" is the distractor when a principle is asked for\n- **Microsegmentation** = many internal subzones (down to one device); all inter-zone traffic filtered, authenticated, encrypted\n- Zero trust != no trust: access is granted **per session**, dynamically (tenet 3)"
+    },
+    {
+      "id": "03-fail-safe-secure",
+      "topic": "Secure design principles",
+      "front": "Fail-safe vs. fail-secure — which applies to a fire door, and which to a firewall whose rule engine crashes?",
+      "back": "- **Fail-safe** = protect **life/safety** on failure -> fire door unlocks\n- **Fail-secure** (fail-closed) = default to **deny** on failure -> firewall drops all traffic\n- Rule: physical/human safety flips the default from deny to open"
+    },
+    {
+      "id": "03-sod-vs-least-priv",
+      "topic": "Secure design principles",
+      "front": "An admin can both create vendor records and approve payments to them. Which principle is violated — least privilege or separation of duties?",
+      "back": "- **Separation of duties** — the *combination* of duties lets one subject subvert controls\n- Per-task rights may already be minimal, so least privilege is the distractor\n- Related: two-person / dual control (both must act); need-to-know (data scope)"
+    },
+    {
+      "id": "03-did-vs-diversity",
+      "topic": "Secure design principles",
+      "front": "Defense in depth vs. diversity of defense.",
+      "back": "- **Defense in depth** = multiple layers in concentric rings; attacker must beat several\n- **Diversity of defense** = layers use *different* vendors/types so one vulnerability cannot pierce them all\n- Second firewall from the same vendor = depth, not diversity"
+    },
+    {
+      "id": "03-secure-defaults-obscurity",
+      "topic": "Secure design principles",
+      "front": "Secure defaults vs. security through obscurity.",
+      "back": "- **Secure defaults**: ship secure rather than convenient (auth on, services off)\n- **Security through obscurity**: hiding as the protection (secret admin URL) — **never a valid approach** per OSG\n- Companion concepts: **abstraction** (group into classes/roles), **data hiding** (subject cannot see *or* access)"
+    },
+    {
+      "id": "03-pbd-shared-sase",
+      "topic": "Secure design principles",
+      "front": "Privacy by design, shared responsibility (3.1 sense), and SASE — one line each.",
+      "back": "- **Privacy by design**: privacy built in at the design phase = security by design (Cavoukian principles)\n- **Shared responsibility** (3.1): orgs are intertwined with the world — take your role seriously; *broader* than the cloud provider/customer split (that is 3.5)\n- **SASE**: converges network security functions with WAN capability for cloud/mobile access (SD-WAN + SWG/CASB/ZTNA/FWaaS)"
+    }
+  ]
+}
