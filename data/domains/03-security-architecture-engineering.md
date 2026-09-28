@@ -37,7 +37,7 @@
 - Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-207]
 
 ## Secure design principles (3.1)
-- Definition (ISC2 framing): design-time properties, not operational controls; outline 3.1 lists threat modeling, least privilege, defense in depth, secure defaults, fail securely, SoD, keep it simple, zero trust/trust but verify, privacy by design, shared responsibility, SASE [ISC2 outline]. Lineage: Saltzer & Schroeder 1975 (economy of mechanism, fail-safe defaults, complete mediation, open design, separation of privilege, least privilege, least common mechanism, psychological acceptability) [unverified]
+- Definition (ISC2 framing): design-time properties, not operational controls; outline 3.1 lists threat modeling, least privilege, defense in depth, secure defaults, fail securely, SoD, keep it simple, zero trust/trust but verify, privacy by design, shared responsibility, SASE [ISC2 outline]. Lineage: Saltzer & Schroeder 1975 (economy of mechanism, fail-safe defaults, complete mediation, open design, separation of privilege, least privilege, least common mechanism, psychological acceptability; plus **work factor** and **compromise recording**, which they say apply "only imperfectly") [Saltzer-Schroeder 1975 Sec. I.A.3]
 - Key facts:
   - Classic set [OSG glossary]:
 
@@ -54,9 +54,9 @@
 
   | Principle | ISC2 framing | Note |
   | --- | --- | --- |
-  | **Privacy by design** (PbD) | Privacy built in at design phase = security by design [OSG glossary] | Cavoukian 7 foundational principles [unverified] |
+  | **Privacy by design** (PbD) | Privacy built in at design phase = security by design [OSG glossary] | Cavoukian **7 foundational principles**: proactive not reactive; privacy as the default; embedded into design; full functionality (positive-sum); end-to-end lifecycle protection; visibility and transparency; respect for user privacy [IPC Ontario, Cavoukian 2009] |
   | **Shared responsibility** | Orgs intertwined with the world; take your role seriously [OSG glossary] | Broader than the cloud model (cloud split -> 3.5) |
-  | **SASE** (Secure Access Service Edge) | Converges network security functions with WAN capability for cloud/mobile access [OSG glossary] | Gartner term; SD-WAN + SWG/CASB/ZTNA/FWaaS [unverified] |
+  | **SASE** (Secure Access Service Edge) | Converges network security functions with WAN capability for cloud/mobile access [OSG glossary] | Gartner term: converged network + security as a service — SD-WAN + SWG/CASB/ZTNA/NGFW (FWaaS) [Gartner glossary] |
   | **Threat modeling** | Design-time threat identification | See Domain 1.10 entry |
 
   - Companion design concepts [OSG glossary]: **abstraction** = group similar elements into classes/roles for collective control assignment; **data hiding** = data placed where subject cannot see *or* access it (not merely unseen)
@@ -67,7 +67,7 @@
   - Hidden admin URL as sole protection -> **security through obscurity** (invalid); secure defaults = auth on by default
   - "Provider secures the cloud, you secure what's in it" -> the 3.5 **cloud** shared responsibility model, not 3.1's societal framing
 - Related terms: zero trust (previous entry), threat modeling (D1), need-to-know (7.4), cloud shared responsibility (3.5), microsegmentation (4.1)
-- Sources: [ISC2 outline], [OSG glossary], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [Saltzer-Schroeder 1975], [IPC Ontario], [Gartner glossary]
 
 ## Security models (3.2)
 - Definition (ISC2 framing): a **security model** maps abstract policy statements into the algorithms and data structures needed to build hardware/software — the yardstick a design is measured against [OSG glossary]. Outline 3.2 names Biba, Star Model, Bell-LaPadula [ISC2 outline]. Models state *what* the policy permits; access control types (MAC/DAC, 5.4) are the enforcement mechanism.
@@ -80,19 +80,19 @@
   | **Information flow** | Governs flow between levels/objects; built on state machine |
   | **Noninterference** | One subject's actions must not affect another's view/state |
   | **Lattice** | Levels + compartments with bounds; basis of MAC |
-  | **Take-Grant** | Directed graph of take/grant/create/remove rights [unverified] |
+  | **Take-Grant** | Directed graph of take/grant/create/remove rights [unverified — Lipton & Snyder 1977 JACM, paywalled] |
 
   - Named models (state machine + lattice + MAC unless noted). Read rules are "simple", write rules are "star":
 
   | Model | Protects | Rules |
   | --- | --- | --- |
-  | **Bell-LaPadula** (BLP) | Confidentiality [OSG glossary] | Simple Security Property: **no read up**; * (star) Security Property: **no write down** [OSG glossary]; Discretionary Security Property: access matrix for DAC [OSG glossary]; strong * = read/write at own level only [unverified] |
-  | **Biba** | Integrity [OSG glossary] | Simple Integrity Axiom: **no read down**; * (star) Integrity Axiom: **no write up** [OSG glossary]; invocation property: no invoking a higher-integrity subject [unverified] |
+  | **Bell-LaPadula** (BLP) | Confidentiality [OSG glossary] | Simple Security Property: **no read up**; * (star) Security Property: **no write down** [OSG glossary]; Discretionary Security Property: access matrix for DAC [OSG glossary]; strong * = read/write at own level only [unverified — not in Bell & LaPadula 1976 MTR-2997 unified exposition; later derivative term] |
+  | **Biba** | Integrity [OSG glossary] | Simple Integrity Axiom: **no read down**; * (star) Integrity Axiom: **no write up** [OSG glossary]; invocation property: no invoking a higher-integrity subject [unverified — Biba 1977 MTR-3153 (DTIC ADA039324) is a scanned image, text not checkable] |
   | **Clark-Wilson** | Integrity via limited interfaces/programs [OSG glossary] | Access triple **subject/program/object**; well-formed transactions; SoD; terms below |
   | **Brewer and Nash** | Conflict of interest; access changes **dynamically** with prior activity [OSG glossary] | Aka Chinese Wall (deprecated), ethical wall, cone of silence |
   | **Goguen-Meseguer** | Integrity; predetermined domain of objects per subject [OSG glossary] | Root of noninterference |
   | **Sutherland** | Integrity; prevents interference [OSG glossary] | Information-flow based |
-  | **Graham-Denning** / **HRU** | Secure creation/deletion of subjects+objects; assignment and resilience of rights [OSG glossary] | HRU (Harrison-Ruzzo-Ullman) extends G-D; G-D has 8 primitive rules [unverified] |
+  | **Graham-Denning** / **HRU** | Secure creation/deletion of subjects+objects; assignment and resilience of rights [OSG glossary] | HRU (Harrison-Ruzzo-Ullman) extends G-D; G-D has 8 primitive rules [unverified — Graham & Denning 1972 AFIPS, paywalled] |
 
   - Clark-Wilson vocabulary [OSG glossary]:
 
@@ -104,13 +104,13 @@
   | **IVP** (integrity verification procedure) | Scans CDIs, confirms integrity |
 
   - Enforcement concepts [OSG glossary]: **TCB** (trusted computing base) = hardware + software + controls that enforce policy; **security perimeter** = imaginary boundary between TCB and the rest; **reference monitor** = the *concept* that validates every access request against policy; **security kernel** = the OS core that *implements* it; **trusted path** = TCB's secure channel to the rest of the system.
-  - Evaluation: **Common Criteria** (CC) = ISO/IEC 15408, methodology in ISO/IEC 18045 [OSG glossary] [ISO/IEC 15408]. **PP** (protection profile) = customer's "I want"; **ST** (security target) = vendor's "I will provide"; **TOE** (target of evaluation) = the product; **EAL** (evaluation assurance level) = how much reliability testing the TOE got, not how secure it is [OSG glossary]. EAL1 functionally tested -> EAL2 structurally tested -> EAL3 methodically tested and checked -> EAL4 methodically designed, tested, reviewed -> EAL5 semiformally designed/tested -> EAL6 semiformally verified design -> EAL7 formally verified design and tested [ISO/IEC 15408]. Predecessors: TCSEC "Orange Book" (D–A1), ITSEC [unverified].
+  - Evaluation: **Common Criteria** (CC) = ISO/IEC 15408, methodology in ISO/IEC 18045 [OSG glossary] [ISO/IEC 15408]. **PP** (protection profile) = customer's "I want"; **ST** (security target) = vendor's "I will provide"; **TOE** (target of evaluation) = the product; **EAL** (evaluation assurance level) = how much reliability testing the TOE got, not how secure it is [OSG glossary]. EAL1 functionally tested -> EAL2 structurally tested -> EAL3 methodically tested and checked -> EAL4 methodically designed, tested, reviewed -> EAL5 semiformally designed/tested -> EAL6 semiformally verified design -> EAL7 formally verified design and tested [ISO/IEC 15408]. Predecessors: **TCSEC** "Orange Book" DoD 5200.28-STD (Dec 1985) — divisions **D** minimal, **C** discretionary (C1, C2), **B** mandatory (B1, B2, B3), **A** verified (A1) [TCSEC DoD 5200.28-STD Sec. 1–4]; **ITSEC** v1.2 (June 1991), assurance levels E0–E6 separate from functionality classes [ITSEC v1.2].
   - U.S. **security modes** for classified processing [OSG glossary]:
 
   | Mode | All users cleared for all data | Need-to-know for all data |
   | --- | --- | --- |
   | **Dedicated** | Yes | Yes |
-  | **System high** | Yes | No [unverified — glossary has pointer only] |
+  | **System high** | Yes | No — clearance + formal approval for all, need-to-know for *some* [CNSSI 4009-2022 via NIST CSRC glossary] |
   | **Compartmented** | Yes | No; formal approval per compartment |
   | **Multilevel** | No | No; system enforces labels (multistate) |
 
@@ -123,7 +123,7 @@
   - **Security model vs. access control model**: BLP/Biba are models; MAC/DAC/RBAC (5.4) are mechanisms. BLP *uses* MAC.
   - **Compartmented vs. system high**: both require full clearance; compartmented adds formal access approval per compartment.
 - Related terms: MAC / lattice-based access control (5.4), TCB and reference monitor (3.4), secure design principles (3.1), Common Criteria and control selection (3.3), data classification (2.1)
-- Sources: [ISC2 outline], [OSG glossary], [ISO/IEC 15408], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [ISO/IEC 15408], [TCSEC DoD 5200.28-STD], [ITSEC v1.2], [CNSSI 4009-2022], [unverified]
 
 ## Control selection (3.3)
 - Definition (ISC2 framing): choose controls from the system's **security requirements** — categorize impact, pick a baseline, tailor it, document, assess — rather than from vendor features or a generic checklist [ISC2 outline]. Requirements come from stakeholders, regulation, and classification (D1, D2); this entry is the architecture-side handoff.
@@ -157,7 +157,7 @@
   | --- | --- | --- |
   | **Memory protection** | OS blocks a process touching memory not allocated to it | vs. process isolation (scope: memory vs. whole process) |
   | **Process isolation** | Each process gets its own memory space for data + code | **Hardware segmentation** = same, enforced in hardware |
-  | **Protection rings** | Concentric privilege levels; ring 0 kernel, ring 3 user [unverified for numbering] | **Mediated-access model** = higher ring asks lower ring via system call |
+  | **Protection rings** | Concentric privilege levels; 4 levels numbered 0–3, higher number = less privilege; ring 0 OS kernel, ring 3 applications [Intel SDM Vol. 3A Sec. 6.5, Fig. 6-3] | **Mediated-access model** = higher ring asks lower ring via system call |
   | **Virtual memory / paging** | Swap file extends RAM; page-in from disk | Pagefile holds sensitive data at rest — encrypt / clear |
   | **DEP** (data execution prevention) | Marks memory non-executable; blunts buffer overflows | Buffer overflow = classic "fail open" exploit |
   | **Trusted recovery** | System returns to a secure state after failure/reboot | Fail-secure principle (3.1) |
@@ -167,15 +167,15 @@
   | Component | Role | Standard |
   | --- | --- | --- |
   | **TPM** | Mainboard cryptoprocessor; stores/processes keys for hardware-backed disk encryption; platform integrity measurements [OSG glossary] | ISO/IEC 11889 (TPM library, 2015) [ISO/IEC 11889] |
-  | **HSM** (hardware security module) | Manages/stores keys, accelerates crypto, faster signatures, stronger auth [OSG glossary]; CA and payment key custody | Validated under **FIPS 140-3** (Mar 2019): 4 security levels, aligned to ISO/IEC 19790:2012 [FIPS 140-3]; L1 basic -> L4 tamper-responsive envelope [unverified for level content] |
+  | **HSM** (hardware security module) | Manages/stores keys, accelerates crypto, faster signatures, stronger auth [OSG glossary]; CA and payment key custody | Validated under **FIPS 140-3** (Mar 2019): 4 security levels, aligned to ISO/IEC 19790:2012 [FIPS 140-3]; L1 production-grade components, no physical mechanisms -> L2 **tamper-evidence** + role-based auth -> L3 tamper detection/response on covers/doors + identity-based auth -> L4 complete tamper-detecting **envelope** + environmental (voltage/temperature) protection [FIPS 140-2 Sec. 1]; FIPS 140-3 keeps the four levels but delegates their content to ISO/IEC 19790:2012 [FIPS 140-3 Sec. 3] |
   | **Root of trust** / **trust anchor** | Inherently trusted starting point of a chain; tamper-resistant; system trust derives from it [OSG glossary] | SP 800-193 (May 2018): firmware **protection, detection, recovery** [NIST SP 800-193] |
   | **Secure boot** | UEFI refuses unsigned drivers/OS; blocks bootkits/rootkits [OSG glossary] | Enforcement |
   | **Measured boot** | UEFI hashes every boot element; **attestation** = verifying the record as true [OSG glossary] | Detection / evidence, not blocking |
 
-  - Encryption/decryption as a *system capability*: full-disk encryption keyed by TPM; **homomorphic encryption** = compute on ciphertext, protects data **in use** [OSG glossary]; **lightweight cryptography** for constrained devices (IoT, ICS, smartcards) [OSG glossary]; memory/bus encryption and trusted execution environments [unverified].
+  - Encryption/decryption as a *system capability*: full-disk encryption keyed by TPM; **homomorphic encryption** = compute on ciphertext, protects data **in use** [OSG glossary]; **lightweight cryptography** for constrained devices (IoT, ICS, smartcards) [OSG glossary]; memory/bus encryption [unverified]; **trusted execution environment** (TEE) = processor-protected enclave where secrets are stored and operated on without leaving it, verifiable by remote attestation [NIST IR 8320 Sec. 5, 6.2].
   - Covert channels [OSG glossary]: **storage** channel = write to shared storage another process reads; **timing** channel = modulate performance/timing predictably. Both leak outside intended paths; the TCB should prevent them.
   - Emanations [OSG glossary]: **TEMPEST** = study/control of compromising EM/RF signals; countermeasures **Faraday cage**, **white noise**, **control zone** (cage + noise for one area).
-  - Legacy exploit classes tied to these capabilities [OSG glossary]: **maintenance hook / backdoor** (developer bypass); **TOCTOU / race condition** (timing between check and use); **incremental attacks** — data diddling (small changes), salami (small skims); Meltdown/Spectre = CPU speculative-execution side channels (2018) [unverified].
+  - Legacy exploit classes tied to these capabilities [OSG glossary]: **maintenance hook / backdoor** (developer bypass); **TOCTOU / race condition** (timing between check and use); **incremental attacks** — data diddling (small changes), salami (small skims); Meltdown/Spectre = CPU speculative-execution side channels (Meltdown = CVE-2017-5754, NVD published 2018-01-04) [NVD CVE-2017-5754].
 - Exam traps / distractors:
   - **TPM vs. HSM**: TPM = soldered, platform-bound, platform integrity + disk keys; HSM = dedicated appliance/card for enterprise key ops (CA signing, PKI). "Protect the CA's private key" -> HSM. "Bind disk encryption to this laptop" -> TPM.
   - **Secure boot vs. measured boot**: blocks vs. records. "Detect firmware tampering and report to a server" -> measured boot + attestation.
@@ -185,7 +185,7 @@
   - **Attestation** = verify true/accurate; not authentication.
   - FIPS 140-3 validates a **module**, not the product around it, and says nothing about algorithm choice beyond "approved".
 - Related terms: TCB / reference monitor / security kernel (3.2), cryptographic solutions and FIPS 140-3 (3.6), side-channel attacks (3.7), embedded/IoT vulnerabilities (3.5), silicon root of trust in SCRM (1.11)
-- Sources: [ISC2 outline], [OSG glossary], [ISO/IEC 11889], [FIPS 140-3], [NIST SP 800-193], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [ISO/IEC 11889], [FIPS 140-3], [FIPS 140-2], [NIST SP 800-193], [NIST IR 8320], [Intel SDM], [NVD], [unverified]
 
 ## Vulnerabilities of security architectures and solution elements (3.5)
 - Definition (ISC2 framing): assess and mitigate the *inherent* weaknesses of each system type listed in outline 3.5 [ISC2 outline] — the exam wants the weakness that is characteristic of the architecture, and the managerial mitigation (segmentation, contracts, configuration baselines), not a CVE.
@@ -195,7 +195,7 @@
   | System | Characteristic vulnerability | ISC2-framed mitigation |
   | --- | --- | --- |
   | **Client-based** | Mobile code (applets, JavaScript) runs with local rights; local cache/creds [OSG glossary] | Patch, sandboxing, no local sensitive storage, thin clients / VDI [OSG glossary] |
-  | **Server-based** | Data flow control: single point aggregating data and load; DoS [unverified] | Redundancy, flow control, least functionality |
+  | **Server-based** | Data flow control: single point aggregating data and load; DoS [unverified — OSG framing, no primary source found] | Redundancy, flow control, least functionality |
   | **Database** | **Aggregation** (combine records -> more sensitive whole) and **inference** (deduce higher-level facts from lower-level data) [OSG glossary]; contamination when levels commingle | **Polyinstantiation** (same key, different rows per level), **cell suppression**, partitioning, noise/perturbation; **ACID**, **concurrency** locks, **semantic integrity** [OSG glossary] |
   | **Cryptographic systems** | Weak/short keys, bad IVs, key mismanagement, implementation flaws (3.6, 3.7) | Approved algorithms, key life cycle (SP 800-57), FIPS 140-3 modules |
   | **Distributed** (DCE) | Many members perceived as one entity; trust and coordination between members; heterogeneous patch state [OSG glossary] | Mutual authentication, encrypted inter-node traffic, central logging |
@@ -212,7 +212,7 @@
   | **Embedded / static** | Limited-function computer inside a product; microcontroller or **SoC**; hard to patch; firmware OTA risk [OSG glossary] | Network isolation, manual updates, application firewalls, wrapper controls |
   | **IoT** | Internet-connected devices affecting the physical world; weak defaults, no update path [OSG glossary] | Segment onto own network; manufacturer baseline — NIST IR 8259 (May 2020), SP 800-213 (Nov 2021) for federal acquisition [NIST IR 8259] [NIST SP 800-213] |
   | **ICS / OT** (SCADA, DCS, PLC) | Prioritize **safety, availability, integrity over confidentiality**; patching constrained by continuous operation; real-time; legacy gear [NIST SP 800-82] | SP 800-82 Rev 3 (Sept 2023) Guide to OT Security; segmentation/DMZ between IT and OT, unidirectional gateways [NIST SP 800-82] |
-  | **HPC** | Supercomputers / MPP; massive parallel data; availability and research-data integrity dominate [OSG glossary] | Isolation of scheduler and interconnect; job-level access control [unverified] |
+  | **HPC** | Supercomputers / MPP; massive parallel data; availability and research-data integrity dominate [OSG glossary] | Zone segmentation — **access**, **management** (schedulers, workflow), **HPC compute**, **data storage** zones — SP 800-223 (Feb 2024) [NIST SP 800-223 Sec. 2.1]; isolation of scheduler and interconnect; job-level access control [unverified] |
 
   - **Edge** vs. **fog** [OSG glossary]: edge = intelligence *in each device* at the network edge; fog = collects from sensors/edge devices and processes at a **LAN**-positioned node before central. Both widen the physical attack surface.
   - Cloud model definitions — SP 800-145 (Sept 2011) [NIST SP 800-145]:
@@ -223,7 +223,7 @@
   | 3 service models | SaaS (use provider app), PaaS (deploy your app on provider platform), IaaS (you control OS/storage/network) |
   | 4 deployment models | Private, community, public, hybrid |
 
-  - Cloud shared responsibility [OSG glossary]: customer always owns data, identities, and configuration; provider always owns physical/hypervisor. IaaS -> customer also owns OS + middleware + runtime; PaaS -> provider owns OS/runtime, customer owns app + data; SaaS -> customer owns only data/access configuration [unverified for exact boundary].
+  - Cloud shared responsibility [OSG glossary]: customer always owns data, identities, and configuration; provider always owns physical/hypervisor. IaaS -> customer also owns OS + middleware + runtime; PaaS -> provider owns OS/runtime, customer owns app + data; SaaS -> customer owns only data/access configuration — SP 800-145 service-model text: IaaS consumer controls OS, storage, deployed apps (maybe host firewalls); PaaS consumer controls deployed apps + hosting-environment config only; SaaS consumer has at most "limited user-specific application configuration settings" [NIST SP 800-145 Sec. 2].
   - Private cloud can be **third-party hosted** and still be private (single tenant); public = multitenant [OSG glossary].
 - Exam traps / distractors:
   - **Aggregation vs. inference**: aggregation = combining many *authorized* pieces yields something more sensitive; inference = *deducing* protected facts from unprotected ones. Polyinstantiation is the inference defense [OSG glossary].
@@ -236,7 +236,7 @@
   - **SaaS vs. PaaS vs. IaaS** responsibility: the stem's clue is who controls the OS.
   - Cloud **community** deployment (shared interest group) is the forgotten fourth model.
 - Related terms: shared responsibility principle (3.1), cloud in D8 acquired software (8.4), data sovereignty / location (2.4), microsegmentation and zero trust (3.1, 4.1), physical security of edge devices (3.9)
-- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-145], [NIST SP 800-125], [NIST SP 800-190], [NIST SP 800-82], [NIST IR 8259], [NIST SP 800-213], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-145], [NIST SP 800-125], [NIST SP 800-190], [NIST SP 800-82], [NIST IR 8259], [NIST SP 800-213], [NIST SP 800-223], [unverified]
 
 ## Cryptographic solutions (3.6)
 - Definition (ISC2 framing): select and manage cryptography across its **life cycle** (keys, algorithm selection), across **methods** (symmetric, asymmetric, elliptic curve, quantum), and through **PKI** including quantum key distribution [ISC2 outline]. Exam angle: which primitive delivers which service, and who manages the keys.
@@ -246,7 +246,7 @@
 
   | Attribute | Symmetric | Asymmetric |
   | --- | --- | --- |
-  | Keys | One shared secret; n(n-1)/2 for n parties [unverified formula] | Key pair; 2n for n parties |
+  | Keys | One shared secret; n(n-1)/2 for n parties (4 entities -> 6 keys; 1,000 -> 499,500) [NIST SP 800-175B Rev 1 Sec. 3.2] | Key pair; 2n for n parties |
   | Speed / use | Fast; bulk data | Slow; key exchange, signatures |
   | Distribution | Out-of-band or via asymmetric (**digital envelope**) [OSG glossary] | Public key freely distributed via certificates |
   | Services | Confidentiality, integrity (MAC) | + authentication, **nonrepudiation** |
@@ -257,7 +257,7 @@
   | --- | --- | --- |
   | **DES** | 64-bit block, 56-bit key (1977) | Superseded by AES Dec 2001 [OSG glossary] |
   | **3DES / TDEA** | 64-bit block; 2-key or 3-key | 2-key encryption disallowed; 3-key deprecated through 2023, **disallowed after 2023**; decryption legacy-use only [NIST SP 800-131A] |
-  | **AES** (Rijndael) | 128-bit block; 128/192/256-bit keys | FIPS 197 (Nov 26 2001, updated May 9 2023) [FIPS 197]; 10/12/14 rounds [unverified] |
+  | **AES** (Rijndael) | 128-bit block; 128/192/256-bit keys | FIPS 197 (Nov 26 2001, updated May 9 2023) [FIPS 197]; 10/12/14 rounds (Nr) for 128/192/256-bit keys [FIPS 197 Sec. 5 Table 3] |
   | **Blowfish** / **Twofish** | 64-bit block, 32–448-bit key / 128-bit block | Schneier; Twofish AES finalist [OSG glossary] |
   | **IDEA** | 64-bit block, 128-bit key | Used in PGP [OSG glossary] |
   | **RC4** | Stream cipher | WEP/WPA; obsolete [OSG glossary] |
@@ -284,7 +284,7 @@
 
   - Time frames: < 112 bits disallowed for applying protection; 112 bits legacy-use after 2030 [NIST SP 800-57]; minimum security strength 112 bits [NIST SP 800-131A]; RSA 1024 disallowed for signature generation [NIST SP 800-131A]. TLS 1.3 (RFC 8446, Aug 2018) removed static RSA/DH suites — all key exchange now forward-secret [RFC 8446].
   - Hashing and integrity [OSG glossary]: hash = one-way, fixed-length digest, no key; **MD5** 128-bit, replaced [OSG glossary]; **SHA-2** family FIPS 180-4 (Aug 2015) [FIPS 180-4]; **SHA-3** FIPS 202 (Aug 2015), Keccak, SHA3-224/256/384/512 + SHAKE128/256 [FIPS 202]; **RIPEMD-160** alternative to SHA-1 [OSG glossary]. **HMAC** = keyed hash, integrity + authentication, "partial signature", **no nonrepudiation** [OSG glossary]. **Digital signature** = hash encrypted/signed with sender's **private** key [OSG glossary]. Passwords: **salt** (unique random per hash), **pepper** (secret), **key stretching** — PBKDF2, bcrypt, Argon2 [OSG glossary]. **Birthday/collision** resistance depends on digest length (3.7).
-  - Key management life cycle — SP 800-57 Pt 1 [NIST SP 800-57]: key states **pre-activation -> active -> suspended -> deactivated -> compromised -> destroyed**; phases **pre-operational, operational, post-operational, destroyed**. **Cryptoperiod** = time span a key is authorized for use; limits exposure to cryptanalysis and damage from compromise [NIST SP 800-57]. Practices [OSG glossary]: **key escrow** (copies held centrally; agency = law-enforcement access), **key recovery** (extract from backup/escrow), **M of N control** (minimum M of N agents for escrow retrieval), **split knowledge**, **key destruction**/zeroization, **key suspension**; Fair Cryptosystems = failed U.S. segmented-key backdoor [OSG glossary]. Random source: DRBG per SP 800-90A Rev 1 (June 2015) [NIST SP 800-90A]. Modules validated to FIPS 140-3 (3.4). **Crypto agility** = ability to swap algorithms without redesign [unverified].
+  - Key management life cycle — SP 800-57 Pt 1 [NIST SP 800-57]: key states **pre-activation -> active -> suspended -> deactivated -> compromised -> destroyed**; phases **pre-operational, operational, post-operational, destroyed**. **Cryptoperiod** = time span a key is authorized for use; limits exposure to cryptanalysis and damage from compromise [NIST SP 800-57]. Practices [OSG glossary]: **key escrow** (copies held centrally; agency = law-enforcement access), **key recovery** (extract from backup/escrow), **M of N control** (minimum M of N agents for escrow retrieval), **split knowledge**, **key destruction**/zeroization, **key suspension**; Fair Cryptosystems = failed U.S. segmented-key backdoor [OSG glossary]. Random source: DRBG per SP 800-90A Rev 1 (June 2015) [NIST SP 800-90A]. Modules validated to FIPS 140-3 (3.4). **Crypto agility** = ability to swap algorithms without redesign; NIST: capabilities to replace and adapt algorithms across protocols, software, hardware, firmware, infrastructure while preserving security and operations — CSWP 39 (Dec 19 2025) [NIST CSWP 39].
   - PKI = framework (not a product) combining asymmetric + symmetric + hashing + certificates [OSG glossary]:
 
   | Component | Role |
@@ -305,7 +305,7 @@
   | **Quantum cryptography** | Uses wave/particle nature of light; no current real-world use per OSG [OSG glossary] | Research |
   | **QKD** (quantum key distribution) | Physics-based distribution of a shared **symmetric** key — same goal as DH [OSG glossary] | Point-to-point hardware; not an algorithm |
   | **Post-quantum cryptography** (PQC) | Classical math believed hard even for quantum computers [OSG glossary] | FIPS 203 **ML-KEM** (key encapsulation), FIPS 204 **ML-DSA**, FIPS 205 **SLH-DSA** (SPHINCS+) — all Aug 13 2024 [FIPS 203] [FIPS 204] [FIPS 205]; stateful hash-based LMS/XMSS in SP 800-208 (Oct 2020) [NIST SP 800-208] |
-  | **Quantum supremacy** | Quantum computer solves what classical cannot [OSG glossary] | Shor's algorithm breaks RSA/ECC; Grover halves symmetric strength -> AES-256 [unverified] |
+  | **Quantum supremacy** | Quantum computer solves what classical cannot [OSG glossary] | Shor's algorithm (1994) breaks RSA/ECDSA/ECDH ("no longer secure"); Grover's quadratic speedup -> symmetric "larger key sizes needed", doubling key size compensates -> AES-256 [NIST IR 8105 (Apr 2016) Table 1] |
 
   - Other solutions [OSG glossary]: **homomorphic encryption** (compute on ciphertext, data in use); **link encryption** (whole circuit, hop by hop) vs. end-to-end (headers exposed, payload protected); **hybrid cryptography** = asymmetric to move a symmetric session key; **ephemeral key** = one session; **cryptographic erasure** = destroy the key to sanitize (3.10).
 - Exam traps / distractors:
@@ -322,7 +322,7 @@
   - **3DES and DSA** are exam-current traps: 3DES encryption disallowed after 2023; DSA no longer approved for new signatures — but both still "work", which is why they distract.
   - ECC "shorter key" does not mean weaker; strength equivalence is the table above.
 - Related terms: TPM/HSM/FIPS 140-3 (3.4), cryptanalytic attacks (3.7), data states (2.6), TLS/IPsec (4.1), Kerberos and certificate-based authentication (5.2), cryptographic erase in disposal (3.10)
-- Sources: [ISC2 outline], [OSG glossary], [FIPS 197], [FIPS 186-5], [FIPS 180-4], [FIPS 202], [FIPS 203], [FIPS 204], [FIPS 205], [NIST SP 800-38A], [NIST SP 800-38D], [NIST SP 800-57], [NIST SP 800-131A], [NIST SP 800-90A], [NIST SP 800-208], [RFC 5280], [RFC 6960], [RFC 8446], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [FIPS 197], [FIPS 186-5], [FIPS 180-4], [FIPS 202], [FIPS 203], [FIPS 204], [FIPS 205], [NIST SP 800-38A], [NIST SP 800-38D], [NIST SP 800-57], [NIST SP 800-131A], [NIST SP 800-90A], [NIST SP 800-208], [NIST SP 800-175B], [NIST IR 8105], [NIST CSWP 39], [RFC 5280], [RFC 6960], [RFC 8446]
 
 ## Cryptanalytic attacks (3.7)
 - Definition (ISC2 framing): outline 3.7 lists brute force, ciphertext-only, known plaintext, frequency analysis, chosen ciphertext, implementation attacks, side-channel, fault injection, timing, MITM, pass the hash, Kerberos exploitation, ransomware [ISC2 outline]. Exam groups them by **what the attacker has** (classical), **what the attacker exploits** (implementation), and **what the attacker does with credentials** (operational).
@@ -358,7 +358,7 @@
   | **Implementation attack** | Flaws in the software/code/methodology, not the math | Umbrella term |
   | **Side-channel** | **Passive, noninvasive** observation of device operation (power, timing, EM) | Smartcards; nothing is altered |
   | **Timing** | Variation in operation duration | A *type* of side-channel |
-  | **Power analysis** | Power draw during operations | Side-channel; SPA/DPA [unverified] |
+  | **Power analysis** | Power draw during operations | Side-channel; **SPA** = direct (visual) analysis of power patterns per instruction, **DPA** = statistical analysis of power variations [FIPS 140-2 Sec. 4.11] |
   | **Fault injection** | **Actively** induces an external fault (voltage, clock, heat, laser) to corrupt device integrity | Active — not a side-channel |
   | **IV attack** | Short/plaintext/poorly chosen IV | WEP |
   | **Downgrade** (POODLE) | Forces weaker suite/version via AitM/false proxy | POODLE -> SSL 3.0 fallback |
@@ -368,17 +368,17 @@
   | Attack | Mechanism | Managerial control |
   | --- | --- | --- |
   | **MITM / on-path / AitM** | Adversary relays and possibly alters traffic; OSG prefers **adversary-in-the-middle** | Mutual authentication, certificate validation, pinning history, TLS 1.3 |
-  | **Pass the hash** | Reuse cached credential hash ("authentication token") without plaintext; mostly Windows | Credential tiering, privileged access workstations, LAPS, Credential Guard [unverified for product names] |
-  | **Kerberos exploitation** | **Golden ticket** = KRBTGT hash -> forge any TGT; mimikatz dumps hashes/tickets [OSG glossary]; silver ticket, Kerberoasting, pass-the-ticket [unverified] | Rotate KRBTGT (twice) [unverified], strong service-account passwords, monitor TGS anomalies; RFC 4120 (July 2005): AS + TGS in KDC; offline dictionary attack not solved by Kerberos [RFC 4120] |
+  | **Pass the hash** | Reuse cached credential hash ("authentication token") without plaintext; mostly Windows | Credential tiering, privileged access workstations, LAPS, Credential Guard [Microsoft Learn — Credential Guard overview, Windows LAPS overview, privileged-access-devices] |
+  | **Kerberos exploitation** | **Golden ticket** = KRBTGT hash -> forge any TGT; mimikatz dumps hashes/tickets [OSG glossary]; **Kerberoasting** = enumerate SPNs, request TGS tickets, crack service-account hash offline; **pass-the-ticket** = reuse a stolen Kerberos ticket on another host [Microsoft Learn — Defender for Identity classic alerts]; silver ticket [MITRE ATT&CK T1558.002] (service-account hash -> forge TGS without contacting the KDC) | Rotate KRBTGT **twice**, >= 10 h apart (password history = 2; default ticket lifetime 10 h) [Microsoft Learn — AD forest recovery, reset krbtgt], strong service-account passwords, monitor TGS anomalies; RFC 4120 (July 2005): AS + TGS in KDC; offline dictionary attack not solved by Kerberos [RFC 4120] |
   | **Ransomware** | Malware encrypts/blocks system, demands payment [OSG glossary]; crypto turned against the owner | Offline/immutable backups, segmentation, IR playbook; not decryption |
 
-  - **Crypto-malware** (cryptojacking/mining) is *not* ransomware — OSG flags the confusion [OSG glossary]. Related sabotage of crypto: **rubber-hose** (coercion), social engineering [unverified].
+  - **Crypto-malware** (cryptojacking/mining) is *not* ransomware — OSG flags the confusion [OSG glossary]. Related sabotage of crypto: **rubber-hose** (coercion), social engineering [unverified — colloquial term, no standards source].
 - Exam traps / distractors:
   - **Side-channel vs. fault injection vs. timing**: side-channel = passive observe; timing = side-channel subtype using duration; fault injection = *active* perturbation. "Attacker varies supply voltage to skip an instruction" -> fault injection, not side-channel.
   - **Implementation vs. analytic**: code/deployment flaw vs. mathematical weakness in the algorithm itself.
   - **Known vs. chosen plaintext**: possess pairs vs. can *generate* pairs. **Chosen ciphertext** = can decrypt, the reverse direction.
   - **Birthday attack** targets hash collisions (signature substitution); mitigation is longer digest, not longer key.
-  - **Meet-in-the-middle** is the reason 2DES ~ 57 bits [unverified] and 3DES was needed; not the same as man-in-the-middle.
+  - **Meet-in-the-middle** is the reason 2DES ~ 57 bits [unverified — Diffie & Hellman 1977 / Merkle & Hellman 1981 analyses, paywalled] and 3DES was needed; not the same as man-in-the-middle.
   - **Rainbow table vs. brute force**: precomputation vs. live guessing; salt kills rainbow tables, length kills brute force.
   - **Frequency analysis** works only where plaintext letter frequency survives (monoalphabetic substitution); polyalphabetic (Vigenere) flattens it.
   - **Pass the hash** is credential *reuse*, not cracking; a longer password does not stop it.
@@ -386,7 +386,7 @@
   - **Ransomware** answer is recovery capability (backups tested, offline) and containment; paying or "stronger encryption" are distractors.
   - **Replay vs. MITM**: retransmission of captured valid data vs. live interposition.
 - Related terms: cryptographic solutions and key length (3.6), TPM/HSM tamper resistance (3.4), Kerberos and SSO (5.2, 5.6), incident response and backups (7.6, 7.10), TEMPEST/emanations (3.4)
-- Sources: [ISC2 outline], [OSG glossary], [RFC 4120], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [RFC 4120], [FIPS 140-2], [Microsoft Learn], [unverified]
 
 ## Site and facility design principles (3.8)
 - Definition (ISC2 framing): physical security is the outermost layer and protects **people first**, then assets; a **secure facility plan** is derived from risk assessment and **critical path analysis** [OSG glossary]. Design goal: influence behavior and control access by how the site is laid out, before adding guards and locks.
@@ -402,7 +402,7 @@
   - Layered physical defense [OSG glossary]: **deter** (discourage) -> **deny** (prevent) -> **detect** (discover) -> **delay** (slow until response) -> **determine** (cause/purpose) -> decide/respond. Each ring should add time for the previous ring's detection to trigger response.
   - Site selection factors [unverified — verify OSG ch. 10]: visibility and neighbors, accessibility (roads, transit), natural disaster exposure (flood plain, seismic, storm tracks), local crime, proximity of emergency services, utility reliability, ability to build without external signage.
   - Facility design principles: server/data rooms in the **core** of the building (no exterior walls/windows) [unverified]; single controlled entry with visitor processing; minimize windows in secure areas; separate public, work, and restricted zones; **restrictive defaults** in access rules [OSG glossary]; plan for **fail-safe** egress (life) vs. **fail-secure** assets (3.1).
-  - Standards to know exist [unverified — verify numbers]: ANSI/TIA-942 data center tiers 1–4; ISO/IEC 27002:2022 clause 7 physical controls; NFPA 75/76 for IT equipment fire protection.
+  - Standards to know exist: **ANSI/TIA-942** Telecommunications Infrastructure Standard for Data Centers — four levels **Rated-1** basic -> Rated-2 redundant components -> Rated-3 concurrently maintainable -> **Rated-4** fault tolerant [TIA-942 ratings, tiaonline.org]. Correction (audit 2026-09-28): was "tiers 1–4"; TIA's own rating pages use Rated-1..4, not "Tier". **ISO/IEC 27002:2022** clause 7 = physical controls (5 organizational, 6 people, 8 technological) [ISO/IEC 27002:2022]. **NFPA 75** Standard for the Fire Protection of Information Technology Equipment (2024 ed.); **NFPA 76** Standard for the Fire Protection of Telecommunications Facilities (2020 ed.) [NFPA catalog].
   - **Lighting** is the most common perimeter control; purpose is to discourage casual intruders and prowlers [OSG glossary]. **Fence** defines the protected perimeter [OSG glossary]; **PIDAS** = 2–3 concentric fences, main 8–20 ft possibly electrified/sensored, outer 4–6 ft to keep animals/casual trespassers off [OSG glossary].
 - Exam traps / distractors:
   - **CPTED vs. target hardening**: locks, bars, and fences are hardening; CPTED is design that changes behavior (sightlines, ownership cues). Stem asking for "environmental design" wants natural surveillance/access control/territorial reinforcement.
@@ -412,7 +412,7 @@
   - **Natural access control** (guiding flow) vs. **natural surveillance** (being seen): a fence funneling visitors to the lobby is access control; the glass lobby is surveillance.
   - Signage: territorial reinforcement wants ownership signs; data centers want **no** signage revealing function — both can be right depending on the asset asked about.
 - Related terms: facility controls (3.9), perimeter/internal physical security operations (7.14), personnel safety and duress (7.15), fail-safe vs. fail-secure (3.1), BIA and site risk (1.7)
-- Sources: [OSG glossary], [unverified]
+- Sources: [OSG glossary], [TIA-942], [ISO/IEC 27002:2022], [NFPA catalog], [unverified]
 
 ## Site and facility security controls (3.9)
 - Definition (ISC2 framing): controls for specific facility areas and environmental threats named in outline 3.9 — wiring closets/IDF, server rooms/data centers, media storage, evidence storage, restricted work areas, utilities/HVAC, environmental issues, fire, power [ISC2 outline]. Exam angle: the control matched to the room and the hazard, with safety of people as the tiebreaker.
@@ -433,8 +433,8 @@
   | Detector | Senses | Note |
   | --- | --- | --- |
   | **Fixed-temperature / heat** | Specific temperature melts sprinkler trigger | Most common; head is detector *and* release |
-  | **Rate-of-rise** | Rapid temperature increase [unverified] | Faster than fixed-temp |
-  | **Smoke — ionization / photoelectric** | Charged particles / light obstruction [unverified for mechanism] | Standard office detection |
+  | **Rate-of-rise** | Rapid temperature increase [unverified — NFPA 72 paywalled] | Faster than fixed-temp |
+  | **Smoke — ionization / photoelectric** | Charged particles / light obstruction [unverified for mechanism — NFPA 72 paywalled] | Standard office detection |
   | **Flame-actuated** | Infrared energy of flames | Fast, reliable, expensive; high-risk areas |
   | **Incipient / aspirating** | Combustion chemicals before visible fire | Costliest; critical environments |
 
@@ -443,11 +443,11 @@
   | System | How it works | Where |
   | --- | --- | --- |
   | **Wet pipe** (closed head) | Pipes always full; immediate discharge | General office; leak/freeze risk |
-  | **Dry pipe** | Pipes hold compressed air; valve opens on trigger, then water | Areas where pipes may freeze [unverified] |
+  | **Dry pipe** | Pipes hold compressed air; valve opens on trigger, then water | Areas where pipes may freeze [unverified — NFPA 13 paywalled] |
   | **Preaction** | Dry until early detection fills pipes; water released only when head melts; can be aborted | **Best water system for rooms with both computers and humans** |
   | **Deluge** | Larger pipes, large water volume, all heads open | **Inappropriate for electronics** |
 
-  - Suppression — gas and agents: **gas discharge** displaces oxygen or interrupts the reaction [OSG glossary]; **halon** converts to toxic gas at 900°F and depletes ozone -> replaced [OSG glossary]; replacements FM-200, Inergen, FE-13, Aero-K, argon, CO2 (CO2 lethal to occupants; use only in unmanned spaces) [unverified — verify NFPA 2001 / EPA SNAP list]. Fire classes per OSHA: **A** ordinary combustibles (wood, paper), **B** flammable liquids/gases/greases, **C** energized electrical, **D** combustible metals, **K** commercial kitchen oils [OSHA 29 CFR 1910.157]. Agents: A water/soda acid; B CO2/foam/dry powder; C CO2/gas/dry powder; D dry powder; K wet chemical [unverified].
+  - Suppression — gas and agents: **gas discharge** displaces oxygen or interrupts the reaction [OSG glossary]; **halon** converts to toxic gas at 900°F and depletes ozone -> replaced [OSG glossary]; replacements **FM-200** (HFC-227ea), **Inergen** (IG-541), **FE-13** (HFC-23), **Aero-K** (powdered aerosol), argon (IG-01), CO2 — all EPA SNAP-acceptable Halon 1301 total-flooding substitutes; clean agents per **NFPA 2001** [EPA SNAP total flooding agents]; CO2 lethal to occupants — OSHA requires a pre-discharge alarm at >= 4% design concentration [OSHA 29 CFR 1910.162(b)(5)]; "use only in unmanned spaces" is the OSG framing [unverified]. Fire classes: **A** ordinary combustibles (wood, paper), **B** flammable liquids/gases/greases, **C** energized electrical, **D** combustible metals [OSHA 29 CFR 1910.155(c)]; **K** commercial kitchen oils [unverified — Class K is from NFPA 10; OSHA defines no Class K]. Correction (audit 2026-09-28): tag was 1910.157, which only references the classes; definitions are in 1910.155(c). Agents: A water/soda acid; B CO2/foam/dry powder; C CO2/gas/dry powder; D dry powder; K wet chemical [unverified — NFPA 10 paywalled].
   - Power anomalies [OSG glossary]:
 
   | Term | Meaning | Pair |
@@ -459,9 +459,9 @@
   | **Noise** | Steady interference; **transient** = short burst | **EMI**: common mode (hot–ground), traverse mode (hot–neutral); **RFI** = radio spectrum |
   | **Clean power** | Nonfluctuating pure power | Goal of conditioning |
 
-  - Power controls [OSG glossary]: **UPS** = battery-fed clean power for short outages; **double conversion** (online, always via battery) vs. **line-interactive**; **generator** for blackouts (fuel, testing); **surge protector** cuts power on overvoltage — only where instant cut-off is harmless; **power conditioner** also filters noise; redundant utility feeds and dual power supplies [unverified for A/B feed terminology].
-  - HVAC and environment [OSG glossary]: monitor temperature, humidity, dust/smoke; **hot and cold aisles** optimize cooling; low humidity -> **electrostatic discharge** (ESD); high humidity -> condensation/corrosion [unverified]; typical targets 15–32°C and 40–60% RH [unverified — verify OSG/ASHRAE]; **positive pressurization** keeps contaminants out [unverified]; water detection under raised floors; plenum-rated cable produces minimal smoke/toxic gas. **Natural disasters** (earthquake, flood, storm, extreme temperature) vs. man-made (fire, arson, riot, utility failure, explosion) [OSG glossary].
-  - Perimeter and entry controls [OSG glossary]: fences (3–4 ft deter casual, 6–7 ft too hard to climb easily, 8 ft + barbed wire deter determined [unverified]), **PIDAS**, **bollards/barricades** (vehicles), gates, **turnstile** (one at a time, one direction), **access control vestibule** (mantrap deprecated; person trap) with guard, **badges/proximity/smartcards**, **visitor logs**, guards vs. **guard dogs**, motion detectors (infrared, photoelectric for dark windowless rooms, passive audio, **dual-technology** IR + microwave to cut false alarms), infrared linear beam, noise detection, CCTV/surveillance. **Tailgating** (unaware) vs. **piggybacking** (convinced to hold the door) [OSG glossary].
+  - Power controls [OSG glossary]: **UPS** = battery-fed clean power for short outages; **double conversion** (online, always via battery) vs. **line-interactive**; **generator** for blackouts (fuel, testing); **surge protector** cuts power on overvoltage — only where instant cut-off is harmless; **power conditioner** also filters noise; redundant utility feeds and dual power supplies [unverified for A/B feed terminology — TIA-942 body paywalled].
+  - HVAC and environment [OSG glossary]: monitor temperature, humidity, dust/smoke; **hot and cold aisles** optimize cooling; low humidity -> **electrostatic discharge** (ESD); high humidity -> condensation/corrosion [unverified]; typical targets 15–32°C and 40–60% RH [unverified — verify OSG ch. 10 / ASHRAE TC 9.9 thermal guidelines, paywalled]; **positive pressurization** keeps contaminants out [unverified]; water detection under raised floors; plenum-rated cable produces minimal smoke/toxic gas. **Natural disasters** (earthquake, flood, storm, extreme temperature) vs. man-made (fire, arson, riot, utility failure, explosion) [OSG glossary].
+  - Perimeter and entry controls [OSG glossary]: fences (3–4 ft deter casual, 6–7 ft too hard to climb easily, 8 ft + barbed wire deter determined [unverified — OSG ch. 10 only, no standards source]), **PIDAS**, **bollards/barricades** (vehicles), gates, **turnstile** (one at a time, one direction), **access control vestibule** (mantrap deprecated; person trap) with guard, **badges/proximity/smartcards**, **visitor logs**, guards vs. **guard dogs**, motion detectors (infrared, photoelectric for dark windowless rooms, passive audio, **dual-technology** IR + microwave to cut false alarms), infrared linear beam, noise detection, CCTV/surveillance. **Tailgating** (unaware) vs. **piggybacking** (convinced to hold the door) [OSG glossary].
 - Exam traps / distractors:
   - **Preaction** is the water answer for a room with people *and* electronics; **deluge** is never; **dry pipe** is for freezing risk, not "less water damage" per se.
   - **Class C** (electrical) fire — water/foam conducts; gas or dry powder. Class K is kitchen, not "kinetic".
@@ -476,7 +476,7 @@
   - **Photoelectric motion detector** is for dark, windowless internal rooms; **infrared** for heat changes; dual-technology when false alarms are the stated problem.
   - **Tailgating vs. piggybacking**: victim unaware vs. victim complicit.
 - Related terms: site design principles (3.8), physical security operations (7.14), media management and sanitization (7.5, 2.4), evidence handling (7.1), BC/DR site strategies (7.10), TEMPEST and emanations (3.4)
-- Sources: [ISC2 outline], [OSG glossary], [OSHA 29 CFR 1910.157], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [OSHA 29 CFR 1910.155], [OSHA 29 CFR 1910.162], [EPA SNAP], [unverified]
 
 ## Information system lifecycle (3.10)
 - Definition (ISC2 framing): manage security across the **system** life cycle — stakeholder needs and requirements, requirements analysis, architectural design, development/implementation, integration, verification and validation, transition/deployment, operations and maintenance/sustainment, retirement/disposal [ISC2 outline]. This is systems engineering scope (hardware, people, process), broader than the software SDLC of Domain 8.
@@ -492,14 +492,14 @@
   | **Development / implementation** | Secure coding, code review, SAST (D8); configuration baselines for hardware | "Implementation" here = build, not deployment |
   | **Integration** | Assemble elements + third-party/COTS components; **interface testing** against specifications [OSG glossary]; supply-chain checks (1.11) | Integration is where component assumptions collide |
   | **Verification & validation** | **Verification** = built to spec (did we build it right); **validation** = meets stakeholder need (did we build the right thing); **acceptance testing** [OSG glossary]; **regression testing** after change [OSG glossary] | V vs. V swap is the standard trap |
-  | **Transition / deployment** | Change management approval, secure config, training, **ATO** (authorization to operate) — formal management acceptance of risk, time-limited, revocable [OSG glossary] | Certification (technical evaluation) vs. accreditation/authorization (management decision) [unverified for exact OSG wording] |
+  | **Transition / deployment** | Change management approval, secure config, training, **ATO** (authorization to operate) — formal management acceptance of risk, time-limited, revocable [OSG glossary] | Certification (technical evaluation) vs. accreditation/authorization (management decision) — FIPS 200: certification = comprehensive assessment of controls in support of accreditation; accreditation = official management decision by a senior official to authorize operation and explicitly accept risk; now termed **authorization to operate** [FIPS 200 via NIST CSRC glossary] |
 
   | Stage | Security activity | Trap |
   | --- | --- | --- |
   | **Operations & maintenance / sustainment** | Patch and vulnerability management, **configuration management** (baseline, change control) [OSG glossary], continuous monitoring, **baseline reporting** [OSG glossary]; track **EOL** (no longer produced) vs. **EOS/EOSL** (no longer supported) [OSG glossary] | Longest, costliest stage; **legacy platforms** = unsupported [OSG glossary] |
   | **Retirement / disposal** | Media sanitization — SP 800-88 Rev 2 (Sept 2025): **clear** (logical, read/write), **purge** (e.g., cryptographic erase, degauss), **destroy** [NIST SP 800-88]; revoke certificates/keys/accounts; data retention obligations; contract/license termination; decommission documentation | Disposal is not deletion; **cryptographic erase** only works if keys were never exposed |
 
-  - Assurance vocabulary [OSG glossary]: **assurance** = degree of confidence security needs are satisfied, continually re-verified; **assurance procedure** = formal process building trust into the life cycle; **life cycle assurance** = trust judged from design, architecture, creation, testing, distribution (vs. **operational assurance** during use [unverified]). **Immutable system** = never altered in place; replaced with a new build [OSG glossary]. **Waterfall** = 7 stages (system requirements -> software requirements -> preliminary design -> detailed design -> code/debug -> testing -> O&M), feedback to prior phase [OSG glossary]; **spiral** iterates; **Agile** adaptive [OSG glossary] — detail in 8.1.
+  - Assurance vocabulary [OSG glossary]: **assurance** = degree of confidence security needs are satisfied, continually re-verified; **assurance procedure** = formal process building trust into the life cycle; **life cycle assurance** = trust judged from design, architecture, creation, testing, distribution (vs. **operational assurance** during use — TCSEC splits assurance into operational (system architecture, system integrity) and life-cycle (security testing, design verification) [TCSEC DoD 5200.28-STD Sec. 2.1.3]). **Immutable system** = never altered in place; replaced with a new build [OSG glossary]. **Waterfall** = 7 stages (system requirements -> software requirements -> preliminary design -> detailed design -> code/debug -> testing -> O&M), feedback to prior phase [OSG glossary]; **spiral** iterates; **Agile** adaptive [OSG glossary] — detail in 8.1.
 - Exam traps / distractors:
   - **Verification vs. validation**: spec conformance vs. fitness for stakeholder purpose. "Meets the documented requirements" -> verification; "solves the business problem" -> validation.
   - **Certification vs. accreditation (ATO)**: technical evaluation vs. management's formal risk acceptance; the **authorizing official** accepts risk, engineers do not.
@@ -510,4 +510,4 @@
   - **Operations & maintenance** is where most cost and most breaches occur; "security is complete at deployment" is the misconception.
   - **SP 800-64** appears in older material — withdrawn; **SP 800-160** is current.
 - Related terms: SDLC and methodologies (8.1), change and configuration management (7.3, 7.9), data remanence and destruction (2.4), RMF and control selection (3.3), SCRM and acquisition (1.11), EOL/EOS (2.5)
-- Sources: [ISC2 outline], [OSG glossary], [ISO/IEC/IEEE 15288], [NIST SP 800-160], [NIST SP 800-64], [NIST SP 800-37], [NIST SP 800-88], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [ISO/IEC/IEEE 15288], [NIST SP 800-160], [NIST SP 800-64], [NIST SP 800-37], [NIST SP 800-88], [FIPS 200], [TCSEC DoD 5200.28-STD]

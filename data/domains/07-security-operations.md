@@ -34,7 +34,7 @@
   - **SP 800-86** (Aug 2006) four-phase forensic process: **collection -> examination -> analysis -> reporting**; volatile data normally gets priority [NIST SP 800-86]
   - Investigative techniques [OSG glossary]: **interview** = information from a non-suspect; **interrogation** = questioning a suspect. **e-discovery** = duty to preserve and share electronic records with the adversary in litigation. **Exigent circumstances** = evidence would be destroyed or harm imminent, justifies immediate collection
   - Artifacts = items of evidence left behind by the actor [OSG glossary]; outline categories: **data**, **computer** (memory, registry, logs, file system), **network** (flows, pcaps, device logs), **mobile** (SIM, app data, location) [ISC2 outline]
-  - Tooling named in the OSG glossary: **FTK Imager** (drive cloning, read-only mount, hashes) [OSG glossary]; hash before and after every copy, work from the copy, write-blocker on originals [unverified]
+  - Tooling named in the OSG glossary: **FTK Imager** (drive cloning, read-only mount, hashes) [OSG glossary]; hash before and after every copy, work from the copy, write-blocker on originals [NIST SP 800-86 Sec. 3.1.2, 4.2.1-4.2.2] [OSG glossary]
 - Exam traps / distractors:
   - **Relevant vs. material vs. competent**: illegal search -> not **competent** (not "irrelevant")
   - Logs are **documentary** evidence, but unauthenticated they become **hearsay**: the fix is an admin/custodian attesting to normal business generation
@@ -44,7 +44,7 @@
   - Forensic image != backup: a bit-for-bit image with hash preserves slack/unallocated space; a backup does not
   - ISC2 order of investigation priority: preserve **life/safety**, then **evidence**; and containment decisions weigh the need for evidence preservation against service availability [NIST SP 800-61]
 - Related terms: investigation types (D1 1.5), incident management (7.6), warning banners (7.7), evidence storage (D3 3.9)
-- Sources: [ISC2 outline], [OSG glossary], [RFC 3227], [NIST SP 800-86], [NIST SP 800-61], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [RFC 3227], [NIST SP 800-86], [NIST SP 800-61]
 
 ## Logging and monitoring (7.2)
 - Definition (ISC2 framing): logging = recording events; monitoring = reviewing them for policy violations, attacks, and failures; both are **detective** controls that feed **continuous monitoring** [OSG glossary]. Outline 7.2 items: IDPS, SIEM, continuous monitoring and tuning, egress monitoring, log management, threat intelligence (feeds, hunting), UEBA [ISC2 outline]
@@ -64,8 +64,8 @@
   - **Egress monitoring** = watching outbound traffic to detect/prevent **exfiltration**; egress filter = outbound packet filter [OSG glossary]. Exam pairs it with **DLP**, **steganography** (message hidden in another file) and **watermarking** (hidden ownership info in a file) as the things egress monitoring must catch [OSG glossary]
   - **Threat intelligence** = information about threat actors and their threats so defenses can be built; **threat feed** = the source; **threat hunting** = **proactive** search through indicators of compromise, logs, observables for intruders already inside [OSG glossary]
   - **UEBA** (user and entity behavior analytics): the **E** extends user behavior analytics to non-user entities (hosts, services) whose activity still correlates to recon/intrusion [OSG glossary]
-  - Log management (management view): protect log **integrity** (centralize, write-once, restricted access), **retention** per policy/regulation, **time sync** (NTP) so correlation and evidence hold up, define review frequency and who reviews [unverified]; SP 800-53 **AU-6** Audit Record Review, Analysis, and Reporting [NIST SP 800-53]
-  - Continuous monitoring in ISC2 terms = ongoing awareness feeding risk decisions (SP 800-137 framing) - see D1 1.9 entry; **tuning** = reduce false positives without raising false negatives
+  - Log management (management view): protect log **integrity** (centralize, write-once, restricted access), **retention** per policy/regulation, **time sync** (NTP) so correlation and evidence hold up, define review frequency and who reviews [NIST SP 800-92 Sec. 2.3.2, 4.2, 5.5]; SP 800-53 **AU-6** Audit Record Review, Analysis, and Reporting [NIST SP 800-53]
+  - Continuous monitoring in ISC2 terms = ongoing awareness feeding risk decisions (SP 800-137 framing) [NIST SP 800-137] - see D1 1.9 entry; **tuning** = reduce false positives without raising false negatives
 - Exam traps / distractors:
   - **Threat hunting vs. threat intelligence**: hunting is the activity on your network; intel is the information (feeds) that may seed it
   - **Threat hunting vs. IDS alerting**: hunting is proactive, hypothesis-driven, assumes compromise; alerting is reactive
@@ -75,7 +75,7 @@
   - Logs as **evidence**: retention + integrity + authentication by a custodian, else hearsay (7.1)
   - **SOAR** automates response; **SIEM** automates monitoring; neither replaces analyst judgment on high-severity events
 - Related terms: IDS/IPS types (7.7), continuous monitoring (D1 1.9), log reviews (D6 6.2), evidence (7.1)
-- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-53], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-53], [NIST SP 800-92], [NIST SP 800-137]
 
 ## Configuration management (7.3)
 - Definition (ISC2 framing): CM = (1) logging, auditing, monitoring activity related to security controls over time to identify agents of change; (2) administering setup and changes so systems are **deployed and stay in a secure, consistent state** across their lifetime [OSG glossary]. Outline 7.3 = provisioning, baselining, automation [ISC2 outline]
@@ -93,15 +93,15 @@
 
   - Baselining flow: `image/template -> deploy -> scan against baseline -> report drift -> remediate via change management`
   - Baselines come from a **standard** (D1 1.6); the baseline is the technical instantiation of the standard; **scoping and tailoring** (D2 2.6) adjust it
-  - SP 800-53 **CM-2** Baseline Configuration, **CM-3** Configuration Change Control [NIST SP 800-53]; **SP 800-128** Guide for Security-Focused Configuration Management [unverified - verify title/number at csrc.nist.gov]
-  - Automation reduces **configuration drift** and human error; scanning tools compare hosts to baseline (SCAP-style checks) [unverified]
+  - SP 800-53 **CM-2** Baseline Configuration, **CM-3** Configuration Change Control [NIST SP 800-53]; **SP 800-128** Guide for Security-Focused Configuration Management of Information Systems [NIST SP 800-128]. Correction (audit 2026-09-28): title completed; it was missing "of Information Systems" (source: SP 800-128 title page)
+  - Automation reduces **configuration drift** and human error; scanning tools compare hosts to baseline (SCAP-style checks) [NIST SP 800-128 Sec. 2.2.4, 3.5] [NIST SP 800-126]
 - Exam traps / distractors:
   - **Configuration management vs. change management**: CM = what state systems are in (baseline, inventory, drift); change management = the approval process for altering that state (7.9)
   - **Baseline vs. standard vs. guideline**: baseline = enforceable minimum config; guideline = optional advice
   - **Baselining** in CM vs. in IDS: same word, configuration vs. normal-behavior meaning
   - Provisioning != patching; provisioning is deployment from the baseline
 - Related terms: change management (7.9), security documentation hierarchy (D1 1.6), scoping/tailoring (D2 2.6), software CM (D8 8.2)
-- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-53], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-53], [NIST SP 800-128], [NIST SP 800-126]
 
 ## Foundational security operations concepts (7.4)
 - Definition (ISC2 framing): personnel and privilege controls that limit what any one person can know, do, or accumulate; outline 7.4 = need-to-know/least privilege, separation of duties and responsibilities, privileged account management, job rotation, service-level agreements [ISC2 outline]
@@ -151,12 +151,12 @@
   - Cloud/SaaS media: you cannot degauss a provider's disk -> **cryptographic erase** and contract terms are the control
 - Exam traps / distractors:
   - **Clear vs. purge**: overwriting a spinning disk for reuse in the same environment = clear; leaving org control = purge or destroy
-  - **Degaussing SSDs** does nothing; SSDs need purge via manufacturer commands or crypto erase, or destruction [unverified]
+  - **Degaussing SSDs** does nothing; SSDs need purge via manufacturer commands or crypto erase, or destruction [NIST SP 800-88 Rev. 2 Sec. 3.1.2, 4.5.2]
   - **Erasing/deleting vs. clearing**: delete removes the pointer; data remains (**remanence**)
   - **Sanitization** is the umbrella; degaussing and purging can sanitize without destroying [OSG glossary]
   - Data at rest vs. in transit: a laptop in a car is **at rest**; the exam likes "data on a backup tape in a courier van" - still at rest, protect with encryption plus chain of custody
 - Related terms: data remanence and destruction (D2 2.4), data states (D2 2.6), asset inventory (D2 2.3), backups (7.10)
-- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-88], [NIST SP 800-53], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-88], [NIST SP 800-53]
 
 ## Incident management (7.6)
 - Definition (ISC2 framing): **incident** = any attempt to violate security policy, a successful penetration, compromise, or unauthorized access - any event with negative effect on CIA of assets [OSG glossary]; **event** = any occurrence [OSG glossary]. Incident response is the SOP for preventing, detecting, responding to, and returning to normal after violations [OSG glossary]. Management goal: **contain damage, preserve evidence, restore, and improve** - not attribution
@@ -178,7 +178,7 @@
   - Containment strategy criteria [NIST SP 800-61]: potential damage/theft, **need for evidence preservation**, service availability, time/resources, effectiveness, duration of the solution
   - **Eradication** examples [OSG glossary]: remove malware, change configs, disable compromised accounts, block IPs/ports (also firing personnel)
   - Team names are interchangeable on the exam: CIRT, CSIRT, IRT [OSG glossary]; SP 800-53 **IR-4** Incident Handling [NIST SP 800-53]
-  - Reporting duties: breach-notification laws and regulators (GDPR 72 h - D1 1.4), contractual (PCI), law enforcement where a crime is suspected; a **first responder** decision to involve LE changes evidence handling to court standard
+  - Reporting duties: breach-notification laws and regulators (GDPR 72 h [GDPR Art. 33(1)] - D1 1.4), contractual (PCI), law enforcement where a crime is suspected; a **first responder** decision to involve LE changes evidence handling to court standard
 - Exam traps / distractors:
   - **ISC2 order vs. NIST order**: ISC2 puts **recovery before remediation** (get the business running, then fix root cause); NIST bundles eradication before recovery. Answer in the vocabulary the question uses
   - **Mitigation = containment**: on the ISC2 list, "mitigation" is the isolation step, not risk mitigation
@@ -189,7 +189,7 @@
   - **Reporting** is a step in the middle, not an afterthought; regulatory clocks start at detection/awareness, not at remediation
   - Detection in the ISC2 model presumes preparation already happened; when a distractor says "preparation" it is quoting NIST
 - Related terms: forensics and evidence (7.1), DR response (7.11), breach notification (D1 1.4), SOAR (7.2), containment tools (7.7)
-- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-61], [NIST SP 800-53]
+- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-61], [NIST SP 800-53], [GDPR Art. 33(1)]
 
 ## Detection and preventive measures (7.7)
 - Definition (ISC2 framing): the operating and tuning of the control stack - firewalls, IDS/IPS, allow/deny listing, third-party services, sandboxing, honeypots/honeynets, anti-malware, ML/AI tools [ISC2 outline]. Exam wants **which control fits which threat and what its legal/operational limits are**, not configuration
@@ -200,7 +200,7 @@
   | --- | --- | --- |
   | **Static packet-filtering** (screening router) | Header: src/dst address, port | [OSG glossary] |
   | **Application-level** (proxy, e.g. **WAF**) | Full application payload for one protocol | [OSG glossary] |
-  | **Circuit-level** (e.g. SOCKS) | Session/handshake validity, not content | [unverified] |
+  | **Circuit-level** (e.g. SOCKS) | Session/handshake validity, not content | [OSG glossary] |
   | **Stateful inspection** | State table tracking every channel; context of the session | [OSG glossary] |
   | **Deep packet inspection** (DPI) | Payload contents; integrated with app-level/stateful | [OSG glossary] |
   | **Next-generation** (NGFW) / **UTM** | All-in-one inline: FW + IDS/IPS + content filtering + more | [OSG glossary] |
@@ -243,19 +243,19 @@
   - **Anti-malware as preventive**: OSG says preventive **and** corrective (it removes). Distractor: "detective only"
   - Outsourcing to an MSSP transfers work, not liability
 - Related terms: logging/monitoring (7.2), incident containment (7.6), NAC and endpoint security (D4 4.2), warning banners as legal notice (7.1)
-- Sources: [ISC2 outline], [OSG glossary], [unverified]
+- Sources: [ISC2 outline], [OSG glossary]
 
 ## Patch, vulnerability, and change management (7.8, 7.9)
 - Definition (ISC2 framing): **patch management** = program ensuring relevant patches are evaluated, tested, deployed, and **audited to verify they stay applied** [OSG glossary]; **vulnerability management** = program to detect weaknesses; **vulnerability scans** (regular technical scans) and **vulnerability assessments** (broader evaluation) are its two elements [OSG glossary]; **change management** = process preventing unintended outages: request -> review -> approve -> test -> implement -> document [OSG glossary]
 - Key facts:
   - Patch lifecycle (management order): 1. **Evaluate** (applicability, criticality) 2. **Test** in non-production 3. **Approve** via change management 4. **Deploy** (staged, automated) 5. **Verify/audit** that patches are present and not removed [OSG glossary]
   - **Hotfix** = modestly tested patch for one problem; update/patch = general fix [OSG glossary]. Emergency/out-of-band patches still go through change management, even if approval is expedited and documentation follows
-  - Vulnerability management loop: `inventory -> scan/assess -> prioritize (CVSS + exposure + asset value) -> remediate or mitigate or accept (documented exception) -> rescan`. **CVE** = identifier list, **CVSS** = severity score (FIRST), scanner findings need **validation** (false positives) [unverified - verify at first.org and cve.org]
+  - Vulnerability management loop: `inventory -> scan/assess -> prioritize (CVSS + exposure + asset value) -> remediate or mitigate or accept (documented exception) -> rescan`. **CVE** = identifier list, **CVSS** = severity score (FIRST), scanner findings need **validation** (false positives) [CVE.org FAQ] [FIRST CVSS] [NIST SP 800-115 Sec. 7.3]
   - Not every finding gets patched: compensating controls and **risk acceptance by the owner** are valid outcomes; unpatched != unmanaged if documented
   - SP 800-53 **SI-2** Flaw Remediation, **CM-3** Configuration Change Control [NIST SP 800-53]
-  - Change management elements the exam names: **change advisory/control board** (CAB/CCB) approval, **rollback/back-out plan**, testing, scheduling in maintenance windows, **versioning**, documentation and communication to stakeholders, **emergency change** path with retrospective review [unverified]
+  - Change management elements the exam names: **change advisory/control board** (CAB/CCB) approval, **rollback/back-out plan**, testing, scheduling in maintenance windows, **versioning**, documentation and communication to stakeholders, **emergency change** path with retrospective review [NIST SP 800-53 CM-3, CM-3(1), CM-3(2), CM-2(3)] [NIST SP 800-128 Sec. 2.3.8, 3.1.1, 3.3, 3.4.1]
   - Change management's security purposes: prevent **unintended outages**, prevent changes that undo security (reopened ports, disabled logging), preserve the **baseline** (7.3), create an audit trail of who changed what when
-  - Change types (ITIL-style): standard (pre-approved, low risk), normal (full CAB), emergency (expedited) [unverified]
+  - Change types (ITIL-style): standard (pre-approved, low risk), normal (full CAB), emergency (expedited) [unverified - public axelos.com/peoplecert.org pages do not define the types; ITIL 4 Change Enablement practice guide is paywalled]
 - Exam traps / distractors:
   - **Patch vs. vulnerability management**: a patch fixes one flaw; vuln management includes misconfigurations, missing controls, EOL software that has no patch
   - **Scan vs. assessment vs. pen test**: scan = automated, finds candidates; assessment = evaluates and prioritizes; pen test = exploits (D6 6.2)
@@ -265,7 +265,7 @@
   - Emergency changes skip the *timing* of approval, never the *documentation*
   - Change management is a control against **integrity/availability** loss from authorized users, not against attackers
 - Related terms: configuration management (7.3), vulnerability assessment and pen testing (D6 6.2), SDLC change management (D8 8.1), EOL/EOS (D2 2.5)
-- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-53], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-53], [NIST SP 800-128], [NIST SP 800-115], [CVE.org], [FIRST CVSS], [unverified]
 
 ## Recovery strategies - backups, sites, resilience (7.10)
 - Definition (ISC2 framing): **recovery strategies** = practices, policies, procedures to recover the business [OSG glossary]; outline 7.10 = backup storage strategies (cloud, onsite, offsite), recovery site strategies (cold vs. hot, resource capacity agreements), multiple processing sites, system resilience/HA/QoS/fault tolerance [ISC2 outline]. Strategy is chosen by **RTO/RPO/MTD** from the BIA (D1 1.7), then cost
@@ -287,12 +287,12 @@
   | **Remote journaling** | Transaction logs since last bulk transfer shipped remotely | Minutes-hour |
   | **Remote mirroring** | Live database server at the backup site; most advanced | Near zero |
 
-  - Storage location: **onsite** (fast restore, same-disaster exposure), **offsite** (survives site loss, slower; needs transport chain of custody + encryption), **cloud** (elastic, geographically separate; contract, egress cost, exit strategy). Keep at least one copy off-site and offline/immutable against ransomware [unverified]. SP 800-53 **CP-9** System Backup [NIST SP 800-53]
+  - Storage location: **onsite** (fast restore, same-disaster exposure), **offsite** (survives site loss, slower; needs transport chain of custody + encryption), **cloud** (elastic, geographically separate; contract, egress cost, exit strategy). Keep at least one copy off-site and offline/immutable against ransomware [NIST SP 800-34 Sec. 3.4.2 (offsite)] [CISA #StopRansomware Guide Part 1 (offline, encrypted; immutable storage with caution)]. SP 800-53 **CP-9** System Backup [NIST SP 800-53]
   - Recovery sites [OSG glossary] [NIST SP 800-34]:
 
   | Site | Has | Ready in | Cost |
   | --- | --- | --- | --- |
-  | **Cold** | Space, power, HVAC, telecom; few/no resources | Weeks [unverified] | Low |
+  | **Cold** | Space, power, HVAC, telecom; few/no resources | Weeks [unverified - SP 800-34 Sec. 3.4.3 says only "Long" setup] | Low |
   | **Warm** | Equipment + data circuits, **no current data** | Days-hours | Medium |
   | **Hot** | Full servers, workstations, comms; **hours** | Hours | Medium/high |
   | **Mirrored** | Fully redundant, real-time mirroring; identical | Immediate | Highest |
@@ -311,7 +311,7 @@
   | **QoS** | Manage throughput, bit rate, packet loss, latency, jitter, delay, availability |
   | **SPOF** | Any element whose loss causes significant downtime |
 
-  - RAID [OSG glossary]: **RAID 0** striping, no fault tolerance; **RAID 1** mirroring (duplexing = separate controllers); **RAID 5** striping with parity (survives one disk). **RAID 6** double parity (two disks), **RAID 10** mirrored stripes [unverified]
+  - RAID [OSG glossary]: **RAID 0** striping, no fault tolerance; **RAID 1** mirroring (duplexing = separate controllers); **RAID 5** striping with parity (survives one disk). **RAID 6** double parity (two disks) [SNIA Dictionary]; **RAID 10** striped mirrors: RAID 0 stripe across RAID 1 mirror sets, survives one failure per mirror set [SNIA Dictionary]. Correction (audit 2026-09-28): was "mirrored stripes", which describes RAID 0+1 (a mirror of two stripe sets); SNIA defines RAID 10 as a stripe over mirrored sets
   - Metrics [OSG glossary]: **MTBF** anticipated failure interval; **MTTF** time to first failure; **MTTR** time to repair/restore; **MTD/MTO** max downtime before irreparable harm; **RTO** feasible recovery time (must be <= MTD); **RPO** acceptable data loss
 - Exam traps / distractors:
   - **Incremental vs. differential**: the only difference is the **archive bit**; "fastest nightly backup" -> incremental; "fastest restore short of full" -> differential
@@ -324,7 +324,7 @@
   - **QoS** is a performance/availability concept, not a security control; it appears as a distractor for "fault tolerance"
   - Backup that is never **test-restored** is not a recovery strategy (D6 6.3 backup verification)
 - Related terms: BIA/MTD/RTO/RPO (D1 1.7), DR processes and DRP testing (7.11, 7.12), media protection (7.5), cloud shared responsibility (D3 3.5)
-- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-34], [NIST SP 800-53], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-34], [NIST SP 800-53], [SNIA Dictionary], [CISA], [unverified]
 
 ## Disaster recovery processes and DRP testing (7.11, 7.12)
 - Definition (ISC2 framing): **disaster** = event bringing great damage or destruction; **disaster recovery** = recovering after a disaster destroyed the ability to perform mission-critical services; **DRP** = detailed procedures to restore partial or normal operations after a significant damaging event [OSG glossary]. DRP is the **IT/technical** subset of BCP (7.13). Outline 7.11 = response, personnel, communications, assessment, restoration, training/awareness, lessons learned; 7.12 = read-through/tabletop, walkthrough, simulation, parallel, full interruption, communications [ISC2 outline]
@@ -374,7 +374,7 @@
   - **BIA** identifies critical resources, threats, likelihood, and impact [OSG glossary]; produces **MTD**, then RTO/RPO drive 7.10 strategy choices
   - **COOP** = actions and preventive measures preventing downtime and maintaining availability; includes security policy, BCP, DRP [OSG glossary]; in US federal use it means continuing **mission-essential functions** at an alternate site (D1 1.7 MEF/COOP entry)
   - Exercises: same ladder as DRP tests (7.12) but scoped to business processes - tabletop for executives and process owners, functional for a single department's manual workarounds, full-scale rarely. SP 800-34 requires TT&E and plan maintenance as distinct steps [NIST SP 800-34]
-  - Senior management role: **approve, fund, and champion** the plan; sign the acceptance of residual risk; the plan is a **living document** reviewed at least annually and on major change [unverified]
+  - Senior management role: **approve, fund, and champion** the plan; sign the acceptance of residual risk [unverified]; the plan is a **living document** reviewed at least annually and on major change [NIST SP 800-34 Sec. 3.1 sample policy (annual), Sec. 3.6 (organization-defined frequency or significant change)]
   - Personnel are the first priority in every ISC2 continuity question - "people before property before process"
 - Exam traps / distractors:
   - **BCP vs. DRP**: BCP is strategic and business-wide (keep operating); DRP is tactical and IT-focused (restore); DRP nests inside BCP
@@ -395,11 +395,11 @@
 
   | Control | ISC2 gloss | Source |
   | --- | --- | --- |
-  | **Fence** | Perimeter-defining device separating protection levels; 3-4 ft deters casual, 6-7 ft too hard to climb easily, 8 ft + 3 strands barbed wire deters determined intruders | [OSG glossary] heights [unverified] |
+  | **Fence** | Perimeter-defining device separating protection levels; 3-4 ft deters casual, 6-7 ft too hard to climb easily, 8 ft + 3 strands barbed wire deters determined intruders | [OSG glossary] heights [unverified - not in OSG glossary; OSG body text only] |
   | **PIDAS** | Two-three fences; main 8-20 ft (electrified/razor wire/touch sensors), outer 4-6 ft keeps animals and casual trespassers off the main fence | [OSG glossary] |
-  | **Lighting** | Most common perimeter control; discourages casual intruders; NIST-cited 2 ft-candles at 8 ft height | [OSG glossary] number [unverified] |
+  | **Lighting** | Most common perimeter control; discourages casual intruders; NIST-cited 2 ft-candles at 8 ft height | [OSG glossary] number [unverified - no NIST source found] |
   | **Bollards** | Stop vehicles ramming buildings | [OSG glossary] |
-  | **Security guards** | Monitor and enforce; only control that can **make judgments**; costly, unreliable, subject to social engineering | [OSG glossary] framing [unverified] |
+  | **Security guards** | Monitor and enforce; only control that can **make judgments**; costly, unreliable, subject to social engineering | [OSG glossary] framing [unverified - glossary says only monitor and enforce] |
   | **Guard dogs** | Perimeter control; deterrent + detective; liability and cost | [OSG glossary] |
   | **Security cameras / CCTV** | Record events in the lens area; live feed or recording; **detective** not preventive | [OSG glossary] |
 
@@ -436,12 +436,12 @@
 
   | Concern | Control |
   | --- | --- |
-  | **Travel** | Pre-trip briefing, minimal/loaner devices, no untrusted Wi-Fi, encrypted storage, know local laws (border device search, crypto import), check-in schedule, kidnapping/duress awareness [unverified] |
+  | **Travel** | Pre-trip briefing, minimal/loaner devices, no untrusted Wi-Fi [CISA travel tip card], encrypted storage, know local laws (border device search, crypto import), check-in schedule, kidnapping/duress awareness [unverified] |
   | **Duress** | **Duress system**: button or code sends a distress call to a monitoring entity that responds per procedure; useful for lone workers [OSG glossary]; silent/duress code word for coerced logins or alarm disarm |
   | **Emergency management** | Plans and practices for personnel safety and security after a disaster [OSG glossary]; **OEP** guides minimizing threats to life, preventing injury, managing duress, handling travel, safety monitoring, protecting property [OSG glossary] [NIST SP 800-34] |
   | **Insider threat awareness** | Recognize indicators; reporting channels; pair with SoD/job rotation (7.4) |
   | **Social media** | Oversharing enables recon/pretexting; policy on travel posts and org info; **social media analysis** in hiring is a D1 1.8 control [OSG glossary] |
-  | **2FA / MFA fatigue** (prompt bombing) | Attacker floods push prompts until user approves; counter with number matching, rate limits, phishing-resistant authenticators, and training to **report** unexpected prompts [unverified] |
+  | **2FA / MFA fatigue** (prompt bombing) | Attacker floods push prompts until user approves; counter with number matching [CISA number matching fact sheet], rate limits [unverified - not in CISA fact sheets], phishing-resistant authenticators [CISA phishing-resistant MFA fact sheet], and training to **report** unexpected prompts [CISA number matching fact sheet] |
 
 - Exam traps / distractors:
   - **Life safety first**: if an option protects people and another protects data, people wins - even in a data-center fire or evacuation question. Fire door **fail-safe** (opens); vault **fail-secure** (locks) - the human-occupied space fails safe
@@ -454,4 +454,4 @@
   - **MFA fatigue** is a *user awareness* item on the outline, not just a technical control question - the "best" answer often includes training to report
   - Physical IDS (burglar alarm) is a valid "IDS" on the exam [OSG glossary]; don't assume network
 - Related terms: site and facility design/controls (D3 3.8, 3.9), fail-safe vs. fail-secure (D3 3.1), personnel security policies and social media checks (D1 1.8), SoD/job rotation (7.4), OEP (7.11)
-- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-53], [NIST SP 800-34], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-53], [NIST SP 800-34], [CISA], [unverified]

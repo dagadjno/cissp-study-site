@@ -155,7 +155,7 @@
       "id": "05-radius-tacacs-diameter",
       "topic": "Authentication systems",
       "front": "RADIUS vs TACACS+ vs Diameter: transport/port, AAA separation, what is protected, and typical use.",
-      "back": "| | RADIUS (RFC 2865) | TACACS+ (RFC 8907) | Diameter (RFC 6733) |\n| --- | --- | --- | --- |\n| Transport | UDP 1812/1813 | TCP 49 | TCP/SCTP 3868 |\n| AAA | AuthN + authZ **combined** | **Separated** | Separated; failover, agents |\n| Protection | Only **User-Password** hidden | Whole body **obfuscated** (weak) | **TLS/DTLS/IPsec** mandated |\n| Use | Network access (Wi-Fi, VPN, 802.1X) | Device administration (Cisco) | RADIUS successor (mobile/telecom) |\n\n- OSG: TACACS -> XTACACS (separated AAA) -> TACACS+ (adds two-factor; most used)\n- Diameter not backward-compatible with RADIUS"
+      "back": "| | RADIUS (RFC 2865) | TACACS+ (RFC 8907) | Diameter (RFC 6733) |\n| --- | --- | --- | --- |\n| Transport | UDP 1812/1813 | TCP 49 | TCP/SCTP 3868 |\n| AAA | AuthN + authZ **combined** | **Separated** | Separated; failover, agents |\n| Protection | Only **User-Password** hidden | Whole body **obfuscated** (weak) | **TLS/DTLS/IPsec** mandated |\n| Use | Network access (Wi-Fi, VPN, 802.1X) | Device administration (Cisco) | RADIUS successor (mobile/telecom) |\n\n- OSG: TACACS -> XTACACS (separated AAA) -> TACACS+ (adds two-factor; most used)\n- Diameter is not **wire**-compatible with RADIUS (no shared PDU), but RFC 6733 Sec. 1 provides backward compatibility via translation gateways; exam distractors still phrase it as \"not backward compatible\""
     },
     {
       "id": "05-saml-oauth-oidc",

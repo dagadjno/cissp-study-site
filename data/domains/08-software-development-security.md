@@ -4,19 +4,19 @@
 - Definition (ISC2 framing): the **Software Development Life Cycle (SDLC)** is a management concept — a standardized process by which ideas become software, yielding a more reliable product; models named: waterfall, spiral, Agile [OSG glossary]. Outline 8.1 asks you to *integrate security* into whichever model is used: security requirements, design review, code review, and testing are gates in every model, not a phase added at the end [ISC2 outline]
 - Key facts:
   - OSG SDLC phases (security work in each): conceptual definition -> functional requirements -> **control specifications** -> design review -> coding -> code review walk-through -> system test review -> maintenance and change management [unverified — OSG body text; verify OSG ch. 20]
-  - Cost of a defect rises the later it is found; security **requirements** are cheapest, post-release patching dearest [unverified]
+  - Cost of a defect rises the later it is found; security **requirements** are cheapest, post-release patching dearest — SSDF: "the earlier in the SDLC that security is addressed, the less effort and cost" (**shift left**) [NIST SP 800-218 §1]
 
   | Model | Discriminator | Security fit |
   | --- | --- | --- |
-  | **Waterfall** | 7 sequential stages: system reqs, software reqs, preliminary design, detailed design, code and debug, testing, O&M [OSG glossary]; Royce 1970 [unverified] | Clear gates, poor at late change; modified waterfall allows return to the *previous* phase only [unverified] |
-  | **Spiral** | Waterfall repeated in **iterations**; each pass fulfils every phase [OSG glossary]; Boehm 1988, risk-driven "metamodel" [unverified] | Risk analysis each loop; prototypes early |
+  | **Waterfall** | 7 sequential stages: system reqs, software reqs, preliminary design, detailed design, code and debug, testing, O&M [OSG glossary]; Royce 1970 (Proc. IEEE WESCON; his fig. 2 names the steps system reqs, software reqs, analysis, program design, coding, testing, operations) [Royce 1970 fig. 2] | Clear gates, poor at late change; modified waterfall allows return to the *previous* phase only — Royce: iteration "with the preceding and succeeding steps but rarely with the more remote steps" [Royce 1970 fig. 3] |
+  | **Spiral** | Waterfall repeated in **iterations**; each pass fulfils every phase [OSG glossary]; Boehm 1988, **risk-driven**; "metamodel" is OSG wording — Boehm: spiral "can accommodate most previous models as special cases" [Boehm 1988, IEEE Computer 21(5)] | Risk analysis each loop; prototypes early |
   | **Agile** | Working product and customer needs over process, tools, documentation [OSG glossary]; Manifesto = 4 values + **12 principles** [OSG glossary for 12] | Security must be a backlog item / definition-of-done, else it is skipped |
   | **Scrum** | Agile derivative: teams of **<=10**, **sprints** 2 weeks–1 month, **15-minute** daily scrum, **scrum master** as facilitator [OSG glossary] | Security stories per sprint; scrum master is not the product owner |
   | **DevOps** | Development + QA + operations in one automated operational model [OSG glossary] | Speed; security bolted on unless... |
   | **DevSecOps** | DevOps + security; enables **software-defined security** — controls managed as code in the **CI/CD** pipeline [OSG glossary] | "Shift left": security tests automated in the pipeline |
   | **SAFe** (Scaled Agile Framework) | Agile at **enterprise scale**: coordinates hundreds/thousands of practitioners, aligns team work to strategy [OSG glossary] | Governance layer over many Agile teams |
 
-  - Agile 4 values (individuals/interactions, working software, customer collaboration, responding to change — each "over" its counterpart) [unverified — agilemanifesto.org]
+  - Agile 4 values (individuals/interactions, working software, customer collaboration, responding to change — each "over" its counterpart; page links the 12 principles) [Agile Manifesto — agilemanifesto.org]
   - Sprint length: glossary gives both "2 weeks (or no longer than 1 month)" and "1–4 weeks" [OSG glossary] — either can appear on the exam
 - Exam traps / distractors:
   - **Waterfall vs. spiral**: both are phase-driven; spiral = waterfall *iterated* with risk analysis each loop. "Prototype early, revisit requirements" -> spiral
@@ -26,14 +26,14 @@
   - "Add a security review after release" -> wrong in every model; the CISO answer is security in **requirements** and **design**
   - Agile's "working software over documentation" does *not* mean no documentation — exam distractor
 - Related terms: maturity models (next entry), change management (next entry), CI/CD (8.2), system life cycle (3.10), threat modeling (1.10)
-- Sources: [ISC2 outline], [OSG glossary], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-218], [Royce 1970], [Boehm 1988], [Agile Manifesto], [unverified]
 
 ## Maturity models, O&M, change management, IPT (8.1)
-- Definition (ISC2 framing): maturity models rate how repeatable and measured the *process* is, not how secure one product is; change management prevents unintended outages by forcing request -> review -> approve -> test -> implement -> document [OSG glossary]; operation and maintenance (O&M) is the longest, most expensive SDLC phase and where most security incidents occur [unverified]
+- Definition (ISC2 framing): maturity models rate how repeatable and measured the *process* is, not how secure one product is; change management prevents unintended outages by forcing request -> review -> approve -> test -> implement -> document [OSG glossary]; operation and maintenance (O&M) is the longest, most expensive SDLC phase and where most security incidents occur [unverified — OSG body text; not stated in NIST SP 800-64r2 §3.4 (audit 2026-09-28)]
 - Key facts:
-  - **CMM** (Capability Maturity Model, aka SW-CMM / S-CMM): describes an organization's progression toward sound engineering practice in software development [OSG glossary]; SEI (Software Engineering Institute, Carnegie Mellon) [unverified]
+  - **CMM** (Capability Maturity Model, aka SW-CMM / S-CMM): describes an organization's progression toward sound engineering practice in software development [OSG glossary]; SEI (Software Engineering Institute, Carnegie Mellon) — Paulk et al., *Capability Maturity Model for Software v1.1*, Feb 1993 [SEI CMU/SEI-93-TR-024]
 
-  | Level | SW-CMM (OSG) [unverified — OSG body text] | CMMI [CMMI Institute] |
+  | Level | SW-CMM — level names [SEI CMU/SEI-93-TR-024 §2.1]; glosses are OSG's (SEI level 2 = basic project management tracking cost/schedule/functionality; "reuse of code" not in SEI) [unverified — OSG body text] | CMMI [CMMI Institute] |
   | --- | --- | --- |
   | 0 | — | Incomplete: ad hoc, work may not complete |
   | 1 | **Initial**: ad hoc, chaotic | Initial: unpredictable, reactive |
@@ -57,7 +57,7 @@
   - **Change management** components (OSG): **request control** (users request, cost/benefit, prioritize) -> **change control** (develop/test in a controlled environment, quality control, rollback plan) -> **release control** (approve for production, verify no debug code/backdoors, acceptance testing) [unverified — OSG body text; verify OSG ch. 20]
   - **CAB** (change approval board) evaluates proposed changes before approving/denying [OSG glossary]; **change documentation** written *before* implementation [OSG glossary]; **version control** enables rollback to earlier code [OSG glossary]
   - **Configuration management** (CM / SCM, software configuration management): controls software versions across the organization; four components — **identification**, **control**, **status accounting**, **audit** [OSG glossary]. Glossary also defines CM as (1) logging/auditing of security-control changes to identify agents of change and (2) keeping systems in a secure consistent state [OSG glossary]
-  - **Integrated Product Team** (IPT): multidisciplinary team (developers, security, operations, business, customers/stakeholders) collaborating across the whole life cycle; U.S. DoD origin, tied to IPPD (Integrated Product and Process Development) [unverified — DoD acquisition guidance]
+  - **Integrated Product Team** (IPT): multidisciplinary team (developers, security, operations, business, customers/stakeholders) collaborating across the whole life cycle; U.S. DoD origin — May 1995 Secretary of Defense direction to apply IPPD (Integrated Product and Process Development) via IPTs across acquisition; DAU glossary: "multidisciplinary group of people who are collectively responsible for delivering a defined product or process" [DAU — *Rules of the Road* IPT guide; DoD Guide to IPPD v1.0, Feb 1996 — confirmed via DAU page snippets only; dau.edu blocks automated fetch (audit 2026-09-28)]
   - O&M security tasks: patching (evaluate, test, deploy, audit that patches stayed applied [OSG glossary]), monitoring, regression testing after changes [OSG glossary], eventual retirement/disposal
 - Exam traps / distractors:
   - **CMM Level 2 = Repeatable; CMMI Level 2 = Managed** — a question saying "Managed" at level 2 is CMMI, at level 4 is SW-CMM
@@ -69,7 +69,7 @@
   - **Request control vs. release control**: rollback plan and testing = change control; strip debug code, final approval = release control
   - **IPT** is a *team structure*, not an SDLC model
 - Related terms: change management processes (7.9), configuration management (7.3), patch management (7.8), Common Criteria (3.x), risk maturity (1.9)
-- Sources: [ISC2 outline], [OSG glossary], [CMMI Institute], [OWASP SAMM], [SEI], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [CMMI Institute], [OWASP SAMM], [SEI], [SEI CMU/SEI-93-TR-024], [DAU], [unverified]
 
 ## Software development ecosystem controls (8.2)
 - Definition (ISC2 framing): every component a developer touches — language, libraries, tool sets, IDE (integrated development environment), runtime, CI/CD (continuous integration/continuous delivery) pipeline, SCM, code repository — is an attack surface and needs controls; testing tools (SAST/DAST/IAST/SCA) are the detective layer [ISC2 outline]
@@ -87,21 +87,21 @@
   - **Compiled** = converted to machine code before distribution/execution via a **compiler** (OS-specific executable) [OSG glossary]; **interpreted** = converted one command at a time at execution [OSG glossary]; **runtime code / JIT** (just-in-time) = human-readable until the moment of execution [OSG glossary]. Compiled: source hidden, faster, harder to inspect (needs **decompiler**/**disassembler** [OSG glossary]); interpreted: source exposed, easy to modify/tamper [unverified]
   - **Runtime environment**: portable execution across OSs — sandboxes, VMs, containers [OSG glossary]; container security = host *and* inside the container [OSG glossary]
   - **Libraries / code reuse**: inclusion of preexisting code [OSG glossary]; one flawed shared library = many vulnerable products; inventory via **SBOM** (software bill of materials — components, versions, sources, relationships) [OSG glossary]; **SDKs** provide APIs/subroutines for complex environments [OSG glossary]
-  - **Tool sets / IDE**: trojanized compiler or IDE plugin compromises every build; controls = trusted sources, integrity/signature checks, hardened developer workstations, least privilege on build agents [unverified]
-  - **CI/CD**: code may roll out dozens to hundreds of times per day; requires automation integrating repositories, SCM, and movement between dev/test/prod environments [OSG glossary]. Continuous *delivery* = release-ready with a manual gate; continuous *deployment* = automatic to production [unverified]. Enablers: **IaC** (infrastructure as code — hardware managed like code under DevOps) [OSG glossary], **immutable architecture** (never patch in place; build, validate, swap, decommission old) [OSG glossary]
+  - **Tool sets / IDE**: trojanized compiler or IDE plugin compromises every build; controls = trusted sources, integrity/signature checks, hardened developer workstations, least privilege on build agents [NIST SP 800-218 PO.3.2 (deploy/operate toolchains per security practices), PO.5.2 (harden development endpoints)]
+  - **CI/CD**: code may roll out dozens to hundreds of times per day; requires automation integrating repositories, SCM, and movement between dev/test/prod environments [OSG glossary]. Continuous *delivery* = release-ready with a manual gate; continuous *deployment* = automatic to production [NIST SP 800-204C §3.3.1, fig. 2]. Enablers: **IaC** (infrastructure as code — hardware managed like code under DevOps) [OSG glossary], **immutable architecture** (never patch in place; build, validate, swap, decommission old) [OSG glossary]
   - Pipeline controls: signed commits and artifacts (**code signing** = digital signature proving origin and integrity [OSG glossary]), separate **staging** segment for compliance checks before **production** [OSG glossary], no developer write access to prod (SoD), pipeline secrets in a **secrets management** system [OSG glossary]
-  - **Code repositories**: central storage/management point for collaborative source [OSG glossary]. Hygiene: no hard-coded credentials/keys (secret scanning), branch protection with mandatory review, MFA, least-privilege access, private by default, audit logs, protect against public exposure of internal repos [unverified]
+  - **Code repositories**: central storage/management point for collaborative source [OSG glossary]. Hygiene: least-privilege access to all forms of code, version control for accountability of changes [NIST SP 800-218 PS.1.1]; no hard-coded credentials/keys (secret scanning), branch protection with mandatory review, MFA, private by default, audit logs, protect against public exposure of internal repos [unverified — practice detail beyond PS.1.1]
   - **Application security testing**:
 
   | Tool | How | Finds / limits |
   | --- | --- | --- |
   | **SAST** (static) | Analyzes source or compiled code *without running* it [OSG glossary] | Early in SDLC; false positives; needs code |
   | **DAST** (dynamic) | Tests running app in a runtime environment; often the *only* option for someone else's software [OSG glossary] | Runtime/config flaws; no code visibility |
-  | **IAST** (interactive) | Agent instrumented inside the running app during functional tests [unverified] | Combines SAST+DAST insight; needs test traffic |
-  | **SCA** (software composition analysis) | Inventories third-party/open-source components vs. known CVEs and licenses [unverified] | Dependency risk; not your own code |
+  | **IAST** (interactive) | Sensor modules embedded in the running app while tests or users exercise it [OWASP DevSecOps Guideline — IAST] | Combines SAST+DAST insight; needs test traffic |
+  | **SCA** (software composition analysis) | Inventories third-party/open-source components vs. known CVEs and licenses; software-only subset of *component analysis* [OWASP Component Analysis] | Dependency risk; not your own code |
 
-  - **Fuzzing**: dynamic technique feeding invalid/random/crafted input, watching for crashes [OSG glossary]; **generational** (intelligent, model-based) [OSG glossary] vs. **mutation** (modify existing valid inputs) [unverified]
-  - Other 8.2/6.2 tests: **code review** (manual, comb source for logic flaws) [OSG glossary]; **Fagan inspection** = formal code review for catastrophic-impact environments [OSG glossary], six steps planning-overview-preparation-inspection-rework-follow-up [unverified]; **misuse/abuse case testing** models the attacker [OSG glossary]; **test coverage analysis** estimates degree of testing [OSG glossary]
+  - **Fuzzing**: dynamic technique feeding invalid/random/crafted input, watching for crashes [OSG glossary]; **generational** (intelligent, model-based) [OSG glossary] vs. **mutation** (modify existing valid inputs) [unverified — OWASP Fuzzing page describes static-vector/random generators but does not use the mutation/generation labels (audit 2026-09-28)]
+  - Other 8.2/6.2 tests: **code review** (manual, comb source for logic flaws) [OSG glossary]; **Fagan inspection** = formal code review for catastrophic-impact environments [OSG glossary], six steps planning-overview-preparation-inspection-rework-follow-up [unverified — Fagan 1976, IBM Systems Journal 15(3), paywalled; not reachable in audit 2026-09-28]; **misuse/abuse case testing** models the attacker [OSG glossary]; **test coverage analysis** estimates degree of testing [OSG glossary]
   - Object-oriented programming (OOP) vocabulary [OSG glossary]:
 
   | Term | Gloss |
@@ -123,7 +123,7 @@
   - **High cohesion / low coupling** is the good design; distractors flip them
   - **Code signing** proves origin + integrity, not absence of vulnerabilities
 - Related terms: code review and testing (6.2), interface testing (6.2), configuration management (7.3), containerization/microservices (3.5), secrets/credential management (5.2)
-- Sources: [ISC2 outline], [OSG glossary], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-218], [NIST SP 800-204C], [OWASP DevSecOps Guideline], [OWASP Component Analysis], [unverified]
 
 ## Assessing software security effectiveness (8.3)
 - Definition (ISC2 framing): effectiveness is demonstrated by evidence — audit trails of *who changed what, when, with whose approval*, plus a risk analysis that shows residual risk is accepted by the owner; testing results are inputs, not the conclusion [ISC2 outline]
@@ -142,7 +142,7 @@
   | **Acceptance / UAT** | Meets stated functional (and security) criteria; end users can work with it | Users/customers |
 
   - **NIST SP 800-218** "Secure Software Development Framework (SSDF) v1.1" (Feb 2022): four practice groups — **PO** Prepare the Organization, **PS** Protect the Software, **PW** Produce Well-Secured Software, **RV** Respond to Vulnerabilities [NIST SP 800-218]; **SP 800-218A** extends SSDF to generative AI / dual-use foundation models [NIST SP 800-218A]
-  - **Certification** (technical evaluation against requirements) vs. **accreditation/authorization** (management's formal acceptance of residual risk — **ATO**, authorization to operate) [OSG glossary for ATO; distinction unverified — OSG body text]
+  - **Certification** (technical evaluation against requirements) vs. **accreditation/authorization** (management's formal acceptance of residual risk — **ATO**, authorization to operate) [OSG glossary for ATO; distinction: FIPS 200 App. A — certification = "comprehensive assessment of the ... security controls ... in support of security accreditation"; accreditation = "official management decision ... to authorize operation ... and to explicitly accept the risk" [FIPS 200 App. A]]
   - Security assessments = comprehensive reviews; audits = same but by *independent* auditors [OSG glossary]
 - Exam traps / distractors:
   - **Logging vs. auditing**: logging records; auditing *reviews* records for accountability. "Detect an unauthorized change" needs someone to review the log — logging alone is not a control outcome
@@ -152,7 +152,7 @@
   - **Assurance != testing**: assurance is confidence across the whole life cycle; a clean pen test alone does not confer assurance
   - SSDF **PS** (protect the software from tampering — repos, signing) vs. **PW** (produce secure code) — distractor swaps them
 - Related terms: log reviews (6.2), management review (6.3), remediation/exception handling (6.4), security audits (6.5), risk management (1.9)
-- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-218], [NIST SP 800-218A], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-218], [NIST SP 800-218A], [FIPS 200], [unverified]
 
 ## Security impact of acquired software (8.4)
 - Definition (ISC2 framing): you inherit the vendor's vulnerabilities but keep the accountability; assess before acquisition, contract for security, and monitor afterward — the same due care / due diligence logic as supply chain risk management (1.11) [ISC2 outline]
@@ -168,9 +168,9 @@
 
   - **Closed-source** = logic hidden from public [OSG glossary]; hidden source is *not* assurance — you rely on vendor testing and DAST/SCA (DAST is often the only test option for others' software [OSG glossary])
   - **Reverse engineering** of purchased software to evaluate it is typically barred by license/EULA; OSG frames it as unethical when used to build competing products [OSG glossary]
-  - Evidence to request: independent assessment reports (SOC 2, pen tests), SBOM, vulnerability disclosure process, secure development attestation (SSDF-based self-attestation for U.S. federal suppliers) [unverified]
+  - Evidence to request: independent assessment reports (SOC 2, pen tests), SBOM, vulnerability disclosure process, secure development attestation (SSDF-based self-attestation for U.S. federal suppliers — agencies must obtain it before using the software; CISA's Secure Software Development Attestation Form, Mar 2024) [OMB M-22-18 §III; CISA attestation form]
   - **Shadow IT** = departments acquiring SaaS/tools without IT knowledge — unassessed acquired software [OSG glossary]
-  - Risk in cloud models: SaaS -> you control only data/identity/config; PaaS -> plus your code and its dependencies; IaaS -> plus OS, middleware, runtime patching [unverified — CSA/NIST shared-responsibility framing]
+  - Risk in cloud models: SaaS -> you control only data/identity/config; PaaS -> plus your code and its dependencies; IaaS -> plus OS, middleware, runtime patching — SP 800-145: SaaS consumer controls only "limited user-specific application configuration settings"; PaaS consumer controls "the deployed applications"; IaaS consumer controls "operating systems, storage, and deployed applications" [NIST SP 800-145 §2]
 - Exam traps / distractors:
   - **Open source is not automatically more (or less) secure** — "many eyes" is a claim, not a control; the assessable fact is maintenance activity and patch latency
   - **Escrow** protects against *vendor failure*, not against vulnerabilities — distractor offers it as a vuln control
@@ -179,7 +179,7 @@
   - **SaaS vs. PaaS** responsibility: application patching is *yours* only in PaaS/IaaS; in SaaS it is the provider's
   - **License compliance** (copyleft obligations) is a legal/IP risk (1.4), separate from vulnerability risk — both are "security impact"
 - Related terms: SCRM (1.11), licensing/IP (1.4), vendor agreements (1.8), cloud systems (3.5), third-party security services (7.7), SBOM/SCA (8.2)
-- Sources: [ISC2 outline], [OSG glossary], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-145], [OMB M-22-18], [CISA attestation form]
 
 ## Source-code weaknesses and secure coding practices (8.5)
 - Definition (ISC2 framing): weaknesses are *classes* of coding errors (CWE — Common Weakness Enumeration); vulnerabilities are their *instances* in products (CVE — Common Vulnerabilities and Exposures, a SCAP element assigning standard IDs [OSG glossary]); secure coding guidelines/standards (OWASP, SEI CERT) exist to prevent the classes, not to patch instances [ISC2 outline]
@@ -216,13 +216,13 @@
   | **Session hijacking** | Take over an authorized session | Regenerate IDs, bind to context, TLS |
 
   - **Input validation** = checking, filtering, sanitizing input before processing (defensive programming vs. overflows, fuzzing) [OSG glossary]; **input sanitization** = length checks, known-bad scanning, escaping metacharacters [OSG glossary]; **escaping** = mark metacharacter as ordinary (e.g. backslash prefix) [OSG glossary]. Prefer **allow list** (deny by default) over **blocklist** (allow by default, deny by exception) [OSG glossary]
-  - **Memory safety**: **memory leak** = program fails to release memory [OSG glossary]; **pointer dereference** flaws (null/dangling, use-after-free) [OSG glossary for pointer terms; UAF unverified]; **bounds** = limits on memory a process may access [OSG glossary]; memory-safe languages remove whole CWE classes [unverified]
+  - **Memory safety**: **memory leak** = program fails to release memory [OSG glossary]; **pointer dereference** flaws (null/dangling, use-after-free) [OSG glossary for pointer terms; UAF = CWE-416 [cwe.mitre.org]]; **bounds** = limits on memory a process may access [OSG glossary]; memory-safe languages remove whole CWE classes — "removing the memory safety class of vulnerability from a product by transitioning to an MSL" [CISA/NSA *The Case for Memory Safe Roadmaps*, Dec 2023, p. 9]
   - **Exception/error handling**: code anticipates errors to avoid termination and information leakage [OSG glossary]; fail securely (fail-closed) on error [OSG glossary]; **restrictive defaults** [OSG glossary]
   - **Covert channels**: **storage** (write to shared area another process reads) vs. **timing** (modulate resource timing) [OSG glossary]
   - **Backdoor / maintenance hook**: developer-installed access bypassing security; must be removed before release (release control) [OSG glossary]
   - **Incremental attacks**: **salami** (gather small amounts into something valuable) and **data diddling** (small malicious data changes) [OSG glossary]
   - **Obfuscation** = code written to be hard to decipher — not a security control (security through obscurity) [OSG glossary]
-  - Secure coding standards: OWASP Secure Coding Practices checklist, OWASP ASVS (Application Security Verification Standard), SEI CERT language coding standards, Microsoft SDL [unverified]; organizational adoption = a **standard** in the policy hierarchy (1.6), enforced via SAST rules, code review checklists, and language/library allow lists
+  - Secure coding standards: OWASP Secure Coding Practices checklist (QRG v2.1 — project archived, checklists migrated into the OWASP Developer Guide) [OWASP SCP QRG], OWASP ASVS (Application Security Verification Standard; v5.0 — testing basis plus developer requirements list) [OWASP ASVS], SEI CERT language coding standards (C, C++, Java, Fortran) [SEI CERT Coding Standards], Microsoft SDL (Security Development Lifecycle — 10 practices, integrates security into DevOps) [Microsoft SDL]; organizational adoption = a **standard** in the policy hierarchy (1.6), enforced via SAST rules, code review checklists, and language/library allow lists
 - Exam traps / distractors:
   - **CWE vs. CVE**: weakness *type* vs. specific *instance* in a product; **CVSS** scores severity of a CVE [OSG glossary]. "Category of flaw" -> CWE; "this product, this version" -> CVE
   - **OWASP Top 10 is awareness**, not a compliance standard or a complete test suite — ASVS/SAMM are the deeper artifacts
@@ -234,13 +234,13 @@
   - **Backdoor vs. trapdoor/maintenance hook**: synonyms for the exam; vs. **logic bomb** (triggers on condition) and **Trojan** (masquerades)
   - "Insecure Design" (A04:2021/A06:2025) cannot be fixed by perfect implementation — design flaw vs. implementation bug is a favorite discriminator
 - Related terms: OWASP SAMM (8.1), SAST/DAST (8.2), code review (6.2), secure design principles (3.1), memory protection (3.4), API security (next entry)
-- Sources: [ISC2 outline], [OSG glossary], [OWASP Top 10], [cwe.mitre.org], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [OWASP Top 10], [cwe.mitre.org], [CISA/NSA], [OWASP SCP QRG], [OWASP ASVS], [SEI CERT Coding Standards], [Microsoft SDL]
 
 ## API security and software-defined security (8.5)
 - Definition (ISC2 framing): an **API** (application programming interface) is an abstract interface to services/protocols, letting developers bypass web pages and call the service directly — opportunity for providers, risk for security [OSG glossary]; **software-defined security** = security controls actively managed by code and integrated directly into the CI/CD pipeline, a DevSecOps concept [OSG glossary]
 - Key facts:
   - **API attacks** (ISC2 list): injection, XSS, CSRF, SSRF, buffer overflows, race conditions, replay, request forgeries [OSG glossary]
-  - **REST** (Representational State Transfer): common web-service message protocol with an *optional* security layer; designed to replace **SOAP** (Simple Object Access Protocol), which ISC2 calls insecure because designed around plaintext HTTP [OSG glossary]. How it works: SOAP has WS-Security (XML signature/encryption) and both ride TLS; the exam wants "REST replaced SOAP; secure either with TLS + authN/authZ" [unverified for WS-Security detail]
+  - **REST** (Representational State Transfer): common web-service message protocol with an *optional* security layer; designed to replace **SOAP** (Simple Object Access Protocol), which ISC2 calls insecure because designed around plaintext HTTP [OSG glossary]. How it works: SOAP has WS-Security (XML signature/encryption) and both ride TLS; the exam wants "REST replaced SOAP; secure either with TLS + authN/authZ" [OASIS WS-Security 1.1 SOAP Message Security §3.2 — integrity via XML Signature, confidentiality via XML Encryption]
   - **OWASP API Security Top 10 (2023)** [OWASP API Top 10]:
 
   | # | Name | Gist |
@@ -259,7 +259,7 @@
   | API9 | Improper Inventory Management | Shadow/zombie API versions |
   | API10 | Unsafe Consumption of APIs | Trusting third-party API data |
 
-  - Controls: authenticate every call (API keys identify the *app*; **OAuth** = access delegation, **OpenID Connect** = SSO over OAuth [OSG glossary]); authorize per object *and* per function; rate limiting/throttling; schema-based input validation; API gateway as PEP; API inventory (discover shadow APIs) [unverified for gateway/inventory framing]; **secrets management** for API tokens [OSG glossary]; **WAF** as an application-level firewall in front [OSG glossary]
+  - Controls: authenticate every call (API keys identify the *app*; **OAuth** = access delegation, **OpenID Connect** = SSO over OAuth [OSG glossary]); authorize per object *and* per function; rate limiting/throttling; schema-based input validation; API gateway as PEP [NIST SP 800-204 §2.7.1]; API inventory (discover shadow APIs — "inventory all API hosts", protect all exposed versions) [OWASP API Top 10 API9:2023]; **secrets management** for API tokens [OSG glossary]; **WAF** as an application-level firewall in front [OSG glossary]
   - **Microservices** = small, independently deployable, loosely coupled services, each with its own data store, communicating over APIs — every internal hop is an API attack surface [OSG glossary]
   - **Software-defined security** in practice: IaC scanned before apply, policy as code (guardrails), security groups/WAF rules/identity policies versioned in the repo and deployed by the pipeline; the control's state is reproducible and auditable [OSG glossary for concept; practice unverified]
   - Companion "software-defined" terms: **SDN** (network control plane in software, 4.1), **SOAR** (Security Orchestration, Automation, Response — automated response playbooks) [OSG glossary]
@@ -272,7 +272,7 @@
   - **Software-defined security vs. DevSecOps**: DevSecOps is the culture/methodology; software-defined security is the technique it enables
   - **Rate limiting** addresses API4 (resource consumption) and API2 brute force — not authorization flaws
 - Related terms: microservices/APIs (3.5), interface testing (6.2), SDN (4.1), OAuth/OIDC/federation (5.2–5.3), PDP/PEP (5.4), SOAR (7.7)
-- Sources: [ISC2 outline], [OSG glossary], [OWASP API Top 10], [unverified]
+- Sources: [ISC2 outline], [OSG glossary], [OWASP API Top 10], [OASIS WS-Security], [NIST SP 800-204], [unverified]
 
 ## Database security (OSG classic)
 - Definition (ISC2 framing): a **database** = electronic filing system of files, records, fields; a **DBMS** (database management system) stores, modifies, extracts it [OSG glossary]. Exam focus: relational vocabulary, ACID, and the inference/aggregation problem with its countermeasures — outline places database system vulnerabilities in 3.5 but the OSG teaches them in the software chapters [ISC2 outline]
@@ -321,7 +321,7 @@
   - **Polyinstantiation** = two or more rows with the same primary key but different data for different classification levels — a cover story so low-cleared users cannot infer the real record [OSG glossary]; **cell suppression** hides individual cells [OSG glossary]; **noise and perturbation** inserts false/altered data to defeat statistical inference [unverified — OSG body text]
   - Access control flavors: **content-dependent** (by data value — via views) vs. **context-dependent** (by circumstances — time, prior queries, sequence) [unverified — OSG body text]
   - Analytics stack: **data warehouse** (large store from many DBs for analysis), **data mining** (find correlations in warehouse data), **data mart** (glossary: "storage facility used to secure metadata"), **big data**, **decision support system (DSS)** [OSG glossary]; KDD (knowledge discovery in databases) and OLAP/OLTP as terms [unverified]; warehouses concentrate value -> aggregation/inference risk and prime exfil target
-  - Tooling: **database vulnerability scanner** (DB + web app) e.g. **sqlmap** (open-source) [OSG glossary]; **SQL injection** defeats auth or talks to the DB directly [OSG glossary]; **ODBC** (Open Database Connectivity) = proxy between app and DB [unverified]
+  - Tooling: **database vulnerability scanner** (DB + web app) e.g. **sqlmap** (open-source) [OSG glossary]; **SQL injection** defeats auth or talks to the DB directly [OSG glossary]; **ODBC** (Open Database Connectivity) = proxy between app and DB — "proxy" is OSG wording [unverified — OSG body text]; Microsoft: ODBC is "a specification for a database API", DBMS-independent, with a **Driver Manager** mediating between applications and DBMS-specific drivers [Microsoft Learn — What Is ODBC?]
 - Exam traps / distractors:
   - **Aggregation vs. inference**: aggregation = *you have access to all the pieces* and the sum is sensitive; inference = *deduce* what you cannot access. Partitioning/aggregate-function restrictions -> aggregation; polyinstantiation -> inference
   - **Cardinality vs. degree**: rows vs. columns — pure recall trap
@@ -332,7 +332,7 @@
   - **Concurrency (locks)** protects integrity/availability, not confidentiality
   - **Normalization** is a data-design quality step, not a security control (though it reduces update anomalies)
 - Related terms: database systems (3.5), Bell-LaPadula/multilevel security (3.2), need-to-know (7.4), data classification (2.1), injection (8.5)
-- Sources: [OSG glossary], [ISC2 outline], [unverified]
+- Sources: [OSG glossary], [ISC2 outline], [Microsoft Learn — ODBC], [unverified]
 
 ## Knowledge-based systems, AI, and machine learning (OSG classic)
 - Definition (ISC2 framing): systems that apply codified or learned knowledge to decisions — **expert systems** (rules), **neural networks** (weighted decision chains), **machine learning** (solutions derived from large datasets), under the umbrella **artificial intelligence** [OSG glossary]. Exam relevance: discriminate the mechanisms, and know how ISC2 wants them applied to security tooling (7.7 ML/AI-based tools)
@@ -348,9 +348,9 @@
   | **Decision support system (DSS)** | Analyzes business data to ease decisions; *informational*, not operational; used by knowledge workers | Not autonomous |
 
   - Expert systems are only as good as their knowledge base — two failure modes: incomplete rules and outdated rules; they also cannot handle novel situations outside the rules [unverified — OSG body text]
-  - Neural networks trained on outcomes can detect novel attack patterns but cannot explain a verdict — matters for accountability and for analysts tuning detections [unverified]
+  - Neural networks trained on outcomes can detect novel attack patterns [unverified] but cannot explain a verdict — matters for accountability and for analysts tuning detections; NIST names opacity ("limited explainability or interpretability") as an AI risk [NIST AI 100-1 (AI RMF 1.0) §3.5]
   - Security applications ISC2 lists: intrusion detection, fraud detection, behavioral analytics (7.2 UEBA, 7.7 ML/AI-based tools) [ISC2 outline]
-  - Adversarial ML terms: **adversarial machine learning (AML)** appears in the glossary [OSG glossary]; data poisoning (corrupt training set), evasion (craft input to misclassify), model inversion (extract training data) [unverified]
+  - Adversarial ML terms: **adversarial machine learning (AML)** appears in the glossary [OSG glossary]; data poisoning (corrupt training set) [NIST AI 100-2e2023 §2.3], evasion (craft input to misclassify) [NIST AI 100-2e2023 §2.2], model inversion (extract training data) [unverified — NIST's taxonomy files training-data extraction under *privacy attacks*: membership inference, data reconstruction, model extraction (§2.4); "model inversion" is not a NIST term]
 - Exam traps / distractors:
   - **Expert system vs. neural network**: explicit *rules* written by humans vs. *learned* weights from data. "Codified expertise, if/then" -> expert system; "trained on examples" -> neural network/ML
   - **Knowledge base vs. inference engine**: the *rules* vs. the *component that applies them*
@@ -359,7 +359,7 @@
   - **Fuzzy logic vs. fuzzing**: reasoning with degrees of truth vs. a dynamic testing technique
   - **DSS** is informational support for humans, not an automated control
 - Related terms: ML/AI-based tools (7.7), UEBA (7.2), IDS heuristic detection (7.7), inference attacks (database entry), SP 800-218A (8.3)
-- Sources: [OSG glossary], [ISC2 outline], [unverified]
+- Sources: [OSG glossary], [ISC2 outline], [NIST AI 100-2e2023], [NIST AI 100-1], [unverified]
 
 ## Malware and malicious code (OSG classic)
 - Definition (ISC2 framing): **malware / malicious code** = any script or program performing unwanted, unauthorized, or unknown activity; any code meant to do harm [OSG glossary]. Exam tests the *discriminators between types* (propagation, trigger, disguise) and the detection approach, not exploitation mechanics
@@ -402,4 +402,4 @@
   - **Antimalware is a HIDS example** with preventive + corrective functions — distractor calls it detective only
   - **Heuristic vs. signature**: unknown/zero-day -> heuristic/behavioral; known sample -> signature
 - Related terms: anti-malware, sandboxing, allow/deny listing (7.7), ransomware as cryptanalytic-attack-adjacent (3.7), backdoor/maintenance hook (8.5), insider threat (7.15)
-- Sources: [OSG glossary], [unverified]
+- Sources: [OSG glossary]

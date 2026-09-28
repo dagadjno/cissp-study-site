@@ -167,7 +167,7 @@
       "id": "07-ft-ha-raid-metrics",
       "topic": "Recovery strategies - backups, sites, resilience",
       "front": "Fault tolerance vs. high availability vs. QoS; RAID 0/1/5/6/10; RTO vs. RPO vs. MTD; MTBF vs. MTTR.",
-      "back": "- **Fault tolerance**: keep operating through a component fault (RAID, redundant servers). **HA**: brief disruption then quick recovery (load balancing + failover, % uptime). **QoS**: manage throughput/latency/jitter/loss - performance, not security\n- **RAID 0** stripe (no FT); **1** mirror (duplexing = separate controllers); **5** stripe + parity (1 disk); **6** double parity (2 disks); **10** mirrored stripes\n- **RPO** = tolerable data loss -> backup **frequency**; **RTO** = time to restore, must be <= **MTD**; RTO drives **site type**\n- **MTBF** failure interval; **MTTR** repair time"
+      "back": "- **Fault tolerance**: keep operating through a component fault (RAID, redundant servers). **HA**: brief disruption then quick recovery (load balancing + failover, % uptime). **QoS**: manage throughput/latency/jitter/loss - performance, not security\n- **RAID 0** stripe (no FT); **1** mirror (duplexing = separate controllers); **5** stripe + parity (1 disk); **6** double parity (2 disks); **10** striped mirrors (RAID 0 across RAID 1 sets; survives one failure per mirror set) - not 0+1, which is mirrored stripes\n- **RPO** = tolerable data loss -> backup **frequency**; **RTO** = time to restore, must be <= **MTD**; RTO drives **site type**\n- **MTBF** failure interval; **MTTR** repair time"
     },
     {
       "id": "07-drp-test-types",

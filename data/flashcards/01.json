@@ -359,7 +359,7 @@
       "id": "01-embargo",
       "topic": "Export controls",
       "front": "Who licenses computer exports, and which destinations does the OSG list as embargoed?",
-      "back": "**BIS** (Commerce) licenses high-performance computing exports under the EAR.\n\nOSG's embargo list: **Cuba, Iran, North Korea, Sudan, Syria**. Real-world membership has shifted since (Sudan delisted 2020, Crimea added) — the book's list is what the exam uses."
+      "back": "**BIS** (Commerce) licenses high-performance computing exports under the EAR.\n\nOSG's embargo list: **Cuba, Iran, North Korea, Sudan, Syria**. Real-world EAR Country Group E now lists only Cuba, Iran, North Korea, Syria (Sudan absent; occupied Ukraine/Crimea handled separately under EAR 746.6, not Group E) — the book's list is what the exam uses."
     },
     {
       "id": "01-impact-categories",
@@ -389,7 +389,7 @@
       "id": "01-eea",
       "topic": "IP",
       "front": "Economic Espionage Act (1996)",
-      "back": "Criminalizes trade-secret theft, with two penalty tiers:\n- Theft **benefiting a foreign government** — up to $500K and 15 years\n- Ordinary trade-secret theft — up to $250K and 10 years"
+      "back": "Criminalizes trade-secret theft, with two penalty tiers:\n- Theft **benefiting a foreign government** — up to $500K and 15 years\n- Ordinary trade-secret theft — up to $250K and 10 years\n\nCurrent law (Pub. L. 112-269, 2013): 1831 individual max raised to **$5M**; organizations = greater of **$10M or 3x** the secret's value. OSG's 1996 figures may still be the exam answer."
     },
     {
       "id": "01-bcp-drp-coop-iscp",
@@ -461,13 +461,13 @@
       "id": "01-mef",
       "topic": "BCP",
       "front": "What are mission-essential functions (MEFs) in COOP, and what is the first step of COOP planning?",
-      "back": "- **MEF** = the deliberately small subset of functions that cannot pause without mission failure — what COOP restores at the alternate site; all else consciously lapses\n- Federal analog of the BIA's critical business processes; FEMA **FCD-2** governs MEF identification; **PMEF**s support **NEF**s (National Essential Functions)\n- Targets: resume within **12 hrs**, sustain **30 days** (verify FCD-1)\n- First COOP step = **identify MEFs via BIA** — not alternate-site selection\n- Examples: benefit payments, air traffic control, 911 dispatch (corporate: payment clearing, patient care); payroll = borderline — pausable, gets a longer BIA window instead"
+      "back": "- **MEF** = the deliberately small subset of functions that cannot pause without mission failure — what COOP restores at the alternate site; all else consciously lapses\n- Federal analog of the BIA's critical business processes; FEMA **FCD-2** governed MEF identification (superseded Aug 2024 by unnumbered FCDs; OSG may still use FCD-1/FCD-2); **PMEF**s support **NEF**s (National Essential Functions)\n- Targets: resume within **12 hrs**, sustain **30 days** (confirmed: current FCD, Aug 2024, Sec. 6.2)\n- First COOP step = **identify MEFs via BIA** — not alternate-site selection\n- Examples: benefit payments, air traffic control, 911 dispatch (corporate: payment clearing, patient care); payroll = borderline — pausable, gets a longer BIA window instead"
     },
     {
       "id": "01-sp800-core",
       "topic": "NIST SP 800",
       "front": "Name the job of each: SP 800-30, 800-34, 800-37, 800-53, 800-61, 800-63, 800-88.",
-      "back": "| SP | Job |\n| --- | --- |\n| 800-30 | Risk assessments |\n| 800-34 | Contingency planning (BCP/DRP/ISCP) |\n| 800-37 | RMF authorization process |\n| 800-53 (+A/B) | Control catalog / assess / baselines |\n| 800-61 | Incident handling |\n| 800-63 | Digital identity / authN levels |\n| 800-88 | Media sanitization |"
+      "back": "| SP | Job |\n| --- | --- |\n| 800-30 | Risk assessments |\n| 800-34 | Contingency planning (BCP/DRP/ISCP) |\n| 800-37 | RMF authorization process |\n| 800-53 (+A/B) | Control catalog / assess / baselines |\n| 800-61 | Incident handling |\n| 800-63 | Digital identity / authN levels |\n| 800-88 | Media sanitization (Rev. 2, Sept 2025) |"
     },
     {
       "id": "01-sp800-rmf-spine",

@@ -141,7 +141,7 @@
   - **Accept vs. reject** = documented conscious decision vs. undocumented ignoring (negligence/due care failure)
   - **Insurance = transfer**, not acceptance/mitigation; consequence transfers, **accountability does not** [unverified]
   - **Avoid vs. mitigate**: activity eliminated vs. activity continued with controls
-  - ISO 31000 vocabulary swap: modify=mitigate, retain=accept, share=transfer. Audit 2026-09-01: iso.org full text paywalled; retain/share/modify/avoid vocabulary corroborated by iso.org search snippets only — not primary-verified [unverified]
+  - ISO 31000 vocabulary swap: modify=mitigate, retain=accept, share=transfer. Audit 2026-09-01: iso.org full text paywalled; retain/share/modify/avoid vocabulary corroborated by iso.org search snippets only — not primary-verified [unverified]. Audit 2026-09-28: iso.org/standard/65694 returns HTTP 403 to fetch; still unverified
   - "Reduce risk to zero" always wrong
   - Fixed-sequence options ("always mitigate first") are distractors — no prescribed response order
 - Related terms: risk categories/factors, due care, cost/benefit (ALE), scoping and tailoring (2.6)
@@ -171,11 +171,11 @@
   - "Who accepts risk" -> **AO** (senior official), not ISSO (Information System Security Officer)/assessor
   - **RMF vs. CSF** (Cybersecurity Framework): federal/compliance/system-level vs. voluntary/outcome-based/any org
 - Related terms: FIPS 199 (five pillars entry), risk responses (acceptance), SP 800-53 control baselines, CSF
-- Real-world risk methodologies (low exam weight per OSG; not in OSG glossary) [unverified]:
-  - **OCTAVE** (Operationally Critical Threat, Asset, and Vulnerability Evaluation) — Carnegie Mellon SEI (Software Engineering Institute); self-directed, asset-driven org risk assessment
-  - **FAIR** (Factor Analysis of Information Risk) — quantitative model: loss frequency x loss magnitude in dollar terms
-  - **TARA** (Threat Agent Risk Assessment) — Intel; prioritizes the threat agents most likely to attack
-- Sources: [NIST SP 800-37], [ISC2 outline], [unverified]
+- Real-world risk methodologies (low exam weight per OSG; not in OSG glossary [unverified]):
+  - **OCTAVE** (Operationally Critical Threat, Asset, and Vulnerability Evaluation) — Carnegie Mellon SEI (Software Engineering Institute); self-directed, asset-driven org risk assessment — SEI "Introduction to the OCTAVE Approach" (2003) Sec. 2.2 [SEI OCTAVE]
+  - **FAIR** (Factor Analysis of Information Risk) — quantitative model in financial terms; The Open Group standards O-RT (Risk Taxonomy) / O-RA (Risk Analysis) [FAIR Institute]; "loss frequency x loss magnitude" decomposition not confirmed on the page fetched (check The Open Group O-RT) [unverified]
+  - **TARA** (Threat Agent Risk Assessment) — Intel; built on Intel's **Threat Agent Library** (TAL) for describing human threat actors [Intel RFI response, nist.gov-hosted]; "prioritizes the threat agents most likely to attack" = IT@Intel whitepaper (Dec 2009) framing, Intel page returned 403 [unverified]
+- Sources: [NIST SP 800-37], [ISC2 outline], [SEI OCTAVE], [FAIR Institute], [Intel RFI response], [unverified]
 
 ## Types of risk (inherent / total / residual / controls gap)
 - Definition (ISC2 framing): risk quantities across the treatment timeline: `inherent --(controls gap)--> residual --> accepted` [OSG glossary]
@@ -252,7 +252,7 @@
 - Sources: [OSG glossary], [ISC2 outline], [unverified]
 
 ## Threat modeling - STRIDE and methodologies
-- Definition (ISC2 framing): **threat modeling** = identifying, understanding, categorizing potential threats [OSG glossary]; done **proactively at design time** (exam answer), vs. reactive ops [unverified]
+- Definition (ISC2 framing): **threat modeling** = identifying, understanding, categorizing potential threats [OSG glossary]; done **proactively at design time** (exam answer), vs. reactive ops — outline 3.1 lists threat modeling among the **secure design principles** [ISC2 outline]
 - Key facts:
   - **STRIDE** = Microsoft threat categorization scheme [OSG glossary]; property mapping per Microsoft SDL threat-modeling docs [Microsoft SDL]:
 
@@ -276,14 +276,14 @@
     7. **RAM** — Risk Analysis and Management (business impact, treatment, residual)
     - Recognition: "risk-centric"/"business objectives"/"attack simulation" -> PASTA; scenario ending in management risk decision -> PASTA over STRIDE; simulation (VI) precedes risk analysis (VII)
   - **VAST** (Visual, Agile, and Simple Threat) = Agile-integrated modeling [OSG glossary]
-  - **Trike** = risk-based alternative to STRIDE/DREAD aggregation [OSG glossary]; **open-source**, implements a **requirements model** — ensures the assigned risk level for each asset is "acceptable" to **stakeholders** (course video) [unverified]
+  - **Trike** = risk-based alternative to STRIDE/DREAD aggregation [OSG glossary]; **open-source**, implements a **requirements model** — ensures the assigned risk level for each asset is "acceptable" to **stakeholders** (course video) [Trike project]: octotrike.org README (open source, begun 2006); Trike v1 Methodology paper, intro goal 1 (risk to each asset acceptable to all stakeholders) + Sec. 1 Requirements Model (actors, assets, intended actions, rules)
 - Exam traps / distractors:
   - **STRIDE categorizes, DREAD scores** — the recurring pair
   - **Repudiation vs. spoofing**: deny-after-the-fact vs. lie-about-identity (same axis as authenticity/nonrepudiation pillar split)
   - "Seven steps"/"attack simulation" -> **PASTA**; "Agile" -> **VAST**
   - Threat modeling = design-time risk input (D1), NOT penetration testing (D6)
 - Related terms: five pillars (property mapping), risk categories (adversarial sources), SP 800-30 threat sources, TARA
-- Sources: [OSG glossary], [unverified]
+- Sources: [OSG glossary], [ISC2 outline], [Trike project], [unverified]
 - **Reduction analysis** (aka decomposing): divide target into smaller containers (modules / hosts+protocols / departments) to understand logic + external interactions; evaluate each sub-element's inputs, processing, security, data mgmt, storage, outputs [OSG glossary]. = the DFD step of STRIDE workflows; = PASTA stage 3 (ADA). Five things to identify (verify OSG ch. 1) [unverified]:
 
   | # | Concept | Look for |
@@ -320,10 +320,11 @@
   | IT service management (incidents, SLAs) | ITIL |
   | Certifiable ISMS | ISO 27001 |
   | Voluntary cyber risk outcomes, any org | NIST CSF |
-  | Corporate internal control / SOX | **COSO** [unverified] |
+  | Corporate internal control / SOX | **COSO** [COSO] |
 
+  - COSO = Committee of Sponsoring Organizations of the Treadway Commission; Internal Control - Integrated Framework (1992, refreshed 2013), used for **SOX Sec. 404** compliance [COSO]
 - Related terms: governance alignment (1.3), ITIL-vs-COBIT (key areas entry), ISO 27001, NIST CSF, COSO
-- Sources: [OSG glossary], [unverified]
+- Sources: [OSG glossary], [ISACA], [COSO]
 
 ## Security control categories (administrative / technical / physical)
 - Definition (ISC2 framing): categories = **how implemented**; types (preventive/detective/corrective...) = **what it does**; every control has one of each
@@ -336,14 +337,14 @@
   | **Physical** | Blocks direct contact/access | Locks, guards, mantraps, fences |
 
   - Administrative aka **management/managerial/procedural** controls — four names, one category [OSG glossary]
-  - NIST legacy taxonomy: management/**operational**/technical; operational = day-to-day mechanisms [OSG glossary]. Correction (audit 2026-09-01): previously attributed to FIPS 200 — the FIPS 200 page shows control *families*, not M/O/T classes; the M/O/T grouping was legacy **SP 800-53** (pre-Rev 4) [unverified]
+  - NIST legacy taxonomy: management/**operational**/technical; operational = day-to-day mechanisms [OSG glossary]. Correction (audit 2026-09-01): previously attributed to FIPS 200 — the FIPS 200 page shows control *families*, not M/O/T classes; the M/O/T grouping was legacy **SP 800-53** (pre-Rev 4) — confirmed: SP 800-53 Rev. 3 Sec. 2.1 + Table 1-1 name "three general classes of security controls: management, operational, and technical" [NIST SP 800-53 Rev. 3]. NIST's operational definition is narrower than "day-to-day": controls "primarily implemented and executed by people (as opposed to systems)" — SP 800-18 Rev. 1 Sec. 3.14 + glossary [NIST SP 800-18]
   - **Vacation history review** = administrative + detective (canonical combined classification) [OSG glossary]
 - Exam traps / distractors:
   - Category vs. type axes never mix: "detective" is not a category, "physical" is not a type
   - Classification pairs: training = admin + preventive; guard = physical + preventive/deterrent; log review = technical + detective
   - **Defense in depth** = layering across categories; "control failed" -> add different-category layer
 - Related terms: control types (preventive/detection/corrective, 1.9 — future entry), defense in depth (3.1), physical security (7.14)
-- Sources: [OSG glossary], [ISC2 outline], [unverified]
+- Sources: [OSG glossary], [ISC2 outline], [NIST SP 800-53 Rev. 3], [NIST SP 800-18]
 
 ## Security control types (the seven)
 - Definition (ISC2 framing): types = **when/how a control acts** on unwanted activity; combine freely with the three categories (admin/technical/physical) [OSG glossary]
@@ -384,7 +385,7 @@
   - Same breach -> criminal + civil + administrative proceedings on same facts; can lose civil after winning criminal (lower bar)
   - Collect evidence to the **highest** standard regardless of current proceeding — may escalate (1.5, D7 forensics)
   - Parallels **investigation types (1.5)**: administrative, criminal, civil, regulatory [ISC2 outline]
-  - **PCI DSS = contractual, not law** — merchant-agreement enforcement, card-brand fines (verify OSG ch. 4) [unverified]
+  - **PCI DSS = contractual, not law** — merchant-agreement enforcement, card-brand fines (verify OSG ch. 4) [unverified]. Enforcement model confirmed: PCI SSC manages the standard, compliance "enforced by the founding members" (card brands), each brand runs its own enforcement program, validation reported to acquiring banks — PCI SSC Quick Reference Guide, "Overview of PCI Requirements" + "How to Comply" [PCI SSC]; fine amounts not stated there
   - Key US computer-crime-adjacent laws [OSG glossary]:
 
   | Law | What it does | Hook |
@@ -392,15 +393,18 @@
   | **CFAA** (Computer Fraud and Abuse Act) | Exclusively computer crimes **crossing state lines** (states'-rights design) | First major US cybercrime law; **1986** (H.R. 4718, 99th Congress) [congress.gov] |
   | **Federal Sentencing Guidelines** (1991) | Punishment guidelines for federal law violations | Formalized **prudent person rule**; executive **personal liability** for due care failures [unverified] |
   | **FISMA** (2002) | Federal agencies must run an infosec program | Explicitly includes **contractors' activities**; delegated the "how" to NIST |
+
+  - Sentencing Guidelines 1991 = USSG **Chapter Eight** (organizational sentencing), effective Nov 1, 1991 (Amendment 422); requires organizations to "exercise due diligence to prevent and detect criminal conduct" via an effective compliance and ethics program [USSC Ch. 8]
+  - FISMA 2002 = Title III of the E-Government Act, **Pub. L. 107-347**, approved Dec 17, 2002 [govinfo]; contractor coverage: program must cover "information systems used or operated by an agency or by a contractor of an agency" — 44 U.S.C. 3554(a) [44 U.S.C. 3554]
   | **Copyright / DMCA** | Copyright = "original works of authorship" vs. unauthorized duplication; DMCA **Sec. 1201** anti-circumvention ban + **Sec. 512** ISP safe harbor (notice-and-takedown) | DMCA **1998** [copyright.gov] |
 
-  - FISMA program elements (44 U.S.C. Sec. 3554 territory — verify wording) [unverified]: periodic **risk assessments** (-> FIPS 199), risk-based policies/procedures, per-system **security plans**, awareness **training**, control testing **at least annually** + independent **Inspector General** evaluation, remediation (**POA&M** — Plan of Action and Milestones), **incident response** (-> US-CERT/CISA reporting), **continuity** plans, annual **OMB**/Congress reporting. Operationally = run the **RMF** forever; FISMA is the law that ordered NIST to write FIPS 199/200 + SP 800-53
-  - Broader recognition landscape: **HIPAA** (health), **GLBA** (financial privacy), **SOX** (financial reporting), FERPA (education), **GDPR**/CCPA (privacy) [ISC2 outline], **CLOUD Act** 2018 (US access to overseas data) [OSG glossary], ITAR/EAR/Wassenaar (import/export) [unverified]
+  - FISMA program elements — 44 U.S.C. 3554(b)(1)-(8) + (c) [44 U.S.C. 3554]: periodic **risk assessments** (-> FIPS 199), risk-based policies/procedures, per-system **security plans** ("subordinate plans"), awareness **training**, control testing **at least annually** (statute: "no less than annually") + independent **Inspector General** evaluation [unverified — IG evaluation is 44 U.S.C. 3555, not fetched], remediation (**POA&M** — Plan of Action and Milestones; statute says "process for planning, implementing, evaluating, and documenting remedial action" — POA&M label is OMB/NIST usage [unverified]), **incident response** (statute: notify "the Federal information security incident center"; US-CERT/CISA mapping [unverified]), **continuity** plans, annual reporting to **OMB**, congressional committees, and the Comptroller General (3554(c)). Operationally = run the **RMF** forever; FISMA is the law that ordered NIST to write FIPS 199/200 + SP 800-53
+  - Broader recognition landscape: **HIPAA** (health), **GLBA** (financial privacy), **SOX** (financial reporting), FERPA (education), **GDPR**/CCPA (privacy) [ISC2 outline], **CLOUD Act** 2018 (US access to overseas data) [OSG glossary], ITAR/EAR/Wassenaar (import/export) [state.gov], [wassenaar.org] — details in export controls entry
   - **Cybercrime categories** — by the computer's role in the offense [unverified, converging secondary sources]:
     - **Computer as target**: the attack itself harms the system (DoS, destructive malware, rootkit install)
     - **Computer as tool**: computer used to commit an unrelated crime (fraud, phishing, IP theft)
     - **Computer incidental**: computer merely stores evidence of a crime that doesn't need it (e.g., a drug ledger kept in a spreadsheet)
-  - **Transborder data flow**: moving personal data across national borders, where the destination country's data-protection law may be weaker than the origin's — the general problem GDPR's Art. 3/Ch. V mechanisms (adequacy decision, **SCCs** = Standard Contractual Clauses, **BCRs** = Binding Corporate Rules) solve for EU data specifically (see privacy laws entry); the concept generalizes to any cross-border transfer, not just EU-origin [unverified]
+  - **Transborder data flow**: moving personal data across national borders, where the destination country's data-protection law may be weaker than the origin's — the general problem GDPR's Art. 3/Ch. V mechanisms (adequacy decision, **SCCs** = Standard Contractual Clauses, **BCRs** = Binding Corporate Rules) solve for EU data specifically (see privacy laws entry); the concept generalizes to any cross-border transfer, not just EU-origin [unverified]. Core definition sourced: "transborder flows of personal data" = "movements of personal data across national borders" — **OECD Privacy Guidelines** (1980, rev. 2013) Annex Part One para. 1(e) [OECD]; outline 1.4 lists "Transborder data flow" [ISC2 outline]. The "weaker destination law" rationale remains unsourced
 - Exam traps / distractors:
   - Classify the proceeding: regulator fine -> **administrative**; lawsuit -> **civil**; prosecution -> **criminal**
   - **PCI as "regulation/legislation"** = wrong option
@@ -409,7 +413,7 @@
   - Internal/HR investigation does NOT require criminal standard, but sloppy handling forecloses criminal referral
   - This entry's "administrative" = a **category of law** (agency rulemaking, CFR, substantial-evidence standard). 1.5's "administrative investigation" = a different axis, an **internal/HR-conducted** investigation — same word, two ISC2 taxonomies; don't cross-wire (see investigation types entry)
 - Related terms: regulatory policy (1.6 entry), investigation types and evidence (1.5, own entry), privacy laws (GDPR/CCPA, transborder mechanisms), security governance principles (1.3, due care)
-- Sources: [OSG glossary], [ISC2 outline], [unverified]
+- Sources: [OSG glossary], [ISC2 outline], [congress.gov], [copyright.gov], [PCI SSC], [USSC Ch. 8], [govinfo], [44 U.S.C. 3554], [state.gov], [wassenaar.org], [OECD], [unverified]
 
 ## Intellectual property and licensing
 - Definition (ISC2 framing): **IP** = intangible creations owned/protected by an org: copyrights, trademarks, patents, trade secrets, confidential data [OSG glossary]; **licensing** = contract stating how a product is to be used [OSG glossary]
@@ -419,11 +423,12 @@
   | --- | --- | --- | --- |
   | **Copyright** | Expression ("original works of authorship") | **Life + 70 yrs** (post-1978; work-for-hire 95/120) [copyright.gov] | Idea not protected, only expression |
   | **Patent** | Inventions: sole make/use/sell right | Up to **20 yrs from first non-provisional filing** [uspto.gov] | Requires **public disclosure** |
-  | **Trademark** | Words/slogans/logos identifying company | Renewable indefinitely [unverified] | Brand identity, not tech |
+  | **Trademark** | Words/slogans/logos identifying company | Renewable indefinitely [uspto.gov] | Brand identity, not tech |
   | **Trade secret** | Business-critical secret info | While secret | No registration; **disclosed = gone** |
 
   - Patent vs. trade secret tradeoff: ~20-yr monopoly + publication vs. indefinite protection + zero remedy after leak
-  - **Economic Espionage Act**: trade-secret theft for foreign gov't -> up to $500K + 15 yrs; otherwise $250K + 10 yrs [OSG glossary]; year 1996 [unverified]
+  - Trademark renewal: Sec. 8 declaration (5th-6th yr, 9th-10th yr, every 10 yrs after) + Sec. 9 renewal every 10 yrs; lasts as long as use continues and filings are kept up — USPTO "Keeping your registration alive" [uspto.gov]
+  - **Economic Espionage Act**: trade-secret theft for foreign gov't -> up to $500K + 15 yrs; otherwise $250K + 10 yrs [OSG glossary]; year 1996 — Pub. L. 104-294, approved Oct 11, 1996 [govinfo]. **Correction (audit 2026-09-28)**: $500K is the original 1996 figure. **Pub. L. 112-269** (Jan 14, 2013) raised the individual maximum under **18 U.S.C. 1831(a)** to **$5,000,000** (+15 yrs); organizations: greater of $10M or 3x the value of the stolen secret (1831(b)). 18 U.S.C. 1832 (non-foreign theft): individual "fined under this title" + up to 10 yrs (the $250K figure is the general 18 U.S.C. 3571 felony cap, not fetched); organizations: greater of $5M or 3x value [18 U.S.C. 1831-1832]. OSG figures may still be the exam answer
   - License types (verify OSG ch. 4) [unverified]:
 
   | License | Accepted by |
@@ -440,17 +445,17 @@
   - Trademark **(TM)** = unregistered claim vs. **(R)** = registered
   - Unlicensed software = contractual/licensing violation, pairs with copyright infringement distractor
 - Related terms: DMCA (legal entry), licensing as contractual compliance (PCI fourth box), import/export controls (1.4)
-- Sources: [OSG glossary], [unverified]
+- Sources: [OSG glossary], [copyright.gov], [uspto.gov], [govinfo], [18 U.S.C. 1831-1832], [unverified]
 
 <!-- REVIEW -->
 ## Encryption export controls and privacy laws
 - Definition (ISC2 framing): two 1.4 compliance areas — governments restrict where crypto goes (**export controls**); privacy laws restrict processing of personal data [ISC2 outline]
 - Key facts:
   - Export regimes (verify OSG ch. 4) [unverified]:
-    - **ITAR** (International Traffic in Arms Regulations) — State Dept; defense articles (US Munitions List)
-    - **EAR** (Export Administration Regulations) — Commerce/BIS; **dual-use**; commercial crypto lives here
-    - **Wassenaar Arrangement** — ~40-country multilateral dual-use coordination; voluntary
-    - **Computer export controls**: BIS (Bureau of Industry and Security) licenses high-performance computing exports; **embargoed destinations** (OSG list: Cuba, Iran, North Korea, Sudan, Syria) [unverified]. EAR Country Groups E:1/E:2; real-world membership has shifted (Sudan delisted 2020, Crimea added) — answer with the book on exam day [unverified]
+    - **ITAR** (International Traffic in Arms Regulations) — State Dept; defense articles (US Munitions List) — ITAR = 22 CFR 120-130, implements the Arms Export Control Act; State's **DDTC** (Directorate of Defense Trade Controls) administers it incl. the USML [state.gov]
+    - **EAR** (Export Administration Regulations) — Commerce/BIS; **dual-use**; commercial crypto lives here — items not on the USML fall under the EAR, administered by BIS [state.gov]; "commercial crypto" placement [unverified]
+    - **Wassenaar Arrangement** — ~40-country multilateral dual-use coordination; voluntary — 42 Participating States; covers conventional arms + dual-use goods/technologies; transfer decisions are "the sole responsibility of each Participating State" (national discretion) — wassenaar.org "About us" [wassenaar.org]
+    - **Computer export controls**: BIS (Bureau of Industry and Security) licenses high-performance computing exports; **embargoed destinations** (OSG list: Cuba, Iran, North Korea, Sudan, Syria) [unverified]. EAR Country Groups E:1/E:2; real-world membership has shifted (Sudan delisted 2020, Crimea added) — answer with the book on exam day [unverified]. **Correction (audit 2026-09-28)**: current EAR **Supp. No. 1 to Part 740** Country Group E (E:1 terrorist-supporting, E:2 unilateral embargo) lists only **Cuba, Iran, North Korea, Syria** — Sudan absent (confirms delisting; the 2020 date is not verified). Crimea was **not** added to Country Group E; occupied regions of Ukraine are controlled separately under **EAR 746.6** [eCFR 15 CFR 740 Supp. 1], [bis.gov]
     - Some countries restrict crypto **import/use** (licenses, escrow) — legality is per-jurisdiction
   - Privacy laws [OSG glossary]:
 
@@ -472,7 +477,7 @@
   - HIPAA -> business associates **directly liable** via **HITECH (2009)** Sec. 13401 — Security Rule safeguards apply to BAs as to covered entities; BAs must notify the covered entity of breaches [HHS]
   - "US law resembling GDPR" -> **CCPA**
 - Related terms: transborder data flow (1.4, own entry later), DMCA/IP (licensing entry), FISMA, data protection methods (2.6)
-- Sources: [OSG glossary], [ISC2 outline], [congress.gov], [FTC], [oag.ca.gov], [HHS], [unverified]
+- Sources: [OSG glossary], [ISC2 outline], [congress.gov], [FTC], [oag.ca.gov], [HHS], [state.gov], [wassenaar.org], [eCFR 15 CFR 740 Supp. 1], [bis.gov], [unverified]
 
 ## Business continuity planning (BCP)
 - Definition (ISC2 framing): the discipline of keeping critical business processes running during/after a disruption — a **BIA** (business impact analysis) quantifies how much downtime/data loss the business can tolerate, and that number drives recovery strategy, testing, and maintenance as an ongoing lifecycle, not a one-time document [ISC2 outline]
@@ -519,7 +524,7 @@
   | **COOP** (Continuity of Operations) | Restoring **mission-essential functions** at an alternate site, for up to 30 days | Federal-mandated (HSPD-20/NSPD-51); nongovernment orgs use BCP instead |
   | **ISCP** (Information System Contingency Plan) | Recovering **one system**, regardless of site — can activate in place or at an alternate site | System-level; used *after* DRP has stood up the alternate site |
     - Also exists but lower exam yield: crisis communications plan (public-facing messaging), CIP (critical infrastructure protection) plan, cyber incident response plan (may be a BCP appendix), OEP (occupant emergency plan — life-safety, not IT) [NIST SP 800-34]
-    - **MEF** (mission-essential function) = the deliberately small subset of functions that cannot pause without mission failure — what COOP restores; everything else consciously lapses. Federal analog of the BIA's critical business processes. Examples: benefit payment issuance, air traffic control, 911 dispatch, disease surveillance (corporate: payment clearing, patient care, call routing); tell = externally facing + time-critical + mandated. Payroll = classic borderline: essential eventually, pausable for days -> longer BIA window, not MEF. FEMA **FCD-2** (Federal Continuity Directive) = MEF identification/BIA process; hierarchy: agency MEFs -> **PMEF**s supporting **NEF**s (National Essential Functions). Targets: resume within **12 hrs**, sustain **30 days** (verify FCD-1) [unverified]. Trap: COOP's first step = identify MEFs via BIA, not pick the alternate site
+    - **MEF** (mission-essential function) = the deliberately small subset of functions that cannot pause without mission failure — what COOP restores; everything else consciously lapses. Federal analog of the BIA's critical business processes. Examples: benefit payment issuance, air traffic control, 911 dispatch, disease surveillance (corporate: payment clearing, patient care, call routing); tell = externally facing + time-critical + mandated. Payroll = classic borderline: essential eventually, pausable for days -> longer BIA window, not MEF. FEMA **FCD-2** (Federal Continuity Directive) = MEF identification/BIA process; hierarchy: agency MEFs -> **PMEF**s supporting **NEF**s (National Essential Functions). Targets: resume within **12 hrs**, sustain **30 days**. Sourced: FCD-2 (June 13, 2017) = "Mission Essential Functions and Candidate Primary Mission Essential Functions Identification and Submission Process"; MEF identification via **BPA** (business process analysis, Annex C) + **BIA** (Annex D); MEF/PMEF/NEF definitions in its glossary (from PPD-40) [FEMA FCD-2 (2017)]. 12-hr/30-day rule: perform essential functions "not later than 12 hours after continuity plan activation," sustain "for a minimum of 30 days or until normal operations are resumed" — current FCD "Essential Functions Risk Identification and Management" (Aug 2024) Sec. 6.2 [FEMA FCD (2024)]. **Correction (audit 2026-09-28)**: FCD-1 and FCD-2 (2017) are no longer current — FEMA's Aug 2024 unnumbered FCDs "Continuity Program Management Requirements" (supersedes FCD-1) and "Essential Functions Risk Identification and Management" (supersedes FCD-2, its Sec. 1.1) replaced them; OSG/exam may still use the FCD-1/FCD-2 names. Trap: COOP's first step = identify MEFs via BIA, not pick the alternate site
   - Test/exercise types, least to most rigorous/disruptive [OSG glossary]:
 
   | Type | What happens |
@@ -539,7 +544,7 @@
   - BCP is a **lifecycle**, not a document — "the plan is done once written" is always wrong; testing/maintenance (steps 6-7) never stop
   - BIA identifies criticality and produces MTD/RTO/RPO; it does **not** select the recovery strategy itself (that's continuity planning/step 4) — don't let a BIA-scoped question answer with a site-selection choice
 - Related terms: qualitative vs. quantitative risk analysis (BIA impact math), supply chain and SCRM (external dependency overlap), risk responses, alternate site types/DR site selection (own entry later, domain 7.13), types of risk
-- Sources: [NIST SP 800-34], [NIST SP 800-53], [ISO 22301], [OSG glossary], [ISC2 outline], [unverified]
+- Sources: [NIST SP 800-34], [NIST SP 800-53], [ISO 22301], [OSG glossary], [ISC2 outline], [FEMA FCD-2 (2017)], [FEMA FCD (2024)], [unverified]
 
 ## Security governance principles (1.3)
 - Definition (ISC2 framing): aligning the security function with business strategy through organizational structure, accountability, and process — governance decides *who* is accountable for security decisions and *how* they get made, distinct from operating the controls themselves [ISC2 outline]
@@ -552,7 +557,7 @@
   | **Due care** | Practicing it — **doing** the right action, maintaining security after deployment | Ongoing execution |
     - Due diligence without due care (research done, nobody acts on it) is a real exam scenario — diligence alone isn't a negligence defense
     - Both together are the legal defense against a **negligence** claim; missing either = exposure
-  - **Organizational processes** [unverified]: M&A due diligence (assess a target's security posture/liabilities before acquisition; plan access/system integration or separation for a divestiture); **governance committees** (security steering committee sets policy direction, reports to the board/executive management on risk posture)
+  - **Organizational processes** (outline 1.3 examples: acquisitions, divestitures, governance committees [ISC2 outline]; content below [unverified]): M&A due diligence (assess a target's security posture/liabilities before acquisition; plan access/system integration or separation for a divestiture); **governance committees** (security steering committee sets policy direction, reports to the board/executive management on risk posture)
   - **Roles and responsibilities** (governance layer — contrast with data owner/custodian, which is domain 2's operational layer) [unverified]: board sets risk appetite -> executive management (CISO) owns the program -> steering committee coordinates cross-functional decisions -> operational teams execute
   - **Control/security framework survey** — pick the right one per scenario [unverified, standard industry framing]:
 
@@ -564,13 +569,15 @@
   | **SABSA** | Business-risk-driven enterprise security **architecture** methodology — layered like Zachman, traces every control back to a business requirement |
   | **PCI DSS** | Contractual (not law) — card-brand-mandated technical controls |
   | **FedRAMP** | US federal cloud-service authorization, built on **NIST SP 800-53** controls |
+
+    - Row checks: all six are the outline 1.3 example list [ISC2 outline]. **NIST CSF**: voluntary ("may be adopted voluntarily") — CSWP 29 (CSF 2.0, Feb 26, 2024) [NIST CSF 2.0]. **Correction (audit 2026-09-28)**: CSF 2.0 has **six** Functions — **GOVERN**, Identify, Protect, Detect, Respond, Recover (CSWP 29 Sec. 2); the five-function list above is CSF 1.1. **SABSA**: "business-driven, risk and opportunity focused," "two-way traceability," aligns with Zachman [sabsa.org]. **PCI DSS** contractual: SSC sets it, card brands enforce [PCI SSC]. **FedRAMP**: baselines built on the SP 800-53 catalog — CSP Authorization Playbook [fedramp.gov]. **ISO 27001** certifiable: iso.org returned 403 [unverified]
 - Exam traps / distractors:
   - "We researched and documented the risk but didn't fix it" -> due diligence present, due care absent -> still negligent
   - **ISO 27001 = certifiable**; **NIST CSF = not certifiable** — a "get certified against the CSF" option is wrong
   - SABSA answer cue: "traces back to business requirements" / architecture layers; COBIT cue: "IT governance," "process maturity," "control objectives"
   - Framework choice questions test recognition, not "which is best" — match the cue words in the stem to the framework's defining trait
 - Related terms: ISC2 Code of Professional Ethics (org code contrast), COBIT basics, security planning types (business alignment), legal and regulatory landscape (due care as negligence defense), supply chain and SCRM
-- Sources: [OSG glossary], [ISC2 outline], [unverified]
+- Sources: [OSG glossary], [ISC2 outline], [NIST CSF 2.0], [sabsa.org], [PCI SSC], [fedramp.gov], [unverified]
 
 ## Investigation types and evidence (1.5)
 - Definition (ISC2 framing): five investigation types an org may be subject to or conduct, distinguished by *who* investigates and *what standard applies* [ISC2 outline]:
@@ -623,14 +630,14 @@
   - **Control assessments** (security **and** privacy): formal evaluation of whether a control is implemented correctly, operating as intended, and producing the desired outcome — **NIST SP 800-53A** provides the assessment procedures for the SP 800-53 control catalog [NIST SP 800-34, referencing 800-53A]
   - **Continuous monitoring**: ongoing (not point-in-time) visibility into assets, threats/vulnerabilities, and control effectiveness so risk posture stays inside tolerance as things change — federal term of art is **ISCM** (Information Security Continuous Monitoring), **NIST SP 800-137** [NIST SP 800-137]
   - **Reporting**: internal (board/executive risk reporting, feeds governance decisions) vs. external (regulators, customers, auditors — often contractually or legally mandated, e.g. breach notification)
-  - **Continuous improvement / risk maturity modeling**: apply maturity-model thinking (cf. **Capability Maturity Model (CMM)** — originally a software-process model [OSG glossary]) to the risk program itself: ad hoc -> repeatable -> defined -> managed -> optimized. ISC2 doesn't mandate a single named risk-maturity model; the exam tests the *concept* (a risk program matures through stages, doesn't jump to "optimized") rather than exact level names [unverified]
+  - **Continuous improvement / risk maturity modeling**: apply maturity-model thinking (cf. **Capability Maturity Model (CMM)** — originally a software-process model [OSG glossary]) to the risk program itself: ad hoc -> repeatable -> defined -> managed -> optimized (CMM levels Initial ("ad hoc")/Repeatable/Defined/Managed/Optimizing — SEI CMU/SEI-93-TR-024, CMM v1.1, Sec. 2.1 [SEI CMM]). ISC2 doesn't mandate a single named risk-maturity model (outline 1.9 says only "Continuous improvement (e.g., risk maturity modeling)" [ISC2 outline]); the exam tests the *concept* (a risk program matures through stages, doesn't jump to "optimized") rather than exact level names [unverified]
 - Exam traps / distractors:
   - Control assessment != control implementation — a control can be implemented but the *assessment* is what proves it's effective; "we deployed it" answers a different question than "we assessed it"
   - **Continuous monitoring is ongoing**, not an annual point-in-time check — "we monitor once a year" fails the definition
   - Internal reporting drives decisions; external reporting is often a **compliance obligation** — mixing up the audience is a common distractor
   - Maturity is a **progression**, not a binary "compliant/not compliant" — a scenario describing ad hoc, undocumented practices signals low maturity even if outcomes are currently fine
 - Related terms: risk responses, RMF, qualitative vs. quantitative risk analysis, security governance principles (reporting to governance committees)
-- Sources: [NIST SP 800-137], [OSG glossary], [ISC2 outline], [unverified]
+- Sources: [NIST SP 800-137], [OSG glossary], [ISC2 outline], [SEI CMM], [unverified]
 
 ## Security awareness, education, and training program (1.12)
 - Definition (ISC2 framing): the program that keeps the workforce able to recognize and resist threats — distinct from technical controls, this is a **people** control, and it has its own lifecycle (design, deliver, review, measure) [ISC2 outline]
@@ -651,7 +658,7 @@
 
 ## GDPR - terms and requirements (1.4)
 - Definition (ISC2 framing): Regulation (EU) **2016/679** — a **Regulation, not a Directive**, so it is directly applicable across the EU/EEA with no national transposition; single harmonized data protection and privacy law governing processing and transfer of EU/EEA persons' personal data [OSG glossary]
-- Sourcing note: article numbers below corroborated 2026-09-04 against a faithful GDPR text mirror (gdpr.algolia.com). **eur-lex full text remains unfetchable** (failed 2026-09-01 and again 2026-09-04, multiple URL forms) — treat as corroborated-not-primary and re-verify if a number is decisive [GDPR text mirror]
+- Sourcing note: article numbers below corroborated 2026-09-04 against a faithful GDPR text mirror (gdpr.algolia.com). **eur-lex full text remains unfetchable** (failed 2026-09-01 and again 2026-09-04, multiple URL forms; 2026-09-28: WebFetch empty, curl HTTP 202 with 0-byte body) — treat as corroborated-not-primary and re-verify if a number is decisive [GDPR text mirror]
 - Key facts:
   - **Territorial scope (Art. 3)**: reaches controllers/processors **outside the EU** who offer goods or services to, or **monitor the behaviour of**, data subjects in the EU — **no EU office required**
   - **Terms (Art. 4 definitions)**: **personal data** (information relating to an identified or identifiable natural person), **processing** (essentially any operation, collection through erasure), **controller** (determines purposes and means), **processor** (acts on behalf of controller), **data subject** (the individual). Roles in depth: D2 data ownership entry
@@ -723,8 +730,8 @@
   | **800-34** | Contingency planning (BCP/DRP/ISCP) | 1/7 |
   | **800-37** | RMF authorization process | 1 |
   | **800-53** (+A/B) | Control catalog / assess / baselines | 1 |
-  | **800-61** | Incident handling [unverified] | 7 |
-  | **800-63** | Digital identity, authentication levels [unverified] | 5 |
+  | **800-61** | Incident handling [NIST SP 800-61] | 7 |
+  | **800-63** | Digital identity, authentication levels [NIST SP 800-63-4] | 5 |
   | **800-88** | Media sanitization (clear/purge/destroy) | 2 |
 
   - Recognition tier:
@@ -734,10 +741,12 @@
   | **800-12** | Intro to infosec; policy triple | program/issue/system [NIST SP 800-12] |
   | **800-39** | Enterprise risk mgmt strategy | vs. 800-30 assessment |
   | **800-60** | Info types -> security categories | feeds RMF **Categorize** [NIST SP 800-60] |
-  | **800-115** | Security testing/assessment [unverified] | Domain 6 |
-  | **800-137** | Continuous monitoring (ISCM) [unverified] | feeds RMF **Monitor** |
+  | **800-115** | Security testing/assessment [NIST SP 800-115] | Domain 6 |
+  | **800-137** | Continuous monitoring (ISCM) [NIST SP 800-137] | feeds RMF **Monitor** |
   | **800-161** | C-SCRM supply chain | 1.11 [NIST SP 800-161] |
-  | **800-171** | CUI in **nonfederal** systems [unverified] | contractor tell; vs. 800-53 federal |
+  | **800-171** | CUI in **nonfederal** systems [NIST SP 800-171] | contractor tell; vs. 800-53 federal |
+
+  - Current titles (csrc.nist.gov, checked 2026-09-28): 800-61 **Rev. 3** (Apr 2025) "Incident Response Recommendations and Considerations for Cybersecurity Risk Management: A CSF 2.0 Community Profile" (supersedes Rev. 2, Aug 2012); 800-63-4 (Jul 2025) "Digital Identity Guidelines" — identity proofing, authentication, federation; 800-115 (Sep 2008) "Technical Guide to Information Security Testing and Assessment"; 800-137 (Sep 2011) "Information Security Continuous Monitoring (ISCM) for Federal Information Systems and Organizations"; 800-171 Rev. 3 (May 2024) "Protecting Controlled Unclassified Information in Nonfederal Systems and Organizations"; 800-53A Rev. 5 (Jan 2022) "Assessing Security and Privacy Controls in Information Systems and Organizations"
 
   - Memory spine = RMF: 60 categorize -> 53B select -> 53 implement -> 53A assess -> 37 authorize -> 137 monitor; FIPS 199/200 before Select
 - Exam traps / distractors:
@@ -745,4 +754,4 @@
   - **800-53 vs. 171**: federal systems vs. CUI on contractor systems
   - **800-53A vs. 115**: control assessment vs. technical security testing
 - Related terms: RMF entry, FIPS 199/200, control baselines
-- Sources: [NIST SP 800-12], [NIST SP 800-30], [NIST SP 800-34], [NIST SP 800-37], [NIST SP 800-53B], [NIST SP 800-60], [NIST SP 800-161], [unverified]
+- Sources: [NIST SP 800-12], [NIST SP 800-30], [NIST SP 800-34], [NIST SP 800-37], [NIST SP 800-53B], [NIST SP 800-60], [NIST SP 800-61], [NIST SP 800-63-4], [NIST SP 800-115], [NIST SP 800-137], [NIST SP 800-161], [NIST SP 800-171]

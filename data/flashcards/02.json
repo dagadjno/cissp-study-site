@@ -107,7 +107,7 @@
       "id": "02-sanitization",
       "topic": "Data destruction",
       "front": "Sanitization",
-      "back": "Umbrella term for any process ensuring data cannot be recovered from media by any means.\n\nCan be achieved by purging or degaussing without physically destroying the media."
+      "back": "Umbrella term for any process ensuring data cannot be recovered from media by any means.\n\nCan be achieved by **purge** techniques (e.g., degaussing magnetic media, cryptographic erase) without physically destroying the media. SP 800-88 Rev. 2: degaussing is a **purge** technique, not destroy."
     },
     {
       "id": "02-declassification",
@@ -125,7 +125,7 @@
       "id": "02-nist-800-88-categories",
       "topic": "Data destruction",
       "front": "NIST SP 800-88 sanitization categories: Clear, Purge, Destroy",
-      "back": "- **Clear** — logical techniques over all user-addressable locations; defeats simple non-invasive recovery\n- **Purge** — physical or logical techniques making recovery infeasible even with state-of-the-art lab techniques\n- **Destroy** — same infeasibility, and the media can no longer store data"
+      "back": "- **Clear** — logical techniques over all user-addressable locations; defeats simple non-invasive recovery\n- **Purge** — physical or logical techniques making recovery infeasible even with state-of-the-art lab techniques\n- **Destroy** — same infeasibility, and the media can no longer store data\n- Rev. 2 (Sept 2025) supersedes Rev. 1: **degaussing = purge**, not destroy, even if it wrecks the drive; mandatory post-sanitization verification replaced by sanitization assurance"
     },
     {
       "id": "02-gov-classification",
