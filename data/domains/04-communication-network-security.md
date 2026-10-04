@@ -204,6 +204,7 @@
   - **WPA2-Personal** (shared PSK, one leak = everyone) vs **WPA2/3-Enterprise** (802.1X, per-user credentials); **SAE** is not 802.1X — it replaces the PSK handshake
   - **Evil twin** (impersonates a known SSID) vs **rogue AP** (unauthorized device on your wire)
   - **EAP** is a framework, not an authentication method; **LEAP** and **EAP-MD5** are the legacy distractors; **EAP-TLS** is the only mutual-cert option
+  - **Certificate-requirement spectrum** decides "which EAP under constraint X": EAP-TLS = client + server certs (full PKI); PEAP / EAP-TTLS = **server cert only**; EAP-FAST = none (PACs); LEAP = none (broken). A stem that says "without PKI" eliminates EAP-TLS *and* PEAP — only LEAP/EAP-FAST survive. **Constraint outranks security**: "BEST" = best fit to the stated requirement, not most secure; the practitioner reflex to pick PEAP is the trap. Kerberos is not a wireless auth framework (KDC, symmetric keys). Example: small business, no PKI, options PEAP/EAP-TLS/LEAP/Kerberos -> LEAP (answered correctly 2026-10-04)
   - **Bluesnarfing** (steal data) vs **bluejacking** (send spam) vs **bluebugging** (take control)
   - **GEO** = latency, **LEO** = coverage handoffs; satellite "private link" still needs encryption
   - **Zigbee** is 802.15.4, not Bluetooth (glossary says otherwise — if the exam offers "Bluetooth-based" as the *distinguishing* trait, check the other options first)

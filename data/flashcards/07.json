@@ -155,7 +155,7 @@
       "id": "07-vaulting-journaling-mirroring",
       "topic": "Recovery strategies - backups, sites, resilience",
       "front": "Electronic vaulting vs. remote journaling vs. remote mirroring - mechanism and RPO.",
-      "back": "- **Electronic vaulting**: bulk transfer of backups to a remote site; RPO hours-day\n- **Remote journaling**: transaction logs since the last bulk transfer shipped remotely; RPO minutes-hour\n- **Remote mirroring**: live database server at the backup site; most advanced; RPO near zero\n\nSP 800-53 **CP-9** System Backup. Keep a copy offsite and offline/immutable (ransomware).\n- Example: nightly backup set pushed to the offsite vault = vaulting; transaction log shipped every 15 min = journaling; standby DB applying every write as it happens = mirroring"
+      "back": "- **Electronic vaulting**: bulk transfer of backups to a remote site; RPO hours-day\n- **Remote journaling**: transaction logs since the last bulk transfer shipped remotely; RPO minutes-hour\n- **Remote mirroring**: live database server at the backup site; most advanced; RPO near zero\n\nSP 800-53 **CP-9** System Backup. Keep a copy offsite and offline/immutable (ransomware).\n- Example: nightly backup set pushed to the offsite vault = vaulting; transaction log shipped every 15 min = journaling; standby DB applying every write as it happens = mirroring\n- Trap: \"reliability of the data during a blackout\" -> **vaulting** (off-site copy preserves data), NOT UPS/generator (those are availability/uptime). Journaling loses to vaulting because it ships deltas, not the dataset. Read the pillar word in the stem before the options"
     },
     {
       "id": "07-recovery-sites",

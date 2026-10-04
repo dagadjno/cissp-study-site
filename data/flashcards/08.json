@@ -210,6 +210,12 @@
       "topic": "Development methodologies (8.1)",
       "front": "A development manager asks how to BEST ensure a secure product. Why does \"security analysis throughout the project\" beat \"due diligence of secure coding practices\"?",
       "back": "- Security must be integrated into **every SDLC phase** (planning -> disposal); secure coding is **one phase** (implementation) and cannot fix bad requirements, design, or deployment\n- Manager framing -> lifecycle-level answer beats technical single-phase answer (same shape as strategic > tactical in D1)\n- \"Indefectible/perfect requirements\" = absolutist -> always wrong; continuous process improvement = maturity (CMMI/SAMM), indirect\n- Anchor: NIST SP 800-218 SSDF - practices across Prepare / Protect / Produce / Respond\n- Example: a missing authorization check costs one design-review comment in requirements; found after release it costs an emergency patch, incident response, and customer notification"
+    },
+    {
+      "id": "08-xss-vs-csrf",
+      "topic": "Source-code weaknesses and secure coding practices (8.5)",
+      "front": "A logged-in user with locally cached credentials sees an unauthorized withdrawal. XSS or CSRF - and what evidence decides it?",
+      "back": "- **CSRF** - a forged request rides the victim's ambient session; the attacker needs no stolen data, only to make her browser send the request\n- Decide by evidence: unauthorized **action** + victim logged in -> CSRF; attacker **script executing** (cookie theft, DOM change) -> XSS (reflected/stored/DOM by payload location)\n- \"Credentials stored locally\" = CSRF precondition, not an XSS clue; no injection point in the stem -> never XSS\n- Defenses: anti-CSRF tokens / SameSite / re-auth vs. output encoding / CSP\n- Example: withdrawal while logged in = CSRF; session cookie exfiltrated via a forum post = stored XSS"
     }
   ]
 }

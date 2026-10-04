@@ -83,7 +83,7 @@
       "id": "04-eap-8021x",
       "topic": "Wireless and cellular networks",
       "front": "What is 802.1X, what is EAP, and which EAP methods are the strong, acceptable, and legacy options?",
-      "back": "- **802.1X**: port-based authentication, an \"authentication proxy\" to RADIUS/TACACS+ (supplicant / authenticator / authentication server)\n- **EAP**: an authentication *framework*, not a method; runs over the link layer without IP (RFC 3748)\n- Strong: **EAP-TLS** — certificate-based mutual auth (RFC 5216)\n- Acceptable: **EAP-TTLS**, **PEAP** (EAP inside a TLS tunnel, server cert only), **EAP-FAST** (Cisco, replaced LEAP)\n- Legacy/avoid: **LEAP** (Cisco proprietary), **EAP-MD5** (no mutual auth)\n- EAP-SIM = GSM SIM auth\n- Trap: \"Lightweight\" (LEAP) != secure; WPA2-Enterprise = 802.1X, not a shared PSK"
+      "back": "- **802.1X**: port-based authentication, an \"authentication proxy\" to RADIUS/TACACS+ (supplicant / authenticator / authentication server)\n- **EAP**: an authentication *framework*, not a method; runs over the link layer without IP (RFC 3748)\n- Strong: **EAP-TLS** — certificate-based mutual auth (RFC 5216)\n- Acceptable: **EAP-TTLS**, **PEAP** (EAP inside a TLS tunnel, server cert only), **EAP-FAST** (Cisco, replaced LEAP)\n- Legacy/avoid: **LEAP** (Cisco proprietary), **EAP-MD5** (no mutual auth)\n- EAP-SIM = GSM SIM auth\n- Trap: \"Lightweight\" (LEAP) != secure; WPA2-Enterprise = 802.1X, not a shared PSK\n- Cert spectrum: EAP-TLS both certs; PEAP/EAP-TTLS server only; EAP-FAST none (PACs); LEAP none (broken). \"Without PKI\" eliminates EAP-TLS AND PEAP. Constraint outranks security: BEST = fits the stated requirement, not most secure"
     },
     {
       "id": "04-wireless-attacks",

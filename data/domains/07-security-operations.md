@@ -267,6 +267,7 @@
 - Related terms: configuration management (7.3), vulnerability assessment and pen testing (D6 6.2), SDLC change management (D8 8.1), EOL/EOS (D2 2.5)
 - Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-53], [NIST SP 800-128], [NIST SP 800-115], [CVE.org], [FIRST CVSS], [unverified]
 
+<!-- REVIEW -->
 ## Recovery strategies - backups, sites, resilience (7.10)
 - Definition (ISC2 framing): **recovery strategies** = practices, policies, procedures to recover the business [OSG glossary]; outline 7.10 = backup storage strategies (cloud, onsite, offsite), recovery site strategies (cold vs. hot, resource capacity agreements), multiple processing sites, system resilience/HA/QoS/fault tolerance [ISC2 outline]. Strategy is chosen by **RTO/RPO/MTD** from the BIA (D1 1.7), then cost
 - Key facts:
@@ -319,6 +320,7 @@
   - **Mirrored site vs. hot site**: hot needs data restore and activation; mirrored is already live
   - **Reciprocal agreement** weaknesses are the exam point, not its cost advantage: enforceability, shared regional disaster, capacity. Example: two hospitals in the same city pledge each other's data center, then the hurricane hits both
   - **Electronic vaulting vs. remote journaling**: batch backups vs. transaction logs; mirroring = live server
+  - **Pillar word in the stem selects the control family**: "reliability/integrity of the *data*" -> off-site copy (**vaulting**; journaling holds only deltas and needs a base backup); "keep *operating*" -> power (**generator** for duration > **UPS** for bridge/graceful shutdown). A blackout is scenery; it names the threat, not the pillar. Practitioner reflex "blackout -> power" is the trap. Example: "ensure reliability of client data during a facility blackout" -> vaulting, NOT UPS (missed 2026-10-04: picked UPS)
   - **Fault tolerance vs. high availability**: FT = no interruption on component failure; HA = brief interruption then recovery. RAID 0 is neither
   - **RTO vs. RPO**: time to restore service vs. how much data (time) you can lose; RPO drives backup **frequency**, RTO drives **site type**. Example: RPO 1 h -> hourly journaling, nightly tape fails it; RTO 4 h -> hot/warm site, a cold site cannot make it
   - **QoS** is a performance/availability concept, not a security control; it appears as a distractor for "fault tolerance"
