@@ -36,6 +36,7 @@
 - Related terms: least privilege (3.1), PDP/PEP (5.4), microsegmentation (4.1), SASE (3.1), ABAC/risk-based access control (5.4)
 - Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-207]
 
+<!-- REVIEW -->
 ## Secure design principles (3.1)
 - Definition (ISC2 framing): design-time properties, not operational controls; outline 3.1 lists threat modeling, least privilege, defense in depth, secure defaults, fail securely, SoD, keep it simple, zero trust/trust but verify, privacy by design, shared responsibility, SASE [ISC2 outline]. Lineage: Saltzer & Schroeder 1975 (economy of mechanism, fail-safe defaults, complete mediation, open design, separation of privilege, least privilege, least common mechanism, psychological acceptability; plus **work factor** and **compromise recording**, which they say apply "only imperfectly") [Saltzer-Schroeder 1975 Sec. I.A.3]
 - Key facts:
@@ -68,6 +69,7 @@
 
   - Companion design concepts [OSG glossary]: **abstraction** = group similar elements into classes/roles for collective control assignment; **data hiding** = data placed where subject cannot see *or* access it (not merely unseen). Example: abstraction = grant rights to the "Tier2-Analysts" group, not 40 users; data hiding = ring-0 kernel memory a ring-3 process can neither read nor address; NOT an unlinked admin URL (that is obscurity)
 - Exam traps / distractors:
+  - **PbD "NOT a principle" questions**: the counterintuitive genuine item (**full functionality, positive-sum**) is the bait; the fake is a one-word mutation of a real one ("**assurance** of user privacy" vs. real #7 "**respect** for user privacy"). Compare options to the list word-for-word, not by vibe — same shape recurs for the canons, Saltzer-Schroeder, COBIT six, cloud five. Example: options end-to-end security / privacy as default / assurance of user privacy / preserve full functionality -> the fake is "assurance" (missed 2026-10-04: struck full functionality)
   - **Fail-safe vs. fail-secure**: life-safety flips the default — fire door opens (safe); firewall crash drops traffic (secure)
   - One person creates vendors AND approves payments -> **SoD** violation, not least privilege (per-task rights may be minimal; the combination is the flaw)
   - Second firewall, same vendor -> defense in depth but not **diversity of defense**; "one vuln beats all layers" -> diversity
@@ -132,6 +134,20 @@
   - **Brewer-Nash** is the only one whose permissions depend on **history** (what the user already touched) — consultancy/auditor scenarios.
   - **Reference monitor** (abstract requirement: always invoked, tamperproof, verifiable) vs. **security kernel** (the implementation).
   - **PP vs. ST**: requirement statement vs. vendor claim; **EAL4** does not mean "more secure than EAL3 product", only more rigorously evaluated.
+  - EALs compare only against the **same PP**; **EAL4** = practical commercial ceiling, **EAL5-7** = government/military (an EAL5+ system in a stem signals a classified, high-assurance environment); CCRA mutual recognition covers only the low EALs (~EAL2) — a foreign EAL6 is not automatically accepted (verify commoncriteriaportal.org) [unverified]. The rigor words in each EAL name (tested / checked / reviewed / semiformally / formally) are the decode key. Example: vendor datasheet "EAL2+ certified" = a lab checked the product's *claims* at modest depth; says nothing about detection quality — read the PP for what was claimed
+  - EAL examples (product placements = industry knowledge) [unverified]:
+
+  | EAL | Evaluators did | Typical products |
+  | --- | --- | --- |
+  | 1 | Functional tests from docs | Rarely used |
+  | 2 | Tests + design-structure review | Many apps/appliances; "EAL2+" datasheets |
+  | 3 | Methodical testing, dev-environment checks | Mid-range network gear, DBMS |
+  | 4 | Methodical **design review**, vuln analysis | OS releases, firewalls, routers — commercial ceiling |
+  | 5 | Semi-formal design model, **covert-channel analysis** | Smart card ICs, secure elements, some HSMs |
+  | 6 | Semi-formal *verification* of design | Separation kernels (INTEGRITY-178B EAL6+) |
+  | 7 | **Formal** (mathematical) verification | Data diodes (Tenix Interactive Link), tiny kernels |
+
+  - 4->5 adds design proofs + covert-channel analysis (why EAL5 pairs with covert-channel stems); 6->7 = semi-formal -> formal, feasible only for tiny TOEs ("why isn't Windows EAL7" = TOE size). Modern certs often cite a **cPP** (collaborative Protection Profile) with no EAL — absent EAL is normal, not a red flag [unverified]
   - **Security model vs. access control model**: BLP/Biba are models; MAC/DAC/RBAC (5.4) are mechanisms. BLP *uses* MAC. Example: SELinux MLS policy is the mechanism; the no-write-down rule it enforces is the model.
   - **Compartmented vs. system high**: both require full clearance; compartmented adds formal access approval per compartment.
 - Related terms: MAC / lattice-based access control (5.4), TCB and reference monitor (3.4), secure design principles (3.1), Common Criteria and control selection (3.3), data classification (2.1)
@@ -160,6 +176,7 @@
 - Related terms: scoping and tailoring (2.6), risk treatment and control types (1.9), security models and CC (3.2), FIPS 140-3 (3.4), ATO and system lifecycle (3.10)
 - Sources: [ISC2 outline], [OSG glossary], [FIPS 199], [FIPS 200], [NIST SP 800-53B], [NIST SP 800-37], [ISO/IEC 15408]
 
+<!-- REVIEW -->
 ## Security capabilities of information systems (3.4)
 - Definition (ISC2 framing): protections the hardware/firmware/OS layer provides by construction — outline names **memory protection**, **Trusted Platform Module** (TPM), **encryption/decryption** [ISC2 outline]; OSG adds process isolation, protection rings, secure/measured boot, TCB and reference monitor (3.2) [OSG glossary].
 - Key facts:
@@ -189,12 +206,14 @@
 
   - Encryption/decryption as a *system capability*: full-disk encryption keyed by TPM; **homomorphic encryption** = compute on ciphertext, protects data **in use** [OSG glossary]; **lightweight cryptography** for constrained devices (IoT, ICS, smartcards) [OSG glossary]; memory/bus encryption [unverified]; **trusted execution environment** (TEE) = processor-protected enclave where secrets are stored and operated on without leaving it, verifiable by remote attestation [NIST IR 8320 Sec. 5, 6.2]. Example: TEE = SGX enclave / TrustZone holding the fingerprint template, unreadable even to the OS kernel; homomorphic = the cloud scores encrypted transactions for fraud without ever decrypting them.
   - Covert channels [OSG glossary]: **storage** channel = write to shared storage another process reads; **timing** channel = modulate performance/timing predictably. Both leak outside intended paths; the TCB should prevent them. Example: storage = process A fills the disk quota to signal a 1 and process B reads "disk full"; timing = A loads the CPU in a pattern that B times.
+  - Why covert channels exist: the **overt** paths are blocked by policy (BLP no-write-down), so a high-side sender and low-side receiver cooperate over a shared resource; bandwidth is low (bits/s) but enough for keys. **Covert vs. side channel**: covert = *cooperating sender inside* the boundary deliberately signaling ("exfiltrate" in the stem); side channel = *outside observer* harvesting unintentional leakage (power, EM, cache timing) from a non-cooperating victim. **Covert vs. overt**: DNS tunneling abuses an *overt* (designed) channel — SOC usage is broader than the OS/MLS definition. Countermeasures: partition/isolate the shared resource, add noise / "fuzzy time" to timing sources, audit anomalous resource patterns, covert-channel analysis required at high assurance (TCSEC B2+, higher EALs) [unverified]
   - Emanations [OSG glossary]: **TEMPEST** = study/control of compromising EM/RF signals; countermeasures **Faraday cage**, **white noise**, **control zone** (cage + noise for one area). Example: Faraday cage = the shielded SCIF; white noise = a jammer on the leakage band; control zone = only the server cage shielded, not the whole building.
   - Legacy exploit classes tied to these capabilities [OSG glossary]: **maintenance hook / backdoor** (developer bypass); **TOCTOU / race condition** (timing between check and use); **incremental attacks** — data diddling (small changes), salami (small skims); Meltdown/Spectre = CPU speculative-execution side channels (Meltdown = CVE-2017-5754, NVD published 2018-01-04) [NVD CVE-2017-5754]. Example: maintenance hook = hardcoded vendor support account in a firewall image; TOCTOU = symlink swapped between the permission check and the open; salami = rounding fractions of a cent per transaction into one account; data diddling = altering a few invoice amounts before posting.
 - Exam traps / distractors:
   - **TPM vs. HSM**: TPM = soldered, platform-bound, platform integrity + disk keys; HSM = dedicated appliance/card for enterprise key ops (CA signing, PKI). "Protect the CA's private key" -> HSM. "Bind disk encryption to this laptop" -> TPM.
   - **Secure boot vs. measured boot**: blocks vs. records. "Detect firmware tampering and report to a server" -> measured boot + attestation.
   - **Covert storage vs. timing**: file/lock/disk-space = storage; CPU load/response latency = timing.
+  - **Stem clue density selects benign vs. adversarial**: "erratic/anomalous process activity" on a system in a **top-secret** / military setting that is "**semi-formally designed and tested**" (= **EAL5**, 3.2) -> **covert timing channel**; the classification and assurance clues exist to rule out sloppy-ops explanations (misconfiguration, overheating) and normal behavior (multitasking). Mirror rule: no attacker signals -> missing property (D8 ACID); dense signals -> security mechanism. Example: TS data server, EAL5, CPU-time fluctuations with no functional cause = covert timing channel, NOT "multitasking load" (missed 2026-10-04: picked multitasking)
   - **Memory protection vs. process isolation vs. hardware segmentation**: OS enforcement of allocated memory vs. per-process spaces vs. hardware-enforced. Example: OS kills a process on an access violation (protection) vs. separate address spaces so mimikatz must open a handle to LSASS (isolation) vs. an SGX enclave the CPU itself refuses to let the kernel read (hardware segmentation).
   - **Reference monitor** is a concept; the **security kernel** implements it; the **TCB** is everything trusted to enforce policy (3.2).
   - **Attestation** = verify true/accurate; not authentication. Example: a TPM quote proving the laptop booted with the expected PCRs = attestation; the user proving identity at that logon = authentication.

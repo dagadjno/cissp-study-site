@@ -540,6 +540,7 @@
   - **BCP vs. DRP vs. COOP vs. ISCP**: business processes / physical site+infra / mission-essential functions (federal, 30-day cap) / single system — question gives a scenario, pick the plan by what's being restored, not by "which plan is more important"
   - **RPO is not "how fast," it's "how much data."** Confusing RPO with RTO is the single most common metric trap
   - **RTO + WRT <= MTD** — if a scenario's proposed RTO leaves no room for WRT under the stated MTD, the plan fails, even if RTO alone looks fine
+  - Symptom -> metric: missing recent data -> **RPO**; slow return -> **RTO**; restored data *invalid* -> **WRT** (verification window); total outage unsurvivable -> **MTD**. "Data problem" != RPO when the issue is correctness, not age (practice Q 2026-10-05)
   - Test order = exam favorite for "least disruptive first" / "most realistic but riskiest last" sequencing questions: checklist -> structured walk-through -> simulation -> parallel -> full-interruption
   - BCP is a **lifecycle**, not a document — "the plan is done once written" is always wrong; testing/maintenance (steps 6-7) never stop
   - BIA identifies criticality and produces MTD/RTO/RPO; it does **not** select the recovery strategy itself (that's continuity planning/step 4) — don't let a BIA-scoped question answer with a site-selection choice. Example: BIA output = "order DB: MTD 8 hrs, RPO 15 min"; picking a hot site in another region = continuity planning
@@ -556,6 +557,7 @@
   | **Due diligence** | Establishing the plan/policy/process — **knowing** what should be done | Before / ongoing research | Commissioning the pentest |
   | **Due care** | Practicing it — **doing** the right action, maintaining security after deployment | Ongoing execution | Funding the fix it flagged |
     - Due diligence without due care (research done, nobody acts on it) is a real exam scenario — diligence alone isn't a negligence defense
+    - DRP version: writing the plan/roles/procedures = diligence; **exercising/testing** it = care — "best demonstrates due care" -> successful tests, not documentation (practice Q 2026-10-05)
     - Both together are the legal defense against a **negligence** claim; missing either = exposure
   - **Organizational processes** (outline 1.3 examples: acquisitions, divestitures, governance committees [ISC2 outline]; content below [unverified]): M&A due diligence (assess a target's security posture/liabilities before acquisition; plan access/system integration or separation for a divestiture); **governance committees** (security steering committee sets policy direction, reports to the board/executive management on risk posture). Example: pre-close, the target's flat network and missing EDR get priced into the deal; post-close, the AD trust stays one-way until remediated
   - **Roles and responsibilities** (governance layer — contrast with data owner/custodian, which is domain 2's operational layer) [unverified]: board sets risk appetite -> executive management (CISO) owns the program -> steering committee coordinates cross-functional decisions -> operational teams execute

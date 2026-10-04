@@ -323,7 +323,7 @@
       "id": "01-due-care-diligence",
       "topic": "Due care / due diligence",
       "front": "Due care vs. due diligence",
-      "back": "- **Due diligence** — knowing: establishing the plan/policy/process, verifying through research, audits, monitoring\n- **Due care** — doing: acting reasonably on what diligence surfaced, and maintaining it (the prudent person standard)\n\nTogether they form the legal defense against **negligence**; the Federal Sentencing Guidelines (1991) formalized the prudent person rule and executive personal liability.\n\n- Example: due diligence = commissioning the pentest; due care = funding the fix it flagged"
+      "back": "- **Due diligence** — knowing: establishing the plan/policy/process, verifying through research, audits, monitoring\n- **Due care** — doing: acting reasonably on what diligence surfaced, and maintaining it (the prudent person standard)\n\nTogether they form the legal defense against **negligence**; the Federal Sentencing Guidelines (1991) formalized the prudent person rule and executive personal liability.\n\n- Example: due diligence = commissioning the pentest; due care = funding the fix it flagged\n- DRP example: writing the plan = diligence; exercising/testing it = care"
     },
     {
       "id": "01-policy-authority",
@@ -401,7 +401,7 @@
       "id": "01-mtd-rto-rpo-wrt",
       "topic": "Business continuity",
       "front": "MTD, RTO, WRT, RPO — define each and how they relate",
-      "back": "- **MTD** (maximum tolerable downtime) — the ceiling: total outage the business survives\n- **RTO** (recovery time objective) — target time to restore the *system*\n- **WRT** (work recovery time) — time after restore to catch up backlog and verify data\n- **RTO + WRT ≤ MTD**\n- **RPO** (recovery point objective) — how much *data loss* is tolerable, as a point in time; a separate axis from the downtime clock\n- Example: (order DB) MTD = 8 hrs before harm is unacceptable; RTO = cluster restored in 4 hrs; WRT = 2 hrs replaying queued orders; RPO = 15-min replica lag is the max data loss"
+      "back": "- **MTD** (maximum tolerable downtime) — the ceiling: total outage the business survives\n- **RTO** (recovery time objective) — target time to restore the *system*\n- **WRT** (work recovery time) — time after restore to catch up backlog and verify data\n- **RTO + WRT ≤ MTD**\n- **RPO** (recovery point objective) — how much *data loss* is tolerable, as a point in time; a separate axis from the downtime clock\n- Example: (order DB) MTD = 8 hrs before harm is unacceptable; RTO = cluster restored in 4 hrs; WRT = 2 hrs replaying queued orders; RPO = 15-min replica lag is the max data loss\n- Symptom -> metric: missing data = RPO; slow return = RTO; restored data invalid = WRT; unsurvivable outage = MTD"
     },
     {
       "id": "01-bia-steps",

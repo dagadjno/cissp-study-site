@@ -315,6 +315,7 @@
   - RAID [OSG glossary]: **RAID 0** striping, no fault tolerance; **RAID 1** mirroring (duplexing = separate controllers); **RAID 5** striping with parity (survives one disk). **RAID 6** double parity (two disks) [SNIA Dictionary]; **RAID 10** striped mirrors: RAID 0 stripe across RAID 1 mirror sets, survives one failure per mirror set [SNIA Dictionary]. Correction (audit 2026-09-28): was "mirrored stripes", which describes RAID 0+1 (a mirror of two stripe sets); SNIA defines RAID 10 as a stripe over mirrored sets
   - Metrics [OSG glossary]: **MTBF** anticipated failure interval; **MTTF** time to first failure; **MTTR** time to repair/restore; **MTD/MTO** max downtime before irreparable harm; **RTO** feasible recovery time (must be <= MTD); **RPO** acceptable data loss
 - Exam traps / distractors:
+  - **Symptom -> metric** [OSG glossary]: missing recent transactions -> **RPO** (age of last good copy); system took too long to return -> **RTO**; restored data came back *wrong/inconsistent* -> **WRT** (the integrity-verification window: reconciliation, consistency checks, interface tests); business could not survive the total outage -> **MTD** (= RTO + WRT). "Data problem -> RPO" is the reflex trap: RPO is *quantity/age* lost, WRT is *correctness* of what came back; "RPO too short" is the wrong direction (shorter = less loss). Example: DR simulation finds restored records invalid -> inadequate WRT, not RPO (missed 2026-10-05: picked RPO)
   - **Incremental vs. differential**: the only difference is the **archive bit**; "fastest nightly backup" -> incremental; "fastest restore short of full" -> differential
   - **Warm vs. hot**: warm has hardware but **no data**; the data is the expensive, hard part. "Hours" -> hot; "days" -> warm. Example: warm = racked servers at the colo, you ship tapes and load data; hot = same servers with last night's data already loaded; mirrored = already serving traffic
   - **Mirrored site vs. hot site**: hot needs data restore and activation; mirrored is already live
@@ -328,6 +329,7 @@
 - Related terms: BIA/MTD/RTO/RPO (D1 1.7), DR processes and DRP testing (7.11, 7.12), media protection (7.5), cloud shared responsibility (D3 3.5)
 - Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-34], [NIST SP 800-53], [SNIA Dictionary], [CISA], [unverified]
 
+<!-- REVIEW -->
 ## Disaster recovery processes and DRP testing (7.11, 7.12)
 - Definition (ISC2 framing): **disaster** = event bringing great damage or destruction; **disaster recovery** = recovering after a disaster destroyed the ability to perform mission-critical services; **DRP** = detailed procedures to restore partial or normal operations after a significant damaging event [OSG glossary]. DRP is the **IT/technical** subset of BCP (7.13). Outline 7.11 = response, personnel, communications, assessment, restoration, training/awareness, lessons learned; 7.12 = read-through/tabletop, walkthrough, simulation, parallel, full interruption, communications [ISC2 outline]
 - Key facts:
@@ -365,6 +367,7 @@
   - **Restoration order**: move the **least critical** functions back to the primary site first (the primary is unproven); move **most critical** functions to the alternate site first during the disaster. Example: after the flood, payroll moves to the hot site first; coming home, the intranet wiki returns to HQ first and payroll last
   - **DRP vs. BCP**: DRP = restore IT/systems after the disaster; BCP = keep the business running before/during; DRP is a component of BCP. Example: tellers switch to paper slips and calls reroute to another branch = BCP; rebuilding the core banking system at the hot site = DRP
   - **Lessons learned** applies after tests too, not only after real events
+  - **Due care vs. due diligence in DRP terms** [OSG glossary]: writing the plan, roles, declaration procedures, personnel catalog = **due diligence** (knowing/planning); **exercising/testing** the plan = **due care** (practicing, maintaining after deployment). An untested plan is not reasonable care — "which best *demonstrates/ensures* due care" -> successful testing, not documentation. Validation beats governance when the stem says ensure / demonstrate / verify / confidence; governance beats validation when it asks about authority or decision. Example: options roles outline / declaration procedure / personnel catalog / successful DRP tests -> tests (missed 2026-10-05: picked roles and responsibilities)
   - DR communications distractor: relying on the corporate email/phone system that is itself down - answer = **out-of-band** predefined methods
 - Related terms: recovery strategies (7.10), BC planning (7.13), BIA/MEF/COOP (D1 1.7), incident lessons learned (7.6), OEP (7.15)
 - Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-34]
