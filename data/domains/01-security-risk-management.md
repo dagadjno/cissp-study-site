@@ -8,7 +8,7 @@
   - **Professional ethics** — ISC2 Code, know it cold — 1.1 [ISC2 outline]
   - **Security governance** principles — 1.3 [ISC2 outline]
   - **Policy / standard / procedure / guideline** hierarchy — 1.6 [ISC2 outline]
-- Correction to source video: **ITIL** (Information Technology Infrastructure Library) is not an outline-listed governance framework; 1.3 lists ISO, NIST, **COBIT** (Control Objectives for Information and Related Technologies), SABSA (Sherwood Applied Business Security Architecture), PCI (Payment Card Industry), FedRAMP (Federal Risk and Authorization Management Program) [ISC2 outline]. ITIL = IT service management; COBIT is the governance answer, ITIL the distractor.
+- Correction to source video: **ITIL** (Information Technology Infrastructure Library) is not an outline-listed governance framework; 1.3 lists ISO, NIST, **COBIT** (Control Objectives for Information and Related Technologies), SABSA (Sherwood Applied Business Security Architecture), PCI (Payment Card Industry), FedRAMP (Federal Risk and Authorization Management Program) [ISC2 outline]. ITIL = IT service management; COBIT is the governance answer, ITIL the distractor. Example: COBIT = the board asking whether IT risk sits inside appetite; ITIL = the ServiceNow incident/change workflow the SOC files tickets in.
 - Mandatory vs. discretionary: policies, standards, procedures, baselines mandatory; **guidelines** only discretionary [OSG glossary]
 - Exam traps / distractors: **ITIL vs. COBIT**; guideline offered where enforcement is required
 - Sources: [ISC2 outline], [unverified]
@@ -16,14 +16,14 @@
 ## CIA triad / five pillars
 - Definition (ISC2 framing): 2024 outline 1.2 lists **five pillars**: confidentiality, integrity, availability, **authenticity**, **nonrepudiation** [ISC2 outline]
 - Key facts:
-  - **Authenticity** = genuine, from claimed origin; adjacent to integrity but about source, not modification [OSG glossary]
-  - **Nonrepudiation** = actor cannot deny the event; canonical control = **digital signature** [OSG glossary]
-  - **Availability** includes timely and uninterrupted access, not just uptime [OSG glossary]
+  - **Authenticity** = genuine, from claimed origin; adjacent to integrity but about source, not modification [OSG glossary]. Example: spoofed `From:` header = authenticity failure even with a byte-perfect body; a MITM editing the body = integrity failure
+  - **Nonrepudiation** = actor cannot deny the event; canonical control = **digital signature** [OSG glossary]. Example: a GPG-signed git commit vs. a bare author field anyone can set
+  - **Availability** includes timely and uninterrupted access, not just uptime [OSG glossary]. Example: SIEM is up but a 24-hr search takes 40 min = availability failure
   - Formal C-I-A definitions: **FIPS 199** (Federal Information Processing Standards) Section 3, each quoted from **44 U.S.C.** (United States Code) **Sec. 3542** (FISMA — Federal Information Security Management Act) [NIST FIPS 199]
   - FISMA's integrity definition explicitly includes nonrepudiation and authenticity — supports the five-pillar grouping [NIST FIPS 199]
   - **DAD triad** = disclosure, alteration, destruction; failure states of C-I-A [OSG glossary]
 - Exam traps / distractors:
-  - **MAC/HMAC** (message authentication code / hash-based MAC) = integrity + authentication, NO nonrepudiation (shared symmetric key); **digital signature** = adds nonrepudiation [OSG glossary]
+  - **MAC/HMAC** (message authentication code / hash-based MAC) = integrity + authentication, NO nonrepudiation (shared symmetric key); **digital signature** = adds nonrepudiation [OSG glossary]. Example: JWT HS256 (HMAC, shared secret) — either side could have minted it; RS256 — only the private-key holder
   - Spoofed-origin scenario -> **authenticity**, with integrity as distractor
   - "Primarily protects" questions: encryption->**C**, hashing->**I**, redundancy/backup->**A**; distractors are adjacent pillars [unverified]
 - Related terms: DAD triad, digital signature, HMAC, FIPS 199 security categorization
@@ -45,10 +45,10 @@
   - Enforcement: **sworn affidavit** -> Professional Conduct Committee -> board; sanction = **revocation** [ISC2 ethics page]
   - **Organizational code of ethics** (1.1, distinct from the ISC2 Code above): an org's own conduct code — not certification-enforced, no Professional Conduct Committee; violations are an HR/employment matter, not a cert-revocation matter. Should be published, require acknowledgment, and align with (not contradict) the ISC2 Code for a certified professional's dual obligation [unverified]
 - Exam traps / distractors:
-  - Employer-pressure scenarios: canon 3 pull is the trap; canons 1-2 outrank -> refuse/report
-  - "**Be seen to adhere**" -> undisclosed conflict of interest violates Code even without bad acts
+  - Employer-pressure scenarios: canon 3 pull is the trap; canons 1-2 outrank -> refuse/report. Example: told to bury the breach until after quarter close -> canons 1-2 win, report it
+  - "**Be seen to adhere**" -> undisclosed conflict of interest violates Code even without bad acts. Example: recommending the EDR vendor your spouse sells for without disclosing it
   - **RFC 1087** (Request for Comments; IAB — Internet Activities Board — "Ethics and the Internet") as distractor for ISC2 Code questions [RFC 1087]
-  - ISC2 Code violation -> **cert revocation** path; org code violation -> **HR/termination** path — different consequence tracks, don't merge them
+  - ISC2 Code violation -> **cert revocation** path; org code violation -> **HR/termination** path — different consequence tracks, don't merge them. Example: padding an expense report -> HR only; falsifying a pentest report -> HR AND ISC2 revocation
 - Related terms: security governance principles (1.3, due care), RFC 1087
 - Sources: [ISC2 ethics page], [RFC 1087], [unverified]
 
@@ -56,18 +56,18 @@
 - Definition (ISC2 framing): formal security documentation levels: **policy -> standard -> baseline -> guideline -> procedure**; standards+baselines share a tier, giving "four levels of policy development" [OSG glossary]
 - Key facts: [OSG glossary]
 
-  | Level | Function | Binding? |
-  | --- | --- | --- |
-  | **Policy** | Management intent, scope, roles | Mandatory |
-  | **Standard** | Compulsory uniform requirements | Mandatory |
-  | **Baseline** | Minimum security level to meet | Mandatory |
-  | **Guideline** | Recommendations, methodologies | **Discretionary** |
-  | **Procedure** | Step-by-step how-to (SOP — standard operating procedure) | Mandatory |
+  | Level | Function | Binding? | Example |
+  | --- | --- | --- | --- |
+  | **Policy** | Management intent, scope, roles | Mandatory | CEO-signed "protect data per classification" |
+  | **Standard** | Compulsory uniform requirements | Mandatory | "Remote access = VPN+MFA" |
+  | **Baseline** | Minimum security level to meet | Mandatory | CIS L1 image every laptop matches |
+  | **Guideline** | Recommendations, methodologies | **Discretionary** | "Consider passphrases over passwords" |
+  | **Procedure** | Step-by-step how-to (SOP — standard operating procedure) | Mandatory | AD user-onboarding runbook |
 
-  - Policy types by purpose: **regulatory** (law/industry-required), **advisory** (most policies; behavior + consequences), **informative** (unenforceable) [OSG glossary]
-  - Policy scope: **organizational** (whole org) vs. **issue-specific** (one service/function) [OSG glossary]; NIST triple = **program / issue-specific / system-specific** policy, SP 800-12 Rev. 1 Secs. 5.2-5.4 (NIST's "program policy" = OSG's "organizational policy") [NIST SP 800-12]
-  - **AUP** (acceptable use policy) = issue-specific policy defining acceptable activity/use of company resources; NOT the role-assigning document (that is the **organizational security policy**) [OSG glossary]
-  - "Mandatory" binds via **senior management** authority + employment/contract relationship; sanction = **disciplinary, not legal** (law binds only via the regulation behind a regulatory policy, or independently criminal acts). Management official issues program policy, SP 800-12 Rev. 1 Sec. 5.2 [NIST SP 800-12]. Enforced policy evidences **due care** in negligence claims [unverified]
+  - Policy types by purpose: **regulatory** (law/industry-required), **advisory** (most policies; behavior + consequences), **informative** (unenforceable) [OSG glossary]. Example: regulatory = HIPAA-driven PHI handling policy; advisory = AUP with disciplinary consequences; informative = the "why security matters" intro page
+  - Policy scope: **organizational** (whole org) vs. **issue-specific** (one service/function) [OSG glossary]; NIST triple = **program / issue-specific / system-specific** policy, SP 800-12 Rev. 1 Secs. 5.2-5.4 (NIST's "program policy" = OSG's "organizational policy") [NIST SP 800-12]. Example: program = the master infosec policy; issue-specific = remote-work policy; system-specific = the SIEM's own access rules
+  - **AUP** (acceptable use policy) = issue-specific policy defining acceptable activity/use of company resources; NOT the role-assigning document (that is the **organizational security policy**) [OSG glossary]. Example: "no personal cloud storage on corp laptops" = AUP; "the CISO owns the program" = organizational security policy
+  - "Mandatory" binds via **senior management** authority + employment/contract relationship; sanction = **disciplinary, not legal** (law binds only via the regulation behind a regulatory policy, or independently criminal acts). Management official issues program policy, SP 800-12 Rev. 1 Sec. 5.2 [NIST SP 800-12]. Enforced policy evidences **due care** in negligence claims [unverified]. Example: USB-policy violation -> written warning/termination, not a fine or charge — unless the same act also broke HIPAA
   - Standard attaches to an **activity** (uniform org-wide rule: "remote access = VPN+MFA"); baseline attaches to a **system** (minimum config state vs. a reference: golden image, CIS level) [OSG glossary]. Baselines leveled via **SP 800-53B** "Control Baselines for Information Systems and Organizations": low/moderate/high security baselines + privacy baseline, with tailoring and overlays [NIST SP 800-53B]
 - Exam traps / distractors:
   - "Which is NOT mandatory" -> **guideline**
@@ -91,9 +91,9 @@
   | Human error | Any | Accidental |
   | Application error | Losses, disclosure | Structural |
 
-  - **Vulnerability** includes the absence of a safeguard, not only a flaw [OSG glossary]
+  - **Vulnerability** includes the absence of a safeguard, not only a flaw [OSG glossary]. Example: no MFA on the VPN is a vulnerability with zero CVEs involved
 - Exam traps / distractors:
-  - **Threat vs. vulnerability vs. risk** definitional swaps — top 1.9 question type
+  - **Threat vs. vulnerability vs. risk** definitional swaps — top 1.9 question type. Example: threat = ransomware affiliate; vulnerability = unpatched Exchange with no EDR on it; risk = likelihood x impact of that box getting encrypted
   - Attacks include **internal** actors; distractor assumes external-only
   - Adversarial-looking scenario caused by misconfiguration = **accidental** -> answer is training/process
   - **SP 800-30** (assessment) vs. **SP 800-37** (RMF process) pairing
@@ -114,7 +114,7 @@
 - Exam traps / distractors:
   - Horizon tells: "mission/5 years"->**strategic**; "this year/budget"->**tactical**; "monthly/step-by-step"->**operational**
   - **Budget = tactical**, not strategic
-  - Plans (time axis) vs. **policy/standard/procedure** (authority axis) — questions swap axes
+  - Plans (time axis) vs. **policy/standard/procedure** (authority axis) — questions swap axes. Example: "patch cycle runs monthly" in the operational plan = schedule; "criticals patched within 14 days" in a standard = rule
   - Approval authority -> **senior management**
 - Related terms: security documentation hierarchy (1.6), governance alignment (1.3), planning horizon
 - Sources: [OSG glossary], [unverified]
@@ -138,9 +138,9 @@
   - **Appetite** = total risk org chooses to bear; **tolerance** = ability to absorb realized losses [OSG glossary]
   - **No ranked order** among responses — selection is cost/benefit vs. risk appetite; below-appetite risk -> accept immediately. Acceptance is dual: chosen response AND mandatory endpoint — every treatment ends with documented acceptance of residual (`risk -> treat -> residual -> accept`) [unverified]
 - Exam traps / distractors:
-  - **Accept vs. reject** = documented conscious decision vs. undocumented ignoring (negligence/due care failure)
-  - **Insurance = transfer**, not acceptance/mitigation; consequence transfers, **accountability does not** [unverified]
-  - **Avoid vs. mitigate**: activity eliminated vs. activity continued with controls
+  - **Accept vs. reject** = documented conscious decision vs. undocumented ignoring (negligence/due care failure). Example: accept = CISO-signed memo "SCADA stays unpatched, segmented, revisit Q3"; reject = vuln ticket closed "won't fix", no analysis
+  - **Insurance = transfer**, not acceptance/mitigation; consequence transfers, **accountability does not** [unverified]. Example: insurer pays the ransomware recovery bill; the regulator still fines you and the CEO still testifies
+  - **Avoid vs. mitigate**: activity eliminated vs. activity continued with controls. Example: avoid = decommission the public FTP server; mitigate = keep it, firewall it to partner IPs
   - ISO 31000 vocabulary swap: modify=mitigate, retain=accept, share=transfer. Audit 2026-09-01: iso.org full text paywalled; retain/share/modify/avoid vocabulary corroborated by iso.org search snippets only — not primary-verified [unverified]. Audit 2026-09-28: iso.org/standard/65694 returns HTTP 403 to fetch; still unverified
   - "Reduce risk to zero" always wrong
   - Fixed-sequence options ("always mitigate first") are distractors — no prescribed response order
@@ -166,10 +166,10 @@
   - Mnemonic: **P-C-SIAM**
   - **Authorize = documented risk acceptance** (AO = Authorizing Official; ATO = Authorization to Operate) — federal form of the acceptance memo
 - Exam traps / distractors:
-  - **800-37 vs. 800-30 vs. 800-39**: RMF process vs. risk assessment guide vs. enterprise risk strategy
+  - **800-37 vs. 800-30 vs. 800-39**: RMF process vs. risk assessment guide vs. enterprise risk strategy. Example: 800-30 = the spreadsheet scoring one system's threats; 800-37 = the steps that get that system an ATO; 800-39 = the agency-wide risk strategy the AO applies
   - "First RMF step" -> **Prepare** (Rev. 2); six-step lists starting Categorize are outdated
-  - "Who accepts risk" -> **AO** (senior official), not ISSO (Information System Security Officer)/assessor
-  - **RMF vs. CSF** (Cybersecurity Framework): federal/compliance/system-level vs. voluntary/outcome-based/any org
+  - "Who accepts risk" -> **AO** (senior official), not ISSO (Information System Security Officer)/assessor. Example: ISSO writes the system security plan and remediation plan; AO signs the ATO
+  - **RMF vs. CSF** (Cybersecurity Framework): federal/compliance/system-level vs. voluntary/outcome-based/any org. Example: RMF = DoD system needs an ATO before go-live; CSF = mid-size retailer self-rates its Detect function, no certificate issued
 - Related terms: FIPS 199 (five pillars entry), risk responses (acceptance), SP 800-53 control baselines, CSF
 - Real-world risk methodologies (low exam weight per OSG; not in OSG glossary [unverified]):
   - **OCTAVE** (Operationally Critical Threat, Asset, and Vulnerability Evaluation) — Carnegie Mellon SEI (Software Engineering Institute); self-directed, asset-driven org risk assessment — SEI "Introduction to the OCTAVE Approach" (2003) Sec. 2.2 [SEI OCTAVE]
@@ -190,11 +190,11 @@
 
   - Inherent vs. total near-synonyms: formula context -> **total**; "before anything" context -> **inherent** [unverified]
   - Exam note: treat **inherent ≈ total** — both = pre-safeguard risk; they won't compete as options. Match the word to the phrasing (formula -> total; narrative -> inherent)
-  - **Appetite** = risk org chooses to bear; **tolerance** = ability to absorb losses; **capacity** = risk org is able to shoulder; appetite may exceed capacity (testable mismatch) [OSG glossary]
+  - **Appetite** = risk org chooses to bear; **tolerance** = ability to absorb losses; **capacity** = risk org is able to shoulder; appetite may exceed capacity (testable mismatch) [OSG glossary]. Example: appetite = board chooses to run the legacy app unsegmented another year; tolerance = finance can absorb the outages it causes; capacity = whether a breach there would sink the company
 - Exam traps / distractors:
   - **Residual never zero**; formally accepted by senior management
   - Inherent vs. residual swap on post-control scenarios
-  - **Controls gap** = a difference, not a held risk
+  - **Controls gap** = a difference, not a held risk. Example: patching cut ALE from $120K to $30K — the $90K is the controls gap, the $30K is residual
   - Appetite (choice) vs. **capacity** (ability to survive loss)
 - Related terms: risk responses (residual formula), risk acceptance, ALE/cost-benefit
 - Sources: [OSG glossary], [unverified]
@@ -218,7 +218,7 @@
   - **EF = percentage, ARO = frequency**; ARO can be >1 or fractional
   - **SLE vs. ALE**: one incident vs. per-year — read the question's timeframe
   - **Delphi = anonymous**; "group discussion" option = brainstorming
-  - Qualitative is CORRECT (not fallback) when numbers unreliable or speed matters; "quantitative always better" = wrong
+  - Qualitative is CORRECT (not fallback) when numbers unreliable or speed matters; "quantitative always better" = wrong. Example: rating brand damage from a leaked exec inbox high/med/low beats a dollar figure invented from an industry average
   - Pure quantitative impossible; absolutist options fail [unverified]
   - Breach-impact answer that stops at asset rebuild cost ignores **delayed loss**
 - Related terms: types of risk (controls gap), risk responses (cost/benefit), FAIR (quantitative methodology)
@@ -245,9 +245,9 @@
   - Federal anchor: **SP 800-161 Rev. 1** "Cybersecurity Supply Chain Risk Management Practices for Systems and Organizations" (C-SCRM); its abstract names malicious functionality, **counterfeits**, poor manufacturing/development practices — mirrors outline 1.11 risks [NIST SP 800-161]
 - Exam traps / distractors:
   - Un-inspectable vendor -> **third-party audit/attestation**, not informal review or pentest results
-  - **RoT vs. PUF**: boot-integrity anchor vs. identity fingerprint — distractors swap
-  - Minimum requirements go **in the contract**; trust-based options lose
-  - SCRM = proactive governance (D1); detecting poisoned update = operations (D7)
+  - **RoT vs. PUF**: boot-integrity anchor vs. identity fingerprint — distractors swap. Example: RoT = TPM-measured boot refusing a tampered bootloader; PUF = chip answering a challenge only genuine silicon can, exposing a counterfeit NIC
+  - Minimum requirements go **in the contract**; trust-based options lose. Example: "MSP runs EDR on every endpoint touching our tenant" written into the master services agreement; not "their sales deck says so"
+  - SCRM = proactive governance (D1); detecting poisoned update = operations (D7). Example: requiring SBOMs and signed updates in vendor contracts = SCRM; SIEM alert on a SolarWinds-style trojaned update beaconing = D7
 - Related terms: third-party assessment, SOC 2 (Domain 6), vendor agreements (1.8), minimum security requirements
 - Sources: [OSG glossary], [ISC2 outline], [unverified]
 
@@ -256,14 +256,14 @@
 - Key facts:
   - **STRIDE** = Microsoft threat categorization scheme [OSG glossary]; property mapping per Microsoft SDL threat-modeling docs [Microsoft SDL]:
 
-  | Letter | Threat | Property violated |
-  | --- | --- | --- |
-  | **S**poofing | Fake identity/origin | Authentication / authenticity |
-  | **T**ampering | Unauthorized modification | Integrity |
-  | **R**epudiation | Deny having acted | Nonrepudiation |
-  | **I**nformation disclosure | Data exposure | Confidentiality |
-  | **D**enial of service | Resource exhaustion | Availability |
-  | **E**levation of privilege | Gain unauthorized rights | Authorization |
+  | Letter | Threat | Property violated | Example |
+  | --- | --- | --- | --- |
+  | **S**poofing | Fake identity/origin | Authentication / authenticity | Forged Kerberos ticket, spoofed From: |
+  | **T**ampering | Unauthorized modification | Integrity | Cookie edited to role=admin |
+  | **R**epudiation | Deny having acted | Nonrepudiation | No audit log; "I never ran that" |
+  | **I**nformation disclosure | Data exposure | Confidentiality | Stack trace leaking DB creds |
+  | **D**enial of service | Resource exhaustion | Availability | SYN flood, regex backtracking |
+  | **E**levation of privilege | Gain unauthorized rights | Authorization | SQLi to xp_cmdshell as SYSTEM |
 
   - **DREAD** = rating system: Damage, Reproducibility, Exploitability, Affected users, Discoverability [OSG glossary]
   - **PASTA** (Process for Attack Simulation and Threat Analysis) = seven-step methodology [OSG glossary]; **risk-centric** — starts from business objectives, ends at management risk decision. Stages (verify OSG ch. 1) [unverified]:
@@ -278,10 +278,10 @@
   - **VAST** (Visual, Agile, and Simple Threat) = Agile-integrated modeling [OSG glossary]
   - **Trike** = risk-based alternative to STRIDE/DREAD aggregation [OSG glossary]; **open-source**, implements a **requirements model** — ensures the assigned risk level for each asset is "acceptable" to **stakeholders** (course video) [Trike project]: octotrike.org README (open source, begun 2006); Trike v1 Methodology paper, intro goal 1 (risk to each asset acceptable to all stakeholders) + Sec. 1 Requirements Model (actors, assets, intended actions, rules)
 - Exam traps / distractors:
-  - **STRIDE categorizes, DREAD scores** — the recurring pair
-  - **Repudiation vs. spoofing**: deny-after-the-fact vs. lie-about-identity (same axis as authenticity/nonrepudiation pillar split)
+  - **STRIDE categorizes, DREAD scores** — the recurring pair. Example: STRIDE says "this is Tampering"; DREAD says "it's a 9 — all users affected, trivially reproducible"
+  - **Repudiation vs. spoofing**: deny-after-the-fact vs. lie-about-identity (same axis as authenticity/nonrepudiation pillar split). Example: spoofing = logging in as Bob with his stolen creds; repudiation = Bob doing it himself and denying it because nothing signed proves it
   - "Seven steps"/"attack simulation" -> **PASTA**; "Agile" -> **VAST**
-  - Threat modeling = design-time risk input (D1), NOT penetration testing (D6)
+  - Threat modeling = design-time risk input (D1), NOT penetration testing (D6). Example: DFD review in sprint planning finds the missing authz check; the pentest finds the same hole after go-live
 - Related terms: five pillars (property mapping), risk categories (adversarial sources), SP 800-30 threat sources, TARA
 - Sources: [OSG glossary], [ISC2 outline], [Trike project], [unverified]
 - **Reduction analysis** (aka decomposing): divide target into smaller containers (modules / hosts+protocols / departments) to understand logic + external interactions; evaluate each sub-element's inputs, processing, security, data mgmt, storage, outputs [OSG glossary]. = the DFD step of STRIDE workflows; = PASTA stage 3 (ADA). Five things to identify (verify OSG ch. 1) [unverified]:
@@ -294,7 +294,7 @@
   | 4 | **Privileged operations** | Anything running elevated |
   | 5 | **Security stance / approach** | Declared policy, assumptions |
 
-  - Traps: decompose BEFORE categorizing threats; distinct from **attack surface reduction** (hardening, not modeling)
+  - Traps: decompose BEFORE categorizing threats; distinct from **attack surface reduction** (hardening, not modeling). Example: drawing the DFD and marking where the web tier crosses into the DB = decomposition; disabling SMBv1 = attack surface reduction
 
 ## COBIT basics
 - Definition (ISC2 framing): **ISACA** (Information Systems Audit and Control Association) framework for **governance and management of enterprise IT**; describes common requirements orgs should have around information systems [OSG glossary]
@@ -310,7 +310,7 @@
   | 5 | **Tailored to enterprise needs** | Customize via design factors |
   | 6 | **End-to-end governance system** | All enterprise functions, not just IT dept |
 
-  - Principle 4 = the tested one: governance (board: evaluate/direct/monitor) vs. management (plan/build/run)
+  - Principle 4 = the tested one: governance (board: evaluate/direct/monitor) vs. management (plan/build/run). Example: board asks "is ransomware exposure inside appetite?" = governance; CISO picks the EDR and sets the patch SLA = management
   - ISACA also runs CISA -> COBIT pairs with IT **audit** language
 - Exam traps / distractors — framework-for-purpose matching:
 
@@ -322,7 +322,7 @@
   | Voluntary cyber risk outcomes, any org | NIST CSF |
   | Corporate internal control / SOX | **COSO** [COSO] |
 
-  - COSO = Committee of Sponsoring Organizations of the Treadway Commission; Internal Control - Integrated Framework (1992, refreshed 2013), used for **SOX Sec. 404** compliance [COSO]
+  - COSO = Committee of Sponsoring Organizations of the Treadway Commission; Internal Control - Integrated Framework (1992, refreshed 2013), used for **SOX Sec. 404** compliance [COSO]. Example: COSO = CFO's SOX 404 attestation that financial-reporting controls work; COBIT = the IT-process control objectives auditors test underneath it
 - Related terms: governance alignment (1.3), ITIL-vs-COBIT (key areas entry), ISO 27001, NIST CSF, COSO
 - Sources: [OSG glossary], [ISACA], [COSO]
 
@@ -342,7 +342,7 @@
 - Exam traps / distractors:
   - Category vs. type axes never mix: "detective" is not a category, "physical" is not a type
   - Classification pairs: training = admin + preventive; guard = physical + preventive/deterrent; log review = technical + detective
-  - **Defense in depth** = layering across categories; "control failed" -> add different-category layer
+  - **Defense in depth** = layering across categories; "control failed" -> add different-category layer. Example: EDR missed the loader (technical) -> add macro-blocking policy + phishing training (administrative), not a second EDR
 - Related terms: control types (preventive/detection/corrective, 1.9 — future entry), defense in depth (3.1), physical security (7.14)
 - Sources: [OSG glossary], [ISC2 outline], [NIST SP 800-53 Rev. 3], [NIST SP 800-18]
 
@@ -362,9 +362,9 @@
 
   - Timeline: before -> deterrent/preventive/directive; at discovery -> detective; after -> corrective/recovery
 - Exam traps / distractors:
-  - **Preventive vs. deterrent**: works without attacker's cooperation vs. works on their decision
+  - **Preventive vs. deterrent**: works without attacker's cooperation vs. works on their decision. Example: the ACL drops the packet whether or not the attacker read the "activity monitored" banner
   - **Corrective vs. recovery**: minor return-to-normal vs. advanced restoration (recovery = extension of corrective) [OSG glossary]
-  - **Directive vs. deterrent**: compliance-oriented instruction vs. consequence-oriented discouragement
+  - **Directive vs. deterrent**: compliance-oriented instruction vs. consequence-oriented discouragement. Example: "badge in at the turnstile" sign vs. "CCTV in operation, violators prosecuted" sign
   - **Compensating** = primary control infeasible -> equivalent alternative (PCI vocabulary)
 - Related terms: control categories (previous entry), outline 1.9 types (preventive, detection, corrective) [ISC2 outline], defense in depth
 - Sources: [OSG glossary], [ISC2 outline]
@@ -382,10 +382,10 @@
 
   - Categories + CFR anchor [OSG glossary]; burden-of-proof columns (verify OSG legal ch.) [unverified]
   - Burden borne by the party bringing the action (prosecutor/plaintiff/agency); intermediate standard "clear and convincing" (highly probable) appears in some civil/admin matters [unverified]
-  - Same breach -> criminal + civil + administrative proceedings on same facts; can lose civil after winning criminal (lower bar)
+  - Same breach -> criminal + civil + administrative proceedings on same facts; can lose civil after winning criminal (lower bar). Example: ransomware operator prosecuted (criminal), customers' class action (civil), HHS Office for Civil Rights fine for the HIPAA gap (administrative)
   - Collect evidence to the **highest** standard regardless of current proceeding — may escalate (1.5, D7 forensics)
   - Parallels **investigation types (1.5)**: administrative, criminal, civil, regulatory [ISC2 outline]
-  - **PCI DSS = contractual, not law** — merchant-agreement enforcement, card-brand fines (verify OSG ch. 4) [unverified]. Enforcement model confirmed: PCI SSC manages the standard, compliance "enforced by the founding members" (card brands), each brand runs its own enforcement program, validation reported to acquiring banks — PCI SSC Quick Reference Guide, "Overview of PCI Requirements" + "How to Comply" [PCI SSC]; fine amounts not stated there
+  - **PCI DSS = contractual, not law** — merchant-agreement enforcement, card-brand fines (verify OSG ch. 4) [unverified]. Enforcement model confirmed: PCI SSC manages the standard, compliance "enforced by the founding members" (card brands), each brand runs its own enforcement program, validation reported to acquiring banks — PCI SSC Quick Reference Guide, "Overview of PCI Requirements" + "How to Comply" [PCI SSC]; fine amounts not stated there. Example: non-compliant merchant fined by Visa via its acquiring bank, may lose card acceptance — no prosecutor involved
   - Key US computer-crime-adjacent laws [OSG glossary]:
 
   | Law | What it does | Hook |
@@ -404,14 +404,14 @@
     - **Computer as target**: the attack itself harms the system (DoS, destructive malware, rootkit install)
     - **Computer as tool**: computer used to commit an unrelated crime (fraud, phishing, IP theft)
     - **Computer incidental**: computer merely stores evidence of a crime that doesn't need it (e.g., a drug ledger kept in a spreadsheet)
-  - **Transborder data flow**: moving personal data across national borders, where the destination country's data-protection law may be weaker than the origin's — the general problem GDPR's Art. 3/Ch. V mechanisms (adequacy decision, **SCCs** = Standard Contractual Clauses, **BCRs** = Binding Corporate Rules) solve for EU data specifically (see privacy laws entry); the concept generalizes to any cross-border transfer, not just EU-origin [unverified]. Core definition sourced: "transborder flows of personal data" = "movements of personal data across national borders" — **OECD Privacy Guidelines** (1980, rev. 2013) Annex Part One para. 1(e) [OECD]; outline 1.4 lists "Transborder data flow" [ISC2 outline]. The "weaker destination law" rationale remains unsourced
+  - **Transborder data flow**: moving personal data across national borders, where the destination country's data-protection law may be weaker than the origin's — the general problem GDPR's Art. 3/Ch. V mechanisms (adequacy decision, **SCCs** = Standard Contractual Clauses, **BCRs** = Binding Corporate Rules) solve for EU data specifically (see privacy laws entry); the concept generalizes to any cross-border transfer, not just EU-origin [unverified]. Core definition sourced: "transborder flows of personal data" = "movements of personal data across national borders" — **OECD Privacy Guidelines** (1980, rev. 2013) Annex Part One para. 1(e) [OECD]; outline 1.4 lists "Transborder data flow" [ISC2 outline]. The "weaker destination law" rationale remains unsourced. Example: EU customer table replicated to a us-east-1 read replica = a transfer needing adequacy/SCCs
 - Exam traps / distractors:
   - Classify the proceeding: regulator fine -> **administrative**; lawsuit -> **civil**; prosecution -> **criminal**
   - **PCI as "regulation/legislation"** = wrong option
   - Data-to-law matching: health->HIPAA, cardholder->PCI (contractual), EU persons->GDPR
   - Legal interpretation needed -> involve **legal counsel** (CISO answer)
   - Internal/HR investigation does NOT require criminal standard, but sloppy handling forecloses criminal referral
-  - This entry's "administrative" = a **category of law** (agency rulemaking, CFR, substantial-evidence standard). 1.5's "administrative investigation" = a different axis, an **internal/HR-conducted** investigation — same word, two ISC2 taxonomies; don't cross-wire (see investigation types entry)
+  - This entry's "administrative" = a **category of law** (agency rulemaking, CFR, substantial-evidence standard). 1.5's "administrative investigation" = a different axis, an **internal/HR-conducted** investigation — same word, two ISC2 taxonomies; don't cross-wire (see investigation types entry). Example: FTC rule in the CFR = administrative law; HR reviewing a staffer's proxy logs = administrative investigation
 - Related terms: regulatory policy (1.6 entry), investigation types and evidence (1.5, own entry), privacy laws (GDPR/CCPA, transborder mechanisms), security governance principles (1.3, due care)
 - Sources: [OSG glossary], [ISC2 outline], [congress.gov], [copyright.gov], [PCI SSC], [USSC Ch. 8], [govinfo], [44 U.S.C. 3554], [state.gov], [wassenaar.org], [OECD], [unverified]
 
@@ -426,7 +426,7 @@
   | **Trademark** | Words/slogans/logos identifying company | Renewable indefinitely [uspto.gov] | Brand identity, not tech |
   | **Trade secret** | Business-critical secret info | While secret | No registration; **disclosed = gone** |
 
-  - Patent vs. trade secret tradeoff: ~20-yr monopoly + publication vs. indefinite protection + zero remedy after leak
+  - Patent vs. trade secret tradeoff: ~20-yr monopoly + publication vs. indefinite protection + zero remedy after leak. Example: patent the hardware-token design (published, 20-yr monopoly); keep the detection-rule corpus a trade secret (NDA-guarded, gone if leaked)
   - Trademark renewal: Sec. 8 declaration (5th-6th yr, 9th-10th yr, every 10 yrs after) + Sec. 9 renewal every 10 yrs; lasts as long as use continues and filings are kept up — USPTO "Keeping your registration alive" [uspto.gov]
   - **Economic Espionage Act**: trade-secret theft for foreign gov't -> up to $500K + 15 yrs; otherwise $250K + 10 yrs [OSG glossary]; year 1996 — Pub. L. 104-294, approved Oct 11, 1996 [govinfo]. **Correction (audit 2026-09-28)**: $500K is the original 1996 figure. **Pub. L. 112-269** (Jan 14, 2013) raised the individual maximum under **18 U.S.C. 1831(a)** to **$5,000,000** (+15 yrs); organizations: greater of $10M or 3x the value of the stolen secret (1831(b)). 18 U.S.C. 1832 (non-foreign theft): individual "fined under this title" + up to 10 yrs (the $250K figure is the general 18 U.S.C. 3571 felony cap, not fetched); organizations: greater of $5M or 3x value [18 U.S.C. 1831-1832]. OSG figures may still be the exam answer
   - License types (verify OSG ch. 4) [unverified]:
@@ -439,7 +439,7 @@
   | **Cloud services** | Using the service |
 
 - Exam traps / distractors:
-  - Source code = **copyright AND trade secret** simultaneously — "pick one" options wrong
+  - Source code = **copyright AND trade secret** simultaneously — "pick one" options wrong. Example: leaked EDR-agent source = trade secret gone the moment it's public, copyright still bars republishing it
   - "Patent it to keep it secret" = self-contradicting (patents publish)
   - Confidential-forever algorithm -> **trade secret**; exclusivity w/ disclosure OK -> **patent**
   - Trademark **(TM)** = unregistered claim vs. **(R)** = registered
@@ -471,10 +471,10 @@
 
   - GDPR specifics: extraterritorial (Art. 3); rights = access, rectification, **erasure** (Art. 17), portability; **72-hr** breach notify to the supervisory authority (Art. 33); transfers need adequacy decision or SCCs. Article numbers corroborated 2026-09-04 against a faithful GDPR text mirror (gdpr.algolia.com); **eur-lex full-text fetch failed again** (2nd attempt, after 2026-09-01) — treat numbers as corroborated-not-primary [GDPR text mirror]. **Correction 2026-09-04**: the earlier "fines to 4% global revenue (Art. 83)" was incomplete — Art. 83 has **two tiers**: 83(4) up to **EUR 10M or 2%** of worldwide annual turnover, 83(5) up to **EUR 20M or 4%**, in each case **whichever is higher**. Full treatment in the dedicated GDPR entry below
 - Exam traps / distractors:
-  - **ITAR vs. EAR**: munitions/State vs. dual-use/Commerce — standard swap
-  - **ECPA** restrains providers/private parties, not only government
+  - **ITAR vs. EAR**: munitions/State vs. dual-use/Commerce — standard swap. Example: missile guidance firmware = ITAR; your AES-256 VPN appliance = EAR
+  - **ECPA** restrains providers/private parties, not only government. Example: a mail provider handing message bodies to an advertiser without authorization, not just a warrantless wiretap
   - GLBA origin = deregulation; privacy rules rode along
-  - HIPAA -> business associates **directly liable** via **HITECH (2009)** Sec. 13401 — Security Rule safeguards apply to BAs as to covered entities; BAs must notify the covered entity of breaches [HHS]
+  - HIPAA -> business associates **directly liable** via **HITECH (2009)** Sec. 13401 — Security Rule safeguards apply to BAs as to covered entities; BAs must notify the covered entity of breaches [HHS]. Example: the MSSP monitoring a hospital's patient-record servers is a BA — fined directly if its own controls fail
   - "US law resembling GDPR" -> **CCPA**
 - Related terms: transborder data flow (1.4, own entry later), DMCA/IP (licensing entry), FISMA, data protection methods (2.6)
 - Sources: [OSG glossary], [ISC2 outline], [congress.gov], [FTC], [oag.ca.gov], [HHS], [state.gov], [wassenaar.org], [eCFR 15 CFR 740 Supp. 1], [bis.gov], [unverified]
@@ -506,12 +506,12 @@
     - Impact quantification reuses the qualitative/quantitative toolkit (AV/EF/SLE/ARO/ALE, Delphi) — see quant/qual risk analysis entry
   - Recovery metrics [NIST SP 800-34]:
 
-  | Term | Definition |
-  | --- | --- |
-  | **MTD** (Maximum Tolerable Downtime) | Ceiling — total outage time the business can survive before unacceptable harm |
-  | **RTO** (Recovery Time Objective) | Target time to get the **system** back up; must fit inside MTD |
-  | **WRT** (Work Recovery Time) | Time after the system's back to catch up data entry/backlog and verify |
-  | **RPO** (Recovery Point Objective) | How much **data loss** is tolerable, measured backward in time to the last good backup/replica — not a duration of outage |
+  | Term | Definition | Example (order DB) |
+  | --- | --- | --- |
+  | **MTD** (Maximum Tolerable Downtime) | Ceiling — total outage time the business can survive before unacceptable harm | 8 hrs before harm unacceptable |
+  | **RTO** (Recovery Time Objective) | Target time to get the **system** back up; must fit inside MTD | Cluster restored within 4 hrs |
+  | **WRT** (Work Recovery Time) | Time after the system's back to catch up data entry/backlog and verify | 2 hrs replaying queued orders |
+  | **RPO** (Recovery Point Objective) | How much **data loss** is tolerable, measured backward in time to the last good backup/replica — not a duration of outage | 15-min replica lag = max loss |
 
     - Relationship: `disruption -> [RTO: system restored] -> [WRT: backlog/data caught up] -> normal ops`, and **RTO + WRT <= MTD**. RPO is a separate axis (data-loss tolerance), not part of that timeline
   - **External dependencies**: recovery strategy is bounded by third parties you don't control — alternate-site vendor contracts, reciprocal agreements, equipment/ISP/cloud-provider SLAs, supply-chain partners [NIST SP 800-34]. Plan can't promise an RTO faster than its slowest external dependency
@@ -542,7 +542,7 @@
   - **RTO + WRT <= MTD** — if a scenario's proposed RTO leaves no room for WRT under the stated MTD, the plan fails, even if RTO alone looks fine
   - Test order = exam favorite for "least disruptive first" / "most realistic but riskiest last" sequencing questions: checklist -> structured walk-through -> simulation -> parallel -> full-interruption
   - BCP is a **lifecycle**, not a document — "the plan is done once written" is always wrong; testing/maintenance (steps 6-7) never stop
-  - BIA identifies criticality and produces MTD/RTO/RPO; it does **not** select the recovery strategy itself (that's continuity planning/step 4) — don't let a BIA-scoped question answer with a site-selection choice
+  - BIA identifies criticality and produces MTD/RTO/RPO; it does **not** select the recovery strategy itself (that's continuity planning/step 4) — don't let a BIA-scoped question answer with a site-selection choice. Example: BIA output = "order DB: MTD 8 hrs, RPO 15 min"; picking a hot site in another region = continuity planning
 - Related terms: qualitative vs. quantitative risk analysis (BIA impact math), supply chain and SCRM (external dependency overlap), risk responses, alternate site types/DR site selection (own entry later, domain 7.13), types of risk
 - Sources: [NIST SP 800-34], [NIST SP 800-53], [ISO 22301], [OSG glossary], [ISC2 outline], [FEMA FCD-2 (2017)], [FEMA FCD (2024)], [unverified]
 
@@ -551,24 +551,24 @@
 - Key facts:
   - **Due care vs. due diligence** [OSG glossary]:
 
-  | Term | ISC2/OSG framing | Timing |
-  | --- | --- | --- |
-  | **Due diligence** | Establishing the plan/policy/process — **knowing** what should be done | Before / ongoing research |
-  | **Due care** | Practicing it — **doing** the right action, maintaining security after deployment | Ongoing execution |
+  | Term | ISC2/OSG framing | Timing | Example |
+  | --- | --- | --- | --- |
+  | **Due diligence** | Establishing the plan/policy/process — **knowing** what should be done | Before / ongoing research | Commissioning the pentest |
+  | **Due care** | Practicing it — **doing** the right action, maintaining security after deployment | Ongoing execution | Funding the fix it flagged |
     - Due diligence without due care (research done, nobody acts on it) is a real exam scenario — diligence alone isn't a negligence defense
     - Both together are the legal defense against a **negligence** claim; missing either = exposure
-  - **Organizational processes** (outline 1.3 examples: acquisitions, divestitures, governance committees [ISC2 outline]; content below [unverified]): M&A due diligence (assess a target's security posture/liabilities before acquisition; plan access/system integration or separation for a divestiture); **governance committees** (security steering committee sets policy direction, reports to the board/executive management on risk posture)
+  - **Organizational processes** (outline 1.3 examples: acquisitions, divestitures, governance committees [ISC2 outline]; content below [unverified]): M&A due diligence (assess a target's security posture/liabilities before acquisition; plan access/system integration or separation for a divestiture); **governance committees** (security steering committee sets policy direction, reports to the board/executive management on risk posture). Example: pre-close, the target's flat network and missing EDR get priced into the deal; post-close, the AD trust stays one-way until remediated
   - **Roles and responsibilities** (governance layer — contrast with data owner/custodian, which is domain 2's operational layer) [unverified]: board sets risk appetite -> executive management (CISO) owns the program -> steering committee coordinates cross-functional decisions -> operational teams execute
   - **Control/security framework survey** — pick the right one per scenario [unverified, standard industry framing]:
 
-  | Framework | What it is |
-  | --- | --- |
-  | **ISO 27001** | Certifiable **ISMS** (information security management system) standard — auditable, org gets certified |
-  | **NIST CSF** | Voluntary risk-based framework: Identify/Protect/Detect/Respond/Recover — not prescriptive controls, no certification |
-  | **COBIT** | IT governance/management framework (see own entry) — process maturity + control objectives |
-  | **SABSA** | Business-risk-driven enterprise security **architecture** methodology — layered like Zachman, traces every control back to a business requirement |
-  | **PCI DSS** | Contractual (not law) — card-brand-mandated technical controls |
-  | **FedRAMP** | US federal cloud-service authorization, built on **NIST SP 800-53** controls |
+  | Framework | What it is | Example |
+  | --- | --- | --- |
+  | **ISO 27001** | Certifiable **ISMS** (information security management system) standard — auditable, org gets certified | Customer RFP demands the certificate |
+  | **NIST CSF** | Voluntary risk-based framework: Identify/Protect/Detect/Respond/Recover — not prescriptive controls, no certification | Self-assessed current-vs-target profile |
+  | **COBIT** | IT governance/management framework (see own entry) — process maturity + control objectives | IT audit's control objectives |
+  | **SABSA** | Business-risk-driven enterprise security **architecture** methodology — layered like Zachman, traces every control back to a business requirement | Firewall rule traced to business need |
+  | **PCI DSS** | Contractual (not law) — card-brand-mandated technical controls | Acquiring bank demands compliance attestation |
+  | **FedRAMP** | US federal cloud-service authorization, built on **NIST SP 800-53** controls | SaaS vendor selling to an agency |
 
     - Row checks: all six are the outline 1.3 example list [ISC2 outline]. **NIST CSF**: voluntary ("may be adopted voluntarily") — CSWP 29 (CSF 2.0, Feb 26, 2024) [NIST CSF 2.0]. **Correction (audit 2026-09-28)**: CSF 2.0 has **six** Functions — **GOVERN**, Identify, Protect, Detect, Respond, Recover (CSWP 29 Sec. 2); the five-function list above is CSF 1.1. **SABSA**: "business-driven, risk and opportunity focused," "two-way traceability," aligns with Zachman [sabsa.org]. **PCI DSS** contractual: SSC sets it, card brands enforce [PCI SSC]. **FedRAMP**: baselines built on the SP 800-53 catalog — CSP Authorization Playbook [fedramp.gov]. **ISO 27001** certifiable: iso.org returned 403 [unverified]
 - Exam traps / distractors:
@@ -582,17 +582,17 @@
 ## Investigation types and evidence (1.5)
 - Definition (ISC2 framing): five investigation types an org may be subject to or conduct, distinguished by *who* investigates and *what standard applies* [ISC2 outline]:
 
-  | Type | Who conducts it | Standard |
-  | --- | --- | --- |
-  | **Administrative** | Internal (HR/security) | No formal legal standard — org's own process |
-  | **Criminal** | Law enforcement | Beyond a reasonable doubt |
-  | **Civil** | Private party (via courts) | Preponderance of evidence |
-  | **Regulatory** | Government agency (SEC, FTC, etc.) | Substantial evidence (admin-law standard) |
-  | **Industry standard** | Contractually mandated third party (e.g., **PCI Forensic Investigator**) | Contract-defined, not legal |
+  | Type | Who conducts it | Standard | Example |
+  | --- | --- | --- | --- |
+  | **Administrative** | Internal (HR/security) | No formal legal standard — org's own process | HR pulls a staffer's proxy logs |
+  | **Criminal** | Law enforcement | Beyond a reasonable doubt | FBI seizes the C2 server |
+  | **Civil** | Private party (via courts) | Preponderance of evidence | Ex-vendor sues over breached contract |
+  | **Regulatory** | Government agency (SEC, FTC, etc.) | Substantial evidence (admin-law standard) | SEC probes a late breach disclosure |
+  | **Industry standard** | Contractually mandated third party (e.g., **PCI Forensic Investigator**) | Contract-defined, not legal | PFI engaged after card-data breach |
   - This table's **administrative/regulatory split by investigator** is a different axis than the *Legal and regulatory landscape* entry's three **categories of law** (criminal/civil/administrative-as-law) — same word "administrative," two different ISC2 taxonomies (see that entry's traps)
   - Evidence fundamentals [OSG glossary]:
     - **Real evidence** (aka object evidence) — physical items admissible in court
-    - **Direct evidence** — witness testimony from personal (five-senses) knowledge
+    - **Direct evidence** — witness testimony from personal (five-senses) knowledge. Example: the admin testifying "I watched him plug in the drive"; the drive itself = real evidence
     - **Best evidence rule** — original document required; copies rejected unless an exception applies
     - **Secondary evidence** — a copy or oral description of best evidence (what the rule above excludes, absent an exception)
     - **Conclusive evidence** — incontrovertible; overrides all other evidence
@@ -619,7 +619,7 @@
 - Exam traps / distractors:
   - **Termination access revocation timing**: for a hostile/involuntary termination, disable access **at or before** notification, not after — the classic "employee walked out with data" scenario tests whether revocation preceded or followed the conversation
   - Onboarding/offboarding = **IAM lifecycle** actions, not the agreements themselves — don't confuse the paperwork (NDA/AUP) with the account-provisioning action
-  - Right-to-audit clause lives in the **SLA**, not the NDA — NDA only covers confidentiality
+  - Right-to-audit clause lives in the **SLA**, not the NDA — NDA only covers confidentiality. Example: wanting to inspect the MSP's own patch cadence = SLA clause; the NDA only stops them discussing your incidents
   - Background check depth is **risk-scaled** to role (a sysadmin candidate warrants deeper screening than a role with no system access) — "same background check for everyone" is the wrong-uniformity trap
 - Related terms: documentation hierarchy (AUP), supply chain and SCRM (vendor risk overlap, different angle — SCRM is product/service supply chain, this is contractual personnel-style vendor controls), security governance principles (roles)
 - Sources: [OSG glossary], [ISC2 outline], [unverified]
@@ -632,10 +632,10 @@
   - **Reporting**: internal (board/executive risk reporting, feeds governance decisions) vs. external (regulators, customers, auditors — often contractually or legally mandated, e.g. breach notification)
   - **Continuous improvement / risk maturity modeling**: apply maturity-model thinking (cf. **Capability Maturity Model (CMM)** — originally a software-process model [OSG glossary]) to the risk program itself: ad hoc -> repeatable -> defined -> managed -> optimized (CMM levels Initial ("ad hoc")/Repeatable/Defined/Managed/Optimizing — SEI CMU/SEI-93-TR-024, CMM v1.1, Sec. 2.1 [SEI CMM]). ISC2 doesn't mandate a single named risk-maturity model (outline 1.9 says only "Continuous improvement (e.g., risk maturity modeling)" [ISC2 outline]); the exam tests the *concept* (a risk program matures through stages, doesn't jump to "optimized") rather than exact level names [unverified]
 - Exam traps / distractors:
-  - Control assessment != control implementation — a control can be implemented but the *assessment* is what proves it's effective; "we deployed it" answers a different question than "we assessed it"
-  - **Continuous monitoring is ongoing**, not an annual point-in-time check — "we monitor once a year" fails the definition
-  - Internal reporting drives decisions; external reporting is often a **compliance obligation** — mixing up the audience is a common distractor
-  - Maturity is a **progression**, not a binary "compliant/not compliant" — a scenario describing ad hoc, undocumented practices signals low maturity even if outcomes are currently fine
+  - Control assessment != control implementation — a control can be implemented but the *assessment* is what proves it's effective; "we deployed it" answers a different question than "we assessed it". Example: EDR on 100% of endpoints = implemented; sampling hosts to confirm tamper protection and policy actually applied = assessed
+  - **Continuous monitoring is ongoing**, not an annual point-in-time check — "we monitor once a year" fails the definition. Example: vuln scanner + SIEM dashboards feeding a monthly posture report = ISCM; the annual pentest is not
+  - Internal reporting drives decisions; external reporting is often a **compliance obligation** — mixing up the audience is a common distractor. Example: board slide "phish click rate down to 3%" = internal; the 72-hr GDPR notification = external
+  - Maturity is a **progression**, not a binary "compliant/not compliant" — a scenario describing ad hoc, undocumented practices signals low maturity even if outcomes are currently fine. Example: analysts triaging from memory = ad hoc; written playbooks = defined; playbook metrics driving tuning = optimized
 - Related terms: risk responses, RMF, qualitative vs. quantitative risk analysis, security governance principles (reporting to governance committees)
 - Sources: [NIST SP 800-137], [OSG glossary], [ISC2 outline], [SEI CMM], [unverified]
 
@@ -651,7 +651,7 @@
 - Exam traps / distractors:
   - **Training delivered != program effective** — completion rate alone is a distractor; the exam wants outcome/behavior metrics (falling click-through rate, rising report rate)
   - Phishing simulation results should train, not punish, in most ISC2-preferred answers — a "fire employees who click" option is usually wrong (culture/behavior-change framing beats punitive framing)
-  - Security champions are **peer influence**, not a replacement for formal training or a compliance/enforcement role
+  - Security champions are **peer influence**, not a replacement for formal training or a compliance/enforcement role. Example: the dev who adds the SAST gate to her team's pipeline unprompted; not the compliance officer chasing completions
   - "One-time training at hire" fails the periodic-review expectation — awareness is continuous, same lifecycle framing as BCP/risk maturity
 - Related terms: security governance principles (culture/behavior framing), personnel security policies (onboarding is where initial training typically lands)
 - Sources: [OSG glossary], [ISC2 outline], [unverified]
@@ -661,7 +661,7 @@
 - Sourcing note: article numbers below corroborated 2026-09-04 against a faithful GDPR text mirror (gdpr.algolia.com). **eur-lex full text remains unfetchable** (failed 2026-09-01 and again 2026-09-04, multiple URL forms; 2026-09-28: WebFetch empty, curl HTTP 202 with 0-byte body) — treat as corroborated-not-primary and re-verify if a number is decisive [GDPR text mirror]
 - Key facts:
   - **Territorial scope (Art. 3)**: reaches controllers/processors **outside the EU** who offer goods or services to, or **monitor the behaviour of**, data subjects in the EU — **no EU office required**
-  - **Terms (Art. 4 definitions)**: **personal data** (information relating to an identified or identifiable natural person), **processing** (essentially any operation, collection through erasure), **controller** (determines purposes and means), **processor** (acts on behalf of controller), **data subject** (the individual). Roles in depth: D2 data ownership entry
+  - **Terms (Art. 4 definitions)**: **personal data** (information relating to an identified or identifiable natural person), **processing** (essentially any operation, collection through erasure), **controller** (determines purposes and means), **processor** (acts on behalf of controller), **data subject** (the individual). Example: the retailer deciding to keep purchase history = controller; its SaaS CRM vendor = processor. Roles in depth: D2 data ownership entry
   - **Six principles (Art. 5(1))**:
     1. **Lawfulness, fairness and transparency**
     2. **Purpose limitation** — specified, explicit, legitimate purposes
@@ -692,12 +692,15 @@
   | **Processor contracts** (binding written terms) | 28 |
   | **Records of processing activities** | 30 |
   | **Security of processing** | 32 |
+
+  | Requirement | Article |
+  | --- | --- |
   | Breach notification to **supervisory authority** | 33 |
   | Breach communication to **data subject** | 34 |
   | **DPIA** (data protection impact assessment), high-risk processing | 35 |
   | **DPO** (data protection officer) designation | 37 |
 
-    - **Breach timing** — the most-tested mechanic: **72 hours to the supervisory authority** (Art. 33), clock starts when the controller **becomes aware**, not when the breach occurred. Notification to **data subjects** (Art. 34) is a different trigger: **without undue delay**, and only where there is **high risk to their rights and freedoms**
+    - **Breach timing** — the most-tested mechanic: **72 hours to the supervisory authority** (Art. 33), clock starts when the controller **becomes aware**, not when the breach occurred. Notification to **data subjects** (Art. 34) is a different trigger: **without undue delay**, and only where there is **high risk to their rights and freedoms**. Example: intruder in since March, SOC confirms exfil Tuesday 10:00 -> supervisory-authority clock runs to Friday 10:00
   - **Transfers (Ch. V, Arts. 44-49)**: need **adequacy decision** (45), or **appropriate safeguards** (46) such as **SCCs** (standard contractual clauses), or **BCRs** (binding corporate rules, 47)
   - **Fines (Art. 83)** — two tiers, in each case **whichever is HIGHER**:
 
@@ -711,9 +714,9 @@
   - **72 hours is to the supervisory authority, measured from awareness** — not to individuals, not from occurrence
   - **Fines: two tiers, "whichever is higher"** — a 4%-only answer, or a "whichever is lower" answer, fails; it is **worldwide turnover**, not EU revenue or profit
   - **Extraterritorial** — "we have no EU offices/entity" does not exempt an organization
-  - **Right to erasure is not absolute** — yields to legal obligations and other exemptions
-  - **DPIA is for high-risk processing**, not every processing activity
-  - **Accountability (5(2)) means demonstrable** — "we comply but keep no records" fails
+  - **Right to erasure is not absolute** — yields to legal obligations and other exemptions. Example: customer asks to be forgotten; invoices stay under tax-retention law, marketing profile goes
+  - **DPIA is for high-risk processing**, not every processing activity. Example: rolling out UEBA on all staff endpoints = DPIA candidate; changing the newsletter template is not
+  - **Accountability (5(2)) means demonstrable** — "we comply but keep no records" fails. Example: the Art. 30 register, DPIA files, and consent logs on hand; not a "GDPR compliant" badge on the website
   - Distractor pairings: **CCPA** as the US analog; **HIPAA's 60-day** individual breach notification against GDPR's **72-hour** supervisory-authority notification
   - **Regulation vs. Directive** — directly applicable; an option saying member states must pass implementing law first is wrong
 - Related terms: privacy laws table (export controls and privacy laws entry, same domain), data ownership and roles (D2 2.3/2.4, controller/processor), sensitive data types (D2 2.1, PII), transborder data flow (1.4), HITECH business associate liability (1.4)

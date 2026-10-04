@@ -1,5 +1,6 @@
 # Domain 4: Communication and Network Security
 
+<!-- REVIEW -->
 ## OSI/TCP-IP models, IP addressing, secure protocols (4.1)
 - Definition (ISC2 framing): outline 4.1 lists "OSI and TCP/IP models", "IPv4 and IPv6 (unicast, broadcast, multicast, anycast)", "secure protocols (IPSec, SSH, SSL/TLS)" [ISC2 outline]. **OSI** (Open Systems Interconnection) = **ISO** seven-layer reference model [OSG glossary]; **TCP/IP model** = 4 layers — Application (Process), Transport (Host-to-Host), Internet, Link (Network Interface / Network Access) — aka **DARPA** model [OSG glossary]. Exam tests the layer-to-name/device/container mapping and which protocol is *current*, not mechanics.
 - Key facts:
@@ -40,6 +41,8 @@
   - **SSH** (Secure Shell): encrypted replacement for Telnet, FTP, rlogin; SSH1 vs SSH2 — SSH2 drops DES/IDEA [OSG glossary]; architecture RFC 4251, transport RFC 4253, TCP **22** [RFC 4253]
   - **SSL** (Secure Sockets Layer) = **legacy**, replaced by TLS; ISC2 places it "at the Transport layer to encrypt TCP payloads" [OSG glossary]; SSLv3 deprecated [RFC 7568, cited in RFC 8996]; **TLS 1.0/1.1 deprecated** (March 2021) [RFC 8996]; **TLS 1.3** [RFC 8446, Aug 2018]: static RSA/DH removed -> every key exchange gives **forward secrecy**, AEAD-only ciphers, handshake encrypted after ServerHello, 1-RTT, optional **0-RTT** (weaker, replayable); NIST SP 800-52 Rev 2 (Aug 2019): TLS 1.2 required, TLS 1.3 support by 1 Jan 2024 [NIST SP 800-52]; TLS v1.2 (2011) dropped SSLv3 downgrade [OSG glossary]
 - Exam traps / distractors:
+  - **"Network interface" layer != network addressing**: TCP/IP Link layer (aka Network Interface / Network Access) = OSI L1-2 (MAC, frames, NIC) [OSG glossary]; subnet masks / IP addressing / routing = OSI **Network** = TCP/IP **Internet** layer. The shared word "network" is the whole trap (missed 2026-10-04: picked Network interface for subnet-mask work). Example: carving 10.0.0.0/24 into /26 host ranges = OSI Network / TCP-IP Internet; NOT Network interface, which handles the MAC header and 802.1Q tag on the same host
+  - Pattern: two options share a word with the stem -> translate each layer name to its *function* first, then match; model vocabulary (OSI vs. TCP/IP) is interchangeable once mapped
   - Any option naming **SSL** as the control to deploy today is wrong; answer is TLS 1.2+ (1.3 preferred)
   - **AH** "encrypts" -> false; **ESP** "authenticates" -> true but optional; "integrity of the whole packet incl. header" -> AH
   - "Protect traffic between two office gateways" -> **tunnel** mode; "host-to-host, headers visible for routing/QoS" -> **transport**
@@ -98,43 +101,45 @@
 
   - **QoS** (quality of service) measures throughput rate, bit rate, packet loss, latency, jitter, transmission delay, availability [OSG glossary]
 - Exam traps / distractors:
-  - Multilayer "encryption at multiple layers" = **benefit**; "covert channels / filter bypass" = **drawback** — questions flip these
-  - **iSCSI** (routable, IP) vs **FCoE** (L2, not routable) vs **FCIP** (FC over IP)
-  - **MPLS** or carrier "private circuit" offered as confidentiality control -> wrong; encrypt on top
+  - Multilayer "encryption at multiple layers" = **benefit**; "covert channels / filter bypass" = **drawback** — questions flip these. Example: TLS inside an IPsec tunnel = the benefit; DNS-tunneled exfil riding permitted UDP 53 = the drawback (same encapsulation property)
+  - **iSCSI** (routable, IP) vs **FCoE** (L2, not routable) vs **FCIP** (FC over IP). Example: replicate the SAN to a DR site over the WAN -> FCIP; FCoE never leaves the one L2 fabric; iSCSI on a flat server VLAN is reachable by any compromised host
+  - **MPLS** or carrier "private circuit" offered as confidentiality control -> wrong; encrypt on top. Example: MPLS to a branch = carrier keeps label paths apart like VLANs, but any tap on the carrier path reads plaintext; run IPsec over it
   - **Bandwidth** (capacity) vs **throughput** (achieved); **latency** (delay) vs **jitter** (variation) — VoIP quality complaint with stable delay -> jitter
   - "Engineer configures router over SSH" -> **management plane**; "routers exchange OSPF updates" -> **control plane**; "packets forwarded" -> data plane
   - **Store-and-forward** is chosen for error checking, not speed; cut-through for latency
-  - Converged protocol = specialty protocol *on* standard TCP/IP, not "protocol spanning layers" (that is multilayer)
+  - Converged protocol = specialty protocol *on* standard TCP/IP, not "protocol spanning layers" (that is multilayer). Example: HTTP inside TCP inside IP inside Ethernet = multilayer (the TCP/IP suite itself); SCSI disk commands riding that same TCP/IP (iSCSI) = converged
 - Related terms: OSI encapsulation (previous entry), SDN planes/APIs (SDN entry), VoIP/SIP (4.3), ICS (3.5), HPC (3.5)
 - Sources: [ISC2 outline], [OSG glossary], [RFC 7143], [RFC 7426], [RFC 5042], [RFC 5136], [NIST SP 800-58], [IBTA], [CXL Consortium], [unverified]
 
 ## Segmentation and traffic flows: physical, logical, micro, edge (4.1)
 - Definition (ISC2 framing): outline groups traffic flows (north-south, east-west), physical segmentation (in-band, out-of-band, air-gapped), logical segmentation (VLANs, VPNs, VRF, virtual domain), micro-segmentation (network overlays/encapsulation, distributed firewalls/routers, zero trust), edge networks (ingress/egress, peering) [ISC2 outline]. Managerial view: segmentation limits blast radius and lateral movement; pick the *cheapest control that matches the trust boundary*.
 - Key facts:
-  - **North-south** = inbound/outbound between internal and external systems; **east-west** = within the network, data center, or cloud [OSG glossary]; perimeter firewalls see north-south only; **lateral movement** is east-west -> needs internal segmentation firewalls / microsegmentation / NDR
+  - **North-south** = inbound/outbound between internal and external systems; **east-west** = within the network, data center, or cloud [OSG glossary] (Example: north-south = user browser -> web tier through the perimeter firewall; east-west = web tier -> DB tier inside the DC, where flat VLANs let ransomware spread); perimeter firewalls see north-south only; **lateral movement** is east-west -> needs internal segmentation firewalls / microsegmentation / NDR
   - Physical segmentation:
 
-  | Term | Meaning | Exam framing |
-  | --- | --- | --- |
-  | **Air gap** | physical network segregation [OSG glossary]; no physical connection, any logical transfer manual under human control [CNSSI 4009 via NIST glossary] | strongest isolation; removable media = residual vector |
-  | **Out-of-band** (OOB) | information carried on a separate communications channel [NISTIR 7711 via NIST glossary] | dedicated management network / console; works when production is down; protects management plane |
-  | **In-band** | management traffic rides the production data network [RFC 4778 §2.2] | cheaper; compromised production = compromised management; encrypt + restrict |
+  | Term | Meaning | Exam framing | Example |
+  | --- | --- | --- | --- |
+  | **Air gap** | physical network segregation [OSG glossary]; no physical connection, any logical transfer manual under human control [CNSSI 4009 via NIST glossary] | strongest isolation; removable media = residual vector | ICS historian patched by hand-carried, scanned USB |
+  | **Out-of-band** (OOB) | information carried on a separate communications channel [NISTIR 7711 via NIST glossary] | dedicated management network / console; works when production is down; protects management plane | console server on a separate mgmt network, reachable when prod is down |
+  | **In-band** | management traffic rides the production data network [RFC 4778 §2.2] | cheaper; compromised production = compromised management; encrypt + restrict | SSH to the switch over the production VLAN |
 
   - Logical segmentation:
 
-  | Tech | Layer / scope | Isolation limits |
-  | --- | --- | --- |
-  | **VLAN** | Layer 2 on switches/bridges; tagging per **IEEE 802.1Q** [OSG glossary] [IEEE 802.1Q] | cross-VLAN needs routing (multilayer switch) [OSG glossary]; **VLAN hopping** by double tagging [OSG glossary]; 4,094 IDs [RFC 7348] |
-  | **VPN** | encrypted connection over private/public network; confidentiality + integrity [OSG glossary] | protects a path, does not segment the interior; split vs full tunnel (4.3) |
-  | **VRF** (virtual routing and forwarding) | multiple routing tables in one router, independent routing domains; service-provider multi-tenancy [OSG glossary] [RFC 4364] | Layer 3 separation on shared hardware/control plane |
-  | **Virtual domain** | isolated instances of one device (firewall, switch), own config; aka virtual systems/contexts [OSG glossary] | device-level multi-tenancy; shared chassis |
+  | Tech | Layer / scope | Isolation limits | Example |
+  | --- | --- | --- | --- |
+  | **VLAN** | Layer 2 on switches/bridges; tagging per **IEEE 802.1Q** [OSG glossary] [IEEE 802.1Q] | cross-VLAN needs routing (multilayer switch) [OSG glossary]; **VLAN hopping** by double tagging [OSG glossary]; 4,094 IDs [RFC 7348] | VLAN 10 users / VLAN 20 printers on one switch; NOT isolation — a double-tagged frame hops it |
+  | **VPN** | encrypted connection over private/public network; confidentiality + integrity [OSG glossary] | protects a path, does not segment the interior; split vs full tunnel (4.3) | IPsec site-to-site to a branch protects the WAN hop; the branch LAN stays flat |
+  | **VRF** (virtual routing and forwarding) | multiple routing tables in one router, independent routing domains; service-provider multi-tenancy [OSG glossary] [RFC 4364] | Layer 3 separation on shared hardware/control plane | one carrier PE router holding separate routing tables for customers A and B |
+  | **Virtual domain** | isolated instances of one device (firewall, switch), own config; aka virtual systems/contexts [OSG glossary] | device-level multi-tenancy; shared chassis | one physical firewall running a vsys/VDOM per business unit |
 
-  - **Microsegmentation** = internal network divided into numerous subzones via internal segmentation firewalls (**ISFW**), subnets, or VLANs; zones down to one device; all inter-zone traffic filtered, may require authentication, often encrypted [OSG glossary]. Enablers:
+  - **Microsegmentation** = internal network divided into numerous subzones via internal segmentation firewalls (**ISFW**), subnets, or VLANs; zones down to one device; all inter-zone traffic filtered, may require authentication, often encrypted [OSG glossary]. Example: host-level policy allowing only app tier -> DB on 1433, so two DB servers in the same subnet cannot talk to each other; NOT "one VLAN per tier", which still lets any web server reach every other web server. Enablers:
     - **Overlays / encapsulation**: **VXLAN** — Layer 2 over Layer 3 in UDP 4789, 24-bit VNI (~16M segments vs 4,094 VLANs) [RFC 7348]; overlay = encapsulation, **not encryption** [RFC 7348 §7]
     - **Distributed firewalls/routers**: policy enforced at hypervisor / vNIC / host agent instead of a choke point; virtual firewalls and overlay-based segmentation in NIST SP 800-125B (Mar 2016) [NIST SP 800-125B]
     - **Zero trust**: per-session, identity-driven policy (SP 800-207; D3 entry); NIST SP 800-215 "Guide to a Secure Enterprise Network Landscape" (Nov 2022) covers microsegmentation, SDP, ZTNA, SASE, SD-WAN [NIST SP 800-215]
   - Edge: **edge network** allocates compute to edge devices, away from central servers [OSG glossary]; **edge computing** = processing inside devices at/near the edge (IIoT) [OSG glossary]. **Ingress filter** = inbound into secured area; **egress filter** = outbound [OSG glossary]; **egress monitoring** targets exfiltration [OSG glossary]. **Peering** = direct interconnection between autonomous networks to exchange traffic without paying transit [NIST SP 800-189 §2.3: lateral p2p peer = "non-transit"] ("without paying" part [unverified]); risks BGP hijack / route leak -> RPKI, prefix filters [NIST SP 800-189 §2.1, §2.3, §4.3–4.6]
+    - Example: edge computing = the factory gateway runs the anomaly model locally and ships only alerts upstream; peering = your AS and the CDN's AS swap each other's routes at an IXP, while transit = paying an upstream ISP to reach everything else
   - Perimeter vocabulary [OSG glossary]: **DMZ** term deprecated -> **screened subnet** (public-facing hardened servers outside the internal trust); **extranet** = screened subnet for B2B partners, usually via VPN; **intranet** = private LAN; **bastion host** = hardened to withstand attack; **screened host** = router filtering in front of a server; **multihomed** = multiple interfaces on different subnets
+    - Example: public web servers and the mail relay = screened subnet; the same tier hosting a supplier EDI portal reachable only over partner VPN = extranet; the HR wiki = intranet
 - Exam traps / distractors:
   - **Air gap** (no connection at all) vs **out-of-band** (separate channel, still connected) — "management still reachable during an outage" -> OOB, not air gap
   - **VLAN** alone offered as the security boundary -> segmentation, not isolation (hopping, misconfig, no encryption); **VPN** offered as segmentation -> it is a protected path
@@ -210,30 +215,33 @@
 - Definition (ISC2 framing): outline 4.1 lists CDN; software-defined networks (SDN, APIs, SD-WAN, network functions virtualization); VPC; monitoring and management (network observability, traffic shaping, capacity management, fault handling) [ISC2 outline]. Common thread: the network becomes software -> the **controller/API/CSP console** is the new crown jewel.
 - Key facts:
   - **SDN** (software-defined networking): separates the infrastructure layer (hardware) from the control layer; centrally programmable, vendor-neutral, open standards [OSG glossary]. Planes per [RFC 7426]: data/forwarding, control, management, application; **southbound** interface = controller -> devices, **northbound** = controller -> applications (via NSAL) [RFC 7426]. OSG glossary instead labels controller->devices **eastbound** and controller->applications **westbound** [OSG glossary] — know both labels
+    - Example: southbound = controller pushes flow rules to the switch over OpenFlow; northbound = the ticketing/automation app calls the controller's REST API to request a new segment
   - SDN security: controller = high-value single point of failure; northbound **APIs** inherit API attacks (injection, auth bypass, replay) [OSG glossary]; harden with OOB management, MFA, TLS on both interfaces, controller redundancy [unverified]; OpenFlow = southbound protocol example (control-plane southbound interface, CPSI, alongside ForCES) [RFC 7426 §3.3, §4.3]
   - **SD-WAN**: SDN evolution managing connectivity between distant data centers, remote sites, and cloud over WAN links [OSG glossary]; typically an encrypted overlay across broadband/MPLS/LTE with central policy; listed alongside SASE, ZTNA, SDP in NIST SP 800-215 [NIST SP 800-215]
   - **NFV** (network functions virtualization): virtualizes network functions off dedicated hardware; SDN + NFV = flexible, scalable, programmable infrastructure; aka virtualized networking [OSG glossary]; VNFs (virtual firewall, router, load balancer) share hypervisor risk — virtual network configuration guidance in NIST SP 800-125B [NIST SP 800-125B]
   - Software-defined family [OSG glossary]: **SDV** (software-defined visibility) automates monitoring/response, analyzes every packet; **software-defined security** = controls managed as code in CI/CD; **SDS** storage; **SDDC** = virtual data center (IaaS-like); **SDx** umbrella
   - **VPC** (virtual private cloud): isolated section of a CSP's cloud where the customer provisions and controls the virtual network [OSG glossary]; **VPC endpoint** = VM/VDI instance as access point to cloud assets [OSG glossary]; building blocks: public/private subnets, **security groups** (stateful, per instance) vs **network ACLs** (stateless, per subnet), private endpoints to CSP services (PrivateLink) [AWS docs — Amazon VPC User Guide, "Infrastructure security in Amazon VPC"]; VPC peering / transit gateway [unverified — AWS terminology, not on that page]
+    - Example: VPC = your own 10.20.0.0/16 with public/private subnets inside the CSP, isolated from other tenants but not encrypted; VPN = the IPsec tunnel from HQ into that VPC
+    - Example: security group = per-instance "allow 443 from the load balancer", return traffic allowed automatically; NACL = subnet-wide "deny 22 from 0.0.0.0/0" that needs its own return-traffic rule because it is stateless
   - **CDN** (content distribution/delivery network): resource services in many data centers for low latency, high performance, high availability via distributed hosts [OSG glossary]; relies on **anycast**; security: absorbs DDoS, edge WAF, but **TLS terminates at the CDN** -> third party sees plaintext; cache poisoning; origin exposure if origin IP leaks [unverified]; **SDP** (service delivery platform) is the telecom cousin [OSG glossary]
   - Monitoring and management:
 
-  | Function | Meaning | Note |
-  | --- | --- | --- |
-  | **Network observability** | infer internal state from telemetry (flows, metrics, logs, traces), not just up/down polling [unverified] | NetFlow/IPFIX, streaming telemetry |
-  | **Traffic shaping** | delay/prioritize packets to fit policy [RFC 2475 §1.2, §2.3.3.3] | QoS metrics: throughput, bit rate, loss, latency, jitter, delay, availability [OSG glossary] |
-  | **Capacity management** | ensure resources meet current and forecast demand | **bandwidth on demand** at premium rates [OSG glossary]; cloud **resource capacity agreement** [OSG glossary] |
-  | **Fault handling** | **fault-tolerant network** recovers from minor errors; **fault-resistant network** survives faults to minimize downtime [OSG glossary] | redundancy + failover; availability pillar |
-  | **Bandwidth monitor** | tracks usage; reveals malware comms, protocol misuse [OSG glossary] | SOC egress baseline |
+  | Function | Meaning | Note | Example |
+  | --- | --- | --- | --- |
+  | **Network observability** | infer internal state from telemetry (flows, metrics, logs, traces), not just up/down polling [unverified] | NetFlow/IPFIX, streaming telemetry | flows + traces explain *why* the app is slow; up/down polling only says *that* it is |
+  | **Traffic shaping** | delay/prioritize packets to fit policy [RFC 2475 §1.2, §2.3.3.3] | QoS metrics: throughput, bit rate, loss, latency, jitter, delay, availability [OSG glossary] | queue the nightly backup burst to smooth the link; policing drops packets over the contracted rate |
+  | **Capacity management** | ensure resources meet current and forecast demand | **bandwidth on demand** at premium rates [OSG glossary]; cloud **resource capacity agreement** [OSG glossary] | upgrade the WAN before quarter-end close saturates it |
+  | **Fault handling** | **fault-tolerant network** recovers from minor errors; **fault-resistant network** survives faults to minimize downtime [OSG glossary] | redundancy + failover; availability pillar | dual uplinks: one fails, traffic reroutes with no outage |
+  | **Bandwidth monitor** | tracks usage; reveals malware comms, protocol misuse [OSG glossary] | SOC egress baseline | steady 02:00 outbound spike from one host = beaconing or exfil |
 
 - Exam traps / distractors:
-  - **SDN** (separate control from forwarding) vs **NFV** (virtualize the function) vs **SD-WAN** (SDN applied to WAN links) — options swap them
+  - **SDN** (separate control from forwarding) vs **NFV** (virtualize the function) vs **SD-WAN** (SDN applied to WAN links) — options swap them. Example: SDN = one controller programs every DC switch's forwarding; NFV = the firewall becomes a VM on commodity x86; SD-WAN = branch edge boxes steer SaaS over broadband and ERP over MPLS from central policy
   - **Northbound** (apps/API) vs **southbound** (devices); if options say **westbound/eastbound**, it is OSG's labels for the same pair
   - Controller compromise = whole network; answer favoring "secure the controller and its APIs" over "harden each switch"
   - **VPC** (cloud network isolation) vs **VPN** (encrypted path) — VPC is not encryption; **security group** (stateful, instance) vs **NACL** (stateless, subnet) [AWS docs — Amazon VPC User Guide, "Compare security groups and network ACLs"]
-  - **CDN** improves availability/latency and blunts DDoS but is a third party in the TLS path — confidentiality question -> not the CDN's job
+  - **CDN** improves availability/latency and blunts DDoS but is a third party in the TLS path — confidentiality question -> not the CDN's job. Example: the CDN absorbs the SYN flood and runs the edge WAF, but it holds your certificate and decrypts every request — customer-data confidentiality is answered at the origin/app, not by "use a CDN"
   - **Traffic shaping** (delay, smooth) vs **policing** (drop) [RFC 2475 §1.2, §2.3.3.3–2.3.3.4]; **observability** vs monitoring (why vs whether)
-  - **Fault tolerance** (keeps operating through the fault) vs **high availability** (minimizes downtime) vs fault-resistant (glossary term)
+  - **Fault tolerance** (keeps operating through the fault) vs **high availability** (minimizes downtime) vs fault-resistant (glossary term). Example: fault tolerance = a mirrored disk dies and the server never pauses; high availability = cluster failover with a 30-second blip — both score as availability, only tolerance means zero interruption
 - Related terms: planes (converged/transport entry), microsegmentation and VXLAN (segmentation entry), SASE (3.1), cloud shared responsibility (3.5), HA/QoS/fault tolerance (7.10), APIs (8.5)
 - Sources: [ISC2 outline], [OSG glossary], [RFC 7426], [RFC 2475], [NIST SP 800-215], [NIST SP 800-125B], [AWS docs], [unverified]
 
@@ -266,20 +274,20 @@
   - Signal propagation quality = attenuation, EMI, crosstalk, noise -> effective SNR; **plenum**-rated cable for fire safety, not security [OSG glossary]; emanation control: **TEMPEST**, **control zone** (Faraday cage and/or white noise) [OSG glossary]; physical protection of cable runs: protective conduits, sealed connections, regular human inspections [OSG glossary]; wiring closets/IDFs in 3.9
   - **NAC** (network access control): controlling access to an environment through strict adherence to security policy; goals — prevent/reduce zero-day attacks, enforce policy throughout the network, use identities for access control [OSG glossary]; NIST: firewall feature granting access based on user credentials plus **health checks** of the client device [NIST SP 800-41]. Dimensions [unverified — verify OSG ch. 11]:
 
-  | Axis | Options | Note |
-  | --- | --- | --- |
-  | Timing | **preadmission** (check before connect) vs **postadmission** (monitor behavior after) | |
-  | Agent | agent-based vs agentless | agentless for guests/IoT |
-  | Enforcement | **802.1X** port-based, DHCP/ARP control, inline appliance | quarantine/remediation VLAN, captive portal for guests |
-  | Scope | **physical** (switch ports, WLAN) vs **virtual** (VPN posture, cloud/VPC conditional access, hypervisor vSwitch) | outline names both |
+  | Axis | Options | Note | Example |
+  | --- | --- | --- | --- |
+  | Timing | **preadmission** (check before connect) vs **postadmission** (monitor behavior after) | | pre = posture check before the port opens; post = EDR flags the host, NAC moves it to quarantine |
+  | Agent | agent-based vs agentless | agentless for guests/IoT | agentless = printer or visitor phone profiled by MAC/DHCP fingerprint |
+  | Enforcement | **802.1X** port-based, DHCP/ARP control, inline appliance | quarantine/remediation VLAN, captive portal for guests | 802.1X assigns the VLAN; DHCP/ARP control blackholes an unknown MAC |
+  | Scope | **physical** (switch ports, WLAN) vs **virtual** (VPN posture, cloud/VPC conditional access, hypervisor vSwitch) | outline names both | virtual = conditional access blocks an unmanaged device from the SaaS tenant |
 
   - **Endpoint security**: each device maintains local security whether or not the network protects it — "the end device is responsible for its own security" [OSG glossary]; **endpoint** = any device a worker uses to reach company resources, incl. IoT and ICS [OSG glossary]; **EDR** = evolution of antimalware — detect, record, evaluate, respond [OSG glossary]; host-based stack: HIDS/HIPS, host firewall, disk encryption, patching, application allow-listing, MDM/UEM [unverified]; NAC *checks* posture, endpoint security *provides* it; feeds zero trust tenet 5 (device posture)
 - Exam traps / distractors:
-  - **NAC** vs **802.1X**: 802.1X is one enforcement mechanism NAC may use; NAC = policy + posture + identity, broader
-  - **NAC** (who may join) vs **firewall** (what traffic passes once joined) vs **IDS** (detects, does not admit)
+  - **NAC** vs **802.1X**: 802.1X is one enforcement mechanism NAC may use; NAC = policy + posture + identity, broader. Example: NAC = laptop must present its machine cert AND show EDR running and current patches before landing on the user VLAN, else quarantine; 802.1X alone = only the cert check at the port
+  - **NAC** (who may join) vs **firewall** (what traffic passes once joined) vs **IDS** (detects, does not admit). Example: NAC decides whether the laptop gets onto the user VLAN; the firewall decides whether that VLAN reaches the DB; the IDS only alerts when it does
   - **Preadmission** vs **postadmission**: "device found infected an hour after connecting" -> postadmission
   - **EDR** (behavioral detect + respond) vs antivirus (signature prevent) vs **HIDS** (detect only)
-  - Warranty/support/redundant power = **availability** controls; a question asking for the "security" benefit of a support contract wants timely **patches/firmware**
+  - Warranty/support/redundant power = **availability** controls; a question asking for the "security" benefit of a support contract wants timely **patches/firmware**. Example: EOL core switch with a published management-plane RCE: no contract = no fix ever; the "security" value is the firmware, not the spare shipping overnight
   - **Hub** (everyone sees everything) vs **switch** (MAC flooding required to sniff); **fiber** answers any "emanations/EMI/tapping" question
   - **STP** = shielded twisted pair or Spanning Tree Protocol — read the context; **plenum** is fire code, not confidentiality
 - Related terms: 802.1X/EAP (wireless entry), RADIUS/TACACS+ (4.3), zero trust posture (D3), EOL/EOS (2.5), physical security (3.9, 7.14), firewalls/IDS/IPS (7.7), patch management (7.8)
@@ -302,13 +310,13 @@
   - **Remote meeting** = digital collaboration, virtual meetings, videoconferencing, shared whiteboards, virtual training [OSG glossary]; **IM** risks: **spim** (spam over IM), malware via file transfer, data leakage [OSG glossary]; controls: authenticated join, waiting rooms/passcodes, end-to-end encryption vs provider-terminated TLS (Signal protocol = E2E [OSG glossary]), recording and retention policy, screen-share DLP [unverified]
   - Remote access types [OSG glossary]:
 
-  | Type | Meaning | Control |
-  | --- | --- | --- |
-  | **Remote node operation** | client becomes a LAN member via VPN/dial-up/wireless through a **RAS** | NAC posture, full-tunnel policy |
-  | **Remote control** | full control of a distant system; **RDP** TCP 3389 | never exposed directly — VPN or jump server |
-  | **Screen scraping** | remote-desktop-like service (also automated UI parsing) | |
-  | **VDI** / virtual desktop | desktop hosted centrally; persistent vs nonpersistent | data stays in DC; BYOD-friendly |
-  | Service-specific / portal | access to one application (webmail) [NIST SP 800-46 §2.2.2: portal = server giving access to one or more applications via one interface] | least privilege |
+  | Type | Meaning | Control | Example |
+  | --- | --- | --- | --- |
+  | **Remote node operation** | client becomes a LAN member via VPN/dial-up/wireless through a **RAS** | NAC posture, full-tunnel policy | laptop on home Wi-Fi gets a corporate IP over the VPN client and is on the LAN |
+  | **Remote control** | full control of a distant system; **RDP** TCP 3389 | never exposed directly — VPN or jump server | admin RDPs to a server; the laptop is only keyboard and screen |
+  | **Screen scraping** | remote-desktop-like service (also automated UI parsing) | | published-app session: only pixels leave the DC |
+  | **VDI** / virtual desktop | desktop hosted centrally; persistent vs nonpersistent | data stays in DC; BYOD-friendly | contractor's BYOD opens a pooled nonpersistent Windows desktop |
+  | Service-specific / portal | access to one application (webmail) [NIST SP 800-46 §2.2.2: portal = server giving access to one or more applications via one interface] | least privilege | webmail or one SaaS app via a portal, nothing else routable |
 
   - Administrative functions: **jump server** (jumpbox) in extranets, screened subnets, cloud where a direct link is unsafe [OSG glossary]; **bastion host** = hardened to withstand attack [OSG glossary]; OOB console; MFA; PAM/session recording [unverified]; **callback** to a preconfigured number = secure, user-defined = insecure [OSG glossary]; **VPN concentrator** = hundreds–thousands of tunnels [OSG glossary]; NIST SP 800-46 Rev 2 telework/remote access/BYOD (Jul 2016) [NIST SP 800-46]; SP 800-53 **AC-17** Remote Access [NIST SP 800-53]
   - AAA protocols:
@@ -332,15 +340,16 @@
   - Tunnel policy [OSG glossary]: **split tunnel** = corporate over VPN + internet direct (bypasses egress controls); **full tunnel** = everything through the org's egress; **remote access (host-to-site) VPN** vs **site-to-site VPN**
   - Data communications: **backhaul** = intermediate links carrying aggregated traffic from access/edge (cell sites, branch offices, Wi-Fi controllers) to the core/backbone [unverified — SP 800-187 §2 defines only the cellular sense: radio network to core]; often microwave, fiber, or satellite [NIST SP 800-187 §2, §3.6]; carrier backhaul encryption is operator-dependent (LTE S1 confidentiality is an operator option if "trusted") [NIST SP 800-187 §3.6] -> encrypt above it (IPsec/TLS) [unverified]; **satellite** = GEO latency, wide-footprint interception, third-party ground segment (orbits in wireless entry); SP 800-53 **SC-8** Transmission Confidentiality and Integrity [NIST SP 800-53]
   - Third-party connectivity: telecom carriers (MPLS/leased line = separation, not confidentiality), hardware vendor remote support, partner **extranets** [OSG glossary], cloud. Governance: **ISA** (interconnection security agreement) = document specifying security requirements for system interconnections incl. impact level of exchanged information [NIST SP 800-47]; NIST SP 800-47 Rev 1 "Managing the Security of Information Exchanges" (Jul 2021) [NIST SP 800-47]; SP 800-53 **CA-3** Information Exchange, **SC-7** Boundary Protection [NIST SP 800-53]. Vendor support access: dedicated VPN/jump path, time-bound JIT enablement, named accounts, session recording, disabled when idle [unverified]; control baseline = SP 800-53 **MA-4** Nonlocal Maintenance (approve/monitor, strong authentication, keep records, terminate sessions when done) [NIST SP 800-53]
+    - Example: HVAC vendor support = VPN account enabled per ticket, through the jump server, session recorded, disabled at close; NOT a standing remote-desktop agent on the building controller
 - Exam traps / distractors:
   - **SIP** (signaling) vs **RTP** (media) vs **SRTP** (secured media) — "calls set up but audio intercepted" -> SRTP
   - **Vishing** (phishing) vs **SPIT** (spam) — glossary cross-references them; **phreaking/toll fraud** is a PBX problem, not a network one
-  - **RADIUS** (UDP, password-only encryption, network access) vs **TACACS+** (TCP, full-body encryption, split AAA -> router/switch admin)
+  - **RADIUS** (UDP, password-only encryption, network access) vs **TACACS+** (TCP, full-body encryption, split AAA -> router/switch admin). Example: RADIUS = Wi-Fi 802.1X and VPN logins; TACACS+ = per-command authorization on routers (allow show, deny configure)
   - **L2TP** "encrypts" -> no, IPsec does; **PPTP** as a recommended answer -> legacy; **GRE** = tunnel without crypto
   - **Split tunnel** lets malware reach the internet around corporate egress -> **full tunnel** or always-on when the question is about visibility/DLP
-  - **TLS VPN** (clientless, application/portal scope) vs **IPsec VPN** (network-layer, full membership) — "contractor needs one web app" -> TLS portal
-  - **Remote node** (join the LAN) vs **remote control** (drive a host) ; **jump server** (chokepoint for admin sessions) vs **bastion host** (any hardened exposed system)
-  - **ISA** (security requirements of the interconnection) vs **MOU/MOA** (intent and responsibilities) vs **SLA** (performance) vs **NDA** (confidentiality of information)
-  - Carrier-provided **MPLS**/backhaul "is private, so encryption is unnecessary" -> wrong; **backhaul** vs **backbone** (edge-to-core vs core)
+  - **TLS VPN** (clientless, application/portal scope) vs **IPsec VPN** (network-layer, full membership) — "contractor needs one web app" -> TLS portal. Example: TLS VPN = browser portal exposing only the timesheet app; IPsec VPN = the laptop gets a 10.x address and reaches every subnet the ACL allows
+  - **Remote node** (join the LAN) vs **remote control** (drive a host) ; **jump server** (chokepoint for admin sessions) vs **bastion host** (any hardened exposed system). Example: jump server = the one hardened box admins SSH into before reaching any DC switch; bastion host = the public web server hardened to take abuse — a jump server is a bastion by role, not every bastion is a jump server
+  - **ISA** (security requirements of the interconnection) vs **MOU/MOA** (intent and responsibilities) vs **SLA** (performance) vs **NDA** (confidentiality of information). Example: linking to a partner's claims system — ISA = "IPsec tunnel, TLS 1.2+, Moderate impact, who monitors"; MOU = "we will exchange claims data, each owns its side"; SLA = "99.9 % uptime"; NDA = "do not disclose what you see"
+  - Carrier-provided **MPLS**/backhaul "is private, so encryption is unnecessary" -> wrong; **backhaul** vs **backbone** (edge-to-core vs core). Example: backhaul = the microwave hop from a cell tower or branch to the carrier's aggregation site; backbone = the carrier's core fiber between regions — both the carrier's, neither yours to trust
 - Related terms: IPsec/TLS (first entry), satellite orbits and cellular (wireless entry), NAC (4.2), SCRM and vendor agreements (1.11, 1.8), egress monitoring (7.2), privileged account management (7.4), federation/SSO (5.2)
 - Sources: [ISC2 outline], [OSG glossary], [RFC 3261], [RFC 3711], [RFC 2865], [RFC 8907], [RFC 6733], [RFC 8224], [FCC], [NIST SP 800-58], [NIST SP 800-46], [NIST SP 800-113], [NIST SP 800-47], [NIST SP 800-53], [NIST SP 800-187], [unverified]

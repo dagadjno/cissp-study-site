@@ -5,23 +5,23 @@
 - Key facts:
   - Evidence types [OSG glossary]:
 
-  | Type | What it is | Watch for |
-  | --- | --- | --- |
-  | **Real** (object) | Physical items brought into court | Seized drive, laptop |
-  | **Documentary** | Written items proving a fact | Must be **authenticated**; logs live here |
-  | **Testimonial** | Witness testimony, verbal or deposition | Direct experience only; else hearsay |
-  | **Demonstrative** | Supports testimony (charts, models) | May not be admitted itself |
+  | Type | What it is | Watch for | Example |
+  | --- | --- | --- | --- |
+  | **Real** (object) | Physical items brought into court | Seized drive, laptop | The seized laptop itself |
+  | **Documentary** | Written items proving a fact | Must be **authenticated**; logs live here | Its exported event log |
+  | **Testimonial** | Witness testimony, verbal or deposition | Direct experience only; else hearsay | Analyst describing what they saw |
+  | **Demonstrative** | Supports testimony (charts, models) | May not be admitted itself | Timeline slide built for the jury |
 
-  - Admissibility = **relevant** (helps determine a fact) + **material** (fact relates to the case) + **competent** (obtained legally, e.g. warrant or consent) [OSG glossary]
+  - Admissibility = **relevant** (helps determine a fact) + **material** (fact relates to the case) + **competent** (obtained legally, e.g. warrant or consent) [OSG glossary]. Example: pcap taken from a coworker's home router without consent -> relevant and material, but not competent
   - Rules on documents [OSG glossary]:
 
-  | Rule | Says |
-  | --- | --- |
-  | **Best evidence rule** | Original document, not a copy, unless an exception applies |
-  | **Parol evidence rule** | Written agreement is the complete agreement; no oral modifications |
-  | **Hearsay** | Statements made outside court; **unauthenticated log files** can be treated as hearsay |
+  | Rule | Says | Example |
+  | --- | --- | --- |
+  | **Best evidence rule** | Original document, not a copy, unless an exception applies | Hashed original image, not a screenshot of it |
+  | **Parol evidence rule** | Written agreement is the complete agreement; no oral modifications | Vendor's verbal "24 h notice" promise loses to the signed contract |
+  | **Hearsay** | Statements made outside court; **unauthenticated log files** can be treated as hearsay | SIEM export with no custodian attesting how it is generated |
 
-  - **Chain of custody** (chain of evidence): document tracking every person in control from discovery to court [OSG glossary]; SP 800-61r2 lists what it records: identifying info (location, serial, hostname, MAC), name/title/phone of each handler, time/date of each transfer, storage location [NIST SP 800-61]
+  - **Chain of custody** (chain of evidence): document tracking every person in control from discovery to court [OSG glossary]; SP 800-61r2 lists what it records: identifying info (location, serial, hostname, MAC), name/title/phone of each handler, time/date of each transfer, storage location [NIST SP 800-61]. Example: drive bagged and serial logged at seizure, every hand-off signed with a time; an unexplained 2 h gap is what the defense attacks
   - **Order of volatility**, most to least [RFC 3227]:
     1. Registers, cache
     2. Routing table, ARP cache, process table, kernel stats, memory
@@ -32,14 +32,14 @@
     7. Archival media
   - RFC 3227 rules: don't shut down before collection; don't trust programs on the system; avoid touching access times; beware attacker-planted evidence-destruction triggers [RFC 3227]
   - **SP 800-86** (Aug 2006) four-phase forensic process: **collection -> examination -> analysis -> reporting**; volatile data normally gets priority [NIST SP 800-86]
-  - Investigative techniques [OSG glossary]: **interview** = information from a non-suspect; **interrogation** = questioning a suspect. **e-discovery** = duty to preserve and share electronic records with the adversary in litigation. **Exigent circumstances** = evidence would be destroyed or harm imminent, justifies immediate collection
+  - Investigative techniques [OSG glossary]: **interview** = information from a non-suspect; **interrogation** = questioning a suspect (example: asking the helpdesk tech what she saw = interview; questioning the admin whose credentials ran the script = interrogation). **e-discovery** = duty to preserve and share electronic records with the adversary in litigation (example: litigation hold on the mailboxes of everyone named in the lawsuit). **Exigent circumstances** = evidence would be destroyed or harm imminent, justifies immediate collection (example: the suspect's screen shows a wipe script counting down -> seize now, paperwork after)
   - Artifacts = items of evidence left behind by the actor [OSG glossary]; outline categories: **data**, **computer** (memory, registry, logs, file system), **network** (flows, pcaps, device logs), **mobile** (SIM, app data, location) [ISC2 outline]
   - Tooling named in the OSG glossary: **FTK Imager** (drive cloning, read-only mount, hashes) [OSG glossary]; hash before and after every copy, work from the copy, write-blocker on originals [NIST SP 800-86 Sec. 3.1.2, 4.2.1-4.2.2] [OSG glossary]
 - Exam traps / distractors:
   - **Relevant vs. material vs. competent**: illegal search -> not **competent** (not "irrelevant")
   - Logs are **documentary** evidence, but unauthenticated they become **hearsay**: the fix is an admin/custodian attesting to normal business generation
   - **Interview vs. interrogation**: the difference is whether the person is a suspect, not who asks
-  - Order of volatility: **memory before disk**; "image the disk first" is the wrong first step on a live box
+  - Order of volatility: **memory before disk**; "image the disk first" is the wrong first step on a live box. Example: live ransomware host -> memory dump, process/connection capture, then disk image, then pull firewall logs
   - **Best evidence** (original vs. copy) vs. **parol** (written vs. oral)
   - Forensic image != backup: a bit-for-bit image with hash preserves slack/unallocated space; a backup does not
   - ISC2 order of investigation priority: preserve **life/safety**, then **evidence**; and containment decisions weigh the need for evidence preservation against service availability [NIST SP 800-61]
@@ -96,8 +96,8 @@
   - SP 800-53 **CM-2** Baseline Configuration, **CM-3** Configuration Change Control [NIST SP 800-53]; **SP 800-128** Guide for Security-Focused Configuration Management of Information Systems [NIST SP 800-128]. Correction (audit 2026-09-28): title completed; it was missing "of Information Systems" (source: SP 800-128 title page)
   - Automation reduces **configuration drift** and human error; scanning tools compare hosts to baseline (SCAP-style checks) [NIST SP 800-128 Sec. 2.2.4, 3.5] [NIST SP 800-126]
 - Exam traps / distractors:
-  - **Configuration management vs. change management**: CM = what state systems are in (baseline, inventory, drift); change management = the approval process for altering that state (7.9)
-  - **Baseline vs. standard vs. guideline**: baseline = enforceable minimum config; guideline = optional advice
+  - **Configuration management vs. change management**: CM = what state systems are in (baseline, inventory, drift); change management = the approval process for altering that state (7.9). Example: the CAB ticket approving a new listener is change management; next week's scan showing that port open versus the image is CM
+  - **Baseline vs. standard vs. guideline**: baseline = enforceable minimum config; guideline = optional advice. Example: standard says "TLS 1.2+ on every web server"; baseline = the hardened server image that enforces it; guideline = "prefer TLS 1.3 where clients support it"
   - **Baselining** in CM vs. in IDS: same word, configuration vs. normal-behavior meaning
   - Provisioning != patching; provisioning is deployment from the baseline
 - Related terms: change management (7.9), security documentation hierarchy (D1 1.6), scoping/tailoring (D2 2.6), software CM (D8 8.2)
@@ -107,17 +107,17 @@
 - Definition (ISC2 framing): personnel and privilege controls that limit what any one person can know, do, or accumulate; outline 7.4 = need-to-know/least privilege, separation of duties and responsibilities, privileged account management, job rotation, service-level agreements [ISC2 outline]
 - Key facts:
 
-  | Concept | ISC2 gloss | Distinguisher |
-  | --- | --- | --- |
-  | **Need to know** | Access to data/resource required for specific work tasks; clearance alone is insufficient [OSG glossary] | About **data/knowledge** |
-  | **Least privilege** | Minimum rights/permissions to do the job [OSG glossary] | About **actions/privileges** |
-  | **Separation of duties** (SoD) | Compartmentalize responsibilities so no one subject can circumvent controls; admins get focused not system-wide privileges [OSG glossary] | Anti-fraud; forces **collusion** |
-  | **Separation of privilege** | Granular permissions per type of privileged operation [OSG glossary] | Builds on least privilege |
-  | **Two-person control** | Two people required to perform an operation [OSG glossary] | Both act |
-  | **Split knowledge** | SoD + two-person control: info/privilege divided among people (key custodians) [OSG glossary] | Neither knows the whole |
-  | **Job rotation** | Rotate staff across positions: knowledge redundancy + fraud/misuse detection [OSG glossary] | Detective + deterrent |
+  | Concept | ISC2 gloss | Distinguisher | Example |
+  | --- | --- | --- | --- |
+  | **Need to know** | Access to data/resource required for specific work tasks; clearance alone is insufficient [OSG glossary] | About **data/knowledge** | Cleared Secret, off the project -> no file access |
+  | **Least privilege** | Minimum rights/permissions to do the job [OSG glossary] | About **actions/privileges** | Can read the share, not delete or install |
+  | **Separation of duties** (SoD) | Compartmentalize responsibilities so no one subject can circumvent controls; admins get focused not system-wide privileges [OSG glossary] | Anti-fraud; forces **collusion** | One clerk creates vendors, another approves payments |
+  | **Separation of privilege** | Granular permissions per type of privileged operation [OSG glossary] | Builds on least privilege | Backup right without restore right |
+  | **Two-person control** | Two people required to perform an operation [OSG glossary] | Both act | Two admins approve the root-key export |
+  | **Split knowledge** | SoD + two-person control: info/privilege divided among people (key custodians) [OSG glossary] | Neither knows the whole | Each custodian holds half the master key |
+  | **Job rotation** | Rotate staff across positions: knowledge redundancy + fraud/misuse detection [OSG glossary] | Detective + deterrent | AP clerk moves to AR; successor spots the fake vendor |
 
-  - **Mandatory vacations**: one to two weeks annually so tasks and privileges can be audited [OSG glossary] - detective control for fraud
+  - **Mandatory vacations**: one to two weeks annually so tasks and privileges can be audited [OSG glossary] - detective control for fraud. Example: the covering clerk reconciles the account the vacationing one always handled and finds the skim; NOT a wellbeing or burnout control
   - **Collusion** = agreement between individuals to commit fraud [OSG glossary]; SoD raises the bar to collusion, job rotation and mandatory vacation make sustained collusion harder
   - **Privileged account management** (PAM): IAM solutions restricting access to privileged accounts or detecting use of elevated privileges [OSG glossary]; practices: separate admin accounts, MFA, session recording, just-in-time elevation, monitoring of **privileged operations functions** [OSG glossary]
   - **Service-level agreement** (SLA): contractual commitment on service metrics (availability, response, resolution) with remedies for miss; **MOU** = expression of aligned intent, not typically legally binding [OSG glossary]. Management view: SLA is how you push operational requirements to a vendor and measure them (D1 1.11 service-level requirements)
@@ -127,7 +127,7 @@
   - **SoD vs. least privilege**: one person both approves and pays -> SoD violation even if each right is minimal
   - **Job rotation vs. mandatory vacation**: rotation is permanent movement (cross-training + detection); vacation is a temporary audit window. Both are **detective**, primary aim fraud detection
   - **Two-person control vs. split knowledge**: two present and acting vs. each holds half the secret
-  - **SLA vs. MOU vs. SLR**: SLA = binding with metrics; MOU = intent; service-level requirement = what you ask for before contract
+  - **SLA vs. MOU vs. SLR**: SLA = binding with metrics; MOU = intent; service-level requirement = what you ask for before contract. Example: 99.9 % uptime with service credits = SLA; two agencies agreeing to share threat intel with no penalties = MOU; "we need 99.9 %" in the RFP = SLR
   - PAM is the technology; the **principle** is least privilege plus accountability
 - Related terms: secure design principles (D3 3.1), personnel security (D1 1.8), privilege escalation/service accounts (D5 5.5), SLR (D1 1.11)
 - Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-53]
@@ -150,7 +150,7 @@
   - **Data at rest** = stored statically on a device; **data in transit** = being communicated over a network [OSG glossary]; protection = encryption (full-disk/database vs. TLS/IPsec), plus access control and integrity checks; **data in use** lives in memory and is the hardest state (D2 2.6)
   - Cloud/SaaS media: you cannot degauss a provider's disk -> **cryptographic erase** and contract terms are the control
 - Exam traps / distractors:
-  - **Clear vs. purge**: overwriting a spinning disk for reuse in the same environment = clear; leaving org control = purge or destroy
+  - **Clear vs. purge**: overwriting a spinning disk for reuse in the same environment = clear; leaving org control = purge or destroy. Example: wiping a returned laptop for the next hire = clear; the same drive going to a recycler = purge (or destroy)
   - **Degaussing SSDs** does nothing; SSDs need purge via manufacturer commands or crypto erase, or destruction [NIST SP 800-88 Rev. 2 Sec. 3.1.2, 4.5.2]
   - **Erasing/deleting vs. clearing**: delete removes the pointer; data remains (**remanence**)
   - **Sanitization** is the umbrella; degaussing and purging can sanitize without destroying [OSG glossary]
@@ -163,15 +163,15 @@
 - Key facts:
   - ISC2 seven steps (outline 7.6 order) with OSG glosses [ISC2 outline] [OSG glossary]:
 
-  | # | Step | What happens |
-  | --- | --- | --- |
-  | 1 | **Detection** | IDS/SIEM/user reports; triage event -> incident |
-  | 2 | **Response** | Activate CIRT/CSIRT, assess, start evidence handling |
-  | 3 | **Mitigation** | = **containment**: cut the offending item off from causing further harm |
-  | 4 | **Reporting** | Internal escalation + external (regulators, LE, customers) per **escalation** order |
-  | 5 | **Recovery** | Remove damaged elements, repair/replace, return to production |
-  | 6 | **Remediation** | Root cause, eliminate the vulnerability (= eradication in NIST terms) |
-  | 7 | **Lessons learned** | Review to improve plan/procedures; aka after-action report (AAR) |
+  | # | Step | What happens | Example: ransomware on a file server |
+  | --- | --- | --- | --- |
+  | 1 | **Detection** | IDS/SIEM/user reports; triage event -> incident | EDR alert on mass file renames |
+  | 2 | **Response** | Activate CIRT/CSIRT, assess, start evidence handling | CSIRT paged, memory captured, case opened |
+  | 3 | **Mitigation** | = **containment**: cut the offending item off from causing further harm | Host VLAN-isolated, account disabled |
+  | 4 | **Reporting** | Internal escalation + external (regulators, LE, customers) per **escalation** order | CISO briefed; GDPR 72 h clock noted |
+  | 5 | **Recovery** | Remove damaged elements, repair/replace, return to production | Server rebuilt from image, shares restored |
+  | 6 | **Remediation** | Root cause, eliminate the vulnerability (= eradication in NIST terms) | VPN flaw that let them in patched |
+  | 7 | **Lessons learned** | Review to improve plan/procedures; aka after-action report (AAR) | AAR: add MFA to VPN, update playbook |
 
   - NIST **SP 800-61 Rev. 2** (Aug 2012) four-phase life cycle: **Preparation -> Detection and Analysis -> Containment, Eradication, and Recovery -> Post-Incident Activity** [NIST SP 800-61]; **Rev. 3** (Apr 2025) withdrew Rev. 2 and reframes as a **CSF 2.0 Community Profile**: Preparation = Govern/Identify/Protect; Detection and Analysis = Detect; Containment/Eradication/Recovery = Respond/Recover; Post-Incident = Identify (Improvement) [NIST SP 800-61]
   - Rev. 2 attack-vector categories (for reporting): External/Removable Media, Attrition (brute force), Web, Email, Impersonation, Improper Usage, Loss or Theft of Equipment, Other [NIST SP 800-61]
@@ -228,17 +228,17 @@
   | **Darknet** | Unused address space monitored for scanning/attack traffic |
   | **Warning banner** | Electronic no-trespassing sign: activity restricted, audited, monitored |
 
-  - **Enticement** = luring someone to do something (intruder already intent; honeypot = legal); **entrapment** = encouraging an illegal act the person would not otherwise commit (illegal defense for the intruder) [OSG glossary]
+  - **Enticement** = luring someone to do something (intruder already intent; honeypot = legal); **entrapment** = encouraging an illegal act the person would not otherwise commit (illegal defense for the intruder) [OSG glossary]. Example: a honeypot share named FINANCE-SHARE that the intruder chooses to open = enticement (admissible); an agent persuading an employee to steal data they otherwise would not = entrapment
   - **Anti-malware**: OSG classes it as a **HIDS** example providing **preventive and corrective** control; watches memory, processes, storage [OSG glossary]. Management points: central management, update cadence, layered (gateway + endpoint), and it cannot stop what allow listing can
   - Third-party services: **MSSP**, **SECaaS** (Security as a Service), **MaaS** (Monitoring as a Service) reduce local cost/overhead [OSG glossary]; management view - you outsource execution, **not accountability**; SLA and right-to-audit
   - ML/AI [OSG glossary]: **machine learning** = programming a computer to solve problems from large datasets (often confused with AI); **AI** = simulation of human intelligence processes; **expert system** = accumulated human knowledge applied consistently, with an **inference engine** as second component; **neural network** = long chain of computational decisions (deep learning). Exam framing: ML/AI tools (UEBA, SOAR) **augment** analysts and lower false positives; they are not a substitute for policy or human judgment
 - Exam traps / distractors:
   - **Enticement vs. entrapment**: the honeypot that invites an attacker who already chose to attack = enticement (legal); actively coaxing someone into crime = entrapment (their defense). Consult counsel before deploying; the exam wants "legal, but get legal review"
-  - **Honeypot vs. padded cell**: honeypot attracts; padded cell receives a diverted intruder detected by the IDS
+  - **Honeypot vs. padded cell**: honeypot attracts; padded cell receives a diverted intruder detected by the IDS. Example: a bait RDP host sitting in the DMZ = honeypot; the IDS catching a scanner and rerouting it into a simulated network = padded cell
   - **Signature vs. anomaly**: "new attack never seen before" -> anomaly; "too many false alarms" -> anomaly's cost; "must update definitions" -> signature
   - **Stateful vs. application-level**: stateful knows the session, not the payload semantics; WAF understands HTTP
   - **IPS vs. IDS**: inline blocking can cause **self-inflicted outage** on false positives - management trades availability for prevention
-  - **Allow list vs. deny list**: allow list is the stronger posture (implicit deny); deny listing = signature AV logic and always incomplete
+  - **Allow list vs. deny list**: allow list is the stronger posture (implicit deny); deny listing = signature AV logic and always incomplete. Example: allow list = only signed, approved binaries run, so a new ransomware variant fails by default; deny list = AV blocks known hashes, the new variant runs
   - **Sandbox vs. honeypot**: sandbox isolates *your* suspicious code; honeypot attracts *their* activity
   - **Anti-malware as preventive**: OSG says preventive **and** corrective (it removes). Distractor: "detective only"
   - Outsourcing to an MSSP transfers work, not liability
@@ -257,12 +257,12 @@
   - Change management's security purposes: prevent **unintended outages**, prevent changes that undo security (reopened ports, disabled logging), preserve the **baseline** (7.3), create an audit trail of who changed what when
   - Change types (ITIL-style): standard (pre-approved, low risk), normal (full CAB), emergency (expedited) [unverified - public axelos.com/peoplecert.org pages do not define the types; ITIL 4 Change Enablement practice guide is paywalled]
 - Exam traps / distractors:
-  - **Patch vs. vulnerability management**: a patch fixes one flaw; vuln management includes misconfigurations, missing controls, EOL software that has no patch
-  - **Scan vs. assessment vs. pen test**: scan = automated, finds candidates; assessment = evaluates and prioritizes; pen test = exploits (D6 6.2)
+  - **Patch vs. vulnerability management**: a patch fixes one flaw; vuln management includes misconfigurations, missing controls, EOL software that has no patch. Example: EOL server with SMBv1 has no patch; vuln management still owns it via isolation, compensating control, or documented acceptance
+  - **Scan vs. assessment vs. pen test**: scan = automated, finds candidates; assessment = evaluates and prioritizes; pen test = exploits (D6 6.2). Example: scanner flags a CVE on 40 hosts = scan; analyst ranks the 6 internet-facing ones first = assessment; red team exploits one = pen test
   - "Deploy the critical patch immediately to all systems" - the ISC2 answer is **test first**, then staged rollout via change management, unless active exploitation justifies an emergency change (still documented)
   - **Verification** is the step most often omitted in distractors: audit that the patch is present (patches get rolled back, images get redeployed)
-  - **Change management vs. configuration management** (7.3): approval process vs. state tracking; the change record updates the baseline
-  - Emergency changes skip the *timing* of approval, never the *documentation*
+  - **Change management vs. configuration management** (7.3): approval process vs. state tracking; the change record updates the baseline. Example: opening TCP 8443 is a change record; the baseline then updates so the next CM scan does not flag 8443 as drift
+  - Emergency changes skip the *timing* of approval, never the *documentation*. Example: Log4Shell patch pushed overnight on the CISO's verbal approval; CAB reviews and records it next morning
   - Change management is a control against **integrity/availability** loss from authorized users, not against attackers
 - Related terms: configuration management (7.3), vulnerability assessment and pen testing (D6 6.2), SDLC change management (D8 8.1), EOL/EOS (D2 2.5)
 - Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-53], [NIST SP 800-128], [NIST SP 800-115], [CVE.org], [FIRST CVSS], [unverified]
@@ -278,14 +278,14 @@
   | **Incremental** | Changed since last full **or incremental** | Cleared | Last full + **every** incremental in order |
   | **Differential** | Changed since last **full** | **Not** cleared | Last full + **last** differential only |
 
-  - Trade-off: incremental = fastest backup, slowest restore; differential = slower growing backups, two-set restore
+  - Trade-off: incremental = fastest backup, slowest restore; differential = slower growing backups, two-set restore. Example: Sunday full, Thursday restore - differential = Sun full + Thu; incremental = Sun full + Mon + Tue + Wed + Thu
   - Database/electronic strategies [OSG glossary]:
 
-  | Strategy | Mechanism | RPO |
-  | --- | --- | --- |
-  | **Electronic vaulting** | Bulk transfer of backups to a remote site | Hours-day |
-  | **Remote journaling** | Transaction logs since last bulk transfer shipped remotely | Minutes-hour |
-  | **Remote mirroring** | Live database server at the backup site; most advanced | Near zero |
+  | Strategy | Mechanism | RPO | Example |
+  | --- | --- | --- | --- |
+  | **Electronic vaulting** | Bulk transfer of backups to a remote site | Hours-day | Nightly backup set pushed to the offsite vault |
+  | **Remote journaling** | Transaction logs since last bulk transfer shipped remotely | Minutes-hour | Transaction log shipped every 15 min |
+  | **Remote mirroring** | Live database server at the backup site; most advanced | Near zero | Standby DB applies every write as it happens |
 
   - Storage location: **onsite** (fast restore, same-disaster exposure), **offsite** (survives site loss, slower; needs transport chain of custody + encryption), **cloud** (elastic, geographically separate; contract, egress cost, exit strategy). Keep at least one copy off-site and offline/immutable against ransomware [NIST SP 800-34 Sec. 3.4.2 (offsite)] [CISA #StopRansomware Guide Part 1 (offline, encrypted; immutable storage with caution)]. SP 800-53 **CP-9** System Backup [NIST SP 800-53]
   - Recovery sites [OSG glossary] [NIST SP 800-34]:
@@ -302,25 +302,25 @@
   - **Multiple processing sites**: run production across two or more sites so loss of one degrades rather than stops (active/active); SP 800-53 **CP-7** Alternate Processing Site [NIST SP 800-53]
   - Resilience vocabulary [OSG glossary]:
 
-  | Term | Gloss |
-  | --- | --- |
-  | **Fault tolerance** | Suffer a fault, keep operating without data loss (RAID, redundant servers) |
-  | **High availability** | Redundant components -> quick recovery from brief disruption; load balancing + failover; measured as % of year |
-  | **Failover** | Redirect workload to backup when primary fails (aka switchover); heartbeat-triggered |
-  | **Clustering** | Load balancing + fault tolerance across nodes |
-  | **QoS** | Manage throughput, bit rate, packet loss, latency, jitter, delay, availability |
-  | **SPOF** | Any element whose loss causes significant downtime |
+  | Term | Gloss | Example |
+  | --- | --- | --- |
+  | **Fault tolerance** | Suffer a fault, keep operating without data loss (RAID, redundant servers) | RAID 5 disk dies, users notice nothing |
+  | **High availability** | Redundant components -> quick recovery from brief disruption; load balancing + failover; measured as % of year | Node fails, cluster back in 30 s |
+  | **Failover** | Redirect workload to backup when primary fails (aka switchover); heartbeat-triggered | Heartbeat lost, standby firewall takes the VIP |
+  | **Clustering** | Load balancing + fault tolerance across nodes | Three web nodes behind a load balancer |
+  | **QoS** | Manage throughput, bit rate, packet loss, latency, jitter, delay, availability | VoIP prioritized over backup traffic |
+  | **SPOF** | Any element whose loss causes significant downtime | The single unpaired core switch |
 
   - RAID [OSG glossary]: **RAID 0** striping, no fault tolerance; **RAID 1** mirroring (duplexing = separate controllers); **RAID 5** striping with parity (survives one disk). **RAID 6** double parity (two disks) [SNIA Dictionary]; **RAID 10** striped mirrors: RAID 0 stripe across RAID 1 mirror sets, survives one failure per mirror set [SNIA Dictionary]. Correction (audit 2026-09-28): was "mirrored stripes", which describes RAID 0+1 (a mirror of two stripe sets); SNIA defines RAID 10 as a stripe over mirrored sets
   - Metrics [OSG glossary]: **MTBF** anticipated failure interval; **MTTF** time to first failure; **MTTR** time to repair/restore; **MTD/MTO** max downtime before irreparable harm; **RTO** feasible recovery time (must be <= MTD); **RPO** acceptable data loss
 - Exam traps / distractors:
   - **Incremental vs. differential**: the only difference is the **archive bit**; "fastest nightly backup" -> incremental; "fastest restore short of full" -> differential
-  - **Warm vs. hot**: warm has hardware but **no data**; the data is the expensive, hard part. "Hours" -> hot; "days" -> warm
+  - **Warm vs. hot**: warm has hardware but **no data**; the data is the expensive, hard part. "Hours" -> hot; "days" -> warm. Example: warm = racked servers at the colo, you ship tapes and load data; hot = same servers with last night's data already loaded; mirrored = already serving traffic
   - **Mirrored site vs. hot site**: hot needs data restore and activation; mirrored is already live
-  - **Reciprocal agreement** weaknesses are the exam point, not its cost advantage: enforceability, shared regional disaster, capacity
+  - **Reciprocal agreement** weaknesses are the exam point, not its cost advantage: enforceability, shared regional disaster, capacity. Example: two hospitals in the same city pledge each other's data center, then the hurricane hits both
   - **Electronic vaulting vs. remote journaling**: batch backups vs. transaction logs; mirroring = live server
   - **Fault tolerance vs. high availability**: FT = no interruption on component failure; HA = brief interruption then recovery. RAID 0 is neither
-  - **RTO vs. RPO**: time to restore service vs. how much data (time) you can lose; RPO drives backup **frequency**, RTO drives **site type**
+  - **RTO vs. RPO**: time to restore service vs. how much data (time) you can lose; RPO drives backup **frequency**, RTO drives **site type**. Example: RPO 1 h -> hourly journaling, nightly tape fails it; RTO 4 h -> hot/warm site, a cold site cannot make it
   - **QoS** is a performance/availability concept, not a security control; it appears as a distractor for "fault tolerance"
   - Backup that is never **test-restored** is not a recovery strategy (D6 6.3 backup verification)
 - Related terms: BIA/MTD/RTO/RPO (D1 1.7), DR processes and DRP testing (7.11, 7.12), media protection (7.5), cloud shared responsibility (D3 3.5)
@@ -356,12 +356,12 @@
   - Test communications: inform **stakeholders** before/after, publish test status, notify **regulators** where tests could look like real outages or where testing is a compliance obligation [ISC2 outline]
   - Management view: every test must have measurable success criteria, and results must feed **plan maintenance**; an untested plan is assumed broken. Full interruption needs senior management sign-off because the test itself can cause the disaster
 - Exam traps / distractors:
-  - **Walk-through vs. tabletop vs. read-through**: read-through is **individual**; structured walk-through/tabletop is the **group** discussion; OSG treats structured walk-through and tabletop as near-synonyms
-  - **Simulation vs. parallel**: simulation may touch noncritical operations; parallel actually **activates the alternate site** without stopping production
-  - **Parallel vs. full interruption**: both use the alternate site; only full interruption **stops the primary**
+  - **Walk-through vs. tabletop vs. read-through**: read-through is **individual**; structured walk-through/tabletop is the **group** discussion; OSG treats structured walk-through and tabletop as near-synonyms. Example: each manager reads the ransomware playbook at their desk = read-through; the team talks it through in a conference room = tabletop
+  - **Simulation vs. parallel**: simulation may touch noncritical operations; parallel actually **activates the alternate site** without stopping production. Example: simulation = team runs the call tree and restores one noncritical test server from tape; parallel = failover site brought up and processing alongside prod
+  - **Parallel vs. full interruption**: both use the alternate site; only full interruption **stops the primary**. Example: prod data center powered down Saturday night and the DR site carries real customers = full interruption
   - "Most realistic test" = full interruption; "most realistic test acceptable to most orgs" = parallel
-  - **Restoration order**: move the **least critical** functions back to the primary site first (the primary is unproven); move **most critical** functions to the alternate site first during the disaster
-  - **DRP vs. BCP**: DRP = restore IT/systems after the disaster; BCP = keep the business running before/during; DRP is a component of BCP
+  - **Restoration order**: move the **least critical** functions back to the primary site first (the primary is unproven); move **most critical** functions to the alternate site first during the disaster. Example: after the flood, payroll moves to the hot site first; coming home, the intranet wiki returns to HQ first and payroll last
+  - **DRP vs. BCP**: DRP = restore IT/systems after the disaster; BCP = keep the business running before/during; DRP is a component of BCP. Example: tellers switch to paper slips and calls reroute to another branch = BCP; rebuilding the core banking system at the hot site = DRP
   - **Lessons learned** applies after tests too, not only after real events
   - DR communications distractor: relying on the corporate email/phone system that is itself down - answer = **out-of-band** predefined methods
 - Related terms: recovery strategies (7.10), BC planning (7.13), BIA/MEF/COOP (D1 1.7), incident lessons learned (7.6), OEP (7.15)
@@ -378,10 +378,10 @@
   - Personnel are the first priority in every ISC2 continuity question - "people before property before process"
 - Exam traps / distractors:
   - **BCP vs. DRP**: BCP is strategic and business-wide (keep operating); DRP is tactical and IT-focused (restore); DRP nests inside BCP
-  - **BCP vs. COOP**: COOP = continuity of the *organization's* essential functions (often government usage); BCP = the broader business planning process
-  - **BIA belongs to planning** (D1), not to recovery execution - a question about "identify critical functions" is BIA, not DR
+  - **BCP vs. COOP**: COOP = continuity of the *organization's* essential functions (often government usage); BCP = the broader business planning process. Example: COOP = the agency keeps issuing benefit payments from an alternate facility; BCP = the whole plan around it - vendors, HR, communications, return to normal
+  - **BIA belongs to planning** (D1), not to recovery execution - a question about "identify critical functions" is BIA, not DR. Example: "which systems must be back within 4 hours?" = BIA; "bring the hot site up" = DR
   - "Who approves the BCP?" -> **senior management**, not the CISO or the BCP team
-  - **Exercise vs. test**: ISC2 uses "exercise" for BC (process/people) and "test" for DRP (technical), but the disruption ladder is identical
+  - **Exercise vs. test**: ISC2 uses "exercise" for BC (process/people) and "test" for DRP (technical), but the disruption ladder is identical. Example: finance walks through month-end close with the ERP assumed down = exercise; IT fails the ERP over to the DR site = test
   - Insurance is part of recovery strategy (**risk transfer**), not a substitute for a plan
 - Related terms: BCP and BIA (D1 1.7), MEF/COOP (D1 1.7), DR processes and testing (7.11, 7.12), recovery strategies (7.10)
 - Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-34], [unverified]
@@ -444,13 +444,13 @@
   | **2FA / MFA fatigue** (prompt bombing) | Attacker floods push prompts until user approves; counter with number matching [CISA number matching fact sheet], rate limits [unverified - not in CISA fact sheets], phishing-resistant authenticators [CISA phishing-resistant MFA fact sheet], and training to **report** unexpected prompts [CISA number matching fact sheet] |
 
 - Exam traps / distractors:
-  - **Life safety first**: if an option protects people and another protects data, people wins - even in a data-center fire or evacuation question. Fire door **fail-safe** (opens); vault **fail-secure** (locks) - the human-occupied space fails safe
-  - **Piggybacking vs. tailgating**: consent vs. unaware; both defeated by the **access control vestibule**, not by badges alone
-  - **Deterrent vs. detective**: lighting, fences, signage, dogs = deterrent; cameras, motion sensors, guards = detective (guards also respond). CCTV only *prevents* through deterrence when visible
+  - **Life safety first**: if an option protects people and another protects data, people wins - even in a data-center fire or evacuation question. Fire door **fail-safe** (opens); vault **fail-secure** (locks) - the human-occupied space fails safe. Example: power fails - the data-center door unlocks so staff can leave (fail-safe); the server vault stays locked (fail-secure)
+  - **Piggybacking vs. tailgating**: consent vs. unaware; both defeated by the **access control vestibule**, not by badges alone. Example: "hold the door, I left my badge upstairs" = piggybacking; slipping in behind someone before the door closes = tailgating
+  - **Deterrent vs. detective**: lighting, fences, signage, dogs = deterrent; cameras, motion sensors, guards = detective (guards also respond). CCTV only *prevents* through deterrence when visible. Example: lit, fenced lot with a "CCTV in use" sign = deterrent; the motion sensor tripping at 02:00 = detective; the guard who walks over = response
   - **Guards** are the only control that adapts and makes decisions; the exam's "which control can respond to an unexpected situation" -> guard
   - **Mantrap** is deprecated vocabulary for access control vestibule/person trap; recognise it, answer with the new term
   - **Fence height**: 8 ft with barbed wire = determined intruder; 3-4 ft = casual only
-  - **Duress vs. emergency management**: duress = individual under coercion right now; emergency management = organizational plan after a disaster
+  - **Duress vs. emergency management**: duress = individual under coercion right now; emergency management = organizational plan after a disaster. Example: the night operator keys the second disarm code that silently alerts the monitoring company = duress; the post-earthquake evacuation and roll-call plan = emergency management
   - **MFA fatigue** is a *user awareness* item on the outline, not just a technical control question - the "best" answer often includes training to report
   - Physical IDS (burglar alarm) is a valid "IDS" on the exam [OSG glossary]; don't assume network
 - Related terms: site and facility design/controls (D3 3.8, 3.9), fail-safe vs. fail-secure (D3 3.1), personnel security policies and social media checks (D1 1.8), SoD/job rotation (7.4), OEP (7.11)

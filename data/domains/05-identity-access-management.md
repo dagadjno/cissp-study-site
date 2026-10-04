@@ -3,7 +3,7 @@
 ## Control physical and logical access to assets (5.1)
 - Definition (ISC2 framing): access control = giving or restricting **subject** access to **objects** (resources), usually via an ACL [OSG glossary]; subject = active entity that exercises access (user, process, program); object = passive entity that provides data (file, database, printer) [OSG glossary]. Outline 5.1 lists six asset classes to protect: information, systems, devices, facilities, applications, services [ISC2 outline]
 - Key facts:
-  - **Physical access controls** restrict physical access / direct contact with systems or areas; **logical (technical) access controls** are hardware/software mechanisms (encryption, smartcards, passwords, ACLs) [OSG glossary]
+  - **Physical access controls** restrict physical access / direct contact with systems or areas; **logical (technical) access controls** are hardware/software mechanisms (encryption, smartcards, passwords, ACLs) [OSG glossary]. Example: badge reader on the server-room door = physical; the NTFS ACL on the share inside = logical
 
   | Asset class | Typical controls | Exam angle |
   | --- | --- | --- |
@@ -15,10 +15,10 @@
   | Services | API keys, service accounts, OAuth scopes | Non-person entities still need IAM |
 
   - **Access control vestibule**: double set of doors, often guarded, contains a subject until identity + authentication are verified; the term **mantrap** is deprecated [OSG glossary]
-  - **Constrained (restricted) interface**: application restricts what users can do or see based on assigned privileges [OSG glossary]
-  - **Content-dependent** access control = decision based on the object's *payload* (e.g. hide salary column); **context-dependent** = based on surroundings/sequence (time of day, prior step completed) [OSG glossary]
-  - **Access control matrix**: subjects x objects; each *column* = **ACL** (object-focused), each *row* = **capability table/list** (subject-focused) [OSG glossary]
-  - **Biometrics** are authentication for logical access but *identification* for physical access (face at a door identifies who entered) [OSG glossary]
+  - **Constrained (restricted) interface**: application restricts what users can do or see based on assigned privileges [OSG glossary]. Example: the SIEM shows a Tier 1 analyst the search bar but greys out "delete index"; NOT a firewall rule — it lives inside the app
+  - **Content-dependent** access control = decision based on the object's *payload* (e.g. hide salary column); **context-dependent** = based on surroundings/sequence (time of day, prior step completed) [OSG glossary]. Example: content = the HR query returns the row but masks the salary column; context = the same query is refused outside 08-18 or before the MFA step completed
+  - **Access control matrix**: subjects x objects; each *column* = **ACL** (object-focused), each *row* = **capability table/list** (subject-focused) [OSG glossary]. Example: `icacls` output on the finance share (who may touch *this* share) = ACL; the entitlement report listing every share *jdoe* can reach = capability table
+  - **Biometrics** are authentication for logical access but *identification* for physical access (face at a door identifies who entered) [OSG glossary]. Example: fingerprint unlocking jdoe's laptop = authentication of a claimed identity; the lobby face camera logging who walked in = identification, no claim made
   - Managerial view: access control is a *system* (policy -> identity -> authentication -> authorization -> audit) layered across physical and logical, not a single product; **defense in depth** applies (badge + logon + ACL)
 - Exam traps / distractors:
   - **ACL vs capability table**: "which subjects can touch this object" -> ACL; "what can this subject touch" -> capability table
@@ -33,13 +33,13 @@
 ## Identification, authentication, and AAA (5.2)
 - Definition (ISC2 framing): **AAA** (authentication, authorization, accounting) actually names five elements — identification, authentication, authorization, auditing, accounting [OSG glossary]. Outline 5.2: design an identification and authentication strategy for people, devices, and services; includes MFA and password-less authentication [ISC2 outline]
 
-  | Element | ISC2 gloss | Distinguisher |
-  | --- | --- | --- |
-  | **Identification** | Subject *professes* an identity; accountability begins here | Username, ID badge — a claim, not proof |
-  | **Authentication** | Verifying the claimed identity via factors | Password, token, biometric |
-  | **Authorization** | Ensuring requested activity is allowed given assigned rights | ACLs, roles, policy |
-  | **Auditing** | Recording subject activity into logs | Makes accounting possible |
-  | **Accounting/accountability** | Holding the subject responsible; needs tracked identity + actions | Requires strong authN + audit trail |
+  | Element | ISC2 gloss | Distinguisher | Example |
+  | --- | --- | --- | --- |
+  | **Identification** | Subject *professes* an identity; accountability begins here | Username, ID badge — a claim, not proof | Typing `jdoe` at the logon box |
+  | **Authentication** | Verifying the claimed identity via factors | Password, token, biometric | Password + FIDO key accepted |
+  | **Authorization** | Ensuring requested activity is allowed given assigned rights | ACLs, roles, policy | Share ACL: read yes, write no |
+  | **Auditing** | Recording subject activity into logs | Makes accounting possible | 4663 object-access events in SIEM |
+  | **Accounting/accountability** | Holding the subject responsible; needs tracked identity + actions | Requires strong authN + audit trail | Trail names jdoe, not "administrator" |
 
   [OSG glossary]
 - Key facts:
@@ -76,33 +76,34 @@
   | 2 | More evidence, rigorous validation; remote or on-site | **Two distinct factors**; phishing-resistant option offered | Single-RP audience, injection protection, pre-established trust |
   | 3 | **On-site attended** by trained agent + **biometric** collected | Phishing-resistant **crypto authenticator**, non-exportable key, hardware FIPS 140 | **Holder-of-key** / bound authenticator; protects against IdP compromise |
 
+  - Example: IAL = HR checks the passport at onboarding; AAL = the FIDO key tapped at login; FAL = the signed SAML assertion the SP accepts — three separate things, each can be weak while the other two are strong
   - Reauthentication (SP 800-63B-4): AAL2 24 h overall / 1 h idle; AAL3 12 h overall / 15 min idle [NIST SP 800-63B]
-  - OTP tokens [OSG glossary]: **synchronous dynamic** = time-based, clocks synced -> **TOTP** (RFC 6238, default 30 s step) [RFC 6238]; **asynchronous dynamic** = counter/challenge-response -> **HOTP** (RFC 4226, HMAC-SHA-1 counter) [RFC 4226]. **Static token** = swipe card/USB key, identity not really authentication [OSG glossary]
+  - OTP tokens [OSG glossary]: **synchronous dynamic** = time-based, clocks synced -> **TOTP** (RFC 6238, default 30 s step) [RFC 6238]; **asynchronous dynamic** = counter/challenge-response -> **HOTP** (RFC 4226, HMAC-SHA-1 counter) [RFC 4226]. **Static token** = swipe card/USB key, identity not really authentication [OSG glossary]. Example: Google Authenticator code rotating every 30 s = synchronous; a press-button bank token that increments a counter per press = asynchronous
   - Biometrics [OSG glossary]:
 
-  | Metric | Meaning | Sensitivity |
-  | --- | --- | --- |
-  | **FRR** (false rejection) — Type I | Valid subject rejected; device too sensitive | Rises as sensitivity rises |
-  | **FAR** (false acceptance) — Type II | Invalid subject accepted; not sensitive enough | Falls as sensitivity rises |
-  | **CER** (crossover error rate) | Point where FAR = FRR; compare devices — **lower = more accurate** | Tune toward FRR for high-security |
-  | Throughput | Scan + authenticate time; ~6 s or faster for acceptance | Usability |
-  | Enrollment | Registering the reference template; secure enrollment requires physical proof of identity | Identity proofing dependency |
+  | Metric | Meaning | Sensitivity | Example |
+  | --- | --- | --- | --- |
+  | **FRR** (false rejection) — Type I | Valid subject rejected; device too sensitive | Rises as sensitivity rises | Real admin denied, swipes again |
+  | **FAR** (false acceptance) — Type II | Invalid subject accepted; not sensitive enough | Falls as sensitivity rises | Visitor's thumb opens CFO's door |
+  | **CER** (crossover error rate) | Point where FAR = FRR; compare devices — **lower = more accurate** | Tune toward FRR for high-security | Reader A 2 % beats B 5 % |
+  | Throughput | Scan + authenticate time; ~6 s or faster for acceptance | Usability | Queue builds at the turnstile |
+  | Enrollment | Registering the reference template; secure enrollment requires physical proof of identity | Identity proofing dependency | Day-one fingerprint capture at HR |
 
   - Physiological (fingerprint, face, retina, iris, palm, hand geometry, voice) vs behavioral (signature dynamics, keystroke dynamics: flight and dwell time) [OSG glossary]
   - **Password-less / phishing-resistant**: **FIDO2 / WebAuthn** (W3C Recommendation, Level 3, 2026) public-key credentials **scoped to the relying-party origin**, so a phishing site cannot replay them; roles relying party / authenticator / client; CTAP2 carries authenticator transport [W3C WebAuthn]. **Passkeys** = WebAuthn **discoverable credentials** (spec lists "Passkey" as a synonym, Sec. 4); **synced** (multi-device) or **device-bound** (single-device) [W3C WebAuthn Sec. 4, 1.2.1-1.2.2] [FIDO Alliance]. **PIV** (Personal Identity Verification) smartcard per **FIPS 201-3** (2022) = have + know in one device; the U.S. DoD variant is the **CAC** [FIPS 201-3] [OSG glossary]
-  - **Mutual authentication** = each entity proves itself to the other (Kerberos AP_REP, EAP-TLS) [OSG glossary]; **challenge-response** = server sends random challenge, client answers with hash of secret + challenge [OSG glossary]
-  - **Account lockout** disables after N failed logons (counters brute-force/dictionary); **account expiration** disables at a set date — "often confused" [OSG glossary]. **Clipping level** = threshold before violations are logged [OSG glossary]
-  - Devices and services: **certificate-based authentication** for devices, systems, services [OSG glossary]; **device authentication** may combine credentials with **context-aware authentication** (location, time, connection type, endpoint) [OSG glossary]
+  - **Mutual authentication** = each entity proves itself to the other (Kerberos AP_REP, EAP-TLS) [OSG glossary]; **challenge-response** = server sends random challenge, client answers with hash of secret + challenge [OSG glossary]. Example: EAP-TLS where the laptop checks the RADIUS server's certificate *and* the server checks the laptop's = mutual; NTLM's server nonce hashed with the password = challenge-response, one-way
+  - **Account lockout** disables after N failed logons (counters brute-force/dictionary); **account expiration** disables at a set date — "often confused" [OSG glossary]. **Clipping level** = threshold before violations are logged [OSG glossary]. Example: lockout = 4740 after 5 bad passwords; expiration = contractor account dies on 30 Jun regardless of activity; clipping level = alert only after 3 failed logons/hour, nothing locked
+  - Devices and services: **certificate-based authentication** for devices, systems, services [OSG glossary]; **device authentication** may combine credentials with **context-aware authentication** (location, time, connection type, endpoint) [OSG glossary]. Example: the same password is accepted from the office LAN but step-up MFA is demanded from hotel Wi-Fi at 02:00
 - Exam traps / distractors:
   - **Identification vs authentication**: typing a username is identification; a badge *shown* to a guard is identification, a badge *swiped + PIN* is authentication
   - **MFA vs two same-type factors**: password + security question = single factor; token + PIN = two factors; "strong authentication" != MFA in OSG wording
-  - **FAR vs FRR direction**: increasing sensitivity *raises* FRR and *lowers* FAR; a security-first setting accepts more false rejections. Type I = reject (FRR), Type II = accept (FAR) — same numbering as statistics
+  - **FAR vs FRR direction**: increasing sensitivity *raises* FRR and *lowers* FAR; a security-first setting accepts more false rejections. Type I = reject (FRR), Type II = accept (FAR) — same numbering as statistics. Example: raising the match threshold on the datacenter reader locks out more real admins (FRR up) but no tailgater gets through (FAR down)
   - **CER**: lower is better; it is for comparing devices, not a tuning target
   - **SMS OTP**: exam-acceptable "something you have" but NIST calls PSTN out-of-band *restricted*; if options include an authenticator app or FIDO key, prefer it
   - **Password rotation**: legacy control; NIST removed it. If the question is anchored on NIST, "force change only on compromise" is correct
-  - **Phishing-resistant**: only origin-bound public-key authenticators (WebAuthn, PIV) qualify; TOTP and push are *not* phishing-resistant — they are replayable/relayable
+  - **Phishing-resistant**: only origin-bound public-key authenticators (WebAuthn, PIV) qualify; TOTP and push are *not* phishing-resistant — they are replayable/relayable. Example: an evilginx-style proxy serves the real login page and relays the TOTP in real time; the FIDO key refuses because the origin is `corp-login.com`, not `corp.com`
   - **MFA fatigue / prompt bombing** (7.15): control = number matching / limiting prompts, not "disable MFA"
-  - **Accountability** needs *both* auditing and authentication strong enough to tie actions to one person; shared accounts break it
+  - **Accountability** needs *both* auditing and authentication strong enough to tie actions to one person; shared accounts break it. Example: three admins log on as the shared `administrator`; the 4624s prove *someone* authenticated but cannot name who
   - **Lockout vs expiration**; **clipping level** is an audit threshold, not a lockout
 - Related terms: session management / identity proofing / SSO (next entry), authentication systems (5.6), MFA fatigue (7.15), privileged account management (7.4), zero trust dynamic authN (3.1)
 - Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-63-4], [NIST SP 800-63B], [RFC 6238], [RFC 4226], [W3C WebAuthn], [FIDO Alliance], [FIPS 201-3]
@@ -111,27 +112,27 @@
 - Definition (ISC2 framing): **identity management (IdM)** = technology, policies, procedures ensuring subjects get accounts with properly *limited* access for their responsibilities; aka **IAM** [OSG glossary]. Outline 5.2 sub-items: groups and roles; AAA; session management; registration, proofing, establishment of identity; **FIM** (federated identity management); credential management systems (password vaults); **SSO** (single sign-on); **JIT** (just-in-time) [ISC2 outline]
 - Key facts:
   - **Groups and roles**: a **group** is an administrative simplification — similar users are members, access is assigned to the group, all members inherit it [OSG glossary]; **security groups** may hold users, applications, devices [OSG glossary]; a **role** is a *job function* used by RBAC to regulate access [OSG glossary]. Managerial framing: roles are defined by the business (job), groups implement them in the directory
-  - **Session management**: controls what happens *after* authentication — idle/absolute timeouts, **screen lock** [OSG glossary], reauthentication for sensitive actions, session-token protection against **session hijacking** and **replay** [OSG glossary]. NIST reauth bounds: AAL2 24 h / 1 h idle, AAL3 12 h / 15 min idle [NIST SP 800-63B]. NIST SP 800-53 Rev. 5 controls: **AC-12 Session Termination** [NIST SP 800-53]; **AC-10 Concurrent Session Control** (limit concurrent sessions per account/type), **AC-11 Device Lock** (lock after inactivity or on user request; retain until re-authentication) [NIST SP 800-53 AC-10, AC-11]
+  - **Session management**: controls what happens *after* authentication — idle/absolute timeouts, **screen lock** [OSG glossary], reauthentication for sensitive actions, session-token protection against **session hijacking** and **replay** [OSG glossary]. NIST reauth bounds: AAL2 24 h / 1 h idle, AAL3 12 h / 15 min idle [NIST SP 800-63B]. NIST SP 800-53 Rev. 5 controls: **AC-12 Session Termination** [NIST SP 800-53]; **AC-10 Concurrent Session Control** (limit concurrent sessions per account/type), **AC-11 Device Lock** (lock after inactivity or on user request; retain until re-authentication) [NIST SP 800-53 AC-10, AC-11]. Example: VPN drops after 1 h idle (AC-12); jdoe's second RDP session is refused (AC-10); screen locks at 10 min (AC-11) — none of these is lockout
   - **Registration, proofing, establishment of identity** — **NIST SP 800-63A-4** (Identity Proofing and Enrollment, 2025) [NIST SP 800-63A]:
-    1. **Resolution** (Sec. 2.3): collect evidence + core attributes; is the applicant a *unique* identity in the population?
-    2. **Validation** (Sec. 2.4): evidence is genuine, attributes checked against authoritative/credible sources
-    3. **Verification** (Sec. 2.5): link the claimed identity to the *person present* (biometric comparison, confirmation code)
-    4. **Enrollment**: applicant becomes a **subscriber**; authenticators are bound to the account by the **CSP** (credential service provider)
+    1. **Resolution** (Sec. 2.3): collect evidence + core attributes; is the applicant a *unique* identity in the population? Example: two "J. Doe, 1990" records in HR — which one is this applicant?
+    2. **Validation** (Sec. 2.4): evidence is genuine, attributes checked against authoritative/credible sources. Example: passport MRZ and chip check out against the issuer
+    3. **Verification** (Sec. 2.5): link the claimed identity to the *person present* (biometric comparison, confirmation code). Example: live selfie matched to the passport photo
+    4. **Enrollment**: applicant becomes a **subscriber**; authenticators are bound to the account by the **CSP** (credential service provider). Example: the YubiKey is registered to the new account
   - Proofing modes: remote unattended, remote attended (video), on-site unattended (kiosk), on-site attended [NIST SP 800-63A]; IAL3 requires on-site attended + biometric (see previous entry). OSG: **enrollment** = establishing a new identity or authentication factor; secure enrollment needs physical proof of identity [OSG glossary]. Onboarding ties proofing to HR (1.8): HR verifies the person, IAM creates the account
   - **FIM**: federation links a subject's accounts across sites/services/entities into one, accomplishing SSO across organizations; commonly SAML [OSG glossary]. FIM is "a single sign-on based identity solution" [OSG glossary]. Roles: **IdP** (identity provider) creates/manages identities and asserts authentication; **SP** (service provider) = resource host that consumes assertions [OSG glossary]. Provisioning across domains: legacy **SPML** (Service Provisioning Markup Language, XML) [OSG glossary]; modern **SCIM** (System for Cross-domain Identity Management) REST/JSON — RFC 7643 schema, RFC 7644 protocol (2015) [RFC 7644]
   - **Credential management systems / password vaults**: encrypted store for credentials to sites/resources that require *different* credentials — i.e. where SSO isn't available; aka credential manager, password locker [OSG glossary]. **Secrets management** is broader: password hashes, session/storage keys, certificates, API tokens, federation [OSG glossary]. Privileged-credential vaulting is **PAM** (7.4)
-  - **SSO**: authenticate once, then access resources without being rechallenged [OSG glossary]. LAN SSO = **Kerberos** [OSG glossary]; web/cross-org SSO = SAML/OIDC. Managerial trade: fewer passwords + central audit + fast deprovisioning vs **single point of compromise** — pair SSO with MFA and short sessions
+  - **SSO**: authenticate once, then access resources without being rechallenged [OSG glossary]. LAN SSO = **Kerberos** [OSG glossary]; web/cross-org SSO = SAML/OIDC. Managerial trade: fewer passwords + central audit + fast deprovisioning vs **single point of compromise** — pair SSO with MFA and short sessions. Example: one phished IdP password opens mail, HR, and the ticketing system at once
   - **JIT**: (a) **JIT provisioning** = federated identity auto-creates the account/relationship at first login with no administrator action [OSG glossary]; (b) **JIT access/privilege** = privilege granted for a bounded window on request, no standing admin rights (zero standing privilege; PAM feature) — NIST: "just enough privileges at the time they are needed ... and then removing those privileges", characterized as **just-enough and just-in-time** access rights [NIST SP 1800-35 Vol. B, ICAM component]; OSG glossary defines only JIT provisioning [OSG glossary]. Outline 5.2 says only "Just-in-time (JIT)" — read the stem to decide which
   - **IDaaS** (identity as a service): third-party IAM; "effectively provides SSO for the cloud," esp. for SaaS access [OSG glossary]
 - Exam traps / distractors:
-  - **FIM vs SSO**: FIM is a *means* of SSO across trust domains; SSO inside one domain (Kerberos) is not federation
+  - **FIM vs SSO**: FIM is a *means* of SSO across trust domains; SSO inside one domain (Kerberos) is not federation. Example: logging into Salesforce via an Okta SAML assertion = FIM (and SSO); one TGT opening three file shares = SSO only
   - **Group vs role**: "accountants get access" via a *role* (business concept) vs "Finance-RW group" (directory object) — RBAC questions want role
-  - **Password vault vs SSO**: vault = many credentials stored; SSO = one authentication reused. A vault is the fallback where SSO can't reach
-  - **Enrollment vs registration vs proofing**: proofing verifies the human; enrollment binds authenticators to the account; "registration" is the OSG umbrella. Weak proofing undermines strong authentication (IAL caps effective assurance)
-  - **JIT provisioning vs JIT access**: creating the account vs elevating an existing account temporarily
-  - **SPML vs SCIM**: both provisioning; SCIM is the live one. **SAML** is *not* a provisioning protocol (assertions, not account creation) — though JIT provisioning can ride on a SAML assertion
+  - **Password vault vs SSO**: vault = many credentials stored; SSO = one authentication reused. A vault is the fallback where SSO can't reach. Example: the firewall console's local admin account lives in the vault; everything behind the IdP is SSO
+  - **Enrollment vs registration vs proofing**: proofing verifies the human; enrollment binds authenticators to the account; "registration" is the OSG umbrella. Weak proofing undermines strong authentication (IAL caps effective assurance). Example: HR inspecting the passport = proofing; registering the passkey to the account = enrollment; skip the first and you have a strong passkey bound to a fake person
+  - **JIT provisioning vs JIT access**: creating the account vs elevating an existing account temporarily. Example: provisioning = first Okta login to Slack creates the Slack user; access = PIM elevates jdoe to Global Admin for 2 h against a ticket, then the right vanishes
+  - **SPML vs SCIM**: both provisioning; SCIM is the live one. **SAML** is *not* a provisioning protocol (assertions, not account creation) — though JIT provisioning can ride on a SAML assertion. Example: the SCIM connector pushes the new hire to Zoom at 09:00; the SAML assertion logs her in at 09:05 — different protocols, different jobs
   - **Session timeout** is a *logical/technical* control that mitigates unattended sessions — not "screen filter" (privacy) or "lockout" (failed logons)
-  - **Password-less** does not mean factor-less: a passkey is have (+ are/know to unlock)
+  - **Password-less** does not mean factor-less: a passkey is have (+ are/know to unlock). Example: a passkey on a phone = have (the phone) + are (Face ID unlock) — two factors, zero passwords
 - Related terms: AAA/MFA (previous entry), third-party federation (5.3), provisioning lifecycle (5.5), Kerberos/SAML/OIDC (5.6), PAM (7.4), onboarding (1.8)
 - Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-63A], [NIST SP 800-63B], [NIST SP 800-53], [NIST SP 1800-35], [RFC 7644]
 
@@ -145,28 +146,30 @@
   | **Cloud** (IDaaS) | Third-party IdP holds/authenticates identities | Fast SaaS integration, provider HA, built-in MFA | **Vendor dependency**, data residency, outage = no logins anywhere |
   | **Hybrid** | On-prem directory is source of truth, synced/federated to cloud IdP | Keeps legacy Kerberos/LDAP apps + cloud SSO | Two control planes to secure; sync agents and password-hash sync are high-value targets |
 
+  - Example: on-prem = an AD FS farm behind the DMZ; cloud = Okta is the IdP and holds the users; hybrid = Entra Connect syncs on-prem AD into Entra ID
   - Federation vocabulary (NIST SP 800-63C-4, Federation and Assertions, 2025) [NIST SP 800-63C]:
-    - **CSP** proofs and enrolls the subscriber; **IdP** bridges the subscriber account to the **RP** (relying party) — IdP and CSP may be the same entity
+    - **CSP** proofs and enrolls the subscriber; **IdP** bridges the subscriber account to the **RP** (relying party) — IdP and CSP may be the same entity. Example: HR + IAM team proofs and enrolls (CSP) and runs Okta (IdP); Salesforce is the RP — in most orgs CSP and IdP are the same shop
     - **Assertion** = verifiable, signed statement about the subscriber to the RP
     - **Bearer assertion** (possession suffices; FAL1-2) vs **holder-of-key / bound** assertion (subscriber must also prove the referenced authenticator; FAL3)
-    - **Front-channel** (through the browser — injection-prone) vs **back-channel** (server-to-server — stronger) presentation
-    - **Trust agreement** (Sec. 3.5): documented permissions, xAL requirements, attribute purposes, obligations among CSP/IdP/RP
+    - **Front-channel** (through the browser — injection-prone) vs **back-channel** (server-to-server — stronger) presentation. Example: SAML HTTP-POST hands the assertion through the user's browser = front; the RP's server calling the IdP's token endpoint to redeem a code = back
+    - **Trust agreement** (Sec. 3.5): documented permissions, xAL requirements, attribute purposes, obligations among CSP/IdP/RP. Example: the signed IdP-to-vendor onboarding doc stating "send only email and department; AAL2 required"
   - Vocabulary map: SAML **SP** = OIDC/NIST **RP**; SAML **IdP** = OIDC **OP** (OpenID Provider) = NIST IdP
   - **RADIUS federation**: 802.1X option letting users authenticate to partner networks in a federated group (e.g. eduroam-style) [OSG glossary]
   - Managerial checklist for a third-party IdP: contract/SLA + right to audit (1.4, 1.11 SCRM); attribute minimization in assertions (privacy, GDPR); incident notification; **deprovisioning propagation** (does offboarding at the IdP kill RP sessions?); assertion key rotation; break-glass local admin for IdP outage; logging both sides (IdP authN + RP authZ)
-  - Federation transfers **authentication** (and attributes); the RP still performs **authorization** — the org remains accountable for access decisions on its own resources
+  - Federation transfers **authentication** (and attributes); the RP still performs **authorization** — the org remains accountable for access decisions on its own resources. Example: Okta says "this is jdoe, MFA passed"; the SaaS app still decides jdoe is read-only — and if a contractor sees finance data, the org, not Okta, answers to the auditor
 - Exam traps / distractors:
-  - **Hybrid ≠ multi-cloud**: hybrid = on-prem + cloud identity components; two cloud IdPs is still "cloud"
-  - **IDaaS = SSO/IAM as a service**, not merely a hosted directory or a password vault
+  - **Hybrid ≠ multi-cloud**: hybrid = on-prem + cloud identity components; two cloud IdPs is still "cloud". Example: on-prem AD + Entra ID = hybrid; Okta + Entra ID with no on-prem directory = cloud
+  - **IDaaS = SSO/IAM as a service**, not merely a hosted directory or a password vault. Example: Okta/Entra ID fronting every SaaS login = IDaaS; an LDAP server rented in a cloud VM = a hosted directory
   - **SP vs RP vs OP**: same roles, different specs — an option is not wrong because it says RP instead of SP
-  - **Bearer vs holder-of-key**: "token replay by whoever holds it" -> bearer weakness; FAL3 fixes it
+  - **Bearer vs holder-of-key**: "token replay by whoever holds it" -> bearer weakness; FAL3 fixes it. Example: a captured SAML response replayed from the attacker's box works (bearer); with holder-of-key the RP also demands the user's FIDO key signature, so the replay fails
   - **Front-channel** SAML POST through the browser is normal, but the *injection* protection question wants back-channel/artifact or FAL2 controls
-  - **IdP compromise** = every RP falls; the remedy set is FAL3, IdP hardening, MFA at the IdP — not "add MFA at each RP"
+  - **IdP compromise** = every RP falls; the remedy set is FAL3, IdP hardening, MFA at the IdP — not "add MFA at each RP". Example: attacker exfiltrates the IdP's SAML signing key and forges assertions for every SP; RP-side MFA never fires because the RP trusts the assertion
   - Moving the IdP to a third party does **not** transfer accountability or the authorization decision; "the provider is responsible for who accesses our data" is the wrong option
   - Risk of cloud federation is primarily **availability + third-party risk**, not "weaker cryptography"
 - Related terms: FIM/SSO/IDaaS (previous entry), SAML/OAuth/OIDC (5.6), SCRM (1.11), shared responsibility (3.1), cloud-based systems (3.5)
 - Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-63C]
 
+<!-- REVIEW -->
 ## Authorization mechanisms: DAC, MAC, RBAC, rule-based, ABAC, risk-based, PDP/PEP (5.4)
 - Definition (ISC2 framing): **authorization** = ensuring the requested activity/object access is permitted given the rights and privileges assigned to the *authenticated* identity; commonly represented by ACLs [OSG glossary]. Outline 5.4: RBAC, rule-based, MAC, DAC, ABAC, risk-based, and access policy enforcement via **PDP/PEP** (policy decision point / policy enforcement point) [ISC2 outline]
 - Key facts:
@@ -181,33 +184,36 @@
   | **Risk-based** | Software computes a **risk score** from environment/situation/policy at request time | Decision changes with risk, not just attributes; step-up MFA or deny | Impossible-travel login -> require MFA |
 
   [OSG glossary] [NIST SP 800-162]
-  - **Nondiscretionary** = access regulated by **roles or tasks** (RBAC, **task-based** = work tasks/operations) [OSG glossary]; DAC is the only *discretionary* model — everything else is centrally administered
-  - MAC environments: **hierarchical** (levels), **compartmentalized** (domains, no level relationship), **hybrid** (levels containing compartments) [OSG glossary]. **Lattice-based** access control = nondiscretionary variant defining upper and lower bounds per subject-object relationship, usually following label levels [OSG glossary]. **Need to know** is required in addition to an equal/greater clearance [OSG glossary]
-  - **ABAC** per **NIST SP 800-162** (Guide to ABAC Definition and Considerations, 2014, upd. 2019): authorization determined by evaluating attributes of **subject, object, requested operation, environment conditions** against policy [NIST SP 800-162]. OSG lists attributes of user, object, system, application, network, service, time of day [OSG glossary]. **Context-aware authentication** (location, time, connection, endpoint) is the authentication-side cousin of ABAC [OSG glossary]
+  - **Nondiscretionary** = access regulated by **roles or tasks** (RBAC, **task-based** = work tasks/operations) [OSG glossary]; DAC is the only *discretionary* model — everything else is centrally administered. Example: the SOC lead cannot grant a peer access to the case DB herself; only the admin's role mapping can — that is what makes RBAC nondiscretionary
+  - MAC environments: **hierarchical** (levels), **compartmentalized** (domains, no level relationship), **hybrid** (levels containing compartments) [OSG glossary]. **Lattice-based** access control = nondiscretionary variant defining upper and lower bounds per subject-object relationship, usually following label levels [OSG glossary]. **Need to know** is required in addition to an equal/greater clearance [OSG glossary]. Example: hierarchical = Secret clearance reads Confidential; compartmentalized = Secret//CRYPTO cannot read Secret//NUCLEAR; hybrid = both rules at once
+  - **ABAC** per **NIST SP 800-162** (Guide to ABAC Definition and Considerations, 2014, upd. 2019): authorization determined by evaluating attributes of **subject, object, requested operation, environment conditions** against policy [NIST SP 800-162]. OSG lists attributes of user, object, system, application, network, service, time of day [OSG glossary]. **Context-aware authentication** (location, time, connection, endpoint) is the authentication-side cousin of ABAC [OSG glossary]. Example: ABAC decides whether jdoe may *open the payroll file* given device=compliant; context-aware authN decides whether jdoe must *do MFA* given hotel Wi-Fi — same inputs, different stage
   - **Rule-based** is the model behind firewalls, proxies, routers [OSG glossary]; the acronym **RBAC** is "improperly" used for rule-based — exam writes rule-based as RuBAC/Rule-BAC [OSG glossary]
   - Policy enforcement architecture — **XACML 3.0** (eXtensible Access Control Markup Language, OASIS Standard, Jan 2013) [OASIS XACML]:
 
-  | Component | Function |
-  | --- | --- |
-  | **PAP** (policy administration point) | Creates the policy / policy set |
-  | **PDP** (policy decision point) | Evaluates applicable policy, renders the **decision** |
-  | **PEP** (policy enforcement point) | Intercepts access, sends decision request, **enforces** result |
-  | **PIP** (policy information point) | Source of **attribute values** (directory, device posture, threat intel) |
-  | Context handler | Translates native request <-> XACML, gathers PIP attributes for the PDP |
+  | Component | Function | Example |
+  | --- | --- | --- |
+  | **PAP** (policy administration point) | Creates the policy / policy set | Admin edits Conditional Access policy |
+  | **PDP** (policy decision point) | Evaluates applicable policy, renders the **decision** | Entra evaluates policy: grant/deny |
+  | **PEP** (policy enforcement point) | Intercepts access, sends decision request, **enforces** result | App proxy drops the session |
+  | **PIP** (policy information point) | Source of **attribute values** (directory, device posture, threat intel) | Intune returns device-compliance state |
+  | Context handler | Translates native request <-> XACML, gathers PIP attributes for the PDP | Reformats request, fetches PIP attributes |
 
   - Flow: `subject -> PEP -> PDP (policy from PAP, attributes from PIP) -> PEP permits/denies`. Zero trust mapping (SP 800-207): PDP = policy engine + policy administrator; PEP = gateway/agent that opens, monitors, terminates the session (see Domain 3 zero trust entry) [NIST SP 800-207]
   - Implementation objects: **ACL** = object's list of allowed subjects (DAC mechanism); **capability table** = subject's list of objects/privileges [OSG glossary]; **constrained interface** = application-level enforcement (5.1)
   - Managerial: RBAC minimizes administrative cost and supports access reviews and SoD; ABAC/risk-based support zero trust but need reliable attribute sources (PIP quality = decision quality); MAC where regulatory/label integrity is non-negotiable; DAC scales worst and leaks via owner discretion
 - Exam traps / distractors:
+  - **Who decides** is the whole discriminator: object **owner** grants -> **DAC** (the only *discretionary* model); system by labels -> **MAC**; admin-set global rules for all subjects -> **rule-based**; policy engine on attributes -> **ABAC**. MAC/role-based/rule-based/ABAC are all **nondiscretionary**. Tell: "owner" + specify/grant/decide -> DAC; "all users"/time-of-day -> rule-based (missed 2026-10-04: picked rule-based for an owner specifying access)
+    - Example: DAC = the file owner adds a colleague to the share's ACL; MAC = a Secret-labeled file stays unreadable to a Confidential-cleared user no matter who owns it; rule-based = the firewall blocks all RDP after 18:00 for everyone; ABAC = allow if department=Finance AND device=compliant AND hour<19
+  - Some practice sources write "RBAC" for *rule*-based; in ISC2 vocabulary **RBAC = role-based**, rule-based is spelled out (RuBAC)
   - **DAC vs MAC**: "owner grants access" -> DAC; "labels/clearances, owner cannot share" -> MAC. "Mandatory" means system-enforced labels, not "military only" or "strict RBAC"
-  - **RBAC vs group-based DAC**: groups in a DAC system still let owners grant; RBAC removes owner discretion and derives access from job function
+  - **RBAC vs group-based DAC**: groups in a DAC system still let owners grant; RBAC removes owner discretion and derives access from job function. Example: in plain AD the share owner can still add `Finance-RW` or any user to the ACL (DAC with groups); under RBAC only the role mapping grants, the owner cannot
   - **Rule-based vs role-based**: rules apply to everyone regardless of identity (firewall); roles are per job. Watch the acronym
   - **ABAC vs RBAC**: "role explosion" / needs many conditions (device, time, location) -> ABAC; "new hire gets standard access for the job" -> RBAC
-  - **ABAC vs risk-based**: attributes are evaluated against *static* policy; risk-based adds a *computed score* that may demand step-up authentication mid-session. Both can be "dynamic" — risk-based is the one that *changes with threat*
+  - **ABAC vs risk-based**: attributes are evaluated against *static* policy; risk-based adds a *computed score* that may demand step-up authentication mid-session. Both can be "dynamic" — risk-based is the one that *changes with threat*. Example: ABAC = "managed device required" gives the same answer every time; risk-based = same user, same device gets step-up MFA tonight because the login landed 10 min after one from another continent
   - **Content-/context-dependent** are access control *techniques*, not the six models
   - **PDP vs PEP**: decides vs enforces; "denies the packet" -> PEP; "evaluates the request against policy" -> PDP; "stores the attributes" -> PIP; "writes the policy" -> PAP
   - **Lattice** is not a separate exam model — it is how MAC/nondiscretionary bounds are expressed; Bell-LaPadula/Biba (3.2) are *models*, MAC is the *mechanism*
-  - **Least privilege** and **need to know** are principles applied *through* these models, not models themselves
+  - **Least privilege** and **need to know** are principles applied *through* these models, not models themselves. Example: RBAC is the model; "the help-desk role must not include Domain Admin" is least privilege applied through it
 - Related terms: security models (3.2), zero trust PE/PA/PEP (3.1), constrained interface / ACL vs capability (5.1), access reviews (5.5), SoD (7.4)
 - Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-162], [OASIS XACML], [NIST SP 800-207]
 
@@ -223,29 +229,29 @@
 
   - Vocabulary [OSG glossary]:
 
-  | Term | Gloss | Fix |
-  | --- | --- | --- |
-  | **Excessive privilege** | More access than assigned tasks dictate | Curtail immediately on discovery |
-  | **Privilege / creeping privilege** | Unneeded rights accumulate as roles change | Reviews + remove-before-add on transfer |
-  | **Access aggregation** | Combining nonsensitive items to learn sensitive info | Need to know, review combined entitlements |
-  | **Generic account prohibition** | No shared/guest/anonymous accounts where security matters | Named accounts -> accountability |
-  | **Account expiration** | Auto-disable at a date (contractors, temps) | Distinct from lockout |
+  | Term | Gloss | Fix | Example |
+  | --- | --- | --- | --- |
+  | **Excessive privilege** | More access than assigned tasks dictate | Curtail immediately on discovery | Help-desk account holds Domain Admin |
+  | **Privilege / creeping privilege** | Unneeded rights accumulate as roles change | Reviews + remove-before-add on transfer | Tier 1 -> Tier 2 keeps old queue |
+  | **Access aggregation** | Combining nonsensitive items to learn sensitive info | Need to know, review combined entitlements | Badge logs + org chart = absences |
+  | **Generic account prohibition** | No shared/guest/anonymous accounts where security matters | Named accounts -> accountability | Shared `administrator` logon |
+  | **Account expiration** | Auto-disable at a date (contractors, temps) | Distinct from lockout | Contractor account dies 30 Jun |
 
-  - **Access review** governance: NIST SP 800-53 Rev. 5 **AC-2 Account Management** (create/enable/modify/disable/remove, periodic review) [NIST SP 800-53]; reviewer = manager/owner attesting, *not* the IAM administrator (SoD); review outputs feed 6.3 account-management evidence. Frequency risk-tiered: privileged and service accounts more often than standard users — SP 800-53 leaves the review frequency org-defined (**AC-2 j**) and lets it vary per "roles or classes of users" (**AC-6(7) Review of User Privileges**) [NIST SP 800-53 AC-2 j, AC-6(7)]; the specific tiering is practice [unverified — audit 2026-09-28: no primary source prescribes it]
-  - **Role definition and transition**: roles map to job functions and are owned by the business; role engineering keeps role count manageable; transition = re-assign role, verify SoD conflicts (e.g. one person cannot hold "create vendor" and "approve payment") [OSG glossary — SoD]
-  - **Privilege escalation**: user obtains access they would not normally have — inadvertently via **SUID/SGID** programs, or by becoming another user via **su/sudo** (Unix/Linux) or **RunAs** (Windows); aka elevation of privilege [OSG glossary]. Controls: **PAM** (privileged account management) restricts privileged accounts and detects elevated use [OSG glossary]; **AC-6 Least Privilege** [NIST SP 800-53]; sudo with per-command rules and centrally shipped logs; no direct root/shared admin logon; **JIT elevation** instead of standing rights; **separation of privilege** = granular permissions per privileged operation rather than all-or-nothing admin [OSG glossary]. Auditing of privileged functions is the *detective* half — sudo restriction is *preventive*, sudo logging is *detective*
-  - **Service accounts**: user account controlling the access and capabilities of an *application*; aka managed service account [OSG glossary]. Controls: named owner and documented purpose; inventory; deny interactive logon; long random rotated secrets held in a vault / **secrets management** [OSG glossary]; least privilege (no Domain Admin for a backup job); include in access reviews; monitor for interactive or off-host use; platform-managed variants rotate secrets automatically — Windows **gMSA**: "the Windows operating system manages the password for the account instead of relying on the administrator"; Azure **managed identities**: "You don't need to manage credentials. Credentials aren't even accessible to you" [Microsoft docs — gMSA overview; managed identities overview]
-  - Managerial: lifecycle is a *process* control — HR event (hire/transfer/terminate) must trigger IAM action within a defined SLA; orphaned and dormant accounts are the metric auditors count
+  - **Access review** governance: NIST SP 800-53 Rev. 5 **AC-2 Account Management** (create/enable/modify/disable/remove, periodic review) [NIST SP 800-53]; reviewer = manager/owner attesting, *not* the IAM administrator (SoD); review outputs feed 6.3 account-management evidence. Frequency risk-tiered: privileged and service accounts more often than standard users — SP 800-53 leaves the review frequency org-defined (**AC-2 j**) and lets it vary per "roles or classes of users" (**AC-6(7) Review of User Privileges**) [NIST SP 800-53 AC-2 j, AC-6(7)]; the specific tiering is practice [unverified — audit 2026-09-28: no primary source prescribes it]. Example: the quarterly entitlement report goes to the share owner to attest; the IAM admin who generates it cannot be the one signing it
+  - **Role definition and transition**: roles map to job functions and are owned by the business; role engineering keeps role count manageable; transition = re-assign role, verify SoD conflicts (e.g. one person cannot hold "create vendor" and "approve payment") [OSG glossary — SoD]. Contrast: SoD violation = one admin creates the vendor AND approves the payment; least-privilege violation = the help-desk account holds Domain Admin — too much for one role, no second duty involved
+  - **Privilege escalation**: user obtains access they would not normally have — inadvertently via **SUID/SGID** programs, or by becoming another user via **su/sudo** (Unix/Linux) or **RunAs** (Windows); aka elevation of privilege [OSG glossary]. Controls: **PAM** (privileged account management) restricts privileged accounts and detects elevated use [OSG glossary]; **AC-6 Least Privilege** [NIST SP 800-53]; sudo with per-command rules and centrally shipped logs; no direct root/shared admin logon; **JIT elevation** instead of standing rights; **separation of privilege** = granular permissions per privileged operation rather than all-or-nothing admin [OSG glossary]. Auditing of privileged functions is the *detective* half — sudo restriction is *preventive*, sudo logging is *detective*. Example: `/etc/sudoers` permitting only `systemctl restart nginx` = preventive; the sudo log line shipped to the SIEM when it runs = detective
+  - **Service accounts**: user account controlling the access and capabilities of an *application*; aka managed service account [OSG glossary]. Controls: named owner and documented purpose; inventory; deny interactive logon; long random rotated secrets held in a vault / **secrets management** [OSG glossary]; least privilege (no Domain Admin for a backup job); include in access reviews; monitor for interactive or off-host use; platform-managed variants rotate secrets automatically — Windows **gMSA**: "the Windows operating system manages the password for the account instead of relying on the administrator"; Azure **managed identities**: "You don't need to manage credentials. Credentials aren't even accessible to you" [Microsoft docs — gMSA overview; managed identities overview]. Example: `svc_sql` appearing in an interactive/RDP logon from a workstation = a human is driving it; that is the alert, and the 90-day reset would not have caught it
+  - Managerial: lifecycle is a *process* control — HR event (hire/transfer/terminate) must trigger IAM action within a defined SLA; orphaned and dormant accounts are the metric auditors count. Example: HR marks the termination at 17:00, the IAM SLA says disabled by 17:30; the auditor asks for every account still enabled past the SLA
 - Exam traps / distractors:
-  - **Disable vs delete** on termination: disable (immediately, retain data/audit) is the "best" answer; delete is later, after retention needs are met
-  - **Transfer vs termination**: transfer is the scenario where **privilege creep** appears; termination is where **orphaned accounts** appear
-  - **Access review vs audit**: review = owner/manager recertifies entitlements periodically; audit = independent verification that the review process works (6.5)
+  - **Disable vs delete** on termination: disable (immediately, retain data/audit) is the "best" answer; delete is later, after retention needs are met. Example: offboarding day = account disabled, mailbox converted to shared, keys retained; the object is deleted only when the retention period ends
+  - **Transfer vs termination**: transfer is the scenario where **privilege creep** appears; termination is where **orphaned accounts** appear. Example: the Tier 1 promoted to Tier 2 who keeps the old queue plus new SIEM write access = creep; the analyst who left last month with a still-enabled account = orphan
+  - **Access review vs audit**: review = owner/manager recertifies entitlements periodically; audit = independent verification that the review process works (6.5). Example: review = the finance manager ticks "still needed" for each of her 40 users every quarter; audit = internal audit samples 5 and checks the ticks were real
   - **Excessive privilege vs privilege creep**: creep is the *process* over time; excessive privilege is the *state* at a point in time
   - **PAM**: on this exam = privileged account/access management, not Pluggable Authentication Modules
-  - **Privilege escalation** as an *attack* (vertical: user -> admin; horizontal: user -> peer) [unverified — audit 2026-09-28: no NIST or MITRE ATT&CK definition of vertical/horizontal found; ATT&CK TA0004 defines only "Privilege Escalation"; the split is OWASP/pentest vocabulary] vs as a *sanctioned* mechanism (sudo) — controls target the mechanism: restrict + log
+  - **Privilege escalation** as an *attack* (vertical: user -> admin; horizontal: user -> peer) [unverified — audit 2026-09-28: no NIST or MITRE ATT&CK definition of vertical/horizontal found; ATT&CK TA0004 defines only "Privilege Escalation"; the split is OWASP/pentest vocabulary] vs as a *sanctioned* mechanism (sudo) — controls target the mechanism: restrict + log. Example: `sudo -l` showing `(ALL) NOPASSWD: /usr/bin/vim` abused to spawn a root shell = attack; the same sudo rule reviewed and logged = sanctioned mechanism under control
   - **Service account** questions: "reset password every 90 days" is not the best answer if "vault + rotate + deny interactive logon + owner" is offered; shared human use of a service account = accountability failure
-  - **Who approves access**: data owner, not security team or IAM admin; security **enforces**, owner **decides**
-  - **Account lockout vs expiration vs revocation**: failed attempts vs date vs deletion
+  - **Who approves access**: data owner, not security team or IAM admin; security **enforces**, owner **decides**. Example: the finance share owner approves the ticket; the IAM admin only executes the add — if the admin also approves, SoD is gone
+  - **Account lockout vs expiration vs revocation**: failed attempts vs date vs deletion. Example: 4740 after bad passwords / contractor end date reached / account object deleted
 - Related terms: onboarding/termination (1.8), PAM/SoD/least privilege (7.4), account management evidence (6.3), RBAC (5.4), JIT (5.2), UEBA (7.2)
 - Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-53], [Microsoft docs], [unverified]
 
@@ -277,21 +283,21 @@
   | **OIDC** (OpenID Connect Core 1.0) | Identity layer **on top of OAuth 2.0** — authentication | **OP** (OpenID Provider) -> **RP**; End-User | **ID token** = JWT with iss, sub, aud, exp, iat |
 
   [OASIS SAML] [RFC 6749] [OIDC Core]
-  - SAML flows: **SP-initiated** (user hits SP, redirected to IdP) vs **IdP-initiated** (user starts at IdP portal) [OASIS SAML]
-  - OAuth grants (RFC 6749 Sec. 1.3/4): **authorization code** (redirect-based, confidential clients — the recommended flow, hardened with **PKCE** (Proof Key for Code Exchange), RFC 7636 — public clients **MUST** use it, authorization servers MUST support it [RFC 7636] [RFC 9700 Sec. 2.1.1]); **implicit** (browser-only; clients "SHOULD NOT use the implicit grant" per the OAuth 2.0 Security BCP [RFC 9700 Sec. 2.1.2]); **resource owner password credentials** (legacy, credential sharing); **client credentials** (service-to-service, no user) [RFC 6749]
+  - SAML flows: **SP-initiated** (user hits SP, redirected to IdP) vs **IdP-initiated** (user starts at IdP portal) [OASIS SAML]. Example: user types `salesforce.com` and is bounced to Okta = SP-initiated; user clicks the Salesforce tile on the Okta dashboard = IdP-initiated
+  - OAuth grants (RFC 6749 Sec. 1.3/4): **authorization code** (redirect-based, confidential clients — the recommended flow, hardened with **PKCE** (Proof Key for Code Exchange), RFC 7636 — public clients **MUST** use it, authorization servers MUST support it [RFC 7636] [RFC 9700 Sec. 2.1.1]); **implicit** (browser-only; clients "SHOULD NOT use the implicit grant" per the OAuth 2.0 Security BCP [RFC 9700 Sec. 2.1.2]); **resource owner password credentials** (legacy, credential sharing); **client credentials** (service-to-service, no user) [RFC 6749]. Example: a web app's "Sign in with GitHub" redirect = authorization code; a cron job pulling an API with its own client ID/secret = client credentials
   - OSG framing vs mechanism: OSG glossary calls OAuth "an open standard for **authentication** and access delegation" [OSG glossary]; RFC 6749 explicitly calls it an **authorization** framework [RFC 6749]. Exam wants: OAuth = delegated *authorization*; **OIDC** = the authentication layer; if an option says "OAuth authenticates the user," prefer OIDC/SAML when offered. **OpenID** (legacy) = older SSO standard; **OpenID Connect** = the OAuth-based one [OSG glossary]
   - 802.1X / **EAP** (Extensible Authentication Protocol): port-based NAC; EAP-TLS = mutual certificate authentication; PEAP/EAP-TTLS tunnel weaker inner methods in TLS [OSG glossary]
   - SOC mapping: Kerberos AS/TGS exchanges are logged on the DC (Windows event IDs **4768** "Kerberos authentication ticket (TGT) was requested" / **4769** "Kerberos service ticket was requested"; DC-only events [Microsoft docs — Security auditing 4768, 4769]); SAML failures show at the IdP, authorization failures at the SP; RADIUS/TACACS+ accounting = your network-device command audit trail
 - Exam traps / distractors:
   - **AS vs TGS**: AS issues the TGT after the initial credential check; TGS issues **service tickets**; the KDC is both. "Ticket used to request other tickets" -> TGT
-  - **Kerberos scope**: provides identification + authentication + SSO; **authorization** is done by the resource (ACLs / group info carried in the ticket) — an option saying Kerberos "authorizes file access" is the distractor
+  - **Kerberos scope**: provides identification + authentication + SSO; **authorization** is done by the resource (ACLs / group info carried in the ticket) — an option saying Kerberos "authorizes file access" is the distractor. Example: the service ticket gets jdoe to the file server; the NTFS ACL — not the KDC — decides she can read `\\fs\payroll`
   - **Kerberos crypto**: symmetric, no PKI required (**PKINIT**, RFC 4556, is an extension adding public-key pre-authentication to the AS exchange) [RFC 4556]; contrast with certificate-based EAP-TLS
-  - **RADIUS vs TACACS+**: UDP vs TCP; password-only vs full-body protection; combined vs separated AAA; TACACS+ is the *device administration* choice, RADIUS the *network access* choice
+  - **RADIUS vs TACACS+**: UDP vs TCP; password-only vs full-body protection; combined vs separated AAA; TACACS+ is the *device administration* choice, RADIUS the *network access* choice. Example: Wi-Fi 802.1X and VPN logons hit RADIUS; `show run` on the core switch is authorized and logged per-command by TACACS+
   - **Diameter**: not **wire-compatible** with RADIUS despite being its successor — coexists via translation gateways; reliable transport is the discriminator [RFC 6733 Sec. 1]. Correction (audit 2026-09-28): previously "not backward-compatible"; RFC 6733 Sec. 1 says Diameter "does not share a common protocol data unit (PDU) with RADIUS" but "considerable effort has been expended in enabling backward compatibility with RADIUS" through gateways — exam distractors still phrase it as "not backward compatible"
   - **SAML vs OAuth vs OIDC**: XML authN assertions for enterprise web SSO / delegated API authorization / JSON authN on OAuth. "Mobile app logs in with Google" -> OIDC; "app posts to your calendar without your password" -> OAuth; "enterprise SSO to a SaaS via corporate IdP" -> SAML (or OIDC)
-  - **Access token vs ID token**: access token authorizes API calls; ID token asserts who authenticated. Presenting an access token as identity proof is the classic misuse
+  - **Access token vs ID token**: access token authorizes API calls; ID token asserts who authenticated. Presenting an access token as identity proof is the classic misuse. Example: a mobile app sends its Google access token to its own backend as "proof this is Alice"; the backend should demand the ID token (aud = that app) instead
   - **SP = RP**; **IdP = OP** — vocabulary swap is not a wrong answer
-  - **LDAP** is a directory *protocol* (bind = authentication against the directory) — not an SSO or federation protocol; **Kerberos** is LAN SSO, **SAML/OIDC** is web SSO
+  - **LDAP** is a directory *protocol* (bind = authentication against the directory) — not an SSO or federation protocol; **Kerberos** is LAN SSO, **SAML/OIDC** is web SSO. Example: the web app's LDAP bind with jdoe's password checks it against AD, but jdoe authenticates again to the next app — no ticket, no assertion
   - **Time skew** breaks Kerberos (replay window), not RADIUS; "users cannot log on after clock drift" -> Kerberos
   - **Golden ticket** (KRBTGT, forge TGTs) vs **pass the hash** (reuse NTLM hash) vs **silver ticket** (forge TGS/service ticket with the service account's hash; no KDC interaction, so harder to detect) [MITRE ATT&CK T1558.001, T1558.002]
 - Related terms: SSO/FIM (5.2), federation models (5.3), Kerberos exploitation / pass the hash (3.7), NAC (4.2), remote access (4.3), PKI (3.6)

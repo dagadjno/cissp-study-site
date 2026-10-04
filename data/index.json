@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-28",
+  "updated": "2026-10-04",
   "domains": [
     {
       "id": "01",
@@ -28,7 +28,7 @@
       "notes": "domains/03-security-architecture-engineering.md",
       "flashcards": "flashcards/03.json",
       "quiz": null,
-      "cards": 45,
+      "cards": 46,
       "questions": 0
     },
     {
@@ -38,7 +38,7 @@
       "notes": "domains/04-communication-network-security.md",
       "flashcards": "flashcards/04.json",
       "quiz": null,
-      "cards": 25,
+      "cards": 26,
       "questions": 0
     },
     {
@@ -48,7 +48,7 @@
       "notes": "domains/05-identity-access-management.md",
       "flashcards": "flashcards/05.json",
       "quiz": null,
-      "cards": 28,
+      "cards": 29,
       "questions": 0
     },
     {
@@ -78,7 +78,7 @@
       "notes": "domains/08-software-development-security.md",
       "flashcards": "flashcards/08.json",
       "quiz": null,
-      "cards": 32,
+      "cards": 35,
       "questions": 0
     }
   ]

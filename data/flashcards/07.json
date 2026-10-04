@@ -5,25 +5,25 @@
       "id": "07-evidence-types",
       "topic": "Investigations - evidence, forensics, and artifacts",
       "front": "Name the four evidence types and the one-line distinguisher for each. Which type do log files fall under, and what turns them into hearsay?",
-      "back": "| Type | Distinguisher |\n| --- | --- |\n| **Real** (object) | Physical item brought into court |\n| **Documentary** | Written item proving a fact; must be **authenticated** |\n| **Testimonial** | Witness testimony (court or deposition) |\n| **Demonstrative** | Supports testimony; may not be admitted itself |\n\nLogs = **documentary**; **unauthenticated** logs (no custodian attesting) can be treated as **hearsay**."
+      "back": "| Type | Distinguisher |\n| --- | --- |\n| **Real** (object) | Physical item brought into court |\n| **Documentary** | Written item proving a fact; must be **authenticated** |\n| **Testimonial** | Witness testimony (court or deposition) |\n| **Demonstrative** | Supports testimony; may not be admitted itself |\n\nLogs = **documentary**; **unauthenticated** logs (no custodian attesting) can be treated as **hearsay**.\n- Example: real = the seized laptop; documentary = its exported event log; testimonial = the analyst describing what they saw; demonstrative = the timeline slide built for the jury"
     },
     {
       "id": "07-admissibility",
       "topic": "Investigations - evidence, forensics, and artifacts",
       "front": "State the three admissibility requirements. Which one does an illegal search fail?",
-      "back": "- **Relevant**: helps determine a fact\n- **Material**: that fact relates to the case\n- **Competent**: obtained legally (warrant, consent)\n\nIllegal search -> not **competent** (trap: not \"irrelevant\")."
+      "back": "- **Relevant**: helps determine a fact\n- **Material**: that fact relates to the case\n- **Competent**: obtained legally (warrant, consent)\n\nIllegal search -> not **competent** (trap: not \"irrelevant\").\n- Example: pcap taken from a coworker's home router without consent -> relevant and material, but not **competent**"
     },
     {
       "id": "07-order-of-volatility",
       "topic": "Investigations - evidence, forensics, and artifacts",
       "front": "Give the RFC 3227 order of volatility (most to least) and the SP 800-86 forensic process phases.",
-      "back": "RFC 3227:\n1. Registers, cache\n2. Routing/ARP table, process table, kernel stats, **memory**\n3. Temp file systems\n4. Disk\n5. Remote logging/monitoring data\n6. Physical config, topology\n7. Archival media\n\nSP 800-86: **collection -> examination -> analysis -> reporting**. Don't power off before collecting; don't trust the box's own binaries."
+      "back": "RFC 3227:\n1. Registers, cache\n2. Routing/ARP table, process table, kernel stats, **memory**\n3. Temp file systems\n4. Disk\n5. Remote logging/monitoring data\n6. Physical config, topology\n7. Archival media\n\nSP 800-86: **collection -> examination -> analysis -> reporting**. Don't power off before collecting; don't trust the box's own binaries.\n- Example: live ransomware host -> memory dump, process/connection capture, then disk image, then pull firewall logs"
     },
     {
       "id": "07-evidence-rules-pairs",
       "topic": "Investigations - evidence, forensics, and artifacts",
       "front": "Distinguish: best evidence rule vs. parol evidence rule; interview vs. interrogation; enticement vs. entrapment.",
-      "back": "- **Best evidence**: original document, not a copy. **Parol**: written contract is complete; oral changes excluded\n- **Interview**: non-suspect, information gathering. **Interrogation**: suspect\n- **Enticement**: luring someone already intent (honeypot, legal). **Entrapment**: inducing a crime they would not have committed (defense for the intruder)"
+      "back": "- **Best evidence**: original document, not a copy. **Parol**: written contract is complete; oral changes excluded\n- **Interview**: non-suspect, information gathering. **Interrogation**: suspect\n- **Enticement**: luring someone already intent (honeypot, legal). **Entrapment**: inducing a crime they would not have committed (defense for the intruder)\n- Example: hashed original image, not a screenshot of it = best evidence; vendor's verbal \"24 h notice\" promise loses to the signed contract = parol\n- Example: asking the helpdesk tech what she saw = interview; questioning the admin whose credentials ran the script = interrogation\n- Example: FINANCE-SHARE honeypot the intruder chooses to open = enticement (admissible); an agent persuading an employee to steal data they otherwise would not = entrapment"
     },
     {
       "id": "07-monitoring-vocab",
@@ -47,7 +47,7 @@
       "id": "07-cm-baseline-terms",
       "topic": "Configuration management",
       "front": "Configuration management vs. change management - which is which? Define baseline, baseline configuration, and baseline reporting.",
-      "back": "- **CM**: tracks/enforces the secure consistent **state** (baseline, inventory, drift). **Change mgmt**: the **approval process** for altering that state\n- **Baseline**: minimum security every system must meet (also performance baseline for IDS, config baseline for CM)\n- **Baseline configuration**: initial implementation at the standardized minimum\n- **Baseline reporting**: comparing current state against the claimed baseline\n- SP 800-53 **CM-2** Baseline Configuration; **CM-3** Configuration Change Control"
+      "back": "- **CM**: tracks/enforces the secure consistent **state** (baseline, inventory, drift). **Change mgmt**: the **approval process** for altering that state\n- **Baseline**: minimum security every system must meet (also performance baseline for IDS, config baseline for CM)\n- **Baseline configuration**: initial implementation at the standardized minimum\n- **Baseline reporting**: comparing current state against the claimed baseline\n- SP 800-53 **CM-2** Baseline Configuration; **CM-3** Configuration Change Control\n- Example: CAB ticket approving a new listener = change mgmt; next week's scan showing that port open versus the image = CM\n- Example: standard \"TLS 1.2+ on every web server\" -> baseline = the hardened image that enforces it -> guideline = \"prefer TLS 1.3 where clients support it\""
     },
     {
       "id": "07-cm-automation-terms",
@@ -65,19 +65,19 @@
       "id": "07-rotation-vacation-splitknowledge",
       "topic": "Foundational security operations concepts",
       "front": "Job rotation vs. mandatory vacation; two-person control vs. split knowledge. What control type are rotation and vacation?",
-      "back": "- **Job rotation**: staff permanently move between positions -> knowledge redundancy + fraud detection\n- **Mandatory vacation**: 1-2 weeks/yr so tasks and privileges can be audited\n- Both primarily **detective** (fraud), also deterrent\n- **Two-person control**: two people present and acting\n- **Split knowledge**: SoD + two-person control; each holds part of the secret (key custodians), nobody has the whole"
+      "back": "- **Job rotation**: staff permanently move between positions -> knowledge redundancy + fraud detection\n- **Mandatory vacation**: 1-2 weeks/yr so tasks and privileges can be audited\n- Both primarily **detective** (fraud), also deterrent\n- **Two-person control**: two people present and acting\n- **Split knowledge**: SoD + two-person control; each holds part of the secret (key custodians), nobody has the whole\n- Example: AP clerk moves to AR and the successor spots the fake vendor = rotation; covering clerk reconciles the account the vacationer always handled and finds the skim = vacation; two admins approve the root-key export = two-person control; each custodian holds half the master key = split knowledge"
     },
     {
       "id": "07-pam-sla-mou",
       "topic": "Foundational security operations concepts",
       "front": "Define privileged account management (PAM). Contrast SLA, MOU, and service-level requirement.",
-      "back": "- **PAM**: IAM solutions restricting access to privileged accounts or detecting elevated-privilege use (separate admin accounts, MFA, session recording, JIT elevation)\n- **SLA**: binding contract with measurable service metrics and remedies\n- **MOU**: expression of aligned intent; not typically legally binding\n- **SLR**: what you specify *before* contracting (D1 1.11)\n- SP 800-53 **AC-5** SoD, **AC-6** Least Privilege"
+      "back": "- **PAM**: IAM solutions restricting access to privileged accounts or detecting elevated-privilege use (separate admin accounts, MFA, session recording, JIT elevation)\n- **SLA**: binding contract with measurable service metrics and remedies\n- **MOU**: expression of aligned intent; not typically legally binding\n- **SLR**: what you specify *before* contracting (D1 1.11)\n- SP 800-53 **AC-5** SoD, **AC-6** Least Privilege\n- Example: 99.9 % uptime with service credits = SLA; two agencies agreeing to share threat intel with no penalties = MOU; \"we need 99.9 %\" in the RFP = SLR"
     },
     {
       "id": "07-sanitization-categories",
       "topic": "Resource protection and media management",
       "front": "SP 800-88 Rev. 2: define clear, purge, destroy. Where does cryptographic erase sit? What does degaussing do to an SSD?",
-      "back": "- **Clear**: logical techniques on all user-addressable locations; defeats simple non-invasive recovery (reuse in same environment)\n- **Purge**: physical/logical; recovery infeasible even with state-of-the-art lab techniques\n- **Destroy**: recovery infeasible **and** media unusable\n- **Cryptographic erase** = a **purge** technique (sanitize the keys)\n- Degaussing works on **magnetic** media only; SSD -> nothing (use purge commands/CE/destroy)\n- Rev. 2 (Sept 2025) supersedes Rev. 1 (Dec 2014); SP 800-53 **MP-6**"
+      "back": "- **Clear**: logical techniques on all user-addressable locations; defeats simple non-invasive recovery (reuse in same environment)\n- **Purge**: physical/logical; recovery infeasible even with state-of-the-art lab techniques\n- **Destroy**: recovery infeasible **and** media unusable\n- **Cryptographic erase** = a **purge** technique (sanitize the keys)\n- Degaussing works on **magnetic** media only; SSD -> nothing (use purge commands/CE/destroy)\n- Rev. 2 (Sept 2025) supersedes Rev. 1 (Dec 2014); SP 800-53 **MP-6**\n- Example: wiping a returned laptop for the next hire = clear; the same drive going to a recycler = purge (or destroy)"
     },
     {
       "id": "07-media-lifecycle",
@@ -89,7 +89,7 @@
       "id": "07-ir-seven-steps",
       "topic": "Incident management",
       "front": "List ISC2's seven incident management steps in order. Which step equals containment, and what is the order trap versus NIST?",
-      "back": "1. **Detection**\n2. **Response**\n3. **Mitigation** (= containment)\n4. **Reporting**\n5. **Recovery**\n6. **Remediation** (root cause; = eradication)\n7. **Lessons learned**\n\nTrap: ISC2 puts **recovery before remediation**; NIST SP 800-61r2 bundles eradication before recovery. Answer in the question's vocabulary."
+      "back": "1. **Detection**\n2. **Response**\n3. **Mitigation** (= containment)\n4. **Reporting**\n5. **Recovery**\n6. **Remediation** (root cause; = eradication)\n7. **Lessons learned**\n\nTrap: ISC2 puts **recovery before remediation**; NIST SP 800-61r2 bundles eradication before recovery. Answer in the question's vocabulary.\n- Example (ransomware on a file server): EDR alert on mass renames -> CSIRT paged, memory captured -> host VLAN-isolated -> CISO briefed, GDPR 72 h clock noted -> server rebuilt from image -> VPN flaw patched -> AAR adds MFA to VPN"
     },
     {
       "id": "07-nist-61-phases",
@@ -119,67 +119,67 @@
       "id": "07-deception-terms",
       "topic": "Detection and preventive measures",
       "front": "Define honeypot, honeynet, padded cell, pseudo flaw, darknet, warning banner. Which is legal: enticement or entrapment?",
-      "back": "- **Honeypot**: single 100%-fake system that snares intruders\n- **Honeynet**: 2+ networked honeypots\n- **Padded cell**: IDS **diverts** a detected intruder into a harmless simulated environment\n- **Pseudo flaw**: emulated known vulnerability as bait\n- **Darknet**: unused address space monitored for scans\n- **Warning banner**: electronic no-trespassing sign\n\n**Enticement** (legal - attacker already intent) vs. **entrapment** (inducing a crime; intruder's defense). Get legal review before deploying."
+      "back": "- **Honeypot**: single 100%-fake system that snares intruders\n- **Honeynet**: 2+ networked honeypots\n- **Padded cell**: IDS **diverts** a detected intruder into a harmless simulated environment\n- **Pseudo flaw**: emulated known vulnerability as bait\n- **Darknet**: unused address space monitored for scans\n- **Warning banner**: electronic no-trespassing sign\n\n**Enticement** (legal - attacker already intent) vs. **entrapment** (inducing a crime; intruder's defense). Get legal review before deploying.\n- Example: bait RDP host in the DMZ = honeypot; IDS rerouting a detected scanner into a simulated network = padded cell; FINANCE-SHARE honeypot the intruder chooses to open = enticement (admissible); agent persuading an employee to steal data they otherwise would not = entrapment"
     },
     {
       "id": "07-allowlist-sandbox-antimalware",
       "topic": "Detection and preventive measures",
       "front": "Allow list vs. deny list; sandbox vs. honeypot; how does the OSG classify anti-malware; what is ML vs. AI vs. expert system?",
-      "back": "- **Allow list** = deny by default, stronger (whitelist/blacklist deprecated -> allow/block list); deny list = signature logic, always incomplete\n- **Sandbox** isolates *your* suspicious code; **honeypot** attracts *their* activity\n- **Anti-malware** = HIDS example, **preventive and corrective** (not detective-only)\n- **ML**: solve problems from large datasets; **AI**: simulate human intelligence; **expert system**: encoded human knowledge + **inference engine**; **neural network**: chained decisions (deep learning)\n- MSSP/SECaaS transfers work, **not accountability**"
+      "back": "- **Allow list** = deny by default, stronger (whitelist/blacklist deprecated -> allow/block list); deny list = signature logic, always incomplete\n- **Sandbox** isolates *your* suspicious code; **honeypot** attracts *their* activity\n- **Anti-malware** = HIDS example, **preventive and corrective** (not detective-only)\n- **ML**: solve problems from large datasets; **AI**: simulate human intelligence; **expert system**: encoded human knowledge + **inference engine**; **neural network**: chained decisions (deep learning)\n- MSSP/SECaaS transfers work, **not accountability**\n- Example: allow list = only signed, approved binaries run, so a new ransomware variant fails by default; deny list = AV blocks known hashes, the new variant runs"
     },
     {
       "id": "07-patch-lifecycle",
       "topic": "Patch, vulnerability, and change management",
       "front": "Give the patch management lifecycle in ISC2 order and the step most often missing from distractors. Hotfix vs. patch?",
-      "back": "1. **Evaluate** applicability/criticality\n2. **Test** in non-production\n3. **Approve** via change management\n4. **Deploy** staged\n5. **Verify/audit** applied and not removed <- the forgotten step\n\n**Hotfix** = modestly tested, single problem. \"Deploy immediately everywhere\" is wrong unless active exploitation justifies an *emergency change* (still documented). SP 800-53 **SI-2** Flaw Remediation."
+      "back": "1. **Evaluate** applicability/criticality\n2. **Test** in non-production\n3. **Approve** via change management\n4. **Deploy** staged\n5. **Verify/audit** applied and not removed <- the forgotten step\n\n**Hotfix** = modestly tested, single problem. \"Deploy immediately everywhere\" is wrong unless active exploitation justifies an *emergency change* (still documented). SP 800-53 **SI-2** Flaw Remediation.\n- Example: Log4Shell patch pushed overnight on the CISO's verbal approval; CAB reviews and records it next morning"
     },
     {
       "id": "07-vuln-vs-patch-mgmt",
       "topic": "Patch, vulnerability, and change management",
       "front": "Vulnerability management vs. patch management; scan vs. assessment vs. pen test; what are valid outcomes for a finding besides patching?",
-      "back": "- **Vuln mgmt**: program to detect weaknesses incl. misconfigs, missing controls, EOL software; **scans** (regular technical) + **assessments** (evaluate/prioritize) are its two elements. **Patch mgmt** fixes specific flaws\n- **Scan** finds candidates; **assessment** prioritizes; **pen test** exploits (D6)\n- Outcomes: patch, **compensating control**, documented **risk acceptance** by the owner; then **rescan**\n- CVE = identifier; CVSS = severity score"
+      "back": "- **Vuln mgmt**: program to detect weaknesses incl. misconfigs, missing controls, EOL software; **scans** (regular technical) + **assessments** (evaluate/prioritize) are its two elements. **Patch mgmt** fixes specific flaws\n- **Scan** finds candidates; **assessment** prioritizes; **pen test** exploits (D6)\n- Outcomes: patch, **compensating control**, documented **risk acceptance** by the owner; then **rescan**\n- CVE = identifier; CVSS = severity score\n- Example: EOL server with SMBv1 has no patch; vuln mgmt still owns it (isolate, compensate, or documented acceptance)\n- Example: scanner flags a CVE on 40 hosts = scan; ranking the 6 internet-facing ones first = assessment; red team exploiting one = pen test"
     },
     {
       "id": "07-change-mgmt-steps",
       "topic": "Patch, vulnerability, and change management",
       "front": "List the change management steps and the security purposes of the process. What do emergency changes skip and what do they never skip?",
-      "back": "Steps: **request -> review -> approve (CAB/CCB) -> test -> implement -> document**; plus rollback plan, scheduling, versioning, stakeholder communication.\nPurposes: prevent **unintended outages**, prevent changes that undo security, preserve the **baseline**, audit trail of who/what/when.\nEmergency changes skip the *timing* of approval, never the *documentation* (retrospective review). Control against authorized-user error, not attackers."
+      "back": "Steps: **request -> review -> approve (CAB/CCB) -> test -> implement -> document**; plus rollback plan, scheduling, versioning, stakeholder communication.\nPurposes: prevent **unintended outages**, prevent changes that undo security, preserve the **baseline**, audit trail of who/what/when.\nEmergency changes skip the *timing* of approval, never the *documentation* (retrospective review). Control against authorized-user error, not attackers.\n- Example: opening TCP 8443 is a change record; the baseline then updates so the next CM scan does not flag 8443 as drift"
     },
     {
       "id": "07-backup-types",
       "topic": "Recovery strategies - backups, sites, resilience",
       "front": "Full vs. incremental vs. differential: what is copied, what happens to the archive bit, and what does each restore need?",
-      "back": "| Type | Copies | Archive bit | Restore |\n| --- | --- | --- | --- |\n| **Full** | Everything | Cleared | Last full |\n| **Incremental** | Since last full *or* incremental | Cleared | Full + **every** incremental |\n| **Differential** | Since last **full** | **Not cleared** | Full + **last** differential |\n\nFastest nightly = incremental; fastest restore short of full = differential. Only difference = archive bit."
+      "back": "| Type | Copies | Archive bit | Restore |\n| --- | --- | --- | --- |\n| **Full** | Everything | Cleared | Last full |\n| **Incremental** | Since last full *or* incremental | Cleared | Full + **every** incremental |\n| **Differential** | Since last **full** | **Not cleared** | Full + **last** differential |\n\nFastest nightly = incremental; fastest restore short of full = differential. Only difference = archive bit.\n- Example: Sunday full, Thursday restore - differential = Sun full + Thu; incremental = Sun full + Mon + Tue + Wed + Thu"
     },
     {
       "id": "07-vaulting-journaling-mirroring",
       "topic": "Recovery strategies - backups, sites, resilience",
       "front": "Electronic vaulting vs. remote journaling vs. remote mirroring - mechanism and RPO.",
-      "back": "- **Electronic vaulting**: bulk transfer of backups to a remote site; RPO hours-day\n- **Remote journaling**: transaction logs since the last bulk transfer shipped remotely; RPO minutes-hour\n- **Remote mirroring**: live database server at the backup site; most advanced; RPO near zero\n\nSP 800-53 **CP-9** System Backup. Keep a copy offsite and offline/immutable (ransomware)."
+      "back": "- **Electronic vaulting**: bulk transfer of backups to a remote site; RPO hours-day\n- **Remote journaling**: transaction logs since the last bulk transfer shipped remotely; RPO minutes-hour\n- **Remote mirroring**: live database server at the backup site; most advanced; RPO near zero\n\nSP 800-53 **CP-9** System Backup. Keep a copy offsite and offline/immutable (ransomware).\n- Example: nightly backup set pushed to the offsite vault = vaulting; transaction log shipped every 15 min = journaling; standby DB applying every write as it happens = mirroring"
     },
     {
       "id": "07-recovery-sites",
       "topic": "Recovery strategies - backups, sites, resilience",
       "front": "Cold, warm, hot, mirrored, mobile sites: what each has and readiness. What are the exam weaknesses of a reciprocal agreement, and what is a resource capacity agreement?",
-      "back": "| Site | Has | Ready |\n| --- | --- | --- |\n| **Cold** | Space, power, HVAC, telecom | Weeks |\n| **Warm** | Hardware + circuits, **no current data** | Days-hours |\n| **Hot** | Full systems + comms | **Hours** |\n| **Mirrored** | Live real-time mirror, identical | Immediate |\n| **Mobile** | Self-contained trailer | Variable |\n\n**Reciprocal/MAA**: cheap but unenforceable, shared regional disaster, capacity/compatibility doubts. **Resource capacity agreement**: cloud provider guarantees resources for the client's DR. **Service bureau** leases compute under contract. SP 800-53 **CP-7**."
+      "back": "| Site | Has | Ready |\n| --- | --- | --- |\n| **Cold** | Space, power, HVAC, telecom | Weeks |\n| **Warm** | Hardware + circuits, **no current data** | Days-hours |\n| **Hot** | Full systems + comms | **Hours** |\n| **Mirrored** | Live real-time mirror, identical | Immediate |\n| **Mobile** | Self-contained trailer | Variable |\n\n**Reciprocal/MAA**: cheap but unenforceable, shared regional disaster, capacity/compatibility doubts. **Resource capacity agreement**: cloud provider guarantees resources for the client's DR. **Service bureau** leases compute under contract. SP 800-53 **CP-7**.\n- Example: warm = racked servers at the colo, you ship tapes and load data; hot = same servers with last night's data already loaded; mirrored = already serving traffic\n- Example (reciprocal): two hospitals in the same city pledge each other's data center, then the hurricane hits both"
     },
     {
       "id": "07-ft-ha-raid-metrics",
       "topic": "Recovery strategies - backups, sites, resilience",
       "front": "Fault tolerance vs. high availability vs. QoS; RAID 0/1/5/6/10; RTO vs. RPO vs. MTD; MTBF vs. MTTR.",
-      "back": "- **Fault tolerance**: keep operating through a component fault (RAID, redundant servers). **HA**: brief disruption then quick recovery (load balancing + failover, % uptime). **QoS**: manage throughput/latency/jitter/loss - performance, not security\n- **RAID 0** stripe (no FT); **1** mirror (duplexing = separate controllers); **5** stripe + parity (1 disk); **6** double parity (2 disks); **10** striped mirrors (RAID 0 across RAID 1 sets; survives one failure per mirror set) - not 0+1, which is mirrored stripes\n- **RPO** = tolerable data loss -> backup **frequency**; **RTO** = time to restore, must be <= **MTD**; RTO drives **site type**\n- **MTBF** failure interval; **MTTR** repair time"
+      "back": "- **Fault tolerance**: keep operating through a component fault (RAID, redundant servers). **HA**: brief disruption then quick recovery (load balancing + failover, % uptime). **QoS**: manage throughput/latency/jitter/loss - performance, not security\n- **RAID 0** stripe (no FT); **1** mirror (duplexing = separate controllers); **5** stripe + parity (1 disk); **6** double parity (2 disks); **10** striped mirrors (RAID 0 across RAID 1 sets; survives one failure per mirror set) - not 0+1, which is mirrored stripes\n- **RPO** = tolerable data loss -> backup **frequency**; **RTO** = time to restore, must be <= **MTD**; RTO drives **site type**\n- **MTBF** failure interval; **MTTR** repair time\n- Example: RAID 5 disk dies and nobody notices = FT; node fails and the cluster is back in 30 s = HA; VoIP prioritized over backup traffic = QoS\n- Example: RPO 1 h -> hourly journaling (nightly tape fails it); RTO 4 h -> hot/warm site (a cold site cannot make it)"
     },
     {
       "id": "07-drp-test-types",
       "topic": "Disaster recovery processes and DRP testing",
       "front": "Order the DRP test types least to most disruptive and give the one-line distinguisher for each.",
-      "back": "1. **Read-through / checklist**: copies distributed for **individual** review\n2. **Structured walk-through / tabletop**: **group** discussion of roles and steps\n3. **Simulation**: scenario, team responds, some measures executed; may interrupt **noncritical** activities\n4. **Parallel**: personnel relocate and **activate the alternate site**; production continues\n5. **Full interruption**: primary **shut down**, operations moved - real risk, needs senior sign-off\n\nSP 800-34: tabletop (low impact) vs. functional (moderate) vs. full-scale functional (high)."
+      "back": "1. **Read-through / checklist**: copies distributed for **individual** review\n2. **Structured walk-through / tabletop**: **group** discussion of roles and steps\n3. **Simulation**: scenario, team responds, some measures executed; may interrupt **noncritical** activities\n4. **Parallel**: personnel relocate and **activate the alternate site**; production continues\n5. **Full interruption**: primary **shut down**, operations moved - real risk, needs senior sign-off\n\nSP 800-34: tabletop (low impact) vs. functional (moderate) vs. full-scale functional (high).\n- Example: managers read the playbook at their desks = read-through; team talks it through in a conference room = tabletop; call tree run + one noncritical test server restored from tape = simulation; failover site brought up and processing alongside prod = parallel; prod powered down Saturday night and the DR site carries real customers = full interruption"
     },
     {
       "id": "07-dr-process-elements",
       "topic": "Disaster recovery processes and DRP testing",
       "front": "What are the seven DR process elements on the outline, and what is the restoration-order trap?",
-      "back": "**Response** (activation, life safety first), **Personnel** (roles, alternates, welfare), **Communications** (out-of-band, spokesperson, regulators), **Assessment** (damage -> restore vs. relocate), **Restoration** (facility back to workable state), **Training and awareness**, **Lessons learned** (after activations *and* tests).\n\nTrap: during disaster move **most critical** functions to the alternate site first; when returning, move **least critical** back to the unproven primary first."
+      "back": "**Response** (activation, life safety first), **Personnel** (roles, alternates, welfare), **Communications** (out-of-band, spokesperson, regulators), **Assessment** (damage -> restore vs. relocate), **Restoration** (facility back to workable state), **Training and awareness**, **Lessons learned** (after activations *and* tests).\n\nTrap: during disaster move **most critical** functions to the alternate site first; when returning, move **least critical** back to the unproven primary first.\n- Example: after the flood, payroll moves to the hot site first; coming home, the intranet wiki returns to HQ first and payroll last"
     },
     {
       "id": "07-sp800-34-process",
@@ -191,31 +191,31 @@
       "id": "07-bcp-vs-drp-coop",
       "topic": "Business continuity planning and exercises",
       "front": "BCP vs. DRP vs. COOP; who approves the BCP; where does the BIA belong?",
-      "back": "- **BCP**: strategic, business-wide - keep operating through disruption; DRP nests inside it\n- **DRP**: tactical, IT-focused - restore systems after the disaster\n- **COOP**: continuity of the organization's essential functions (government usage); OSG: measures preventing downtime incl. policy, BCP, DRP\n- Approval: **senior management** (not CISO/BCP team); they accept residual risk, fund, champion\n- **BIA** = planning (D1 1.7); produces MTD -> RTO/RPO -> strategy"
+      "back": "- **BCP**: strategic, business-wide - keep operating through disruption; DRP nests inside it\n- **DRP**: tactical, IT-focused - restore systems after the disaster\n- **COOP**: continuity of the organization's essential functions (government usage); OSG: measures preventing downtime incl. policy, BCP, DRP\n- Approval: **senior management** (not CISO/BCP team); they accept residual risk, fund, champion\n- **BIA** = planning (D1 1.7); produces MTD -> RTO/RPO -> strategy\n- Example: tellers switch to paper slips and calls reroute = BCP; rebuilding core banking at the hot site = DRP; the agency keeps issuing benefit payments from an alternate facility = COOP; \"which systems must be back within 4 hours?\" = BIA"
     },
     {
       "id": "07-bcp-phases-exercises",
       "topic": "Business continuity planning and exercises",
       "front": "Name the four BCP phases (OSG structure) and how BC exercises relate to DRP tests.",
-      "back": "1. **Project scope and planning** (org analysis, team, resources, legal)\n2. **BIA**\n3. **Continuity planning** (strategy, provisions/processes)\n4. **Approval and implementation** (sign-off, documentation, training)\n\nExercises use the same disruption ladder as DRP tests but target business processes/people (tabletop for execs, functional for a department's manual workarounds). ISC2 says \"exercise\" for BC, \"test\" for DRP. Plan is a living document, reviewed at least annually. People before property before process."
+      "back": "1. **Project scope and planning** (org analysis, team, resources, legal)\n2. **BIA**\n3. **Continuity planning** (strategy, provisions/processes)\n4. **Approval and implementation** (sign-off, documentation, training)\n\nExercises use the same disruption ladder as DRP tests but target business processes/people (tabletop for execs, functional for a department's manual workarounds). ISC2 says \"exercise\" for BC, \"test\" for DRP. Plan is a living document, reviewed at least annually. People before property before process.\n- Example: finance walks through month-end close with the ERP assumed down = exercise; IT fails the ERP over to the DR site = test"
     },
     {
       "id": "07-perimeter-controls",
       "topic": "Physical security and personnel safety",
       "front": "Fence heights and their effect; PIDAS; lighting; which physical control can make judgments; CPTED's three elements.",
-      "back": "- **Fence**: 3-4 ft deters casual; 6-7 ft too hard to climb easily; **8 ft + 3 strands barbed wire** deters determined intruders\n- **PIDAS**: 2-3 fences; main 8-20 ft (electrified/razor/touch sensors), outer 4-6 ft keeps animals/casual trespassers off\n- **Lighting**: most common perimeter control; deterrent; 2 ft-candles at 8 ft (NIST-cited)\n- **Guards**: only control that adapts and makes decisions; costly, unreliable, social-engineerable\n- **CPTED**: natural surveillance, natural access control, territorial reinforcement"
+      "back": "- **Fence**: 3-4 ft deters casual; 6-7 ft too hard to climb easily; **8 ft + 3 strands barbed wire** deters determined intruders\n- **PIDAS**: 2-3 fences; main 8-20 ft (electrified/razor/touch sensors), outer 4-6 ft keeps animals/casual trespassers off\n- **Lighting**: most common perimeter control; deterrent; 2 ft-candles at 8 ft (NIST-cited)\n- **Guards**: only control that adapts and makes decisions; costly, unreliable, social-engineerable\n- **CPTED**: natural surveillance, natural access control, territorial reinforcement\n- Example: lit, fenced lot with a \"CCTV in use\" sign = deterrent; motion sensor tripping at 02:00 = detective; the guard who walks over = response"
     },
     {
       "id": "07-entry-and-sensors",
       "topic": "Physical security and personnel safety",
       "front": "Piggybacking vs. tailgating and the control that defeats both; deterrent vs. repellent vs. notification alarms; name the motion detector types.",
-      "back": "- **Piggybacking**: authorized person knowingly lets you in. **Tailgating**: they are **unaware**. Both defeated by the **access control vestibule** (person trap; \"mantrap\" deprecated) / turnstile, not badges alone\n- **Deterrent** alarm: engages locks/doors. **Repellent**: siren + lights. **Notification**: silent, logs and notifies guards/LE\n- Sensors: **infrared** (heat), **wave pattern** (ultrasonic/microwave), **capacitance** (field change), **photoelectric** (light), **infrared linear beam** (threshold), **dual-technology**\n- CCTV = **detective**; deters only when visible. SP 800-53 **PE-3**"
+      "back": "- **Piggybacking**: authorized person knowingly lets you in. **Tailgating**: they are **unaware**. Both defeated by the **access control vestibule** (person trap; \"mantrap\" deprecated) / turnstile, not badges alone\n- **Deterrent** alarm: engages locks/doors. **Repellent**: siren + lights. **Notification**: silent, logs and notifies guards/LE\n- Sensors: **infrared** (heat), **wave pattern** (ultrasonic/microwave), **capacitance** (field change), **photoelectric** (light), **infrared linear beam** (threshold), **dual-technology**\n- CCTV = **detective**; deters only when visible. SP 800-53 **PE-3**\n- Example: \"hold the door, I left my badge upstairs\" = piggybacking; slipping in behind someone before the door closes = tailgating"
     },
     {
       "id": "07-personnel-safety",
       "topic": "Physical security and personnel safety",
       "front": "Duress system vs. emergency management vs. OEP; what does the exam expect on travel and MFA fatigue; what wins when safety and data conflict?",
-      "back": "- **Duress system**: button/code sends a distress call; monitoring entity responds; lone workers. Duress code word for coerced logins\n- **Emergency management**: plans/practices for personnel safety after a disaster. **OEP**: minimize threats to life, prevent injury, manage duress, handle travel, monitor safety, protect property\n- **Travel**: loaner/minimal devices, no untrusted Wi-Fi, encryption, know local device-search/crypto laws, check-ins\n- **MFA fatigue** (prompt bombing): number matching, rate limits, phishing-resistant authn, train users to **report** unexpected prompts\n- **Life safety first**, always; human spaces **fail-safe**, vaults **fail-secure**"
+      "back": "- **Duress system**: button/code sends a distress call; monitoring entity responds; lone workers. Duress code word for coerced logins\n- **Emergency management**: plans/practices for personnel safety after a disaster. **OEP**: minimize threats to life, prevent injury, manage duress, handle travel, monitor safety, protect property\n- **Travel**: loaner/minimal devices, no untrusted Wi-Fi, encryption, know local device-search/crypto laws, check-ins\n- **MFA fatigue** (prompt bombing): number matching, rate limits, phishing-resistant authn, train users to **report** unexpected prompts\n- **Life safety first**, always; human spaces **fail-safe**, vaults **fail-secure**\n- Example: night operator keys the second disarm code that silently alerts the monitoring company = duress; post-earthquake evacuation and roll-call plan = emergency management\n- Example: power fails - data-center door unlocks so staff can leave (fail-safe); server vault stays locked (fail-secure)"
     }
   ]
 }

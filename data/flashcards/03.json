@@ -5,7 +5,7 @@
       "id": "03-zero-trust-def",
       "topic": "Zero trust",
       "front": "Define zero trust vs. trust but verify. Which is the legacy model?",
-      "back": "- **Zero trust** = nothing trusted by default; **deny by default, grant by explicit exception**\n- **Trust but verify** = the *traditional* model — internal entities trusted automatically because they're inside the perimeter -> insider risk, easy lateral movement\n- Trap: trust-but-verify offered as the modern posture; outline 3.1 pairs them so you discriminate"
+      "back": "- **Zero trust** = nothing trusted by default; **deny by default, grant by explicit exception**\n- **Trust but verify** = the *traditional* model — internal entities trusted automatically because they're inside the perimeter -> insider risk, easy lateral movement\n- Trap: trust-but-verify offered as the modern posture; outline 3.1 pairs them so you discriminate\n- Example: a contractor on the VPN can RDP to any server on the flat LAN = trust but verify; the same contractor gets a ZTNA session token to one app, re-checked every session = zero trust"
     },
     {
       "id": "03-zt-tenets",
@@ -23,7 +23,7 @@
       "id": "03-zt-enablers",
       "topic": "Zero trust",
       "front": "Are microsegmentation, SASE, MFA, and ZTNA \"zero trust\"?",
-      "back": "- No — they are **enablers** of zero trust, not the principle; an option calling a product \"zero trust\" is the distractor when a principle is asked for\n- **Microsegmentation** = many internal subzones (down to one device); all inter-zone traffic filtered, authenticated, encrypted\n- Zero trust != no trust: access is granted **per session**, dynamically (tenet 3)"
+      "back": "- No — they are **enablers** of zero trust, not the principle; an option calling a product \"zero trust\" is the distractor when a principle is asked for\n- **Microsegmentation** = many internal subzones (down to one device); all inter-zone traffic filtered, authenticated, encrypted\n- Zero trust != no trust: access is granted **per session**, dynamically (tenet 3)\n- Example: rolling out ZTNA for remote users while the internal LAN stays \"allow any inside\" = bought an enabler, not zero trust\n- Example: per session = conditional access re-prompts MFA when device compliance drops mid-day; NOT a VPN logon that stays good all shift; \"allow if source is 10.0.0.0/8\" as the only check = location as trust signal (wrong)"
     },
     {
       "id": "03-fail-safe-secure",
@@ -35,7 +35,7 @@
       "id": "03-sod-vs-least-priv",
       "topic": "Secure design principles",
       "front": "An admin can both create vendor records and approve payments to them. Which principle is violated — least privilege or separation of duties?",
-      "back": "- **Separation of duties** — the *combination* of duties lets one subject subvert controls\n- Per-task rights may already be minimal, so least privilege is the distractor\n- Related: two-person / dual control (both must act); need-to-know (data scope)"
+      "back": "- **Separation of duties** — the *combination* of duties lets one subject subvert controls\n- Per-task rights may already be minimal, so least privilege is the distractor\n- Related: two-person / dual control (both must act); need-to-know (data scope)\n- Example: least privilege = the service account gets log-on-as-a-service only; need-to-know = a Secret-cleared analyst still cannot open another project's Secret share; SoD = the analyst who writes a detection rule cannot promote it to production"
     },
     {
       "id": "03-did-vs-diversity",
@@ -47,121 +47,121 @@
       "id": "03-secure-defaults-obscurity",
       "topic": "Secure design principles",
       "front": "Secure defaults vs. security through obscurity.",
-      "back": "- **Secure defaults**: ship secure rather than convenient (auth on, services off)\n- **Security through obscurity**: hiding as the protection (secret admin URL) — **never a valid approach** per OSG\n- Companion concepts: **abstraction** (group into classes/roles), **data hiding** (subject cannot see *or* access)"
+      "back": "- **Secure defaults**: ship secure rather than convenient (auth on, services off)\n- **Security through obscurity**: hiding as the protection (secret admin URL) — **never a valid approach** per OSG\n- Companion concepts: **abstraction** (group into classes/roles), **data hiding** (subject cannot see *or* access)\n- Example: abstraction = grant rights to the \"Tier2-Analysts\" group, not 40 users; data hiding = ring-0 kernel memory a ring-3 process can neither read nor address; NOT an unlinked admin URL (that is obscurity)"
     },
     {
       "id": "03-pbd-shared-sase",
       "topic": "Secure design principles",
       "front": "Privacy by design, shared responsibility (3.1 sense), and SASE — one line each.",
-      "back": "- **Privacy by design**: privacy built in at the design phase = security by design (Cavoukian principles)\n- **Shared responsibility** (3.1): orgs are intertwined with the world — take your role seriously; *broader* than the cloud provider/customer split (that is 3.5)\n- **SASE**: converges network security functions with WAN capability for cloud/mobile access (SD-WAN + SWG/CASB/ZTNA/FWaaS)"
+      "back": "- **Privacy by design**: privacy built in at the design phase = security by design (Cavoukian principles)\n- **Shared responsibility** (3.1): orgs are intertwined with the world — take your role seriously; *broader* than the cloud provider/customer split (that is 3.5)\n- **SASE**: converges network security functions with WAN capability for cloud/mobile access (SD-WAN + SWG/CASB/ZTNA/FWaaS)\n- Example: PbD = SIEM pipeline pseudonymizes user IDs at ingest by default, NOT a DLP rule bolted on after the complaint; shared responsibility = patching your internet-facing NTP/DNS so it is not a reflector against others; SASE = remote laptop's web traffic hits the cloud SWG/ZTNA PoP instead of back-hauling over VPN to HQ"
     },
     {
       "id": "03-blp-biba-rules",
       "topic": "Security models",
       "front": "State the read and write rules of Bell-LaPadula and of Biba. Which word marks the write rule in both?",
-      "back": "| Model | Read | Write |\n| --- | --- | --- |\n| **Bell-LaPadula** (confidentiality) | Simple Security: **no read up** | * (star) Security: **no write down** |\n| **Biba** (integrity) | Simple Integrity: **no read down** | * (star) Integrity: **no write up** |\n\n- \"Simple\" = read rule, \"star\" = write rule, in both\n- Biba is BLP inverted; both are state-machine + lattice + MAC"
+      "back": "| Model | Read | Write |\n| --- | --- | --- |\n| **Bell-LaPadula** (confidentiality) | Simple Security: **no read up** | * (star) Security: **no write down** |\n| **Biba** (integrity) | Simple Integrity: **no read down** | * (star) Integrity: **no write up** |\n\n- \"Simple\" = read rule, \"star\" = write rule, in both\n- Biba is BLP inverted; both are state-machine + lattice + MAC\n- Example: BLP no write down = a Top Secret analyst cannot paste into a Secret report (no read up = Secret analyst cannot open the TS share); Biba no write up = an untrusted web form cannot update the production pricing table (no read down = patch server will not pull from an unsigned mirror)"
     },
     {
       "id": "03-clark-wilson-terms",
       "topic": "Security models",
       "front": "Clark-Wilson: what are CDI, UDI, TP, IVP, and what is the access triple? How does it differ from Biba?",
-      "back": "- **CDI** constrained data item: data the model protects\n- **UDI** unconstrained data item: unvalidated input / output, outside the model\n- **TP** transformation procedure: the only thing allowed to modify a CDI\n- **IVP** integrity verification procedure: scans CDIs, confirms integrity\n- Access triple: **subject / program / object** — well-formed transactions + SoD\n- vs. **Biba**: both integrity, but Biba uses labels/lattice (military); CW mediates via programs (commercial)"
+      "back": "- **CDI** constrained data item: data the model protects\n- **UDI** unconstrained data item: unvalidated input / output, outside the model\n- **TP** transformation procedure: the only thing allowed to modify a CDI\n- **IVP** integrity verification procedure: scans CDIs, confirms integrity\n- Access triple: **subject / program / object** — well-formed transactions + SoD\n- vs. **Biba**: both integrity, but Biba uses labels/lattice (military); CW mediates via programs (commercial)\n- Example: payroll changes only through the HR app's \"adjust salary\" transaction (TP), never by direct `UPDATE` on the ledger table (CDI); the uploaded CSV before validation is a UDI; the nightly reconciliation job is the IVP"
     },
     {
       "id": "03-brewer-nash-others",
       "topic": "Security models",
       "front": "Which security model changes permissions dynamically based on the user's prior activity, and what are its other names? Name the models focused on secure creation/deletion of subjects and objects.",
-      "back": "- **Brewer and Nash**: access changes with history to prevent conflict of interest; aka Chinese Wall (deprecated), ethical wall, cone of silence\n- **Graham-Denning**: secure creation/deletion of subjects and objects; **HRU** (Harrison-Ruzzo-Ullman) extends it — assignment and resilience of rights\n- Integrity-via-noninterference family: **Goguen-Meseguer**, **Sutherland**"
+      "back": "- **Brewer and Nash**: access changes with history to prevent conflict of interest; aka Chinese Wall (deprecated), ethical wall, cone of silence\n- **Graham-Denning**: secure creation/deletion of subjects and objects; **HRU** (Harrison-Ruzzo-Ullman) extends it — assignment and resilience of rights\n- Integrity-via-noninterference family: **Goguen-Meseguer**, **Sutherland**\n- Example: Brewer-Nash = the consultant who opened Bank A's folder is locked out of Bank B's for the engagement; Graham-Denning/HRU = who may create an AD account and delegate rights on it; Goguen-Meseguer = a low user's job runs identically whether or not a TS job runs, so nothing leaks via contention"
     },
     {
       "id": "03-cc-pp-st-eal",
       "topic": "Security models",
       "front": "Common Criteria: which standard is it, and what are PP, ST, TOE, and EAL? Does a higher EAL mean a more secure product?",
-      "back": "- **ISO/IEC 15408** (methodology ISO/IEC 18045)\n- **PP** protection profile = customer's \"I want\"\n- **ST** security target = vendor's \"I will provide\"\n- **TOE** target of evaluation = the product\n- **EAL** 1–7 = depth of evaluation testing (EAL1 functionally tested ... EAL4 methodically designed/tested/reviewed ... EAL7 formally verified)\n- No — EAL measures assurance rigor, not security strength; deployment config is outside the TOE"
+      "back": "- **ISO/IEC 15408** (methodology ISO/IEC 18045)\n- **PP** protection profile = customer's \"I want\"\n- **ST** security target = vendor's \"I will provide\"\n- **TOE** target of evaluation = the product\n- **EAL** 1–7 = depth of evaluation testing (EAL1 functionally tested ... EAL4 methodically designed/tested/reviewed ... EAL7 formally verified)\n- No — EAL measures assurance rigor, not security strength; deployment config is outside the TOE\n- Example: PP = the agency's \"a firewall must do X, Y, Z\" document; ST = the vendor's \"our NGFW does X, Y, Z this way\"; an EAL4 firewall on old firmware was examined harder than an EAL2 one on current firmware — not patched better"
     },
     {
       "id": "03-tcb-refmon-kernel",
       "topic": "Security models",
       "front": "Distinguish TCB, security perimeter, reference monitor, security kernel, and trusted path.",
-      "back": "- **TCB** trusted computing base: hardware + software + controls that enforce policy\n- **Security perimeter**: imaginary boundary between TCB and the rest\n- **Reference monitor**: the *concept* — validates every access against policy\n- **Security kernel**: OS core that *implements* the reference monitor\n- **Trusted path**: TCB's secure channel to the rest of the system\n- Trap: concept vs. implementation (reference monitor vs. kernel)"
+      "back": "- **TCB** trusted computing base: hardware + software + controls that enforce policy\n- **Security perimeter**: imaginary boundary between TCB and the rest\n- **Reference monitor**: the *concept* — validates every access against policy\n- **Security kernel**: OS core that *implements* the reference monitor\n- **Trusted path**: TCB's secure channel to the rest of the system\n- Trap: concept vs. implementation (reference monitor vs. kernel)\n- Example: TCB = kernel + LSASS + the code honoring NTFS DACLs; reference monitor = the rule that every file open is checked against the DACL; security kernel = the Windows Security Reference Monitor doing it; trusted path = Ctrl+Alt+Del secure attention sequence, NOT a lookalike logon page"
     },
     {
       "id": "03-security-modes",
       "topic": "Security models",
       "front": "The four U.S. security modes (dedicated, system high, compartmented, multilevel): who needs clearance, who needs need-to-know?",
-      "back": "| Mode | All cleared for all data | Need-to-know for all |\n| --- | --- | --- |\n| **Dedicated** | Yes | Yes |\n| **System high** | Yes | No |\n| **Compartmented** | Yes | No; formal approval per compartment |\n| **Multilevel** | No | No; labels enforced (multistate) |"
+      "back": "| Mode | All cleared for all data | Need-to-know for all |\n| --- | --- | --- |\n| **Dedicated** | Yes | Yes |\n| **System high** | Yes | No |\n| **Compartmented** | Yes | No; formal approval per compartment |\n| **Multilevel** | No | No; labels enforced (multistate) |\n\n- Example: dedicated = air-gapped box for one project team; system high = TS enclave with shares by project need-to-know; compartmented = SCI network with a briefing per compartment; multilevel = labeled MLS OS serving mixed-clearance users"
     },
     {
       "id": "03-control-selection-chain",
       "topic": "Control selection",
       "front": "Walk the NIST control-selection chain: which document does each step (categorize, minimum requirements, baselines, RMF steps), and what is the high water mark?",
-      "back": "1. **FIPS 199** categorize: SC = {(C, impact), (I, impact), (A, impact)}, low/moderate/high; system category = **high water mark** (highest of the three)\n2. **FIPS 200** minimum security requirements\n3. **SP 800-53B** baselines low/moderate/high + **privacy baseline**; tailoring guidance\n4. **SP 800-37 Rev 2** RMF: Prepare, Categorize, **Select**, Implement, Assess, Authorize, Monitor\n- Trap: baseline is not the average of C/I/A"
+      "back": "1. **FIPS 199** categorize: SC = {(C, impact), (I, impact), (A, impact)}, low/moderate/high; system category = **high water mark** (highest of the three)\n2. **FIPS 200** minimum security requirements\n3. **SP 800-53B** baselines low/moderate/high + **privacy baseline**; tailoring guidance\n4. **SP 800-37 Rev 2** RMF: Prepare, Categorize, **Select**, Implement, Assess, Authorize, Monitor\n- Trap: baseline is not the average of C/I/A\n- Example: C = low, I = moderate, A = high -> system is **high**, not moderate"
     },
     {
       "id": "03-tailoring-vs-scoping",
       "topic": "Control selection",
       "front": "Tailoring vs. scoping in control selection — which contains which, and what does a stem about \"removing controls for components that don't exist\" describe?",
-      "back": "- **Tailoring** = adjusting the baseline to the mission: scoping + compensating controls + parameter values + supplements\n- **Scoping** = one step inside tailoring — dropping controls that don't apply\n- \"Removing controls for nonexistent components\" -> scoping\n- Selecting/tailoring is RMF step **Select**, after Categorize, before Implement"
+      "back": "- **Tailoring** = adjusting the baseline to the mission: scoping + compensating controls + parameter values + supplements\n- **Scoping** = one step inside tailoring — dropping controls that don't apply\n- \"Removing controls for nonexistent components\" -> scoping\n- Selecting/tailoring is RMF step **Select**, after Categorize, before Implement\n- Example: dropping AC-18 (wireless access) because the data center has no Wi-Fi = scoping; setting \"lock after 15 min\" on AC-11 (device lock) = parameter tailoring; adding jump-host session logging because the legacy app cannot do MFA = compensating control"
     },
     {
       "id": "03-functional-vs-assurance-req",
       "topic": "Control selection",
       "front": "Functional vs. assurance security requirements — and what does an EAL or FIPS 140-3 level tell you about a deployment?",
-      "back": "- **Functional**: what the system must do (authenticate, log, encrypt) — CC Part 2\n- **Assurance**: confidence it does it correctly — CC Part 3, EALs\n- EAL / FIPS 140-3 level validate the **TOE / module**, not your configuration or operating environment\n- Requirement-driven selection beats \"industry best practice\" when the stem states a requirement"
+      "back": "- **Functional**: what the system must do (authenticate, log, encrypt) — CC Part 2\n- **Assurance**: confidence it does it correctly — CC Part 3, EALs\n- EAL / FIPS 140-3 level validate the **TOE / module**, not your configuration or operating environment\n- Requirement-driven selection beats \"industry best practice\" when the stem states a requirement\n- Example: functional = \"the firewall must log denied connections\"; assurance = the test evidence that it still logs them under load; a CC-evaluated firewall running `any any allow` — the TOE passed, your deployment did not"
     },
     {
       "id": "03-tpm-vs-hsm",
       "topic": "Security capabilities of information systems",
       "front": "TPM vs. HSM: what does each do, which standard governs each, and which do you pick to protect a CA's private key vs. bind disk encryption to a laptop?",
-      "back": "- **TPM**: mainboard cryptoprocessor; stores/processes keys for hardware-backed disk encryption; platform integrity measurements — **ISO/IEC 11889**\n- **HSM**: appliance/card that manages keys, accelerates crypto, faster signatures — validated to **FIPS 140-3** (4 levels, aligned to ISO/IEC 19790)\n- CA private key -> **HSM**; laptop disk key bound to that platform -> **TPM**"
+      "back": "- **TPM**: mainboard cryptoprocessor; stores/processes keys for hardware-backed disk encryption; platform integrity measurements — **ISO/IEC 11889**\n- **HSM**: appliance/card that manages keys, accelerates crypto, faster signatures — validated to **FIPS 140-3** (4 levels, aligned to ISO/IEC 19790)\n- CA private key -> **HSM**; laptop disk key bound to that platform -> **TPM**\n- Example: FIPS 140 levels: L2 = tamper-evident seal on a smartcard; L3 = HSM that zeroizes keys when its cover is opened"
     },
     {
       "id": "03-secure-vs-measured-boot",
       "topic": "Security capabilities of information systems",
       "front": "Secure boot vs. measured boot vs. attestation — which blocks, which records, and what does SP 800-193 add?",
-      "back": "- **Secure boot** (UEFI): refuses unsigned drivers/OS — *blocks* bootkits\n- **Measured boot**: hashes every boot element — *records*, does not block\n- **Attestation**: verifying that record as true/accurate (not authentication)\n- **SP 800-193** Platform Firmware Resiliency: **protection, detection, recovery**; built on a hardware **root of trust / trust anchor**"
+      "back": "- **Secure boot** (UEFI): refuses unsigned drivers/OS — *blocks* bootkits\n- **Measured boot**: hashes every boot element — *records*, does not block\n- **Attestation**: verifying that record as true/accurate (not authentication)\n- **SP 800-193** Platform Firmware Resiliency: **protection, detection, recovery**; built on a hardware **root of trust / trust anchor**\n- Example: root of trust = the UEFI platform key / the pre-loaded browser root cert — you cannot verify it, only trust it; secure boot = UEFI refuses the unsigned bootkit; measured boot = PCR hashes in the TPM, and the attestation service flags the changed laptop rather than blocking it\n- Example: attestation = TPM quote proving the laptop booted with expected PCRs; authentication = the user proving identity at that logon"
     },
     {
       "id": "03-covert-channels-isolation",
       "topic": "Security capabilities of information systems",
       "front": "Covert storage vs. covert timing channel; memory protection vs. process isolation vs. hardware segmentation.",
-      "back": "- **Covert storage**: write to a shared storage area another process reads (files, locks, disk space)\n- **Covert timing**: modulate performance/timing predictably (CPU load, latency)\n- **Memory protection**: OS blocks a process touching memory not allocated to it\n- **Process isolation**: each process has its own memory space for data + code\n- **Hardware segmentation**: process isolation enforced in hardware\n- **Protection rings**: ring 0 kernel, ring 3 user; higher ring calls lower via system call (mediated access)"
+      "back": "- **Covert storage**: write to a shared storage area another process reads (files, locks, disk space)\n- **Covert timing**: modulate performance/timing predictably (CPU load, latency)\n- **Memory protection**: OS blocks a process touching memory not allocated to it\n- **Process isolation**: each process has its own memory space for data + code\n- **Hardware segmentation**: process isolation enforced in hardware\n- **Protection rings**: ring 0 kernel, ring 3 user; higher ring calls lower via system call (mediated access)\n- Example: covert storage = process A fills the disk quota to signal a 1, B reads \"disk full\"; covert timing = A loads the CPU in a pattern B times\n- Example: memory protection = access violation kills the process; process isolation = separate address spaces, so mimikatz must open a handle to LSASS; hardware segmentation = an SGX enclave the CPU refuses to let even the kernel read"
     },
     {
       "id": "03-emanations-tempest",
       "topic": "Security capabilities of information systems",
       "front": "TEMPEST, Faraday cage, white noise, control zone — define and distinguish.",
-      "back": "- **Emanations**: EM/RF signals carrying data that can be eavesdropped\n- **TEMPEST**: study/control of those signals; keep radiation inside a defined area\n- **Faraday cage**: conductive mesh blocking EM in/out\n- **White noise**: broadcast false signal to mask real emanations\n- **Control zone**: Faraday cage and/or noise applied to *one area* only\n- Related capability trap: **homomorphic encryption** protects data **in use**"
+      "back": "- **Emanations**: EM/RF signals carrying data that can be eavesdropped\n- **TEMPEST**: study/control of those signals; keep radiation inside a defined area\n- **Faraday cage**: conductive mesh blocking EM in/out\n- **White noise**: broadcast false signal to mask real emanations\n- **Control zone**: Faraday cage and/or noise applied to *one area* only\n- Related capability trap: **homomorphic encryption** protects data **in use**\n- Example: Faraday cage = the shielded SCIF; white noise = a jammer on the leakage band; control zone = only the server cage shielded, not the whole building\n- Example: TEE = SGX enclave / TrustZone holding the fingerprint template, unreadable even to the OS kernel; homomorphic = cloud scores encrypted transactions for fraud without decrypting them"
     },
     {
       "id": "03-aggregation-vs-inference",
       "topic": "Vulnerabilities of security architectures",
       "front": "Database: aggregation vs. inference, and which control defends inference? Name the DBMS integrity mechanisms.",
-      "back": "- **Aggregation**: combining many authorized low-value records yields something more sensitive\n- **Inference**: *deducing* higher-classified facts from lower-classified data\n- **Polyinstantiation** (same primary key, different rows per classification level) defends inference; also **cell suppression**, partitioning, noise/perturbation\n- Integrity: **ACID** (atomicity, consistency, isolation, durability), **concurrency** locks, **semantic integrity** rules; **contamination** = levels commingled"
+      "back": "- **Aggregation**: combining many authorized low-value records yields something more sensitive\n- **Inference**: *deducing* higher-classified facts from lower-classified data\n- **Polyinstantiation** (same primary key, different rows per classification level) defends inference; also **cell suppression**, partitioning, noise/perturbation\n- Integrity: **ACID** (atomicity, consistency, isolation, durability), **concurrency** locks, **semantic integrity** rules; **contamination** = levels commingled\n- Example: aggregation = exporting every Unclassified ship schedule reveals the fleet pattern; inference = `AVG(salary)` on a one-person department reveals that salary; polyinstantiation = the Secret row says cargo \"supplies\", the TS row says \"missiles\", same key"
     },
     {
       "id": "03-cloud-models-145",
       "topic": "Vulnerabilities of security architectures",
       "front": "SP 800-145: the 5-3-4 of cloud. And how does shared responsibility shift across SaaS/PaaS/IaaS?",
-      "back": "- **5 characteristics**: on-demand self-service, broad network access, resource pooling, rapid elasticity, measured service\n- **3 service models**: SaaS, PaaS, IaaS\n- **4 deployment models**: private, community, public, hybrid\n- Responsibility clue = who controls the **OS**: IaaS customer owns OS up; PaaS provider owns OS/runtime, customer owns app + data; SaaS customer owns only data/access config\n- Private cloud can be third-party hosted (single tenant); public = multitenant"
+      "back": "- **5 characteristics**: on-demand self-service, broad network access, resource pooling, rapid elasticity, measured service\n- **3 service models**: SaaS, PaaS, IaaS\n- **4 deployment models**: private, community, public, hybrid\n- Responsibility clue = who controls the **OS**: IaaS customer owns OS up; PaaS provider owns OS/runtime, customer owns app + data; SaaS customer owns only data/access config\n- Private cloud can be third-party hosted (single tenant); public = multitenant\n- Example: unpatched OS on an EC2 instance = yours (IaaS); OS under Azure App Service = Microsoft's (PaaS); in M365 you own only mailbox rules and MFA config (SaaS); community cloud = serves only state agencies, or only banks under one regulator"
     },
     {
       "id": "03-containers-vms-serverless",
       "topic": "Vulnerabilities of security architectures",
       "front": "Containers vs. VMs vs. serverless: what is each one's characteristic vulnerability, and which NIST guides cover containers and virtualization?",
-      "back": "- **Containers** share the **host kernel** — escape hits host + neighbors; risk areas: image, registry, orchestrator, runtime, host OS (**SP 800-190**)\n- **VMs**: hypervisor is the TCB — **VM escape**, **VM sprawl** (no management plan); Type I bare-metal vs. Type II hosted (**SP 800-125**)\n- **Serverless/FaaS**: there is still a server; CSP owns platform, *customer* owns code, secrets, IAM\n- \"Strongest isolation\" -> separate VMs/hosts, not containers"
+      "back": "- **Containers** share the **host kernel** — escape hits host + neighbors; risk areas: image, registry, orchestrator, runtime, host OS (**SP 800-190**)\n- **VMs**: hypervisor is the TCB — **VM escape**, **VM sprawl** (no management plan); Type I bare-metal vs. Type II hosted (**SP 800-125**)\n- **Serverless/FaaS**: there is still a server; CSP owns platform, *customer* owns code, secrets, IAM\n- \"Strongest isolation\" -> separate VMs/hosts, not containers\n- Example: Type I = ESXi/Hyper-V on bare metal; Type II = VirtualBox on an analyst's laptop — own the laptop, own every guest; container = one pod's kernel exploit owns the host; serverless = a Lambda role with `*:*` is your incident, not AWS's"
     },
     {
       "id": "03-ics-iot-edge",
       "topic": "Vulnerabilities of security architectures",
       "front": "ICS/OT priority order and guide; IoT mitigation and guides; edge vs. fog.",
-      "back": "- **OT** (SCADA, DCS, PLC): **safety, availability, integrity over confidentiality**; patching constrained; real-time; legacy — **SP 800-82 Rev 3** (Sept 2023); segment IT/OT, DMZ\n- **IoT**: weak defaults, no update path -> **network segmentation**, vendor lifecycle; **NIST IR 8259** (manufacturers), **SP 800-213** (federal acquisition)\n- **Edge** = intelligence in each device at the edge; **fog** = LAN-positioned node collects/processes before central\n- Trap: \"patch immediately\" is usually wrong for OT; compensating controls + window"
+      "back": "- **OT** (SCADA, DCS, PLC): **safety, availability, integrity over confidentiality**; patching constrained; real-time; legacy — **SP 800-82 Rev 3** (Sept 2023); segment IT/OT, DMZ\n- **IoT**: weak defaults, no update path -> **network segmentation**, vendor lifecycle; **NIST IR 8259** (manufacturers), **SP 800-213** (federal acquisition)\n- **Edge** = intelligence in each device at the edge; **fog** = LAN-positioned node collects/processes before central\n- Trap: \"patch immediately\" is usually wrong for OT; compensating controls + window\n- Example: OT: Log4j on the HMI -> isolate the OT VLAN and add an IDS signature now, patch at the next scheduled outage; IoT: badge readers and smart TVs on their own VLAN with egress ACLs — no EDR agent exists for them; edge = camera runs the face-match model onboard, fog = plant-floor gateway aggregating 200 sensors before cloud upload"
     },
     {
       "id": "03-crypto-services-primitives",
       "topic": "Cryptographic solutions",
       "front": "Which primitive gives which service? Confidentiality, integrity, authentication, nonrepudiation — and why can't HMAC give nonrepudiation? Which direction do you sign/encrypt?",
-      "back": "- Confidentiality: symmetric encryption (bulk) / asymmetric (key transport)\n- Integrity: hash; integrity + authentication: **HMAC** / MAC\n- **Nonrepudiation**: **digital signature only** — HMAC fails because both parties hold the key\n- Sign with **your private**, verify with signer's public; encrypt with **recipient's public**, decrypt with recipient's private\n- **Diffie-Hellman** = key agreement only, never encryption or signing\n- **Kerckhoffs**: algorithm public, key secret; hashing is not encryption (no key, one-way)"
+      "back": "- Confidentiality: symmetric encryption (bulk) / asymmetric (key transport)\n- Integrity: hash; integrity + authentication: **HMAC** / MAC\n- **Nonrepudiation**: **digital signature only** — HMAC fails because both parties hold the key\n- Sign with **your private**, verify with signer's public; encrypt with **recipient's public**, decrypt with recipient's private\n- **Diffie-Hellman** = key agreement only, never encryption or signing\n- **Kerckhoffs**: algorithm public, key secret; hashing is not encryption (no key, one-way)\n- Example: nonrepudiation: an HMAC-signed webhook — the vendor can claim you forged it since you hold the same key; an ECDSA-signed commit, you cannot; Kerckhoffs: AES is public and your key is not — a \"proprietary secret cipher\" pitch violates it"
     },
     {
       "id": "03-symmetric-status-modes",
@@ -179,43 +179,43 @@
       "id": "03-key-lifecycle-escrow",
       "topic": "Cryptographic solutions",
       "front": "SP 800-57 key states and phases; define cryptoperiod; distinguish key escrow, key recovery, M of N, split knowledge.",
-      "back": "- States: **pre-activation -> active -> suspended -> deactivated -> compromised -> destroyed**\n- Phases: pre-operational, operational, post-operational, destroyed\n- **Cryptoperiod** = time span a key is authorized for use; limits cryptanalysis exposure and compromise damage (not the same as certificate validity)\n- **Key escrow**: copies held centrally (agency = law-enforcement access)\n- **Key recovery**: the act of extracting from backup/escrow\n- **M of N**: minimum M of N agents must cooperate to retrieve\n- **Split knowledge**: no one person holds the whole key"
+      "back": "- States: **pre-activation -> active -> suspended -> deactivated -> compromised -> destroyed**\n- Phases: pre-operational, operational, post-operational, destroyed\n- **Cryptoperiod** = time span a key is authorized for use; limits cryptanalysis exposure and compromise damage (not the same as certificate validity)\n- **Key escrow**: copies held centrally (agency = law-enforcement access)\n- **Key recovery**: the act of extracting from backup/escrow\n- **M of N**: minimum M of N agents must cooperate to retrieve\n- **Split knowledge**: no one person holds the whole key\n- Example: states: suspended = key paused during a leak investigation, may be reinstated; deactivated = cryptoperiod over, still decrypts old archives; compromised = exposed -> revoke and re-encrypt\n- Example: escrow = BitLocker recovery keys stored in AD; recovery = helpdesk pulling that key for a locked-out user; M of N = root CA's HSM needs 3 of 5 card holders to activate; split knowledge = two custodians each enter half the HSM master key\n- Example: cryptoperiod vs. validity: renewing a cert from a CSR built on the old key pair restarts the certificate's validity, not the key's cryptoperiod"
     },
     {
       "id": "03-pki-components",
       "topic": "Cryptographic solutions",
       "front": "PKI: roles of CA, RA, intermediate CA, CRL, OCSP (and stapling), CSR, CP vs. CPS. Which RFCs profile X.509 and OCSP?",
-      "back": "- **CA** issues/signs; **root CA** self-signed, kept **offline**; **intermediate** does daily issuance\n- **RA** validates identity/registration — **never issues**\n- **CRL**: periodic list of revoked serials (stale); **OCSP** (RFC 6960): real-time **good / revoked / unknown**; **stapling** = server presents CA-signed timestamped response\n- **CSR**: PKCS#10 request\n- **CP** = rules of certificate use; **CPS** = how the CA operates\n- **RFC 5280**: X.509 v3 cert / v2 CRL profile — version, serial, signature alg, issuer, validity, subject, subjectPublicKeyInfo, extensions"
+      "back": "- **CA** issues/signs; **root CA** self-signed, kept **offline**; **intermediate** does daily issuance\n- **RA** validates identity/registration — **never issues**\n- **CRL**: periodic list of revoked serials (stale); **OCSP** (RFC 6960): real-time **good / revoked / unknown**; **stapling** = server presents CA-signed timestamped response\n- **CSR**: PKCS#10 request\n- **CP** = rules of certificate use; **CPS** = how the CA operates\n- **RFC 5280**: X.509 v3 cert / v2 CRL profile — version, serial, signature alg, issuer, validity, subject, subjectPublicKeyInfo, extensions\n- Example: RA = helpdesk verifying the employee before enrollment; CA = the AD CS issuing CA that signs; trust models: hierarchical = corporate AD CS chain, bridge = one hub CA cross-certifies two merged companies' PKIs, mesh = CAs cross-certify each other directly, web of trust = PGP key signing"
     },
     {
       "id": "03-qkd-vs-pqc",
       "topic": "Cryptographic solutions",
       "front": "QKD vs. post-quantum cryptography: which is physics, which is math, and which NIST FIPS standardize PQC?",
-      "back": "- **QKD**: quantum physics distributes a shared **symmetric** key (same goal as DH); point-to-point hardware, not an algorithm\n- **PQC**: classical math believed quantum-resistant — deployable in software today\n- **FIPS 203 ML-KEM** (key encapsulation), **FIPS 204 ML-DSA**, **FIPS 205 SLH-DSA** (SPHINCS+) — Aug 13 2024; stateful hash-based LMS/XMSS in SP 800-208\n- \"Quantum-safe TLS today\" -> PQC, not QKD\n- Quantum cryptography itself: no current real-world use per OSG"
+      "back": "- **QKD**: quantum physics distributes a shared **symmetric** key (same goal as DH); point-to-point hardware, not an algorithm\n- **PQC**: classical math believed quantum-resistant — deployable in software today\n- **FIPS 203 ML-KEM** (key encapsulation), **FIPS 204 ML-DSA**, **FIPS 205 SLH-DSA** (SPHINCS+) — Aug 13 2024; stateful hash-based LMS/XMSS in SP 800-208\n- \"Quantum-safe TLS today\" -> PQC, not QKD\n- Quantum cryptography itself: no current real-world use per OSG\n- Example: QKD = dedicated fibre between two bank data centers; PQC = ML-KEM negotiated as a TLS key-exchange group in software"
     },
     {
       "id": "03-attacks-by-material",
       "topic": "Cryptanalytic attacks",
       "front": "Classify by what the attacker has: ciphertext-only, known plaintext, chosen plaintext, chosen ciphertext. Where does frequency analysis fit and what does it beat?",
-      "back": "- **Ciphertext-only**: only ciphertext — weakest position\n- **Known plaintext**: has plaintext/ciphertext pairs — exploits key reuse\n- **Chosen plaintext**: can *generate* pairs by encrypting chosen input\n- **Chosen ciphertext**: can *decrypt* chosen ciphertext (padding-oracle style)\n- **Frequency analysis**: ciphertext-only tool using language letter statistics (E, T, A, O, N...); beats **monoalphabetic substitution**; polyalphabetic flattens it"
+      "back": "- **Ciphertext-only**: only ciphertext — weakest position\n- **Known plaintext**: has plaintext/ciphertext pairs — exploits key reuse\n- **Chosen plaintext**: can *generate* pairs by encrypting chosen input\n- **Chosen ciphertext**: can *decrypt* chosen ciphertext (padding-oracle style)\n- **Frequency analysis**: ciphertext-only tool using language letter statistics (E, T, A, O, N...); beats **monoalphabetic substitution**; polyalphabetic flattens it\n- Example: brute force = `hashcat -a 3` mask on NTLM; ciphertext-only = an encrypted C2 blob and nothing else; known plaintext = ZIP cracked via one known file; chosen plaintext = encrypt chosen input and compare cookies; chosen ciphertext = tamper a cookie and read the padding error"
     },
     {
       "id": "03-sidechannel-fault-timing",
       "topic": "Cryptanalytic attacks",
       "front": "Side-channel vs. timing vs. fault injection vs. implementation attack — passive or active, and what does each exploit?",
-      "back": "- **Side-channel**: **passive, noninvasive** observation of the device (power, EM, timing); smartcards\n- **Timing**: a *subtype* of side-channel using operation duration\n- **Fault injection**: **active** — induce an external fault (voltage, clock, heat, laser) to corrupt the device's integrity; not a side-channel\n- **Implementation attack**: umbrella for flaws in code/methodology, not the math; contrast **analytic** (algorithm math) and **statistical** (host RNG)\n- \"Attacker varies supply voltage to skip an instruction\" -> fault injection"
+      "back": "- **Side-channel**: **passive, noninvasive** observation of the device (power, EM, timing); smartcards\n- **Timing**: a *subtype* of side-channel using operation duration\n- **Fault injection**: **active** — induce an external fault (voltage, clock, heat, laser) to corrupt the device's integrity; not a side-channel\n- **Implementation attack**: umbrella for flaws in code/methodology, not the math; contrast **analytic** (algorithm math) and **statistical** (host RNG)\n- \"Attacker varies supply voltage to skip an instruction\" -> fault injection\n- Example: implementation = Heartbleed (bounds bug, math intact); side-channel = oscilloscope on the smartcard power line; timing = early-exit string compare on a MAC; fault injection = voltage glitch skips the PIN check"
     },
     {
       "id": "03-birthday-mitm-rainbow",
       "topic": "Cryptanalytic attacks",
       "front": "Birthday attack, meet-in-the-middle, rainbow table: what does each target and what defeats each?",
-      "back": "- **Birthday/collision**: hash — substitute a signed message with one of equal digest; 23 people -> >50% shared birthday; defense = **longer digest**, not longer key\n- **Meet-in-the-middle**: known plaintext, encrypt with all k1 / decrypt with all k2 — why double-DES fails and 3DES exists; not man-in-the-middle\n- **Rainbow table**: precomputed hash chains vs. stored hashes — defeated by **salt**; brute force is defeated by length\n- **Replay**: retransmit captured valid data — nonce/timestamp"
+      "back": "- **Birthday/collision**: hash — substitute a signed message with one of equal digest; 23 people -> >50% shared birthday; defense = **longer digest**, not longer key\n- **Meet-in-the-middle**: known plaintext, encrypt with all k1 / decrypt with all k2 — why double-DES fails and 3DES exists; not man-in-the-middle\n- **Rainbow table**: precomputed hash chains vs. stored hashes — defeated by **salt**; brute force is defeated by length\n- **Replay**: retransmit captured valid data — nonce/timestamp\n- Example: birthday = two contracts with one colliding digest; rainbow table = ophcrack vs. unsalted LM/NTLM; replay = re-sending a captured authenticator before its timestamp expires, vs. MITM = ntlmrelayx forwarding the live authentication to a third host"
     },
     {
       "id": "03-pth-kerberos-ransomware",
       "topic": "Cryptanalytic attacks",
       "front": "Pass the hash, golden ticket, ransomware: what is each, and what is the managerial control the exam wants?",
-      "back": "- **Pass the hash**: reuse cached credential hash without plaintext (mostly Windows) — credential *reuse*, not cracking; longer passwords don't help -> credential tiering, PAWs\n- **Golden ticket**: **KRBTGT** hash -> forge any TGT domain-wide; mimikatz dumps hashes/tickets; fix = rotate KRBTGT, not user passwords\n- **Ransomware**: malware encrypts/blocks system for payment -> **offline/immutable tested backups**, segmentation, IR; not decryption or paying\n- **Crypto-malware** (cryptojacking/mining) is *not* ransomware\n- **AitM/on-path** is OSG's preferred name for MITM"
+      "back": "- **Pass the hash**: reuse cached credential hash without plaintext (mostly Windows) — credential *reuse*, not cracking; longer passwords don't help -> credential tiering, PAWs\n- **Golden ticket**: **KRBTGT** hash -> forge any TGT domain-wide; mimikatz dumps hashes/tickets; fix = rotate KRBTGT, not user passwords\n- **Ransomware**: malware encrypts/blocks system for payment -> **offline/immutable tested backups**, segmentation, IR; not decryption or paying\n- **Crypto-malware** (cryptojacking/mining) is *not* ransomware\n- **AitM/on-path** is OSG's preferred name for MITM\n- Example: PtH = `sekurlsa::pth` with the NTLM hash into SMB on the next host — a 30-character password changes nothing; cryptojacking = XMRig pegging a server's CPU; ransomware = a ransom note on every desktop"
     },
     {
       "id": "03-cpted",
@@ -227,7 +227,7 @@
       "id": "03-physical-layers-safety",
       "topic": "Site and facility design principles",
       "front": "Order the layered physical defense functions, classify lighting / fences / CCTV by control type, and state the top priority of physical security.",
-      "back": "- **Deter -> deny -> detect -> delay -> determine -> decide/respond**; each ring buys time for response\n- **Lighting**, signage = deterrent (lighting = most common perimeter control)\n- **Fences**, locks = preventive/deny\n- **CCTV**, motion sensors = detective (not preventive unless monitored + responded to)\n- Top priority: **personnel safety** — fail-safe egress even in a data center\n- Facility plan derives from risk assessment + **critical path analysis**"
+      "back": "- **Deter -> deny -> detect -> delay -> determine -> decide/respond**; each ring buys time for response\n- **Lighting**, signage = deterrent (lighting = most common perimeter control)\n- **Fences**, locks = preventive/deny\n- **CCTV**, motion sensors = detective (not preventive unless monitored + responded to)\n- Top priority: **personnel safety** — fail-safe egress even in a data center\n- Facility plan derives from risk assessment + **critical path analysis**\n- Example: lighting/signage deter -> badge door denies -> door-forced alarm detects -> vestibule delays -> CCTV review determines -> guard responds"
     },
     {
       "id": "03-water-suppression",
@@ -245,13 +245,13 @@
       "id": "03-power-anomalies",
       "topic": "Site and facility security controls",
       "front": "Power vocabulary: fault/blackout, sag/brownout, spike/surge, inrush, noise; EMI common vs. traverse mode; UPS vs. generator.",
-      "back": "| Momentary | Prolonged |\n| --- | --- |\n| **Fault** (loss) | **Blackout** |\n| **Sag** (low) | **Brownout** |\n| **Spike** (high) | **Surge** |\n\n- **Inrush**: surge on connecting to power; **noise**: steady interference (transient = short)\n- **EMI common mode** = hot–ground; **traverse mode** = hot–neutral; **RFI** = radio spectrum\n- **UPS**: minutes of clean power (double conversion vs. line-interactive); **generator**: sustained outage; surge protector cuts power on overvoltage"
+      "back": "| Momentary | Prolonged |\n| --- | --- |\n| **Fault** (loss) | **Blackout** |\n| **Sag** (low) | **Brownout** |\n| **Spike** (high) | **Surge** |\n\n- **Inrush**: surge on connecting to power; **noise**: steady interference (transient = short)\n- **EMI common mode** = hot–ground; **traverse mode** = hot–neutral; **RFI** = radio spectrum\n- **UPS**: minutes of clean power (double conversion vs. line-interactive); **generator**: sustained outage; surge protector cuts power on overvoltage\n- Example: sag = lights dip when the chiller compressor starts; brownout = utility lowers voltage through an afternoon heatwave; spike = lightning; surge = after a generator transfer; inrush = powering a rack back on\n- Example: UPS carries the racks through the generator's start-up and transfer; a multi-hour outage is the generator's job; double conversion = load always off the inverter so a sag never reaches the server, line-interactive = utility passes through and switches to battery on a fault"
     },
     {
       "id": "03-facility-areas-hvac",
       "topic": "Site and facility security controls",
       "front": "Wiring closet vs. MDF vs. entrance facility; media storage vs. evidence storage; humidity extremes; tailgating vs. piggybacking.",
-      "back": "- **IDF** per-floor wiring closet feeds the **MDF** (main); **entrance facility** = telco demarcation; closets are the forgotten physical entry point -> lock, no shared use\n- **Media storage**: locked cabinet/safe, inventory; **evidence storage**: adds **chain of custody**, tamper seals — keep separate\n- **SCIF**: restricted work area for compartmented info\n- Low humidity -> **ESD**; high humidity -> corrosion; hot/cold aisles; plenum-rated cable\n- **Tailgating**: victim unaware; **piggybacking**: victim convinced to hold the door\n- **Access control vestibule** replaces \"mantrap\"; **dual-technology** sensor (IR + microwave) cuts false alarms"
+      "back": "- **IDF** per-floor wiring closet feeds the **MDF** (main); **entrance facility** = telco demarcation; closets are the forgotten physical entry point -> lock, no shared use\n- **Media storage**: locked cabinet/safe, inventory; **evidence storage**: adds **chain of custody**, tamper seals — keep separate\n- **SCIF**: restricted work area for compartmented info\n- Low humidity -> **ESD**; high humidity -> corrosion; hot/cold aisles; plenum-rated cable\n- **Tailgating**: victim unaware; **piggybacking**: victim convinced to hold the door\n- **Access control vestibule** replaces \"mantrap\"; **dual-technology** sensor (IR + microwave) cuts false alarms\n- Example: tailgating = slipping in behind a badge holder who never looked back; piggybacking = \"forgot my badge, can you hold the door?\""
     },
     {
       "id": "03-lifecycle-frameworks",
@@ -263,13 +263,19 @@
       "id": "03-verification-validation-ato",
       "topic": "Information system lifecycle",
       "front": "Verification vs. validation; certification vs. accreditation (ATO). Who accepts the risk?",
-      "back": "- **Verification**: built to spec — \"did we build it right\" (meets documented requirements)\n- **Validation**: meets stakeholder need — \"did we build the right thing\" (solves the business problem); acceptance testing\n- **Certification**: technical evaluation; **accreditation / ATO**: management's formal, time-limited, revocable acceptance of risk\n- The **authorizing official** accepts risk — not engineers or assessors\n- Requirements = *what*; design = *how*; a firewall in the requirements phase is a scope error"
+      "back": "- **Verification**: built to spec — \"did we build it right\" (meets documented requirements)\n- **Validation**: meets stakeholder need — \"did we build the right thing\" (solves the business problem); acceptance testing\n- **Certification**: technical evaluation; **accreditation / ATO**: management's formal, time-limited, revocable acceptance of risk\n- The **authorizing official** accepts risk — not engineers or assessors\n- Requirements = *what*; design = *how*; a firewall in the requirements phase is a scope error\n- Example: verification = all 40 spec'd detection rules fire in test; validation = the SOC actually catches the ransomware the business feared\n- Example: certification = the assessor's report saying \"controls implemented and effective\"; accreditation = the CIO signing the ATO memo accepting residual risk"
     },
     {
       "id": "03-disposal-sanitization",
       "topic": "Information system lifecycle",
       "front": "Retirement/disposal stage: SP 800-88 Rev 2 sanitization categories, what else must be retired besides data, and EOL vs. EOS.",
-      "back": "- **SP 800-88 Rev 2** (Sept 2025): **clear** (logical read/write), **purge** (e.g., **cryptographic erase**, degauss), **destroy**; CE only works if keys were never exposed\n- Also revoke **certificates, keys, accounts**; honor retention obligations; terminate contracts/licenses; document decommission\n- \"Delete the data\" / \"format the drive\" are the distractors (remanence, 2.4)\n- **EOL**: no longer produced (support may continue); **EOS/EOSL**: no longer supported — risk spikes here; **legacy platform** = unsupported\n- O&M/sustainment is the longest, costliest stage"
+      "back": "- **SP 800-88 Rev 2** (Sept 2025): **clear** (logical read/write), **purge** (e.g., **cryptographic erase**, degauss), **destroy**; CE only works if keys were never exposed\n- Also revoke **certificates, keys, accounts**; honor retention obligations; terminate contracts/licenses; document decommission\n- \"Delete the data\" / \"format the drive\" are the distractors (remanence, 2.4)\n- **EOL**: no longer produced (support may continue); **EOS/EOSL**: no longer supported — risk spikes here; **legacy platform** = unsupported\n- O&M/sustainment is the longest, costliest stage\n- Example: \"cryptographic erase\" of a self-encrypting drive whose key was once exported to a backup = not sanitized\n- Example: EOL vs. EOS = a switch model no longer sold (EOL) still gets security patches until its end-of-support date (EOS)"
+    },
+    {
+      "id": "03-cloud-characteristics-discriminators",
+      "topic": "Vulnerabilities of security architectures (3.5)",
+      "front": "SP 800-145 five essential cloud characteristics: which one is \"consumer provisions capabilities without a human at the provider\", which is \"scale with demand\", and what question does each of the five answer?",
+      "back": "| Characteristic | Answers |\n| --- | --- |\n| **On-demand self-service** | Who provisions? Consumer, unilaterally, no provider human |\n| Broad network access | From where? Any standard client |\n| Resource pooling | How shared? Multi-tenant, reassigned |\n| **Rapid elasticity** | How much? Scales out/in with demand |\n| Measured service | How billed? Metered, pay-per-use |\n\n- Trap: \"automatically\" appears in both self-service and elasticity definitions - classify by function, not adjective\n- Utility analogy: self-service = flip the switch yourself; broad access = any outlet; pooling = one grid; **elasticity** = AC kicks on, more current flows; measured = the meter. **Provision** -> self-service; **scale** -> elasticity"
     }
   ]
 }

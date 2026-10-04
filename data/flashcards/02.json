@@ -5,43 +5,43 @@
       "id": "02-data-states",
       "topic": "Data states",
       "front": "The three data states",
-      "back": "- **At rest** — stored statically on a storage device\n- **In transit** — being communicated over a network (aka in motion, on the wire)\n- **In use** — being actively processed by an application, decrypted in memory"
+      "back": "- **At rest** — stored statically on a storage device\n- **In transit** — being communicated over a network (aka in motion, on the wire)\n- **In use** — being actively processed by an application, decrypted in memory\n- Example: at rest = the payroll `.bak` on the BitLocker'd file server; in transit = the same file mid-SMB-copy or HTTPS upload; in use = the decrypted sheet in Excel's memory — what a memory scrape reads"
     },
     {
       "id": "02-data-at-rest",
       "topic": "Data states",
       "front": "Data at rest — definition and primary protection",
-      "back": "Data stored statically on a storage device.\n\nProtected by disk, file, or database encryption plus access controls."
+      "back": "Data stored statically on a storage device.\n\nProtected by disk, file, or database encryption plus access controls.\n- Example: the payroll `.bak` sitting on the BitLocker'd file server"
     },
     {
       "id": "02-data-in-transit",
       "topic": "Data states",
       "front": "Data in transit — definition and primary protection",
-      "back": "Data being communicated over a network connection.\n\nProtected by TLS or IPsec/VPN."
+      "back": "Data being communicated over a network connection.\n\nProtected by TLS or IPsec/VPN.\n- Example: the same payroll file mid-SMB-copy or HTTPS upload"
     },
     {
       "id": "02-data-in-use",
       "topic": "Data states",
       "front": "Data in use — definition and primary protection",
-      "back": "Data being actively processed by an application — decrypted and sitting in memory.\n\nProtected by session access controls and memory protection / secure enclaves. The hardest state to protect, because processing requires decryption."
+      "back": "Data being actively processed by an application — decrypted and sitting in memory.\n\nProtected by session access controls and memory protection / secure enclaves. The hardest state to protect, because processing requires decryption.\n- Example: the decrypted sheet in Excel's process memory — what a memory scrape reads, and what neither disk encryption nor TLS touches"
     },
     {
       "id": "02-tailoring",
       "topic": "Scoping and tailoring",
       "front": "Tailoring",
-      "back": "Modifying the list of security controls within a baseline so it aligns with the organization's mission.\n\nThe umbrella process. Scoping is one action inside it."
+      "back": "Modifying the list of security controls within a baseline so it aligns with the organization's mission.\n\nThe umbrella process. Scoping is one action inside it.\n- Example: start from the moderate baseline, fill the log-retention blank with \"1 year\", designate the enterprise SIEM a common control, add plant-network controls the baseline lacks"
     },
     {
       "id": "02-scoping",
       "topic": "Scoping and tailoring",
       "front": "Scoping",
-      "back": "Reviewing a baseline's controls and selecting only those that apply to the systems being protected — dropping the ones that don't.\n\nIt is **part of** tailoring, not a separate step alongside it."
+      "back": "Reviewing a baseline's controls and selecting only those that apply to the systems being protected — dropping the ones that don't.\n\nIt is **part of** tailoring, not a separate step alongside it.\n- Example: dropping the wireless-access controls because the data center has no Wi-Fi; NOT dropping MFA because users complain — that is weakening, not scoping"
     },
     {
       "id": "02-tailoring-actions",
       "topic": "Scoping and tailoring",
       "front": "The six NIST SP 800-53B tailoring actions",
-      "back": "1. Identify and designate common controls\n2. Apply scoping considerations\n3. Select compensating controls\n4. Assign values to control parameters\n5. Supplement with additional controls\n6. Provide implementation information"
+      "back": "1. Identify and designate common controls\n2. Apply scoping considerations\n3. Select compensating controls\n4. Assign values to control parameters\n5. Supplement with additional controls\n6. Provide implementation information\n- Example: common control = the shared SIEM every app inherits; compensating control = an MFA-enforcing jump host in front of a legacy app that cannot do MFA"
     },
     {
       "id": "02-control-baselines",
@@ -53,25 +53,25 @@
       "id": "02-drm",
       "topic": "Data protection methods",
       "front": "DRM (digital rights management)",
-      "back": "Protection software that uses encryption to enforce copyright and usage restrictions on digital media.\n\nThe protection travels **with the file**, so it still applies after the file leaves your control."
+      "back": "Protection software that uses encryption to enforce copyright and usage restrictions on digital media.\n\nThe protection travels **with the file**, so it still applies after the file leaves your control.\n- Example: rights-protected PDF the partner cannot print or forward after download; NOT a gateway block — that is DLP"
     },
     {
       "id": "02-dlp",
       "topic": "Data protection methods",
       "front": "DLP (data loss prevention)",
-      "back": "Systems that detect and prevent unauthorized access to, use of, or transmission of sensitive information — i.e. exfiltration.\n\nDeployed network-based or endpoint-based. Acts at the egress path."
+      "back": "Systems that detect and prevent unauthorized access to, use of, or transmission of sensitive information — i.e. exfiltration.\n\nDeployed network-based or endpoint-based. Acts at the egress path.\n- Example: mail gateway blocks the outbound CSV of 200 card numbers; endpoint agent blocks the USB copy; NOT protection that follows the file after it leaves — that is DRM"
     },
     {
       "id": "02-casb",
       "topic": "Data protection methods",
       "front": "CASB (cloud access security broker)",
-      "back": "A security policy enforcement point placed between cloud users and cloud providers. Deploys on-premises or cloud-based, via proxy or API.\n\nFour pillars: **visibility** (shadow-IT discovery), **compliance**, **data security**, **threat protection**."
+      "back": "A security policy enforcement point placed between cloud users and cloud providers. Deploys on-premises or cloud-based, via proxy or API.\n\nFour pillars: **visibility** (shadow-IT discovery), **compliance**, **data security**, **threat protection**.\n- Example: broker finds 40 users on an unsanctioned Dropbox and blocks Confidential uploads"
     },
     {
       "id": "02-shadow-it",
       "topic": "Asset inventory",
       "front": "Shadow IT",
-      "back": "IT components — physical or virtual — deployed by a department without the knowledge or permission of senior management or the IT group."
+      "back": "IT components — physical or virtual — deployed by a department without the knowledge or permission of senior management or the IT group.\n- Example: marketing's self-paid Dropbox Business tenant that first shows up in proxy logs"
     },
     {
       "id": "02-data-remanence",
@@ -83,49 +83,49 @@
       "id": "02-erasing",
       "topic": "Data destruction",
       "front": "Erasing",
-      "back": "A delete operation against a file or media. In most cases it removes only the directory or catalog link — the actual data remains on the drive."
+      "back": "A delete operation against a file or media. In most cases it removes only the directory or catalog link — the actual data remains on the drive.\n- Example: Shift+Delete / `rm`: MFT entry gone, clusters intact — what forensic carving recovers"
     },
     {
       "id": "02-clearing",
       "topic": "Data destruction",
       "front": "Clearing (overwriting)",
-      "back": "Overwriting media with new data so it can be reused **within the same secured environment**.\n\nDefeats simple recovery attempts, not laboratory ones."
+      "back": "Overwriting media with new data so it can be reused **within the same secured environment**.\n\nDefeats simple recovery attempts, not laboratory ones.\n- Example: overwrite a departing analyst's laptop disk, reimage, reissue to the new hire; NOT a drive going to the lease company — that needs purge"
     },
     {
       "id": "02-purging",
       "topic": "Data destruction",
       "front": "Purging",
-      "back": "A sanitization technique intensive enough to defeat **laboratory** recovery — ISC2 describes it as typically multiple overwrites.\n\nStronger than clearing; suitable for media leaving organizational control."
+      "back": "A sanitization technique intensive enough to defeat **laboratory** recovery — ISC2 describes it as typically multiple overwrites.\n\nStronger than clearing; suitable for media leaving organizational control.\n- Example: multi-pass wipe (OSG framing) or cryptographic erase of SAN disks before lease return; NOT a reimage for internal reissue — that is clearing"
     },
     {
       "id": "02-degaussing",
       "topic": "Data destruction",
       "front": "Degaussing",
-      "back": "Using a strong magnetic field to destroy data on **magnetic** media (hard disks, tape).\n\nDoes not work on flash/SSD — no magnetic domains. Typically leaves the drive permanently unusable."
+      "back": "Using a strong magnetic field to destroy data on **magnetic** media (hard disks, tape).\n\nDoes not work on flash/SSD — no magnetic domains. Typically leaves the drive permanently unusable.\n- Example: backup tapes through the degausser before disposal; NOT the laptop SSD"
     },
     {
       "id": "02-sanitization",
       "topic": "Data destruction",
       "front": "Sanitization",
-      "back": "Umbrella term for any process ensuring data cannot be recovered from media by any means.\n\nCan be achieved by **purge** techniques (e.g., degaussing magnetic media, cryptographic erase) without physically destroying the media. SP 800-88 Rev. 2: degaussing is a **purge** technique, not destroy."
+      "back": "Umbrella term for any process ensuring data cannot be recovered from media by any means.\n\nCan be achieved by **purge** techniques (e.g., degaussing magnetic media, cryptographic erase) without physically destroying the media. SP 800-88 Rev. 2: degaussing is a **purge** technique, not destroy.\n- Example: the disposal certificate line \"sanitized — method Purge, technique CE\""
     },
     {
       "id": "02-declassification",
       "topic": "Data destruction",
       "front": "Declassification",
-      "back": "Assigning an asset a **lower classification level** once its value has depreciated enough that the higher protections are no longer justified.\n\nIt is a reclassification, not a form of destruction."
+      "back": "Assigning an asset a **lower classification level** once its value has depreciated enough that the higher protections are no longer justified.\n\nIt is a reclassification, not a form of destruction.\n- Example: the M&A deck drops from Confidential to Internal once the deal is announced; the file remains"
     },
     {
       "id": "02-crypto-erase",
       "topic": "Data destruction",
       "front": "Cryptographic erasure (cryptoshredding)",
-      "back": "Destroying the encryption keys so encrypted data becomes unreadable. Only ciphertext remains.\n\nThe data itself is never erased — so it only works if the data was encrypted as stored."
+      "back": "Destroying the encryption keys so encrypted data becomes unreadable. Only ciphertext remains.\n\nThe data itself is never erased — so it only works if the data was encrypted as stored.\n- Example: revoke the BitLocker key protectors / cloud KMS key; ciphertext stays on disk. Valid for a laptop encrypted from day one; NOT for a server that ran unencrypted for years — plaintext remnants may remain"
     },
     {
       "id": "02-nist-800-88-categories",
       "topic": "Data destruction",
       "front": "NIST SP 800-88 sanitization categories: Clear, Purge, Destroy",
-      "back": "- **Clear** — logical techniques over all user-addressable locations; defeats simple non-invasive recovery\n- **Purge** — physical or logical techniques making recovery infeasible even with state-of-the-art lab techniques\n- **Destroy** — same infeasibility, and the media can no longer store data\n- Rev. 2 (Sept 2025) supersedes Rev. 1: **degaussing = purge**, not destroy, even if it wrecks the drive; mandatory post-sanitization verification replaced by sanitization assurance"
+      "back": "- **Clear** — logical techniques over all user-addressable locations; defeats simple non-invasive recovery\n- **Purge** — physical or logical techniques making recovery infeasible even with state-of-the-art lab techniques\n- **Destroy** — same infeasibility, and the media can no longer store data\n- Rev. 2 (Sept 2025) supersedes Rev. 1: **degaussing = purge**, not destroy, even if it wrecks the drive; mandatory post-sanitization verification replaced by sanitization assurance\n- Example: clear = overwrite a laptop SSD for reissue to another employee; purge = cryptographic erase before the drive leaves the company; destroy = shred the drive that held classified data"
     },
     {
       "id": "02-gov-classification",
@@ -143,13 +143,13 @@
       "id": "02-commercial-classification",
       "topic": "Data classification",
       "front": "The commercial/private-sector classification levels",
-      "back": "Highest to lowest:\n- **Confidential / Proprietary** — internally valuable, trade-secret grade; significant damage if disclosed\n- **Private** — personal or personnel data, internal use only\n- **Sensitive** — organizational data, more valuable than public; modest impact\n- **Public** — everything else; disclosure shouldn't be seriously harmful"
+      "back": "Highest to lowest:\n- **Confidential / Proprietary** — internally valuable, trade-secret grade; significant damage if disclosed\n- **Private** — personal or personnel data, internal use only\n- **Sensitive** — organizational data, more valuable than public; modest impact\n- **Public** — everything else; disclosure shouldn't be seriously harmful\n- Example: Confidential = product source code, M&A terms; Private = payroll export, medical-leave forms; Sensitive = org chart, network diagrams, SOC runbooks; Public = press releases, job postings"
     },
     {
       "id": "02-private-vs-sensitive",
       "topic": "Data classification",
       "front": "Private vs. Sensitive (commercial levels)",
-      "back": "- **Private** — data about **people** (personnel, personal). Significant negative impact.\n- **Sensitive** — data about the **organization**. Modest negative impact. Aka for internal use only (FIUO) / for office use only (FOUO)."
+      "back": "- **Private** — data about **people** (personnel, personal). Significant negative impact.\n- **Sensitive** — data about the **organization**. Modest negative impact. Aka for internal use only (FIUO) / for office use only (FOUO).\n- Example: an employee's disciplinary file = Private; the internal network diagram = Sensitive — both internal-only, split by what the data is about"
     },
     {
       "id": "02-classification",
@@ -167,7 +167,7 @@
       "id": "02-fips-199",
       "topic": "Data classification",
       "front": "FIPS 199 categorization (vs. classification)",
-      "back": "**Categorization** rates a federal **system** as low, moderate, or high impact based on the worst-case loss of confidentiality, integrity, or availability.\n\nDifferent axis from **classification** (Top Secret / Confidential / etc.), which rates the sensitivity of the **data**."
+      "back": "**Categorization** rates a federal **system** as low, moderate, or high impact based on the worst-case loss of confidentiality, integrity, or availability.\n\nDifferent axis from **classification** (Top Secret / Confidential / etc.), which rates the sensitivity of the **data**.\n- Example: a memo is *classified* Secret by its owner; the HR system is *categorized* Moderate from worst-case C/I/A impact — documents get classifications, systems get categories"
     },
     {
       "id": "02-pii",
@@ -179,7 +179,7 @@
       "id": "02-linked-vs-linkable",
       "topic": "Sensitive data",
       "front": "Linked vs. linkable (PII)",
-      "back": "- **Linked** — the secondary information sits on the same or a closely related system, not segregated by controls.\n- **Linkable** — it's obtainable more remotely: an unrelated system, public records, or a search engine.\n\nEither way, the data counts as PII."
+      "back": "- **Linked** — the secondary information sits on the same or a closely related system, not segregated by controls.\n- **Linkable** — it's obtainable more remotely: an unrelated system, public records, or a search engine.\n\nEither way, the data counts as PII.\n- Example: ticket ID + badge number in the same database = linked; a bare username that a LinkedIn search resolves to a person = linkable — both make the record PII"
     },
     {
       "id": "02-phi",
@@ -191,73 +191,73 @@
       "id": "02-safe-harbor",
       "topic": "Sensitive data",
       "front": "HIPAA de-identification: Safe Harbor and Expert Determination",
-      "back": "- **Safe Harbor** — remove 18 specified identifiers (names, geography below state, all dates except year, SSN, URLs, IP addresses, biometrics, full-face photos, etc.) and have no knowledge the rest could identify anyone.\n- **Expert Determination** — a qualified expert documents that re-identification risk is very small."
+      "back": "- **Safe Harbor** — remove 18 specified identifiers (names, geography below state, all dates except year, SSN, URLs, IP addresses, biometrics, full-face photos, etc.) and have no knowledge the rest could identify anyone.\n- **Expert Determination** — a qualified expert documents that re-identification risk is very small.\n- Example: a \"de-identified\" admissions dataset that keeps admission dates and ZIP codes fails Safe Harbor on both counts"
     },
     {
       "id": "02-anonymization",
       "topic": "Sensitive data",
       "front": "Anonymization",
-      "back": "Removing PII from a dataset so individuals can no longer be identified. Aka de-identification.\n\nOne-way — there is no path back."
+      "back": "Removing PII from a dataset so individuals can no longer be identified. Aka de-identification.\n\nOne-way — there is no path back.\n- Example: breach report reduced to counts per department; no row maps to a person. NOT `user_0471` with a mapping table — that is pseudonymization"
     },
     {
       "id": "02-pseudonymization",
       "topic": "Sensitive data",
       "front": "Pseudonymization",
-      "back": "Masking data by substituting pseudonyms for the real values.\n\nReversible by design — the mapping back to the real values still exists."
+      "back": "Masking data by substituting pseudonyms for the real values.\n\nReversible by design — the mapping back to the real values still exists.\n- Example: SIEM export with usernames swapped for `user_0471`, lookup table kept in the vault; NOT anonymized while that table exists"
     },
     {
       "id": "02-tokenization",
       "topic": "Sensitive data",
       "front": "Tokenization",
-      "back": "Masking data by replacing values with tokens — unique identifying symbols that stand in for the real value.\n\nReversible through the token vault that holds the mapping."
+      "back": "Masking data by replacing values with tokens — unique identifying symbols that stand in for the real value.\n\nReversible through the token vault that holds the mapping.\n- Example: checkout stores `tok_8f3a…`; the processor's vault holds the real PAN"
     },
     {
       "id": "02-proprietary-data",
       "topic": "Sensitive data",
       "front": "Proprietary data",
-      "back": "Confidential business information owned exclusively by the organization. Disclosure damages its competitive edge."
+      "back": "Confidential business information owned exclusively by the organization. Disclosure damages its competitive edge.\n- Example: the product's source code and your detection-rule repo"
     },
     {
       "id": "02-data-owner",
       "topic": "Data ownership",
       "front": "Data owner",
-      "back": "The person with **final corporate responsibility** for classifying, labeling, protecting, and storing data. Typically a senior business figure — CEO, president, or department head.\n\nMay be personally liable for negligence if they fail to exercise due diligence."
+      "back": "The person with **final corporate responsibility** for classifying, labeling, protecting, and storing data. Typically a senior business figure — CEO, president, or department head.\n\nMay be personally liable for negligence if they fail to exercise due diligence.\n- Example: the VP of HR who decides the payroll file is Confidential; NOT the sysadmin who sets the ACLs (custodian), NOT the CISO who ordered the share locked down"
     },
     {
       "id": "02-data-custodian",
       "topic": "Data ownership",
       "front": "Data custodian (data steward)",
-      "back": "The person delegated the **day-to-day work** of implementing the protection the owner and policy prescribe — applying labels, running backups, enforcing controls.\n\nTypically IT staff or a security administrator. Implements; does not decide."
+      "back": "The person delegated the **day-to-day work** of implementing the protection the owner and policy prescribe — applying labels, running backups, enforcing controls.\n\nTypically IT staff or a security administrator. Implements; does not decide.\n- Example: the sysadmin who sets the NTFS ACLs and runs the backups; NOT the VP of HR who decided the file was Confidential (owner)"
     },
     {
       "id": "02-ownership",
       "topic": "Data ownership",
       "front": "Ownership (and what can't be delegated)",
-      "back": "The formal assignment of responsibility to an individual or group.\n\nThe owner can delegate **execution** to a custodian, but never **accountability** — liability stays with the owner."
+      "back": "The formal assignment of responsibility to an individual or group.\n\nThe owner can delegate **execution** to a custodian, but never **accountability** — liability stays with the owner.\n- Example: the VP of HR hands backups to IT; when the payroll file leaks through a bad ACL, the VP still answers for it"
     },
     {
       "id": "02-data-controller",
       "topic": "Data ownership",
       "front": "Data controller",
-      "back": "The organization that determines the **purposes and means** of processing personal data — the \"why\" and the \"how.\"\n\nA GDPR role. Bears primary accountability."
+      "back": "The organization that determines the **purposes and means** of processing personal data — the \"why\" and the \"how.\"\n\nA GDPR role. Bears primary accountability.\n- Example: your org deciding to log employee web traffic through the proxy; NOT the MSSP that ingests the logs on your instructions (processor)"
     },
     {
       "id": "02-data-processor",
       "topic": "Data ownership",
       "front": "Data processor",
-      "back": "A person or body that processes personal data **solely on behalf of** the controller, following its instructions.\n\nA GDPR role. A SaaS vendor handling your customer data is typically the processor; you are the controller."
+      "back": "A person or body that processes personal data **solely on behalf of** the controller, following its instructions.\n\nA GDPR role. A SaaS vendor handling your customer data is typically the processor; you are the controller.\n- Example: the MSSP ingesting your proxy logs into its SIEM on your instructions; NOT your org, which decided why the logs exist (controller)"
     },
     {
       "id": "02-data-subject",
       "topic": "Data ownership",
       "front": "Data subject",
-      "back": "The individual whom the personal data is about.\n\nNot a role within your organization — the person whose data you hold."
+      "back": "The individual whom the personal data is about.\n\nNot a role within your organization — the person whose data you hold.\n- Example: the employee whose browsing is in the proxy logs"
     },
     {
       "id": "02-system-owner",
       "topic": "Data ownership",
       "front": "System owner / asset owner",
-      "back": "**System owner** — the entity responsible for setting a system's requirements.\n\n**Asset owner** — the manager responsible for classifying information for placement and protection, and ultimately for asset protection. Delegates data-management tasks to a custodian."
+      "back": "**System owner** — the entity responsible for setting a system's requirements.\n\n**Asset owner** — the manager responsible for classifying information for placement and protection, and ultimately for asset protection. Delegates data-management tasks to a custodian.\n- Example: system owner = the IT manager who sets the HRIS requirements (MFA, logging, uptime); asset owner = the HR applications manager accountable for the HRIS platform who hands backups and patching to IT"
     },
     {
       "id": "02-handling-requirements",
@@ -275,7 +275,7 @@
       "id": "02-asset-management",
       "topic": "Asset inventory",
       "front": "Asset management",
-      "back": "The process of keeping track of the hardware and software an organization has implemented.\n\nPrerequisite to everything else — you can't classify, protect, or retire what you don't know you have."
+      "back": "The process of keeping track of the hardware and software an organization has implemented.\n\nPrerequisite to everything else — you can't classify, protect, or retire what you don't know you have.\n- Example: the EDR gap on 30 lab VMs nobody registered is an inventory failure, not an EDR failure"
     },
     {
       "id": "02-tangible-intangible",
@@ -293,13 +293,13 @@
       "id": "02-configuration-management",
       "topic": "Asset inventory",
       "front": "Configuration management (CM)",
-      "back": "Logging, auditing, and monitoring activity related to security controls over time to identify what changed, plus the administration of setting up and changing configurations.\n\nKeeps the asset inventory accurate after day one."
+      "back": "Logging, auditing, and monitoring activity related to security controls over time to identify what changed, plus the administration of setting up and changing configurations.\n\nKeeps the asset inventory accurate after day one.\n- Example: the CMDB flags a server whose installed-software list drifted from its baseline"
     },
     {
       "id": "02-retention-policy",
       "topic": "Data retention",
       "front": "Retention policy",
-      "back": "A document defining what data is maintained and for what period of time.\n\nDriven by regulation, contract, and business need. Keeping data too long increases exposure; destroying it too early is a compliance failure."
+      "back": "A document defining what data is maintained and for what period of time.\n\nDriven by regulation, contract, and business need. Keeping data too long increases exposure; destroying it too early is a compliance failure.\n- Example: keeping seven years of raw proxy logs \"just in case\" is the exposure side; purging them at 30 days when the contract says 90 is the compliance side"
     },
     {
       "id": "02-record-retention",
@@ -311,37 +311,37 @@
       "id": "02-legal-hold",
       "topic": "Data retention",
       "front": "Legal hold",
-      "back": "A legal notice to a data custodian that specific data must be **preserved**, with good-faith efforts made to preserve it. An early step in e-discovery.\n\nIt suspends the retention schedule — scheduled destruction stops for the data in scope."
+      "back": "A legal notice to a data custodian that specific data must be **preserved**, with good-faith efforts made to preserve it. An early step in e-discovery.\n\nIt suspends the retention schedule — scheduled destruction stops for the data in scope.\n- Example: litigation notice lands; the departing employee's mailbox goes on hold instead of the usual 30-day post-departure purge — and stays on hold even if they file a GDPR erasure request mid-lawsuit"
     },
     {
       "id": "02-eol-eos",
       "topic": "Asset retention",
       "front": "End-of-life (EOL) vs. end-of-support (EOS)",
-      "back": "- **EOL** — the vendor stops selling or producing the product.\n- **EOS** — the vendor stops issuing patches and support.\n\nEOS is the security-relevant date: after it, vulnerabilities accumulate permanently and compensating controls are required."
+      "back": "- **EOL** — the vendor stops selling or producing the product.\n- **EOS** — the vendor stops issuing patches and support.\n\nEOS is the security-relevant date: after it, vulnerabilities accumulate permanently and compensating controls are required.\n- Example: Windows 7 stopped shipping on new PCs (EOL) years before Microsoft stopped patching it (EOS); the CVEs piling up after the second date are the risk. Past EOS: the unpatchable XP box driving the badge printer gets its own VLAN, no internet route, and a SIEM watch"
     },
     {
       "id": "02-data-sovereignty",
       "topic": "Data location",
       "front": "Data sovereignty",
-      "back": "The principle that digital data is subject to the **laws of the country in which the storage device physically resides**.\n\nAnswers: whose law applies?"
+      "back": "The principle that digital data is subject to the **laws of the country in which the storage device physically resides**.\n\nAnswers: whose law applies?\n- Example: German law governs the bits in the Frankfurt region, whether or not you chose Frankfurt for legal reasons"
     },
     {
       "id": "02-data-localization",
       "topic": "Data location",
       "front": "Data localization",
-      "back": "Storing and processing data within a specific country's or region's physical borders, because regulation or government policy **requires** it.\n\nAnswers: is it legally required to stay put?"
+      "back": "Storing and processing data within a specific country's or region's physical borders, because regulation or government policy **requires** it.\n\nAnswers: is it legally required to stay put?\n- Example: a national rule that citizens' records may not leave the country; NOT your own choice of the Frankfurt region — that is residency"
     },
     {
       "id": "02-data-residency",
       "topic": "Data location",
       "front": "Data residency",
-      "back": "Where data is stored, chosen as a business or contractual matter rather than mandated by law.\n\nAnswers: where does it physically sit?"
+      "back": "Where data is stored, chosen as a business or contractual matter rather than mandated by law.\n\nAnswers: where does it physically sit?\n- Example: you *choose* the Frankfurt region for latency or contract reasons; NOT a law forcing you to — that is localization"
     },
     {
       "id": "02-data-minimisation",
       "topic": "Data lifecycle",
       "front": "Data minimization (collection)",
-      "back": "Collecting only the personal data that is adequate, relevant, and limited to what the stated purpose requires.\n\nA GDPR principle and a security control — data never collected can't be breached."
+      "back": "Collecting only the personal data that is adequate, relevant, and limited to what the stated purpose requires.\n\nA GDPR principle and a security control — data never collected can't be breached.\n- Example: the web form that asks for DOB and SSN \"for the record\" — if the process never uses them, they are pure breach payload"
     }
   ]
 }

@@ -5,121 +5,121 @@
       "id": "08-sdlc-waterfall-spiral",
       "topic": "Development methodologies",
       "front": "Waterfall vs. spiral: what discriminates them, and what are waterfall's seven stages?",
-      "back": "- **Waterfall**: 7 sequential stages — system reqs, software reqs, preliminary design, detailed design, code and debug, testing, O&M; modified waterfall may step back one phase only\n- **Spiral**: waterfall *iterated*; each loop repeats the phases with risk analysis and early prototypes\n- Trap: \"prototype early, revisit requirements each pass\" -> spiral, not waterfall"
+      "back": "- **Waterfall**: 7 sequential stages — system reqs, software reqs, preliminary design, detailed design, code and debug, testing, O&M; modified waterfall may step back one phase only\n- **Spiral**: waterfall *iterated*; each loop repeats the phases with risk analysis and early prototypes\n- Trap: \"prototype early, revisit requirements each pass\" -> spiral, not waterfall\n- Example: waterfall = requirements signed off in January, first running code in September; spiral = a throwaway prototype in month two, requirements re-cut after each loop's risk review"
     },
     {
       "id": "08-sdlc-agile-scrum",
       "topic": "Development methodologies",
       "front": "Agile vs. Scrum: which is the philosophy and which the framework? Give Scrum's numeric discriminators.",
-      "back": "- **Agile** = values/principles (4 values, **12 principles** in the Manifesto): working product and customer needs over process, tools, documentation\n- **Scrum** = Agile *framework*: teams **<=10**, **sprints** 2 weeks to 1 month (glossary also says 1–4 weeks), **15-minute** daily scrum, **scrum master** facilitates\n- Trap: \"daily 15-minute standup\" -> Scrum specifically"
+      "back": "- **Agile** = values/principles (4 values, **12 principles** in the Manifesto): working product and customer needs over process, tools, documentation\n- **Scrum** = Agile *framework*: teams **<=10**, **sprints** 2 weeks to 1 month (glossary also says 1–4 weeks), **15-minute** daily scrum, **scrum master** facilitates\n- Trap: \"daily 15-minute standup\" -> Scrum specifically\n- Example: Agile = \"ship a working slice every two weeks and re-plan with the customer\"; Scrum = the 9-person team, 2-week sprint, 15-minute standup, and scrum master that implement it\n- Example: \"working software over documentation\" still writes the threat model and API spec; it drops the 200-page design document nobody reads"
     },
     {
       "id": "08-sdlc-devops-devsecops-safe",
       "topic": "Development methodologies",
       "front": "DevOps vs. DevSecOps vs. SAFe — what does each add?",
-      "back": "- **DevOps**: development + QA + operations in one automated model\n- **DevSecOps**: adds security as a participant; enables **software-defined security** (controls as code in the CI/CD pipeline)\n- **SAFe** (Scaled Agile Framework): Agile at *enterprise scale* — coordinates many teams, aligns to strategy; not a new methodology and not a security framework\n- Trap: \"security tests automated in the pipeline\" -> DevSecOps, not DevOps"
+      "back": "- **DevOps**: development + QA + operations in one automated model\n- **DevSecOps**: adds security as a participant; enables **software-defined security** (controls as code in the CI/CD pipeline)\n- **SAFe** (Scaled Agile Framework): Agile at *enterprise scale* — coordinates many teams, aligns to strategy; not a new methodology and not a security framework\n- Trap: \"security tests automated in the pipeline\" -> DevSecOps, not DevOps\n- Example: DevOps = merge triggers build, unit tests, deploy to staging; DevSecOps = the same pipeline also fails the build on a SAST finding or a leaked cloud key; SAFe = 40 Scrum teams aligned to one quarterly release train"
     },
     {
       "id": "08-cmm-cmmi-levels",
       "topic": "Maturity models, O&M, change management, IPT",
       "front": "List the five SW-CMM levels and the CMMI maturity levels. Where do the names differ?",
-      "back": "| Lvl | SW-CMM | CMMI |\n| --- | --- | --- |\n| 1 | Initial | Initial |\n| 2 | **Repeatable** | **Managed** |\n| 3 | Defined | Defined |\n| 4 | **Managed** | **Quantitatively Managed** |\n| 5 | Optimizing | Optimizing |\n\n- CMMI adds Level 0 Incomplete\n- Trap: \"Managed\" at level 2 = CMMI; at level 4 = SW-CMM. Level 3 = documented org-wide; level 4 = measured quantitatively"
+      "back": "| Lvl | SW-CMM | CMMI |\n| --- | --- | --- |\n| 1 | Initial | Initial |\n| 2 | **Repeatable** | **Managed** |\n| 3 | Defined | Defined |\n| 4 | **Managed** | **Quantitatively Managed** |\n| 5 | Optimizing | Optimizing |\n\n- CMMI adds Level 0 Incomplete\n- Trap: \"Managed\" at level 2 = CMMI; at level 4 = SW-CMM. Level 3 = documented org-wide; level 4 = measured quantitatively\n- Example (plain terms): L1 hero developer, releases slip; L2 per-project schedule and tracked builds; L3 one org-wide SDLC checklist; L4 defect-escape rate tracked against targets; L5 those metrics change the process itself"
     },
     {
       "id": "08-samm-ideal",
       "topic": "Maturity models, O&M, change management, IPT",
       "front": "SAMM: who maintains it, how is it structured, and how does it differ from CMM and IDEAL?",
-      "back": "- **SAMM** (Software Assurance Maturity Model): **OWASP**, open-source, **prescriptive**; 5 business functions (Governance, Design, Implementation, Verification, Operations) x 3 practices each; **3 maturity levels** per practice\n- **CMM**: SEI, general software-process maturity, 5 levels — tells you *what level you are at*\n- **IDEAL** (SEI): Initiating, Diagnosing, Establishing, Acting, Learning — tells you *how to improve*"
+      "back": "- **SAMM** (Software Assurance Maturity Model): **OWASP**, open-source, **prescriptive**; 5 business functions (Governance, Design, Implementation, Verification, Operations) x 3 practices each; **3 maturity levels** per practice\n- **CMM**: SEI, general software-process maturity, 5 levels — tells you *what level you are at*\n- **IDEAL** (SEI): Initiating, Diagnosing, Establishing, Acting, Learning — tells you *how to improve*\n- Example: SAMM scores Threat Assessment at 1 and Secure Build at 3 per practice, CMM gives the whole org one level; IDEAL = CISO sponsors \"cut prod vulns\" (I) -> gap assessment (D) -> plan SAST rollout (E) -> pilot then all teams (A) -> retrospective (L)"
     },
     {
       "id": "08-change-mgmt-components",
       "topic": "Maturity models, O&M, change management, IPT",
       "front": "Name the three components of software change management (OSG) and the four components of configuration management. Which is which for \"rollback plan\" and \"which version is in production?\"",
-      "back": "- Change management: **request control** (request, cost/benefit, prioritize) -> **change control** (develop/test in controlled env, QC, **rollback plan**) -> **release control** (approve for prod, strip debug code/backdoors, acceptance test)\n- Configuration management (SCM): **identification, control, status accounting, audit**\n- \"Which version is in production?\" -> CM **status accounting**; change control approves *a* change, CM tracks *all* baselines over time"
+      "back": "- Change management: **request control** (request, cost/benefit, prioritize) -> **change control** (develop/test in controlled env, QC, **rollback plan**) -> **release control** (approve for prod, strip debug code/backdoors, acceptance test)\n- Configuration management (SCM): **identification, control, status accounting, audit**\n- \"Which version is in production?\" -> CM **status accounting**; change control approves *a* change, CM tracks *all* baselines over time\n- Example: \"add SSO to the portal\" ticket costed and prioritized = request control; feature branch, staging tests, rollback = redeploy previous image = change control; CAB approval, debug endpoints stripped, UAT sign-off = release control\n- Example: \"was CHG-4412 approved?\" -> change control (CAB record); \"which build is on the prod web tier right now?\" -> CM status accounting"
     },
     {
       "id": "08-ipt",
       "topic": "Maturity models, O&M, change management, IPT",
       "front": "What is an Integrated Product Team (IPT), and what is it NOT?",
-      "back": "- Multidisciplinary team — developers, security, operations, business, customers/stakeholders — collaborating across the whole life cycle; U.S. DoD origin (IPPD)\n- It is a **team structure**, not an SDLC methodology and not a maturity model"
+      "back": "- Multidisciplinary team — developers, security, operations, business, customers/stakeholders — collaborating across the whole life cycle; U.S. DoD origin (IPPD)\n- It is a **team structure**, not an SDLC methodology and not a maturity model\n- Example: the payments-app squad with its dev lead, SOC analyst, SRE, product owner, and a merchant representative in every design review — vs. security \"consulted\" at release"
     },
     {
       "id": "08-lang-generations",
       "topic": "Software development ecosystem controls",
       "front": "Programming language generations 1GL–5GL, and compiled vs. interpreted vs. runtime (JIT) code — what are the security trade-offs?",
-      "back": "- 1GL machine, 2GL assembly (mnemonics, hardware-specific), 3GL high-level (C, Java, Python), 4GL near-natural/domain (SQL, report generators), 5GL natural-language/constraint/visual\n- **Compiled**: converted to machine code before distribution (compiler, OS-specific); source hidden, needs decompiler/disassembler to inspect\n- **Interpreted**: converted one command at a time at execution; source exposed, portable, easy to tamper\n- **Runtime/JIT**: human-readable until the moment of execution\n- Trap: neither is inherently secure; hidden source = obscurity, not protection"
+      "back": "- 1GL machine, 2GL assembly (mnemonics, hardware-specific), 3GL high-level (C, Java, Python), 4GL near-natural/domain (SQL, report generators), 5GL natural-language/constraint/visual\n- **Compiled**: converted to machine code before distribution (compiler, OS-specific); source hidden, needs decompiler/disassembler to inspect\n- **Interpreted**: converted one command at a time at execution; source exposed, portable, easy to tamper\n- **Runtime/JIT**: human-readable until the moment of execution\n- Trap: neither is inherently secure; hidden source = obscurity, not protection\n- Example: compiled = a .exe you drop into Ghidra to read; interpreted = a Python script where `strings` shows the hard-coded password"
     },
     {
       "id": "08-sast-dast-iast-sca",
       "topic": "Software development ecosystem controls",
       "front": "SAST vs. DAST vs. IAST vs. SCA — how does each work and which one for a vendor product with no source? For a Log4j-style library exposure?",
-      "back": "| Tool | How |\n| --- | --- |\n| **SAST** | Source or compiled code, *not executed*; early, false positives |\n| **DAST** | Running app, black-box; often the only option for others' software |\n| **IAST** | Agent instrumented *inside* the running app during tests |\n| **SCA** | Inventories third-party components vs. known CVEs/licenses |\n\n- No source -> **DAST**; library exposure -> **SCA**/SBOM\n- Trap: fuzzing is *dynamic*, not SAST"
+      "back": "| Tool | How |\n| --- | --- |\n| **SAST** | Source or compiled code, *not executed*; early, false positives |\n| **DAST** | Running app, black-box; often the only option for others' software |\n| **IAST** | Agent instrumented *inside* the running app during tests |\n| **SCA** | Inventories third-party components vs. known CVEs/licenses |\n\n- No source -> **DAST**; library exposure -> **SCA**/SBOM\n- Trap: fuzzing is *dynamic*, not SAST\n- Example: SAST = scanner reads the source and flags the string-concatenated SQL; DAST = scanner attacks the running app and gets a 500 with a stack trace; IAST = agent inside the app watches the tainted input reach the query; SCA = flags `log4j-core` in the manifest against its CVE"
     },
     {
       "id": "08-cicd-repo-hygiene",
       "topic": "Software development ecosystem controls",
       "front": "CI/CD and code repositories: continuous delivery vs. deployment, and the key pipeline/repo controls.",
-      "back": "- **Continuous delivery** = release-ready with a *manual* gate; **continuous deployment** = automatic to production\n- Enablers: **IaC** (infrastructure managed like code), **immutable architecture** (build, validate, swap — never patch in place)\n- Controls: signed commits/artifacts (**code signing** = origin + integrity, not vuln-free), **staging** before **production**, SoD (devs no prod write), **secrets management** (no hard-coded creds), branch protection + mandatory review, MFA, least privilege, private-by-default repos\n- **SBOM** inventories components/versions/sources"
+      "back": "- **Continuous delivery** = release-ready with a *manual* gate; **continuous deployment** = automatic to production\n- Enablers: **IaC** (infrastructure managed like code), **immutable architecture** (build, validate, swap — never patch in place)\n- Controls: signed commits/artifacts (**code signing** = origin + integrity, not vuln-free), **staging** before **production**, SoD (devs no prod write), **secrets management** (no hard-coded creds), branch protection + mandatory review, MFA, least privilege, private-by-default repos\n- **SBOM** inventories components/versions/sources\n- Example: continuous delivery = every merge builds a release candidate, a human clicks Deploy; continuous deployment = the merge goes to prod with no click\n- Example: IaC = the firewall rule is a Terraform file changed via pull request; immutable = bake a new image, test, swap, terminate the old instances; secret scanning blocks the commit with an `AKIA…` key; a signed driver with an exploitable bug still passes signature checks"
     },
     {
       "id": "08-oop-cohesion-coupling",
       "topic": "Software development ecosystem controls",
       "front": "OOP terms: cohesion vs. coupling — which should be high and which low? Define polymorphism and delegation.",
-      "back": "- **High cohesion** (object self-sufficient) + **low coupling** (little interaction between objects) = good design, easier to troubleshoot/update\n- **Polymorphism**: same message -> different behavior depending on external conditions\n- **Delegation**: object forwards a message it has no method for\n- Trap: polymorphism (OOP) vs. **polyinstantiation** (DB cover-story rows)"
+      "back": "- **High cohesion** (object self-sufficient) + **low coupling** (little interaction between objects) = good design, easier to troubleshoot/update\n- **Polymorphism**: same message -> different behavior depending on external conditions\n- **Delegation**: object forwards a message it has no method for\n- Trap: polymorphism (OOP) vs. **polyinstantiation** (DB cover-story rows)\n- Example: high cohesion = `AuthService` does only auth; low coupling = swapping its password hasher does not touch billing; polymorphism = `.render()` draws a page on a PDF object and axes on a Chart object"
     },
     {
       "id": "08-assess-logging-auditing",
       "topic": "Assessing software security effectiveness",
       "front": "How does ISC2 distinguish logging, auditing, and accountability for software changes — and what evidence proves a change was authorized?",
-      "back": "- **Logging** records events; **auditing** reviews the log/trail to hold subjects **accountable**\n- Evidence: version-control history, signed commits, CAB minutes, pipeline/deployment logs — ties to CM **status accounting** and **configuration audit**\n- Unauthorized code in prod = change-control failure whether or not malicious\n- Trap: logging alone is not the control outcome; someone must review"
+      "back": "- **Logging** records events; **auditing** reviews the log/trail to hold subjects **accountable**\n- Evidence: version-control history, signed commits, CAB minutes, pipeline/deployment logs — ties to CM **status accounting** and **configuration audit**\n- Unauthorized code in prod = change-control failure whether or not malicious\n- Trap: logging alone is not the control outcome; someone must review\n- Example: the pipeline records every deploy (logging); someone reconciles last month's deploys against CAB approvals and finds one with no ticket (auditing)"
     },
     {
       "id": "08-cert-accred-assurance",
       "topic": "Assessing software security effectiveness",
       "front": "Certification vs. accreditation (authorization/ATO), and what does \"assurance\" mean to ISC2?",
-      "back": "- **Certification**: technical evaluation against requirements (testers)\n- **Accreditation / ATO**: *management's* formal acceptance of residual risk — management, never the tester, accepts risk\n- **Assurance**: degree of confidence security needs are met; continually maintained and reverified; **life cycle assurance** judges design, architecture, creation, testing, distribution\n- Trap: a clean pen test != assurance"
+      "back": "- **Certification**: technical evaluation against requirements (testers)\n- **Accreditation / ATO**: *management's* formal acceptance of residual risk — management, never the tester, accepts risk\n- **Assurance**: degree of confidence security needs are met; continually maintained and reverified; **life cycle assurance** judges design, architecture, creation, testing, distribution\n- Trap: a clean pen test != assurance\n- Example: pen-test report and control assessment = certification; the CIO signing the ATO memo with two open mediums accepted = accreditation; Friday's clean pen test says nothing about Monday's unsigned hotfix — that is why assurance != testing"
     },
     {
       "id": "08-ssdf-800-218",
       "topic": "Assessing software security effectiveness",
       "front": "NIST SP 800-218: what is it, and what are its four practice groups? What does SP 800-218A add?",
-      "back": "- **SSDF** (Secure Software Development Framework) v1.1, Feb 2022\n- **PO** Prepare the Organization; **PS** Protect the Software (from tampering — repos, signing); **PW** Produce Well-Secured Software; **RV** Respond to Vulnerabilities\n- **SP 800-218A**: SSDF practices for generative AI / dual-use foundation models\n- Trap: PS (protect the code) vs. PW (write secure code)"
+      "back": "- **SSDF** (Secure Software Development Framework) v1.1, Feb 2022\n- **PO** Prepare the Organization; **PS** Protect the Software (from tampering — repos, signing); **PW** Produce Well-Secured Software; **RV** Respond to Vulnerabilities\n- **SP 800-218A**: SSDF practices for generative AI / dual-use foundation models\n- Trap: PS (protect the code) vs. PW (write secure code)\n- Example: PS = signed commits, protected branches, artifact integrity; PW = threat modeling, secure coding, SAST"
     },
     {
       "id": "08-test-types",
       "topic": "Assessing software security effectiveness",
       "front": "Unit, interface, regression, and acceptance (UAT) testing — purpose and who performs each? Which runs after a patch?",
-      "back": "- **Unit**: each code unit independently — developers\n- **Interface**: modules against interface specs\n- **Regression**: new code behaves like old except intended changes — after every change/patch\n- **UAT / acceptance**: meets stated functional (and security) criteria; end users can work with it — users/customers\n- Trap: regression = nothing broke; UAT = users accept"
+      "back": "- **Unit**: each code unit independently — developers\n- **Interface**: modules against interface specs\n- **Regression**: new code behaves like old except intended changes — after every change/patch\n- **UAT / acceptance**: meets stated functional (and security) criteria; end users can work with it — users/customers\n- Trap: regression = nothing broke; UAT = users accept\n- Example: after the patch the automated suite confirms login and checkout still pass (regression); the finance team confirms the new report meets their need (UAT)"
     },
     {
       "id": "08-acquired-cots-oss-escrow",
       "topic": "Security impact of acquired software",
       "front": "COTS vs. open source vs. third-party custom software: what does each risk, and what does a software escrow agreement actually protect against?",
-      "back": "- **COTS**: bought from vendors; cannot fix yourself — depend on vendor patch cadence; check CVE history, SBOM, Common Criteria, license\n- **Open source**: source public, community-maintained, often embedded in COTS; assess maintenance activity, transitive deps (SCA), **license** obligations (GPL vs. MIT)\n- **Custom/third-party**: **software escrow** = source held by an independent third party against developer *failure/bankruptcy* — not a vulnerability control\n- Trap: \"many eyes\" is a claim, not a control"
+      "back": "- **COTS**: bought from vendors; cannot fix yourself — depend on vendor patch cadence; check CVE history, SBOM, Common Criteria, license\n- **Open source**: source public, community-maintained, often embedded in COTS; assess maintenance activity, transitive deps (SCA), **license** obligations (GPL vs. MIT)\n- **Custom/third-party**: **software escrow** = source held by an independent third party against developer *failure/bankruptcy* — not a vulnerability control\n- Trap: \"many eyes\" is a claim, not a control\n- Example: vendor goes bankrupt -> escrow releases the source so you keep patching; vendor ships a SQLi -> escrow does nothing; an npm package with millions of downloads and one unpaid maintainer idle for 18 months — download count is not the control; a GPL library copied into your proprietary agent = legal exposure with zero CVEs"
     },
     {
       "id": "08-acquired-msp-cloud",
       "topic": "Security impact of acquired software",
       "front": "Managed services vs. cloud service models: who patches the application in SaaS, PaaS, IaaS, and what contract clauses matter?",
-      "back": "- **MSP/MSSP** manages your systems (people + process); **CSP** hosts them — both need SLA + **right-to-audit clause**; neither removes your accountability\n- **SaaS**: provider patches the app; you control data/identity/config\n- **PaaS**: you own your code and dependencies; provider owns platform\n- **IaaS**: you also own OS, middleware, runtime patching\n- **Shadow IT** = unassessed acquired SaaS/tools; **cloud services license agreement** = click-through terms"
+      "back": "- **MSP/MSSP** manages your systems (people + process); **CSP** hosts them — both need SLA + **right-to-audit clause**; neither removes your accountability\n- **SaaS**: provider patches the app; you control data/identity/config\n- **PaaS**: you own your code and dependencies; provider owns platform\n- **IaaS**: you also own OS, middleware, runtime patching\n- **Shadow IT** = unassessed acquired SaaS/tools; **cloud services license agreement** = click-through terms\n- Example: MSSP analysts tune your Splunk rules, AWS hosts the instance — a bad MSSP rule is not AWS's problem; Salesforce patches Salesforce (SaaS), the vulnerable Spring dependency in your app on App Service is yours (PaaS); shadow IT = marketing's Trello board of customer lists found in CASB logs"
     },
     {
       "id": "08-owasp-top10",
       "topic": "Source-code weaknesses and secure coding practices",
       "front": "OWASP Top 10: what is A01 in both 2021 and 2025, and which categories are new in 2025?",
-      "back": "- **A01 Broken Access Control** in both editions\n- 2021: A02 Crypto Failures, A03 Injection, A04 Insecure Design, A05 Misconfig, A06 Vulnerable/Outdated Components, A07 Ident & AuthN Failures, A08 Software & Data Integrity, A09 Logging & Monitoring, A10 SSRF\n- 2025 new: **A03 Software Supply Chain Failures** (absorbs A06:2021), **A10 Mishandling of Exceptional Conditions**; Misconfig rises to A02, Injection drops to A05\n- Trap: Top 10 is an *awareness* document, not a compliance standard"
+      "back": "- **A01 Broken Access Control** in both editions\n- 2021: A02 Crypto Failures, A03 Injection, A04 Insecure Design, A05 Misconfig, A06 Vulnerable/Outdated Components, A07 Ident & AuthN Failures, A08 Software & Data Integrity, A09 Logging & Monitoring, A10 SSRF\n- 2025 new: **A03 Software Supply Chain Failures** (absorbs A06:2021), **A10 Mishandling of Exceptional Conditions**; Misconfig rises to A02, Injection drops to A05\n- Trap: Top 10 is an *awareness* document, not a compliance standard\n- Example: a vendor claiming \"OWASP Top 10 compliant\" is marketing — ask which ASVS level they verify against; insecure design = 4-digit SMS reset code with no attempt limit, flawless code and still broken"
     },
     {
       "id": "08-cwe-vs-cve",
       "topic": "Source-code weaknesses and secure coding practices",
       "front": "CWE vs. CVE vs. CVSS — which is the weakness class, which the product instance, which the score? Name the top 3 of the 2025 CWE Top 25.",
-      "back": "- **CWE**: weakness *type/class* (e.g. CWE-79 XSS)\n- **CVE**: specific *instance* in a product/version (SCAP element assigning IDs)\n- **CVSS**: severity *score* of a CVE\n- 2025 CWE Top 25 top 3: **CWE-79** XSS, **CWE-89** SQL injection, **CWE-352** CSRF (then CWE-862 Missing Authorization, CWE-787 OOB Write)"
+      "back": "- **CWE**: weakness *type/class* (e.g. CWE-79 XSS)\n- **CVE**: specific *instance* in a product/version (SCAP element assigning IDs)\n- **CVSS**: severity *score* of a CVE\n- 2025 CWE Top 25 top 3: **CWE-79** XSS, **CWE-89** SQL injection, **CWE-352** CSRF (then CWE-862 Missing Authorization, CWE-787 OOB Write)\n- Example: CWE-89 = SQL injection as a class; CVE-YYYY-NNNNN = the SQLi in one vendor's file-transfer appliance, specific versions; CVSS 9.8 = how bad that one instance is"
     },
     {
       "id": "08-toctou-covert-incremental",
       "topic": "Source-code weaknesses and secure coding practices",
       "front": "Discriminate: race condition vs. TOCTOU; covert storage vs. covert timing channel; salami vs. data diddling.",
-      "back": "- **TOCTOU** = the *specific* race between permission check and resource use; not every race condition is TOCTOU\n- **Covert storage**: write to a shared area another process reads; **covert timing**: modulate resource timing/performance\n- **Salami**: accumulate many tiny takes into something valuable; **data diddling**: small malicious alterations of data — both **incremental attacks**\n- **Backdoor = maintenance hook = trapdoor** (developer access) vs. **logic bomb** (condition trigger) vs. **Trojan** (disguise)"
+      "back": "- **TOCTOU** = the *specific* race between permission check and resource use; not every race condition is TOCTOU\n- **Covert storage**: write to a shared area another process reads; **covert timing**: modulate resource timing/performance\n- **Salami**: accumulate many tiny takes into something valuable; **data diddling**: small malicious alterations of data — both **incremental attacks**\n- **Backdoor = maintenance hook = trapdoor** (developer access) vs. **logic bomb** (condition trigger) vs. **Trojan** (disguise)\n- Example: covert storage = bits written into a shared file's unused metadata, covert timing = CPU load a neighbor VM measures; salami = skim sub-cent rounding into one account, diddling = change the account number on three invoices before the payment run; logic bomb = wipes the share when `jsmith` leaves payroll, Trojan = `invoice.pdf.exe` opens a PDF and drops a beacon, backdoor = `/debug?token=letmein`"
     },
     {
       "id": "08-input-validation-escaping",
@@ -131,31 +131,31 @@
       "id": "08-api-top10-bola-bfla",
       "topic": "API security and software-defined security",
       "front": "OWASP API Security Top 10 (2023): what are API1, API3, API5, and how do BOLA and BFLA differ?",
-      "back": "- **API1 Broken Object Level Authorization (BOLA)**: change the ID, get someone else's record\n- **API3 Broken Object Property Level Authorization**: right object, wrong/too many *fields* exposed or writable\n- **API5 Broken Function Level Authorization (BFLA)**: user reaches admin *endpoints/functions*\n- Others: API2 Broken AuthN, API4 Unrestricted Resource Consumption, API6 Sensitive Business Flows, API7 SSRF, API8 Misconfig, API9 Improper Inventory, API10 Unsafe Consumption of APIs\n- Trap: rate limiting fixes API4/API2 brute force, not authorization"
+      "back": "- **API1 Broken Object Level Authorization (BOLA)**: change the ID, get someone else's record\n- **API3 Broken Object Property Level Authorization**: right object, wrong/too many *fields* exposed or writable\n- **API5 Broken Function Level Authorization (BFLA)**: user reaches admin *endpoints/functions*\n- Others: API2 Broken AuthN, API4 Unrestricted Resource Consumption, API6 Sensitive Business Flows, API7 SSRF, API8 Misconfig, API9 Improper Inventory, API10 Unsafe Consumption of APIs\n- Trap: rate limiting fixes API4/API2 brute force, not authorization\n- Example: BOLA = `GET /invoices/1042` returns another tenant's invoice; API3 = `GET /users/me` also returns `passwordHash`; BFLA = `DELETE /admin/users/7` succeeds for an ordinary user; 100 req/min throttling stops stuffing and scraping but not the BOLA"
     },
     {
       "id": "08-rest-soap-api-controls",
       "topic": "API security and software-defined security",
       "front": "REST vs. SOAP as ISC2 frames them, and API key vs. OAuth token.",
-      "back": "- **REST** replaced **SOAP**; ISC2: SOAP insecure (designed around plaintext HTTP), REST has an *optional* security layer — so REST is not secure by default; add TLS + authN/authZ\n- (How it really works: SOAP has WS-Security; both ride TLS — the exam wants the ISC2 framing)\n- **API key** identifies the calling *application*; **OAuth** delegates a *user's* access; **OpenID Connect** = SSO over OAuth\n- Controls: authorize per object *and* function, rate limiting, schema validation, API gateway as PEP, API inventory, secrets management, WAF"
+      "back": "- **REST** replaced **SOAP**; ISC2: SOAP insecure (designed around plaintext HTTP), REST has an *optional* security layer — so REST is not secure by default; add TLS + authN/authZ\n- (How it really works: SOAP has WS-Security; both ride TLS — the exam wants the ISC2 framing)\n- **API key** identifies the calling *application*; **OAuth** delegates a *user's* access; **OpenID Connect** = SSO over OAuth\n- Controls: authorize per object *and* function, rate limiting, schema validation, API gateway as PEP, API inventory, secrets management, WAF\n- Example: API key = the mobile app's `X-Api-Key` header identifying the app build; OAuth = the user clicking \"Allow this scheduler to read my calendar\"; REST not secure by default = an internal endpoint on plain HTTP with no auth because \"only the frontend calls it\""
     },
     {
       "id": "08-software-defined-security",
       "topic": "API security and software-defined security",
       "front": "Define software-defined security and distinguish it from DevSecOps, SOAR, and SDN.",
-      "back": "- **Software-defined security**: security controls actively managed *by code*, integrated directly into the **CI/CD pipeline** (IaC scanning, policy as code, versioned firewall/identity rules) — reproducible, auditable\n- **DevSecOps**: the culture/methodology that enables it\n- **SOAR**: automated incident-response playbooks\n- **SDN**: programmable network control plane"
+      "back": "- **Software-defined security**: security controls actively managed *by code*, integrated directly into the **CI/CD pipeline** (IaC scanning, policy as code, versioned firewall/identity rules) — reproducible, auditable\n- **DevSecOps**: the culture/methodology that enables it\n- **SOAR**: automated incident-response playbooks\n- **SDN**: programmable network control plane\n- Example: software-defined security = the WAF rule is a Terraform resource reviewed in a pull request; SOAR = a playbook isolates the host when EDR fires; SDN = the controller pushes a new VLAN path"
     },
     {
       "id": "08-db-acid-vocab",
       "topic": "Database security",
       "front": "ACID: define each property and its mechanism. Cardinality vs. degree? Candidate vs. primary key? Referential vs. semantic integrity?",
-      "back": "- **Atomicity** all-or-nothing (rollback); **Consistency** begins/ends within DB rules; **Isolation** transactions don't see intermediate state (locks/**concurrency**); **Durability** committed = preserved (transaction logs)\n- **Cardinality** = rows; **degree** = columns\n- **Candidate keys** = any unique identifiers; **primary key** = the one chosen; **foreign key** = another table's PK\n- **Referential integrity**: FK matches an existing PK; **semantic integrity**: in-table value rules (domain ranges, uniqueness)"
+      "back": "- **Atomicity** all-or-nothing (rollback); **Consistency** begins/ends within DB rules; **Isolation** transactions don't see intermediate state (locks/**concurrency**); **Durability** committed = preserved (transaction logs)\n- **Cardinality** = rows; **degree** = columns\n- **Candidate keys** = any unique identifiers; **primary key** = the one chosen; **foreign key** = another table's PK\n- **Referential integrity**: FK matches an existing PK; **semantic integrity**: in-table value rules (domain ranges, uniqueness)\n- Example: atomicity = transfer debits A and credits B or neither; isolation = a mid-transfer report never sees A debited and B not credited; consistency = orphan foreign key rejected; durability = committed order survives the power cut\n- Example: referential = order with `customer_id=999` and no customer 999 rejected; semantic = `age=-4` rejected; candidates SSN, email, badge_id — badge_id chosen as primary"
     },
     {
       "id": "08-db-aggregation-inference",
       "topic": "Database security",
       "front": "Aggregation vs. inference vs. contamination in databases — and which countermeasure fits each?",
-      "back": "| Threat | Meaning | Control |\n| --- | --- | --- |\n| **Aggregation** | You can access all pieces; the sum is more sensitive | Restrict aggregate functions to cleared users |\n| **Inference** | Deduce higher-classified fact from nonsensitive pieces | **Polyinstantiation**, cell suppression, noise/perturbation |\n| **Contamination** | Mixing classifications / need-to-know | **Database partitioning** |\n\n- **Polyinstantiation** = same primary key, different rows per classification level (cover story)\n- Trap: polyinstantiation (DB) vs. polymorphism (OOP)"
+      "back": "| Threat | Meaning | Control |\n| --- | --- | --- |\n| **Aggregation** | You can access all pieces; the sum is more sensitive | Restrict aggregate functions to cleared users |\n| **Inference** | Deduce higher-classified fact from nonsensitive pieces | **Polyinstantiation**, cell suppression, noise/perturbation |\n| **Contamination** | Mixing classifications / need-to-know | **Database partitioning** |\n\n- **Polyinstantiation** = same primary key, different rows per classification level (cover story)\n- Trap: polyinstantiation (DB) vs. polymorphism (OOP)\n- Example: aggregation = ten individually Unclassified shipping records reveal a troop movement; inference = a user deduces a salary from a department average after one person leaves; polyinstantiation = Secret row \"Yokosuka, munitions\", Unclassified row with the same key \"Pearl Harbor, supplies\""
     },
     {
       "id": "08-db-models",
@@ -167,31 +167,49 @@
       "id": "08-expert-vs-neural",
       "topic": "Knowledge-based systems, AI, and machine learning",
       "front": "Expert system vs. neural network vs. machine learning vs. AI — mechanism and the two components of an expert system.",
-      "back": "- **Expert system** = **knowledge base** (human expert if/then rules) + **inference engine** (applies rules to decide); consistent, explainable, no learning — only as good as its rules\n- **Neural network** (aka deep learning): long chain of computational decisions feeding each other; learns from data; opaque\n- **ML**: derive solutions from large/complex datasets — \"often confused with the science-fiction concept of AI\"\n- **AI**: umbrella — learning, reasoning, perception, decision-making\n- Trap: \"codified if/then expertise\" -> expert system; \"trained on examples\" -> neural network/ML"
+      "back": "- **Expert system** = **knowledge base** (human expert if/then rules) + **inference engine** (applies rules to decide); consistent, explainable, no learning — only as good as its rules\n- **Neural network** (aka deep learning): long chain of computational decisions feeding each other; learns from data; opaque\n- **ML**: derive solutions from large/complex datasets — \"often confused with the science-fiction concept of AI\"\n- **AI**: umbrella — learning, reasoning, perception, decision-making\n- Trap: \"codified if/then expertise\" -> expert system; \"trained on examples\" -> neural network/ML\n- Example: expert system = SIEM correlation rule, IF 10 failed logons THEN 1 success within 2 minutes -> alert (Sigma rules = knowledge base, the evaluator = inference engine); ML = UEBA baseline flags a user whose login hours and volume drift with no rule written"
     },
     {
       "id": "08-inference-fuzzy-dss",
       "topic": "Knowledge-based systems, AI, and machine learning",
       "front": "Same-word traps: inference engine vs. inference attack; fuzzy logic vs. fuzzing; and what is a DSS?",
-      "back": "- **Inference engine**: expert-system component that applies knowledge-base rules; **inference attack**: deduce classified data from nonsensitive pieces (database)\n- **Fuzzy logic**: reasoning with degrees of truth (approximates human thought); **fuzzing**: dynamic testing with invalid/random input\n- **DSS** (decision support system): analyzes business data to help humans decide — *informational*, not operational or autonomous"
+      "back": "- **Inference engine**: expert-system component that applies knowledge-base rules; **inference attack**: deduce classified data from nonsensitive pieces (database)\n- **Fuzzy logic**: reasoning with degrees of truth (approximates human thought); **fuzzing**: dynamic testing with invalid/random input\n- **DSS** (decision support system): analyzes business data to help humans decide — *informational*, not operational or autonomous\n- Example: fuzzy = \"risk score 0.7, probably malicious\" instead of match/no-match; fuzzing = malformed PDFs at the parser until it crashes; DSS = the MTTR-per-analyst dashboard informs the SOC manager's staffing call, it does not re-roster shifts"
     },
     {
       "id": "08-malware-propagation",
       "topic": "Malware and malicious code",
       "front": "Virus vs. worm vs. Trojan vs. logic bomb vs. rootkit — the one-line discriminator for each.",
-      "back": "- **Virus**: attaches to host files; needs user action to spread\n- **Worm**: **self-replicating**, no host; spreads to spread; DoS via resource use\n- **Trojan**: masquerades as benign, hidden payload; tends **not to replicate**\n- **Logic bomb**: fires on a **condition** (date, countdown, missing payroll name)\n- **Rootkit**: embeds in OS to manipulate what OS/users see — hides other malware\n- \"Spread with no user interaction\" -> worm; \"disgruntled admin, fires after termination\" -> logic bomb"
+      "back": "- **Virus**: attaches to host files; needs user action to spread\n- **Worm**: **self-replicating**, no host; spreads to spread; DoS via resource use\n- **Trojan**: masquerades as benign, hidden payload; tends **not to replicate**\n- **Logic bomb**: fires on a **condition** (date, countdown, missing payroll name)\n- **Rootkit**: embeds in OS to manipulate what OS/users see — hides other malware\n- \"Spread with no user interaction\" -> worm; \"disgruntled admin, fires after termination\" -> logic bomb\n- Example: logic bomb = script wipes the share when `jsmith` is absent from the payroll table; Trojan = `invoice.pdf.exe` opens a PDF and drops a beacon; backdoor = `/debug?token=letmein` the developer left in"
     },
     {
       "id": "08-virus-subtypes",
       "topic": "Malware and malicious code",
       "front": "Virus subtypes: polymorphic vs. encrypted vs. stealth vs. multipartite vs. companion — discriminators.",
-      "back": "- **Polymorphic**: mutates its own *code* each infection -> new signature\n- **Encrypted**: same code, alters *storage*/encryption via a **virus decryption routine**; different signature per system\n- **Stealth**: masks/hides its activity\n- **Multipartite**: more than one propagation technique\n- **Companion**: separate file, near-identical name to a legitimate OS file\n- Also: **file infector** (.exe/.com), **boot sector** (MBR, pre-OS), **macro** (document scripting)"
+      "back": "- **Polymorphic**: mutates its own *code* each infection -> new signature\n- **Encrypted**: same code, alters *storage*/encryption via a **virus decryption routine**; different signature per system\n- **Stealth**: masks/hides its activity\n- **Multipartite**: more than one propagation technique\n- **Companion**: separate file, near-identical name to a legitimate OS file\n- Also: **file infector** (.exe/.com), **boot sector** (MBR, pre-OS), **macro** (document scripting)\n- Example: polymorphic = the loader's code is regenerated with each infection; encrypted = the same loader, body re-encrypted under a new key"
     },
     {
       "id": "08-malware-payload-defense",
       "topic": "Malware and malicious code",
       "front": "Ransomware vs. crypto malware; spyware vs. adware vs. PUP; and how does ISC2 classify antimalware?",
-      "back": "- **Ransomware**: blocks use, demands payment; **crypto malware**: mines cryptocurrency with your resources (cryptojacking) — \"often confused\"\n- **Spyware**: monitors and exfils; **adware**: targeted pop-ups; **PUP** (potentially unwanted program): questionable, not clearly malicious — keyloggers, sniffers, port scanners, password crackers\n- **Fileless malware**: memory only; **hoax**: social engineering about nonexistent malware\n- **Antimalware** = an example of **HIDS** providing **preventive and corrective** control; **heuristic** (behavior) for unknown/zero-day vs. **signature** for known; **sandboxing** isolates; **allow listing** = deny by default"
+      "back": "- **Ransomware**: blocks use, demands payment; **crypto malware**: mines cryptocurrency with your resources (cryptojacking) — \"often confused\"\n- **Spyware**: monitors and exfils; **adware**: targeted pop-ups; **PUP** (potentially unwanted program): questionable, not clearly malicious — keyloggers, sniffers, port scanners, password crackers\n- **Fileless malware**: memory only; **hoax**: social engineering about nonexistent malware\n- **Antimalware** = an example of **HIDS** providing **preventive and corrective** control; **heuristic** (behavior) for unknown/zero-day vs. **signature** for known; **sandboxing** isolates; **allow listing** = deny by default\n- Example: antimalware blocks the dropper's write (preventive) and quarantines the one that slipped through (corrective)"
+    },
+    {
+      "id": "08-devsecops-challenge",
+      "topic": "Development methodologies (8.1)",
+      "front": "What is the MOST significant security challenge when adopting DevSecOps, and why do standardized configs, patching SLAs, and regulatory collaboration all fail as answers?",
+      "back": "- **Enforcement of access controls**: DevSecOps collapses the dev/ops/sec handoffs, so one person or one pipeline identity can write, approve, and deploy -> **toxic combinations of entitlements**; **separation of duties** + **least privilege** are the principles under strain\n- The other three are things DevSecOps *improves* (IaC standardizes configs; automation speeds patching; cross-functional teams spread regulatory knowledge)\n- Pattern: \"most significant challenge of [modern practice]\" -> the classic principle it strains, not an operational detail\n- Example: the CI service account that can push to main, approve its own pull request, and deploy to prod — one stolen token = full supply-chain compromise"
+    },
+    {
+      "id": "08-acid-isolation-scenario",
+      "topic": "Database security (OSG classic)",
+      "front": "A DBA runs a documented automated update; throughput spikes and other systems slow down. Which ACID property failed, and why are \"race condition attack\" and \"covert channel\" wrong?",
+      "back": "- **Isolation** - the transaction's effects were not confined to itself; other processes were affected\n- ACID: **A**tomicity all-or-nothing; **C**onsistency valid->valid state; **I**solation no interference/no visible intermediate state; **D**urability committed survives crash\n- Race condition and covert channel are *attacks*; the stem has an authorized actor and no adversary -> benign missing-property answer wins. Covert channel = confidentiality leak, symptom here = availability\n- Pattern: no attacker in the stem -> \"attack\" options are distractors\n- Example: atomicity = the transfer debits A and credits B, or neither; isolation = a report running mid-transfer never sees A debited and B not yet credited"
+    },
+    {
+      "id": "08-sdlc-whole-lifecycle",
+      "topic": "Development methodologies (8.1)",
+      "front": "A development manager asks how to BEST ensure a secure product. Why does \"security analysis throughout the project\" beat \"due diligence of secure coding practices\"?",
+      "back": "- Security must be integrated into **every SDLC phase** (planning -> disposal); secure coding is **one phase** (implementation) and cannot fix bad requirements, design, or deployment\n- Manager framing -> lifecycle-level answer beats technical single-phase answer (same shape as strategic > tactical in D1)\n- \"Indefectible/perfect requirements\" = absolutist -> always wrong; continuous process improvement = maturity (CMMI/SAMM), indirect\n- Anchor: NIST SP 800-218 SSDF - practices across Prepare / Protect / Produce / Respond\n- Example: a missing authorization check costs one design-review comment in requirements; found after release it costs an emergency patch, incident response, and customer notification"
     }
   ]
 }

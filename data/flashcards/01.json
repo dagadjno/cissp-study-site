@@ -11,13 +11,13 @@
       "id": "01-authenticity",
       "topic": "Five pillars",
       "front": "Authenticity vs. integrity",
-      "back": "- **Authenticity** — the data is genuine and comes from its claimed origin (about the *source*)\n- **Integrity** — the data has not been modified (about the *content*)"
+      "back": "- **Authenticity** — the data is genuine and comes from its claimed origin (about the *source*)\n- **Integrity** — the data has not been modified (about the *content*)\n- Example: spoofed `From:` header = authenticity failure even with a byte-perfect body; a MITM editing the body = integrity failure"
     },
     {
       "id": "01-nonrep-control",
       "topic": "Five pillars",
       "front": "Nonrepudiation — what provides it",
-      "back": "A **digital signature**, made with an asymmetric private key only one party holds.\n\nMAC/HMAC gives integrity and authentication but not nonrepudiation — the symmetric key is shared, so either party could have produced it."
+      "back": "A **digital signature**, made with an asymmetric private key only one party holds.\n\nMAC/HMAC gives integrity and authentication but not nonrepudiation — the symmetric key is shared, so either party could have produced it.\n\n- Example: JWT HS256 (HMAC, shared secret) — either side could have minted it; RS256 — only the private-key holder, like a GPG-signed git commit vs. a bare author field anyone can set"
     },
     {
       "id": "01-dad",
@@ -35,7 +35,7 @@
       "id": "01-canons",
       "topic": "ISC2 ethics",
       "front": "The four ISC2 canons, in order",
-      "back": "1. Protect **society**, the common good, public trust, infrastructure\n2. Act **honorably**, honestly, justly, responsibly, legally\n3. Diligent and competent service to **principals** (employers/clients)\n4. Advance and protect the **profession**\n\nOrder = precedence when canons conflict (OSG teaching)."
+      "back": "1. Protect **society**, the common good, public trust, infrastructure\n2. Act **honorably**, honestly, justly, responsibly, legally\n3. Diligent and competent service to **principals** (employers/clients)\n4. Advance and protect the **profession**\n\nOrder = precedence when canons conflict (OSG teaching).\n\n- Example: told to bury the breach until after quarter close -> canon 3 pulls toward the employer, canons 1-2 outrank -> report it"
     },
     {
       "id": "01-canon-complaints",
@@ -47,7 +47,7 @@
       "id": "01-ethics-enforcement",
       "topic": "ISC2 ethics",
       "front": "How are ISC2 ethics complaints enforced — path and sanction?",
-      "back": "Complaint by **sworn affidavit** → Professional Conduct Committee → board. Sanction: **revocation** of certification.\n\nThe Code requires members to \"adhere, and be seen to adhere\" — an undisclosed conflict of interest violates it even without bad acts."
+      "back": "Complaint by **sworn affidavit** → Professional Conduct Committee → board. Sanction: **revocation** of certification.\n\nThe Code requires members to \"adhere, and be seen to adhere\" — an undisclosed conflict of interest violates it even without bad acts.\n\n- Example: recommending the EDR vendor your spouse sells for without disclosing it violates the Code; padding an expense report -> HR only, falsifying a pentest report -> HR AND revocation"
     },
     {
       "id": "01-rfc1087",
@@ -59,7 +59,7 @@
       "id": "01-doc-hierarchy",
       "topic": "Documentation hierarchy",
       "front": "The five security documentation levels",
-      "back": "| Level | Binding? |\n| --- | --- |\n| Policy | Mandatory |\n| Standard | Mandatory |\n| Baseline | Mandatory |\n| **Guideline** | **Discretionary** |\n| Procedure | Mandatory |\n\nGuideline is the only discretionary level."
+      "back": "| Level | Binding? |\n| --- | --- |\n| Policy | Mandatory |\n| Standard | Mandatory |\n| Baseline | Mandatory |\n| **Guideline** | **Discretionary** |\n| Procedure | Mandatory |\n\nGuideline is the only discretionary level.\n\n- Example: policy = CEO-signed \"protect data per classification\"; standard = \"remote access = VPN+MFA\"; baseline = CIS L1 image every laptop matches; guideline = \"consider passphrases over passwords\"; procedure = AD user-onboarding runbook"
     },
     {
       "id": "01-baseline-standard",
@@ -71,13 +71,13 @@
       "id": "01-policy-types",
       "topic": "Documentation hierarchy",
       "front": "The three policy types by purpose, and NIST SP 800-12's three policy scopes — name both sets",
-      "back": "- OSG purpose types: **regulatory** (required by law/industry), **advisory** (most policies — behavior plus consequences), **informative** (unenforceable)\n- NIST SP 800-12 scope triple: **program / issue-specific / system-specific**"
+      "back": "- OSG purpose types: **regulatory** (required by law/industry), **advisory** (most policies — behavior plus consequences), **informative** (unenforceable)\n- NIST SP 800-12 scope triple: **program / issue-specific / system-specific**\n- Example: regulatory = HIPAA-driven PHI policy; advisory = AUP with sanctions; informative = \"why security matters\" intro page. Scope: program = master infosec policy; issue-specific = remote-work policy; system-specific = the SIEM's own access rules"
     },
     {
       "id": "01-threat-vuln-risk",
       "topic": "Risk concepts",
       "front": "Threat vs. vulnerability vs. risk",
-      "back": "- **Threat** — a potential cause of harm (agent + event)\n- **Vulnerability** — a weakness, including the *absence of a safeguard*, not only a flaw\n- **Risk** — likelihood × impact of a threat exploiting a vulnerability"
+      "back": "- **Threat** — a potential cause of harm (agent + event)\n- **Vulnerability** — a weakness, including the *absence of a safeguard*, not only a flaw\n- **Risk** — likelihood × impact of a threat exploiting a vulnerability\n- Example: threat = ransomware affiliate; vulnerability = unpatched Exchange with no EDR on it (or simply no MFA on the VPN — absence counts); risk = likelihood x impact of that box getting encrypted"
     },
     {
       "id": "01-80030-sources",
@@ -89,25 +89,25 @@
       "id": "01-planning",
       "topic": "Planning types",
       "front": "Strategic vs. tactical vs. operational plans",
-      "back": "| Plan | Horizon | Content |\n| --- | --- | --- |\n| Strategic | ~5 yrs, annual refresh | mission, goals, risk appetite |\n| Tactical | ~1 yr | projects, hiring, **budget** |\n| Operational | monthly/quarterly | step-by-step detail, patch schedule |\n\nA budget is a **tactical** plan."
+      "back": "| Plan | Horizon | Content |\n| --- | --- | --- |\n| Strategic | ~5 yrs, annual refresh | mission, goals, risk appetite |\n| Tactical | ~1 yr | projects, hiring, **budget** |\n| Operational | monthly/quarterly | step-by-step detail, patch schedule |\n\nA budget is a **tactical** plan.\n\n- Example: \"patch cycle runs monthly\" in the operational plan = schedule (time axis); \"criticals patched within 14 days\" in a standard = rule (authority axis)"
     },
     {
       "id": "01-risk-responses",
       "topic": "Risk responses",
       "front": "The six risk responses",
-      "back": "**Mitigate**, **assign/transfer**, **accept**, **avoid**, **deter**, **reject**.\n\nReject — ignoring a risk without analysis — is the invalid response; it amounts to negligence.\n\nMnemonic: \"My Aunt Accepts Any Dumb Risk.\""
+      "back": "**Mitigate**, **assign/transfer**, **accept**, **avoid**, **deter**, **reject**.\n\nReject — ignoring a risk without analysis — is the invalid response; it amounts to negligence.\n\nMnemonic: \"My Aunt Accepts Any Dumb Risk.\"\n\n- Example: accept = CISO-signed memo \"SCADA stays unpatched, segmented, revisit Q3\"; reject = vuln ticket closed \"won't fix\", no analysis"
     },
     {
       "id": "01-insurance",
       "topic": "Risk responses",
       "front": "Cyber insurance as a risk response",
-      "back": "**Transfer/assignment** — the financial consequence of a realized risk shifts to a third party.\n\nAccountability does not transfer; senior management still owns the risk."
+      "back": "**Transfer/assignment** — the financial consequence of a realized risk shifts to a third party.\n\nAccountability does not transfer; senior management still owns the risk.\n\n- Example: insurer pays the ransomware recovery bill; the regulator still fines you and the CEO still testifies"
     },
     {
       "id": "01-avoid-mitigate",
       "topic": "Risk responses",
       "front": "Avoid vs. mitigate",
-      "back": "- **Avoid** — eliminate the risk-bearing activity entirely (don't launch the feature)\n- **Mitigate** — continue the activity with safeguards that reduce likelihood or impact"
+      "back": "- **Avoid** — eliminate the risk-bearing activity entirely (don't launch the feature)\n- **Mitigate** — continue the activity with safeguards that reduce likelihood or impact\n- Example: avoid = decommission the public FTP server; mitigate = keep it, firewall it to partner IPs"
     },
     {
       "id": "01-iso31000-vocab",
@@ -119,13 +119,13 @@
       "id": "01-residual",
       "topic": "Risk types",
       "front": "Total risk, controls gap, residual risk — define each",
-      "back": "- **Total risk** = threats × vulnerabilities × asset value (conceptual formula)\n- **Controls gap** = the risk removed by safeguards (a difference, not a held risk)\n- **Residual risk** = total − controls gap; never zero; formally **accepted by senior management**"
+      "back": "- **Total risk** = threats × vulnerabilities × asset value (conceptual formula)\n- **Controls gap** = the risk removed by safeguards (a difference, not a held risk)\n- **Residual risk** = total − controls gap; never zero; formally **accepted by senior management**\n- Example: patching cut ALE from $120K to $30K — the $90K is the controls gap, the $30K is residual"
     },
     {
       "id": "01-appetite",
       "topic": "Risk types",
       "front": "Risk appetite vs. tolerance vs. capacity",
-      "back": "- **Appetite** — the total risk the organization *chooses* to bear\n- **Tolerance** — the ability to absorb realized losses\n- **Capacity** — the risk the organization is *able* to survive; appetite can exceed capacity"
+      "back": "- **Appetite** — the total risk the organization *chooses* to bear\n- **Tolerance** — the ability to absorb realized losses\n- **Capacity** — the risk the organization is *able* to survive; appetite can exceed capacity\n- Example: appetite = board chooses to run the legacy app unsegmented another year; tolerance = finance can absorb the outages it causes; capacity = whether a breach there would sink the company"
     },
     {
       "id": "01-inherent-total",
@@ -161,19 +161,19 @@
       "id": "01-ao-ato",
       "topic": "RMF",
       "front": "Authorizing Official (AO) and the ATO",
-      "back": "The **AO** is the senior official who formally accepts a system's residual risk — not the ISSO or the assessor.\n\nThe **ATO** (Authorization to Operate) is the document recording that acceptance."
+      "back": "The **AO** is the senior official who formally accepts a system's residual risk — not the ISSO or the assessor.\n\nThe **ATO** (Authorization to Operate) is the document recording that acceptance.\n\n- Example: ISSO writes the system security plan and remediation plan; AO signs the ATO"
     },
     {
       "id": "01-nist-trio",
       "topic": "RMF",
       "front": "SP 800-37 vs. SP 800-30 vs. SP 800-39",
-      "back": "- **800-37** — the RMF *process* (system life cycle)\n- **800-30** — the risk *assessment* guide\n- **800-39** — enterprise risk management *strategy*"
+      "back": "- **800-37** — the RMF *process* (system life cycle)\n- **800-30** — the risk *assessment* guide\n- **800-39** — enterprise risk management *strategy*\n- Example: 800-30 = the spreadsheet scoring one system's threats; 800-37 = the steps that get that system an ATO; 800-39 = the agency-wide risk strategy the AO applies"
     },
     {
       "id": "01-rmf-csf",
       "topic": "RMF",
       "front": "RMF vs. CSF",
-      "back": "- **RMF** — federal, compliance-driven, system-level, ends in an ATO\n- **CSF** (Cybersecurity Framework) — voluntary, outcome-based (Identify/Protect/Detect/Respond/Recover), usable by any organization"
+      "back": "- **RMF** — federal, compliance-driven, system-level, ends in an ATO\n- **CSF** (Cybersecurity Framework) — voluntary, outcome-based (Identify/Protect/Detect/Respond/Recover), usable by any organization\n- Example: RMF = DoD system needs an ATO before go-live; CSF = mid-size retailer self-rates its Detect function, no certificate issued"
     },
     {
       "id": "01-methodologies",
@@ -185,31 +185,31 @@
       "id": "01-scrm-risks",
       "topic": "Supply chain",
       "front": "The three supply-chain risks, and the federal anchor document",
-      "back": "Risks: **tampering, counterfeits, implants**.\n\nFederal anchor: **NIST SP 800-161** Rev. 1 (Cybersecurity Supply Chain Risk Management, C-SCRM)."
+      "back": "Risks: **tampering, counterfeits, implants**.\n\nFederal anchor: **NIST SP 800-161** Rev. 1 (Cybersecurity Supply Chain Risk Management, C-SCRM).\n\n- Example: requiring SBOMs and signed updates in vendor contracts = SCRM (D1); SIEM alert on a SolarWinds-style trojaned update beaconing = operations (D7)"
     },
     {
       "id": "01-rot-puf",
       "topic": "Supply chain",
       "front": "Silicon root of trust vs. PUF",
-      "back": "- **Silicon RoT** — a tamper-resistant hardware anchor for *boot integrity and authenticity*\n- **PUF** (physically unclonable function) — a unique per-chip *identity fingerprint* derived from physical manufacturing variation; anti-counterfeit"
+      "back": "- **Silicon RoT** — a tamper-resistant hardware anchor for *boot integrity and authenticity*\n- **PUF** (physically unclonable function) — a unique per-chip *identity fingerprint* derived from physical manufacturing variation; anti-counterfeit\n- Example: RoT = TPM-measured boot refusing a tampered bootloader; PUF = chip answering a challenge only genuine silicon can, exposing a counterfeit NIC"
     },
     {
       "id": "01-vendor-eval",
       "topic": "Supply chain",
       "front": "Third-party audit / attestation (e.g., SOC 2)",
-      "back": "An independent auditor's report on a vendor's controls — assurance **without direct access** to the vendor's operations.\n\nThe evaluation method of choice when on-site assessment or document exchange isn't available. Minimum security requirements belong **in the contract**."
+      "back": "An independent auditor's report on a vendor's controls — assurance **without direct access** to the vendor's operations.\n\nThe evaluation method of choice when on-site assessment or document exchange isn't available. Minimum security requirements belong **in the contract**.\n\n- Example: \"MSP runs EDR on every endpoint touching our tenant\" written into the master services agreement; not \"their sales deck says so\""
     },
     {
       "id": "01-stride",
       "topic": "Threat modeling",
       "front": "STRIDE",
-      "back": "Microsoft's threat categorization scheme:\n\n| Threat | Property violated |\n| --- | --- |\n| **S**poofing | Authentication/authenticity |\n| **T**ampering | Integrity |\n| **R**epudiation | Nonrepudiation |\n| **I**nfo disclosure | Confidentiality |\n| **D**oS | Availability |\n| **E**levation of privilege | Authorization |"
+      "back": "Microsoft's threat categorization scheme:\n\n| Threat | Property violated |\n| --- | --- |\n| **S**poofing | Authentication/authenticity |\n| **T**ampering | Integrity |\n| **R**epudiation | Nonrepudiation |\n| **I**nfo disclosure | Confidentiality |\n| **D**oS | Availability |\n| **E**levation of privilege | Authorization |\n\n- Example: S = forged Kerberos ticket / logging in as Bob with stolen creds; T = cookie edited to role=admin; R = Bob denying his own action, nothing signed proves it; I = stack trace leaking DB creds; D = SYN flood; E = SQLi to xp_cmdshell"
     },
     {
       "id": "01-stride-dread",
       "topic": "Threat modeling",
       "front": "DREAD",
-      "back": "A threat **rating** scheme: **D**amage, **R**eproducibility, **E**xploitability, **A**ffected users, **D**iscoverability.\n\nSTRIDE categorizes threats; DREAD scores them."
+      "back": "A threat **rating** scheme: **D**amage, **R**eproducibility, **E**xploitability, **A**ffected users, **D**iscoverability.\n\nSTRIDE categorizes threats; DREAD scores them.\n\n- Example: STRIDE says \"this is Tampering\"; DREAD says \"it's a 9 — all users affected, trivially reproducible\""
     },
     {
       "id": "01-pasta",
@@ -221,31 +221,31 @@
       "id": "01-reduction",
       "topic": "Threat modeling",
       "front": "Reduction analysis (decomposition)",
-      "back": "Dividing the target into smaller parts to understand logic and interactions — the data-flow-diagram step of threat modeling, done **before** categorizing threats.\n\nIdentify five things: **trust boundaries, dataflow paths, input points, privileged operations, security stance**."
+      "back": "Dividing the target into smaller parts to understand logic and interactions — the data-flow-diagram step of threat modeling, done **before** categorizing threats.\n\nIdentify five things: **trust boundaries, dataflow paths, input points, privileged operations, security stance**.\n\n- Example: drawing the DFD and marking where the web tier crosses into the DB = decomposition; disabling SMBv1 = attack surface reduction (hardening, not modeling)"
     },
     {
       "id": "01-cobit",
       "topic": "COBIT",
       "front": "COBIT",
-      "back": "**ISACA's** framework for governance and management of enterprise IT. COBIT 2019 has **six** governance principles (COBIT 5 had five).\n\nCore principle: **governance is distinct from management** — the board evaluates/directs/monitors; management plans/builds/runs."
+      "back": "**ISACA's** framework for governance and management of enterprise IT. COBIT 2019 has **six** governance principles (COBIT 5 had five).\n\nCore principle: **governance is distinct from management** — the board evaluates/directs/monitors; management plans/builds/runs.\n\n- Example: board asks \"is ransomware exposure inside appetite?\" = governance; CISO picks the EDR and sets the patch SLA = management"
     },
     {
       "id": "01-framework-match",
       "topic": "COBIT",
       "front": "COBIT, ITIL, ISO 27001, NIST CSF, COSO — what each is for",
-      "back": "| Framework | Purpose |\n| --- | --- |\n| **COBIT** | IT governance, business/IT alignment, audit |\n| **ITIL** | IT service management (SLAs, incidents) |\n| **ISO 27001** | Certifiable ISMS |\n| **NIST CSF** | Voluntary cyber risk outcomes, any org |\n| **COSO** | Corporate internal control / SOX |"
+      "back": "| Framework | Purpose |\n| --- | --- |\n| **COBIT** | IT governance, business/IT alignment, audit |\n| **ITIL** | IT service management (SLAs, incidents) |\n| **ISO 27001** | Certifiable ISMS |\n| **NIST CSF** | Voluntary cyber risk outcomes, any org |\n| **COSO** | Corporate internal control / SOX |\n\n- Example: COBIT = board asking whether IT risk sits inside appetite; ITIL = the ServiceNow incident/change workflow; COSO = CFO's SOX 404 attestation that financial-reporting controls work"
     },
     {
       "id": "01-control-categories",
       "topic": "Controls",
       "front": "The three control categories (by implementation)",
-      "back": "- **Administrative** (aka management/managerial/procedural) — policies, hiring, training, supervision\n- **Logical/technical** — authentication, encryption, firewalls, IDS\n- **Physical** — locks, guards, fences, mantraps\n\nCategory = how implemented; type (preventive/detective/...) = what it does. Every control has one of each."
+      "back": "- **Administrative** (aka management/managerial/procedural) — policies, hiring, training, supervision\n- **Logical/technical** — authentication, encryption, firewalls, IDS\n- **Physical** — locks, guards, fences, mantraps\n\nCategory = how implemented; type (preventive/detective/...) = what it does. Every control has one of each.\n\n- Example: (defense in depth) EDR missed the loader (technical) -> add macro-blocking policy + phishing training (administrative), not a second EDR"
     },
     {
       "id": "01-control-types",
       "topic": "Controls",
       "front": "The seven control types",
-      "back": "**Preventive, deterrent, detective, corrective, recovery, directive, compensating.**\n\n- Preventive stops the act without the attacker's cooperation; deterrent works on their decision\n- Corrective is minor return-to-normal; recovery is its extension with advanced restoration (backups, DR sites)\n- Directive instructs toward compliance; compensating substitutes when the primary control is infeasible"
+      "back": "**Preventive, deterrent, detective, corrective, recovery, directive, compensating.**\n\n- Preventive stops the act without the attacker's cooperation; deterrent works on their decision\n- Corrective is minor return-to-normal; recovery is its extension with advanced restoration (backups, DR sites)\n- Directive instructs toward compliance; compensating substitutes when the primary control is infeasible\n- Example: the ACL drops the packet whether or not the attacker read the \"activity monitored\" banner (preventive vs. deterrent); \"badge in at the turnstile\" vs. \"CCTV in operation, violators prosecuted\" (directive vs. deterrent)"
     },
     {
       "id": "01-vacation-review",
@@ -257,13 +257,13 @@
       "id": "01-law-categories",
       "topic": "Legal",
       "front": "Criminal vs. civil vs. administrative law — burdens of proof",
-      "back": "| Category | Burden |\n| --- | --- |\n| Criminal | **Beyond a reasonable doubt** |\n| Civil | **Preponderance of evidence** (>50%) |\n| Administrative | Substantial evidence |\n\nOne breach can trigger all three proceedings; collect evidence to the **highest** standard from the start."
+      "back": "| Category | Burden |\n| --- | --- |\n| Criminal | **Beyond a reasonable doubt** |\n| Civil | **Preponderance of evidence** (>50%) |\n| Administrative | Substantial evidence |\n\nOne breach can trigger all three proceedings; collect evidence to the **highest** standard from the start.\n\n- Example: same breach -> ransomware operator prosecuted (criminal), customers' class action (civil), HHS Office for Civil Rights fine for the HIPAA gap (administrative)"
     },
     {
       "id": "01-pci",
       "topic": "Legal",
       "front": "PCI DSS (legal status)",
-      "back": "A **contractual** obligation, not a law — imposed through merchant agreements and enforced by card-brand fines."
+      "back": "A **contractual** obligation, not a law — imposed through merchant agreements and enforced by card-brand fines.\n\n- Example: non-compliant merchant fined by Visa via its acquiring bank, may lose card acceptance — no prosecutor involved"
     },
     {
       "id": "01-us-laws",
@@ -275,7 +275,7 @@
       "id": "01-ip-types",
       "topic": "IP",
       "front": "Copyright vs. patent vs. trademark vs. trade secret",
-      "back": "| Type | Duration | Key point |\n| --- | --- | --- |\n| Copyright | Life + 70 yrs | Protects expression, not ideas |\n| Patent | ~20 yrs from filing | Requires **public disclosure** |\n| Trademark | Renewable indefinitely | Brand identity only |\n| Trade secret | While secret | **Disclosed = gone**; no registration |\n\nSource code can be copyright and trade secret at the same time."
+      "back": "| Type | Duration | Key point |\n| --- | --- | --- |\n| Copyright | Life + 70 yrs | Protects expression, not ideas |\n| Patent | ~20 yrs from filing | Requires **public disclosure** |\n| Trademark | Renewable indefinitely | Brand identity only |\n| Trade secret | While secret | **Disclosed = gone**; no registration |\n\nSource code can be copyright and trade secret at the same time.\n\n- Example: patent the hardware-token design (published, 20-yr monopoly); keep the detection-rule corpus a trade secret (gone if leaked); leaked EDR-agent source = trade secret gone, copyright still bars republishing"
     },
     {
       "id": "01-licenses",
@@ -287,31 +287,31 @@
       "id": "01-itar-ear",
       "topic": "Export controls",
       "front": "ITAR vs. EAR vs. Wassenaar",
-      "back": "- **ITAR** — State Department; defense articles on the US Munitions List\n- **EAR** — Commerce/BIS; **dual-use** items, where commercial crypto lives\n- **Wassenaar Arrangement** — ~40-country voluntary multilateral coordination on dual-use exports"
+      "back": "- **ITAR** — State Department; defense articles on the US Munitions List\n- **EAR** — Commerce/BIS; **dual-use** items, where commercial crypto lives\n- **Wassenaar Arrangement** — ~40-country voluntary multilateral coordination on dual-use exports\n- Example: missile guidance firmware = ITAR; your AES-256 VPN appliance = EAR"
     },
     {
       "id": "01-privacy-laws",
       "topic": "Privacy laws",
       "front": "Privacy Act, ECPA, HIPAA, GLBA, COPPA, GDPR, CCPA — what does each cover?",
-      "back": "- **Privacy Act 1974** — federal agencies' records on individuals\n- **ECPA 1986** — crime to invade electronic privacy; binds providers and private parties, not only government\n- **HIPAA 1996** — medical data; HITECH 2009 made business associates directly liable\n- **GLBA 1999** — financial institutions; deregulation plus privacy duties\n- **COPPA 1998** — children under 13 online\n- **GDPR** — EU persons' personal data, extraterritorial\n- **CCPA 2018** — California, modeled on GDPR"
+      "back": "- **Privacy Act 1974** — federal agencies' records on individuals\n- **ECPA 1986** — crime to invade electronic privacy; binds providers and private parties, not only government\n- **HIPAA 1996** — medical data; HITECH 2009 made business associates directly liable\n- **GLBA 1999** — financial institutions; deregulation plus privacy duties\n- **COPPA 1998** — children under 13 online\n- **GDPR** — EU persons' personal data, extraterritorial\n- **CCPA 2018** — California, modeled on GDPR\n- Example: (ECPA) a mail provider handing message bodies to an advertiser without authorization — not just a warrantless wiretap"
     },
     {
       "id": "01-gdpr",
       "topic": "Privacy laws",
       "front": "GDPR breach notification and fines",
-      "back": "- **72 hours** to the supervisory authority (Art. 33), measured from **becoming aware**\n- Data subjects (Art. 34): **without undue delay**, only when there is **high risk** to rights and freedoms\n- Fines (Art. 83), each tier **whichever is higher**: **83(4)** €10M or 2%, **83(5)** €20M or 4% of **worldwide** annual turnover"
+      "back": "- **72 hours** to the supervisory authority (Art. 33), measured from **becoming aware**\n- Data subjects (Art. 34): **without undue delay**, only when there is **high risk** to rights and freedoms\n- Fines (Art. 83), each tier **whichever is higher**: **83(4)** €10M or 2%, **83(5)** €20M or 4% of **worldwide** annual turnover\n- Example: intruder in since March, SOC confirms exfil Tuesday 10:00 -> supervisory-authority clock runs to Friday 10:00"
     },
     {
       "id": "01-gdpr-principles-bases",
       "topic": "GDPR",
       "front": "GDPR's six principles (Art. 5) and six lawful bases (Art. 6)",
-      "back": "**Principles (5(1))**: lawfulness/fairness/transparency · purpose limitation · data minimisation · accuracy · storage limitation · integrity and confidentiality.\n\n**Lawful bases (6(1))**: consent · contract · legal obligation · vital interests · public task · legitimate interests — at least one is required; consent is one of six.\n\n**Art. 5(2) accountability**: the controller must be responsible for **and able to demonstrate** compliance."
+      "back": "**Principles (5(1))**: lawfulness/fairness/transparency · purpose limitation · data minimisation · accuracy · storage limitation · integrity and confidentiality.\n\n**Lawful bases (6(1))**: consent · contract · legal obligation · vital interests · public task · legitimate interests — at least one is required; consent is one of six.\n\n**Art. 5(2) accountability**: the controller must be responsible for **and able to demonstrate** compliance.\n\n- Example: (accountability) the Art. 30 register, DPIA files, and consent logs on hand; not a \"GDPR compliant\" badge on the website"
     },
     {
       "id": "01-gdpr-requirements",
       "topic": "GDPR",
       "front": "GDPR organizational requirements by article",
-      "back": "| Requirement | Art. |\n|---|---|\n| Data protection by design/default | 25 |\n| Processor contracts | 28 |\n| Records of processing | 30 |\n| Security of processing | 32 |\n| Breach → supervisory authority | 33 |\n| Breach → data subject | 34 |\n| DPIA (high-risk processing) | 35 |\n| DPO designation | 37 |\n\nTransfers (Ch. V): **adequacy** (45), **SCCs** (46), **BCRs** (47)."
+      "back": "| Requirement | Art. |\n|---|---|\n| Data protection by design/default | 25 |\n| Processor contracts | 28 |\n| Records of processing | 30 |\n| Security of processing | 32 |\n| Breach → supervisory authority | 33 |\n| Breach → data subject | 34 |\n| DPIA (high-risk processing) | 35 |\n| DPO designation | 37 |\n\nTransfers (Ch. V): **adequacy** (45), **SCCs** (46), **BCRs** (47).\n\n- Example: rolling out UEBA on all staff endpoints = DPIA candidate, changing the newsletter template is not; erasure request -> invoices stay under tax-retention law, marketing profile goes"
     },
     {
       "id": "01-gdpr-scope",
@@ -323,13 +323,13 @@
       "id": "01-due-care-diligence",
       "topic": "Due care / due diligence",
       "front": "Due care vs. due diligence",
-      "back": "- **Due diligence** — knowing: establishing the plan/policy/process, verifying through research, audits, monitoring\n- **Due care** — doing: acting reasonably on what diligence surfaced, and maintaining it (the prudent person standard)\n\nTogether they form the legal defense against **negligence**; the Federal Sentencing Guidelines (1991) formalized the prudent person rule and executive personal liability."
+      "back": "- **Due diligence** — knowing: establishing the plan/policy/process, verifying through research, audits, monitoring\n- **Due care** — doing: acting reasonably on what diligence surfaced, and maintaining it (the prudent person standard)\n\nTogether they form the legal defense against **negligence**; the Federal Sentencing Guidelines (1991) formalized the prudent person rule and executive personal liability.\n\n- Example: due diligence = commissioning the pentest; due care = funding the fix it flagged"
     },
     {
       "id": "01-policy-authority",
       "topic": "Documentation hierarchy",
       "front": "What gives a security policy its authority",
-      "back": "**Senior management support and approval** — not a legal requirement.\n\nIt binds through the employment/contract relationship, so sanctions are **disciplinary, not legal**. Law enters only via the regulation behind a regulatory policy. An enforced policy also evidences **due care** in negligence claims."
+      "back": "**Senior management support and approval** — not a legal requirement.\n\nIt binds through the employment/contract relationship, so sanctions are **disciplinary, not legal**. Law enters only via the regulation behind a regulatory policy. An enforced policy also evidences **due care** in negligence claims.\n\n- Example: USB-policy violation -> written warning/termination, not a fine or charge — unless the same act also broke HIPAA"
     },
     {
       "id": "01-loss-potential-delayed",
@@ -341,7 +341,7 @@
       "id": "01-hitech",
       "topic": "Privacy laws",
       "front": "HITECH Act (2009)",
-      "back": "Made HIPAA **business associates directly liable** under the Security Rule (Sec. 13401) — the same safeguards as covered entities, with civil and criminal penalties.\n\nBusiness associates must also **notify the covered entity** of breaches on their side."
+      "back": "Made HIPAA **business associates directly liable** under the Security Rule (Sec. 13401) — the same safeguards as covered entities, with civil and criminal penalties.\n\nBusiness associates must also **notify the covered entity** of breaches on their side.\n\n- Example: the MSSP monitoring a hospital's patient-record servers is a BA — fined directly if its own controls fail"
     },
     {
       "id": "01-fisma-program",
@@ -377,7 +377,7 @@
       "id": "01-aup",
       "topic": "Documentation hierarchy",
       "front": "AUP (acceptable use policy)",
-      "back": "An **issue-specific policy** defining acceptable activity and use of company resources; violations lead to job action.\n\nIt is not a level of the documentation hierarchy, and it is not the document that assigns roles — that is the organizational security policy."
+      "back": "An **issue-specific policy** defining acceptable activity and use of company resources; violations lead to job action.\n\nIt is not a level of the documentation hierarchy, and it is not the document that assigns roles — that is the organizational security policy.\n\n- Example: \"no personal cloud storage on corp laptops\" = AUP; \"the CISO owns the program\" = organizational security policy"
     },
     {
       "id": "01-trike-vast",
@@ -401,13 +401,13 @@
       "id": "01-mtd-rto-rpo-wrt",
       "topic": "Business continuity",
       "front": "MTD, RTO, WRT, RPO — define each and how they relate",
-      "back": "- **MTD** (maximum tolerable downtime) — the ceiling: total outage the business survives\n- **RTO** (recovery time objective) — target time to restore the *system*\n- **WRT** (work recovery time) — time after restore to catch up backlog and verify data\n- **RTO + WRT ≤ MTD**\n- **RPO** (recovery point objective) — how much *data loss* is tolerable, as a point in time; a separate axis from the downtime clock"
+      "back": "- **MTD** (maximum tolerable downtime) — the ceiling: total outage the business survives\n- **RTO** (recovery time objective) — target time to restore the *system*\n- **WRT** (work recovery time) — time after restore to catch up backlog and verify data\n- **RTO + WRT ≤ MTD**\n- **RPO** (recovery point objective) — how much *data loss* is tolerable, as a point in time; a separate axis from the downtime clock\n- Example: (order DB) MTD = 8 hrs before harm is unacceptable; RTO = cluster restored in 4 hrs; WRT = 2 hrs replaying queued orders; RPO = 15-min replica lag is the max data loss"
     },
     {
       "id": "01-bia-steps",
       "topic": "Business continuity",
       "front": "The 3 steps of a BIA (NIST SP 800-34)",
-      "back": "1. **Determine mission/business processes and recovery criticality** — impact and estimated downtime per process\n2. **Identify resource requirements** — facilities, personnel, equipment, data, interdependencies\n3. **Identify recovery priorities** — rank and sequence recovery\n\nThe BIA outputs criticality and MTD/RTO/RPO; selecting the recovery strategy is the later continuity-planning phase."
+      "back": "1. **Determine mission/business processes and recovery criticality** — impact and estimated downtime per process\n2. **Identify resource requirements** — facilities, personnel, equipment, data, interdependencies\n3. **Identify recovery priorities** — rank and sequence recovery\n\nThe BIA outputs criticality and MTD/RTO/RPO; selecting the recovery strategy is the later continuity-planning phase.\n\n- Example: BIA output = \"order DB: MTD 8 hrs, RPO 15 min\"; picking a hot site in another region = continuity planning"
     },
     {
       "id": "01-bcp-test-types",
@@ -419,19 +419,19 @@
       "id": "01-governance-frameworks",
       "topic": "Governance",
       "front": "ISO 27001, NIST CSF, SABSA, FedRAMP — what is each?",
-      "back": "- **ISO 27001** — certifiable ISMS: an organization can be audited and certified against it\n- **NIST CSF** — voluntary, outcome-based framework (Identify/Protect/Detect/Respond/Recover); no certification mechanism\n- **SABSA** — business-risk-driven security *architecture*; every control traces to a business requirement\n- **FedRAMP** — US federal cloud-service authorization, built on NIST SP 800-53"
+      "back": "- **ISO 27001** — certifiable ISMS: an organization can be audited and certified against it\n- **NIST CSF** — voluntary, outcome-based framework (Identify/Protect/Detect/Respond/Recover); no certification mechanism\n- **SABSA** — business-risk-driven security *architecture*; every control traces to a business requirement\n- **FedRAMP** — US federal cloud-service authorization, built on NIST SP 800-53\n- Example: ISO 27001 = customer RFP demands the certificate; NIST CSF = self-assessed current-vs-target profile; SABSA = firewall rule traced to a business need; FedRAMP = SaaS vendor selling to a federal agency"
     },
     {
       "id": "01-investigation-types",
       "topic": "Investigations",
       "front": "The 5 investigation types",
-      "back": "| Type | Who conducts | Standard |\n|---|---|---|\n| Administrative | Internal (HR/security) | No formal legal standard |\n| Criminal | Law enforcement | Beyond reasonable doubt |\n| Civil | Private party | Preponderance of evidence |\n| Regulatory | Government agency | Substantial evidence |\n| Industry standard | Contractual 3rd party (e.g., PCI forensic investigator) | Contract-defined |\n\n\"Administrative\" here means *internally conducted* — a different sense from \"administrative law.\""
+      "back": "| Type | Who conducts | Standard |\n|---|---|---|\n| Administrative | Internal (HR/security) | No formal legal standard |\n| Criminal | Law enforcement | Beyond reasonable doubt |\n| Civil | Private party | Preponderance of evidence |\n| Regulatory | Government agency | Substantial evidence |\n| Industry standard | Contractual 3rd party (e.g., PCI forensic investigator) | Contract-defined |\n\n\"Administrative\" here means *internally conducted* — a different sense from \"administrative law.\"\n\n- Example: HR pulling a staffer's proxy logs = administrative; FBI seizing the C2 = criminal; ex-vendor's lawsuit = civil; SEC probing a late breach disclosure = regulatory; PFI after a card-data breach = industry standard — vs. an FTC rule in the CFR = administrative *law*"
     },
     {
       "id": "01-evidence-types",
       "topic": "Investigations",
       "front": "Real evidence, direct evidence, best evidence rule, hearsay, chain of custody — define each",
-      "back": "- **Real (object) evidence** — physical items admissible in court\n- **Direct evidence** — witness testimony from personal (five-senses) knowledge\n- **Best evidence rule** — the original document is required; copies are secondary evidence, rejected absent an exception\n- **Hearsay** — secondhand out-of-court statements; unauthenticated logs can count\n- **Chain of custody** — the unbroken record of control from collection to court; a gap invites exclusion"
+      "back": "- **Real (object) evidence** — physical items admissible in court\n- **Direct evidence** — witness testimony from personal (five-senses) knowledge\n- **Best evidence rule** — the original document is required; copies are secondary evidence, rejected absent an exception\n- **Hearsay** — secondhand out-of-court statements; unauthenticated logs can count\n- **Chain of custody** — the unbroken record of control from collection to court; a gap invites exclusion\n- Example: the admin testifying \"I watched him plug in the drive\" = direct; the drive itself = real evidence"
     },
     {
       "id": "01-termination-access",
@@ -443,13 +443,13 @@
       "id": "01-right-to-audit",
       "topic": "Personnel security",
       "front": "Right-to-audit clause",
-      "back": "A clause in a **service-level agreement** giving the customer the contractual ability to investigate the provider's performance, compliance, and violations directly.\n\nIt lives in the SLA — an NDA only covers confidentiality."
+      "back": "A clause in a **service-level agreement** giving the customer the contractual ability to investigate the provider's performance, compliance, and violations directly.\n\nIt lives in the SLA — an NDA only covers confidentiality.\n\n- Example: wanting to inspect the MSP's own patch cadence = SLA clause; the NDA only stops them discussing your incidents"
     },
     {
       "id": "01-control-assessment-vs-monitoring",
       "topic": "Risk monitoring",
       "front": "Control assessment vs. continuous monitoring vs. risk maturity",
-      "back": "- **Control assessment** — a formal check that a control is implemented correctly *and* operating as intended (NIST SP 800-53A procedures); deployment alone proves neither\n- **Continuous monitoring** (ISCM, NIST SP 800-137) — ongoing visibility into assets, threats, and control effectiveness; not a point-in-time check\n- **Risk maturity** — the program's progression (ad hoc → repeatable → defined → managed → optimized), not a binary compliant/non-compliant state"
+      "back": "- **Control assessment** — a formal check that a control is implemented correctly *and* operating as intended (NIST SP 800-53A procedures); deployment alone proves neither\n- **Continuous monitoring** (ISCM, NIST SP 800-137) — ongoing visibility into assets, threats, and control effectiveness; not a point-in-time check\n- **Risk maturity** — the program's progression (ad hoc → repeatable → defined → managed → optimized), not a binary compliant/non-compliant state\n- Example: EDR on 100% of endpoints = implemented, sampling hosts for tamper protection + applied policy = assessed; scanner + SIEM dashboards feeding a monthly posture report = ISCM, the annual pentest is not; analysts triaging from memory = ad hoc, written playbooks = defined, playbook metrics driving tuning = optimized"
     },
     {
       "id": "01-awareness-effectiveness",
