@@ -176,6 +176,7 @@
 - Related terms: data and asset classification (2.1, the Sensitive/Private tiers), privacy laws — HIPAA/HITECH/GDPR (D1 1.4), data security controls (2.6, DLP keyed to these types), GDPR special categories of personal data (D1, **Art. 9(1)**: racial/ethnic origin, political opinions, religious/philosophical beliefs, trade-union membership, genetic data, biometric data for unique identification, health, sex life/orientation [GDPR Art. 9]), data ownership and roles (next entry)
 - Sources: [OSG glossary], [NIST SP 800-122], [45 CFR 160.103], [45 CFR 164.514], [GDPR Art. 9], [unverified]
 
+<!-- REVIEW -->
 ## Data ownership and roles (2.3, 2.4)
 - Definition (ISC2 framing): **ownership** = the formal assignment of responsibility (making someone an owner) to an individual or group [OSG glossary]. Core principle: **execution can be delegated, accountability cannot** — the owner remains liable no matter how much work moves to IT
 - Key facts:
@@ -190,6 +191,7 @@
   | **User** | Accesses data to perform job duties, within the rules set above | Any employee | Payroll clerk who opens the file to run payroll |
 
     - Owner/custodian wording overlaps in the glossary (both mention "classifying and labeling") — resolution is **decides vs. implements**: the owner carries final corporate responsibility, the custodian carries the delegated execution
+    - **Steward**: OSG glossary = alias of custodian [OSG glossary]; outline 2.4 lists no steward [ISC2 outline]. Vendor questions use the industry (DAMA) split: steward = data **quality, metadata, business rules, compliance** ("fitness for use"); custodian = **technical** container safety (backups, ACLs). When both are separate options, stem words decide. **Processor** is a GDPR third-party role (acts on controller's instructions) — never an internal quality/compliance role. Hook: **decide** -> owner; **define** -> steward; **deliver** -> custodian; **direct purposes** -> controller; **do-for-hire** -> processor. Example: practitioner ensuring fitness of metadata and compliance -> steward, NOT processor (missed 2026-10-05: picked processor)
   - **Privacy-law role set** — different framework, different vocabulary:
 
   | Role | Meaning | Example |

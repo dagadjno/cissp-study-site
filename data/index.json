@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-04",
+  "updated": "2026-10-05",
   "domains": [
     {
       "id": "01",
@@ -68,7 +68,7 @@
       "notes": "domains/07-security-operations.md",
       "flashcards": "flashcards/07.json",
       "quiz": null,
-      "cards": 36,
+      "cards": 37,
       "questions": 0
     },
     {

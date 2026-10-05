@@ -275,7 +275,7 @@
       "id": "01-ip-types",
       "topic": "IP",
       "front": "Copyright vs. patent vs. trademark vs. trade secret",
-      "back": "| Type | Duration | Key point |\n| --- | --- | --- |\n| Copyright | Life + 70 yrs | Protects expression, not ideas |\n| Patent | ~20 yrs from filing | Requires **public disclosure** |\n| Trademark | Renewable indefinitely | Brand identity only |\n| Trade secret | While secret | **Disclosed = gone**; no registration |\n\nSource code can be copyright and trade secret at the same time.\n\n- Example: patent the hardware-token design (published, 20-yr monopoly); keep the detection-rule corpus a trade secret (gone if leaked); leaked EDR-agent source = trade secret gone, copyright still bars republishing"
+      "back": "| Type | Duration | Key point |\n| --- | --- | --- |\n| Copyright | Life + 70 yrs | Protects expression, not ideas |\n| Patent | ~20 yrs from filing | Requires **public disclosure** |\n| Trademark | Renewable indefinitely | Brand identity only |\n| Trade secret | While secret | **Disclosed = gone**; no registration |\n\nSource code can be copyright and trade secret at the same time.\n\n- Example: patent the hardware-token design (published, 20-yr monopoly); keep the detection-rule corpus a trade secret (gone if leaked); leaked EDR-agent source = trade secret gone, copyright still bars republishing\n- Copyright's five rights (verbs): reproduce, adapt/derive, distribute, perform, display. Duration (life+70; 95/120 for works-for-hire) is a *property*, not a right -> NOT-one-of-the-five fake"
     },
     {
       "id": "01-licenses",

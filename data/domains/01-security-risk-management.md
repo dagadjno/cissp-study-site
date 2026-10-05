@@ -439,6 +439,7 @@
   | **Cloud services** | Using the service |
 
 - Exam traps / distractors:
+  - **Five copyright rights** (what the holder may *do*; 17 U.S.C. Sec. 106 lists six, incl. digital audio transmission) [unverified]: reproduce in any form/language/medium; adapt/derive; distribute copies; perform publicly; display publicly. **Duration is a property, not a right** — "protection for 95 years" is a NOT-one-of-the-five fake (and 95 yrs applies only to works-for-hire/anonymous; individual authors = life + 70 [copyright.gov]). Pattern: the fake in NOT-one-of-N questions is often a true fact of the wrong category (a term among rights, a date among principles). Example: options adapt / distribute / 95-year protection / reproduce -> 95-year protection (answered correctly 2026-10-05)
   - Source code = **copyright AND trade secret** simultaneously — "pick one" options wrong. Example: leaked EDR-agent source = trade secret gone the moment it's public, copyright still bars republishing it
   - "Patent it to keep it secret" = self-contradicting (patents publish)
   - Confidential-forever algorithm -> **trade secret**; exclusivity w/ disclosure OK -> **patent**

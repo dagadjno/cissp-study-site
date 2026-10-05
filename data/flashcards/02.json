@@ -227,7 +227,7 @@
       "id": "02-data-custodian",
       "topic": "Data ownership",
       "front": "Data custodian (data steward)",
-      "back": "The person delegated the **day-to-day work** of implementing the protection the owner and policy prescribe — applying labels, running backups, enforcing controls.\n\nTypically IT staff or a security administrator. Implements; does not decide.\n- Example: the sysadmin who sets the NTFS ACLs and runs the backups; NOT the VP of HR who decided the file was Confidential (owner)"
+      "back": "The person delegated the **day-to-day work** of implementing the protection the owner and policy prescribe — applying labels, running backups, enforcing controls.\n\nTypically IT staff or a security administrator. Implements; does not decide.\n- Example: the sysadmin who sets the NTFS ACLs and runs the backups; NOT the VP of HR who decided the file was Confidential (owner)\n- Steward: OSG = alias of custodian; vendor/industry split = steward owns **quality, metadata, business rules, compliance**, custodian owns technical container safety. Processor = GDPR third party on controller's instructions. Hook: decide->owner, define->steward, deliver->custodian, direct->controller, do-for-hire->processor"
     },
     {
       "id": "02-ownership",

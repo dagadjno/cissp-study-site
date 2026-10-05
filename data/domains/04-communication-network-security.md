@@ -111,6 +111,7 @@
 - Related terms: OSI encapsulation (previous entry), SDN planes/APIs (SDN entry), VoIP/SIP (4.3), ICS (3.5), HPC (3.5)
 - Sources: [ISC2 outline], [OSG glossary], [RFC 7143], [RFC 7426], [RFC 5042], [RFC 5136], [NIST SP 800-58], [IBTA], [CXL Consortium], [unverified]
 
+<!-- REVIEW -->
 ## Segmentation and traffic flows: physical, logical, micro, edge (4.1)
 - Definition (ISC2 framing): outline groups traffic flows (north-south, east-west), physical segmentation (in-band, out-of-band, air-gapped), logical segmentation (VLANs, VPNs, VRF, virtual domain), micro-segmentation (network overlays/encapsulation, distributed firewalls/routers, zero trust), edge networks (ingress/egress, peering) [ISC2 outline]. Managerial view: segmentation limits blast radius and lateral movement; pick the *cheapest control that matches the trust boundary*.
 - Key facts:
@@ -138,7 +139,7 @@
     - **Zero trust**: per-session, identity-driven policy (SP 800-207; D3 entry); NIST SP 800-215 "Guide to a Secure Enterprise Network Landscape" (Nov 2022) covers microsegmentation, SDP, ZTNA, SASE, SD-WAN [NIST SP 800-215]
   - Edge: **edge network** allocates compute to edge devices, away from central servers [OSG glossary]; **edge computing** = processing inside devices at/near the edge (IIoT) [OSG glossary]. **Ingress filter** = inbound into secured area; **egress filter** = outbound [OSG glossary]; **egress monitoring** targets exfiltration [OSG glossary]. **Peering** = direct interconnection between autonomous networks to exchange traffic without paying transit [NIST SP 800-189 §2.3: lateral p2p peer = "non-transit"] ("without paying" part [unverified]); risks BGP hijack / route leak -> RPKI, prefix filters [NIST SP 800-189 §2.1, §2.3, §4.3–4.6]
     - Example: edge computing = the factory gateway runs the anomaly model locally and ships only alerts upstream; peering = your AS and the CDN's AS swap each other's routes at an IXP, while transit = paying an upstream ISP to reach everything else
-  - Perimeter vocabulary [OSG glossary]: **DMZ** term deprecated -> **screened subnet** (public-facing hardened servers outside the internal trust); **extranet** = screened subnet for B2B partners, usually via VPN; **intranet** = private LAN; **bastion host** = hardened to withstand attack; **screened host** = router filtering in front of a server; **multihomed** = multiple interfaces on different subnets
+  - Perimeter vocabulary [OSG glossary]: **DMZ** term deprecated -> **screened subnet** (public-facing hardened servers outside the internal trust); vendor docs call the same zone a **perimeter network** — synonym set DMZ = screened subnet = perimeter network (not "edge network", which ISC2 uses for ingress/egress and edge computing); **extranet** = screened subnet for B2B partners, usually via VPN; **intranet** = private LAN; **bastion host** = hardened to withstand attack; **screened host** = router filtering in front of a server; **multihomed** = multiple interfaces on different subnets
     - Example: public web servers and the mail relay = screened subnet; the same tier hosting a supplier EDI portal reachable only over partner VPN = extranet; the HR wiki = intranet
 - Exam traps / distractors:
   - **Air gap** (no connection at all) vs **out-of-band** (separate channel, still connected) — "management still reachable during an outage" -> OOB, not air gap
@@ -147,6 +148,7 @@
   - "Perimeter firewall inspects..." -> north-south; "server-to-server inside DC" -> east-west, answer is **microsegmentation**
   - **VXLAN/overlay** = encapsulation for scale/mobility, not confidentiality — add IPsec [RFC 7348 §7]/MACsec [unverified]
   - **DMZ** as the "correct" term -> ISC2 now says screened subnet; **extranet** vs **intranet**
+  - "Grant limited access to **untrusted** parties without exposing internal infrastructure" -> **perimeter network / screened subnet** (the *architecture*: a zone between two firewalls hosting outward-facing services). **Architecture vs. component**: bastion host = one hardened box *inside* that zone; application firewall = a filter — it grants nobody access; WAP = irrelevant. "Solution/approach to implement" -> architecture; "which device/control does X" -> component. Untrusted/anonymous -> screened subnet; trusted partners with auth -> **extranet**; **screened host** = single firewall + bastion (weaker). Example: options bastion host / application firewall / WAP / perimeter network -> perimeter network (missed 2026-10-05: picked application firewall)
   - **Egress** filtering prevents exfiltration and spoofed-source DDoS participation; **ingress** blocks inbound spoofing — read direction carefully
 - Related terms: zero trust and PDP/PEP (D3), SASE (3.1), SDN/VPC (SDN entry), NAC (4.2), firewalls (7.7), egress monitoring (7.2)
 - Sources: [ISC2 outline], [OSG glossary], [NIST glossary], [IEEE 802.1Q], [RFC 7348], [RFC 4364], [RFC 4778], [NIST SP 800-125B], [NIST SP 800-215], [NIST SP 800-189], [unverified]
@@ -294,6 +296,7 @@
 - Related terms: 802.1X/EAP (wireless entry), RADIUS/TACACS+ (4.3), zero trust posture (D3), EOL/EOS (2.5), physical security (3.9, 7.14), firewalls/IDS/IPS (7.7), patch management (7.8)
 - Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-41], [unverified]
 
+<!-- REVIEW -->
 ## Secure communication channels (4.3)
 - Definition (ISC2 framing): outline 4.3 = voice, video, collaboration (conferencing, virtual meeting rooms); remote access (network administrative functions); data communications (backhaul networks, satellite); third-party connectivity (telecom providers, hardware support) [ISC2 outline]. Principle: any channel you do not own is untrusted — authenticate the endpoints, encrypt above the carrier, and put the trust terms in a contract.
 - Key facts:
@@ -347,6 +350,7 @@
   - **Vishing** (phishing) vs **SPIT** (spam) — glossary cross-references them; **phreaking/toll fraud** is a PBX problem, not a network one
   - **RADIUS** (UDP, password-only encryption, network access) vs **TACACS+** (TCP, full-body encryption, split AAA -> router/switch admin). Example: RADIUS = Wi-Fi 802.1X and VPN logins; TACACS+ = per-command authorization on routers (allow show, deny configure)
   - **L2TP** "encrypts" -> no, IPsec does; **PPTP** as a recommended answer -> legacy; **GRE** = tunnel without crypto
+  - "**Natively encrypted** method for point-to-point transmission over an untrusted network" -> **IPsec**: PPTP fails on quality (MPPE/MS-CHAPv2 broken), L2TP fails on existence (no crypto of its own), ESP is a *component* not a deployable method. **Suite beats component** when asked for a method to implement; **component beats suite** when asked which part gives confidentiality (ESP) or integrity/auth only (AH). "Point-to-point" in the stem is PPTP vocabulary bait. Example: options L2TP / IPsec / ESP / PPTP -> IPsec (missed 2026-10-05: picked PPTP)
   - **Split tunnel** lets malware reach the internet around corporate egress -> **full tunnel** or always-on when the question is about visibility/DLP
   - **TLS VPN** (clientless, application/portal scope) vs **IPsec VPN** (network-layer, full membership) — "contractor needs one web app" -> TLS portal. Example: TLS VPN = browser portal exposing only the timesheet app; IPsec VPN = the laptop gets a 10.x address and reaches every subnet the ACL allows
   - **Remote node** (join the LAN) vs **remote control** (drive a host) ; **jump server** (chokepoint for admin sessions) vs **bastion host** (any hardened exposed system). Example: jump server = the one hardened box admins SSH into before reaching any DC switch; bastion host = the public web server hardened to take abuse — a jump server is a bastion by role, not every bastion is a jump server
