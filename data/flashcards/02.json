@@ -65,7 +65,7 @@
       "id": "02-casb",
       "topic": "Data protection methods",
       "front": "CASB (cloud access security broker)",
-      "back": "A security policy enforcement point placed between cloud users and cloud providers. Deploys on-premises or cloud-based, via proxy or API.\n\nFour pillars: **visibility** (shadow-IT discovery), **compliance**, **data security**, **threat protection**.\n- Example: broker finds 40 users on an unsanctioned Dropbox and blocks Confidential uploads"
+      "back": "A security policy enforcement point placed between cloud users and cloud providers. Deploys on-premises or cloud-based, via proxy or API.\n\nFour pillars: **visibility** (shadow-IT discovery), **compliance**, **data security**, **threat protection**.\n- Example: broker finds 40 users on an unsanctioned Dropbox and blocks Confidential uploads\n- Pillar tells: visibility = track/log/discover/audit; compliance = a named regulation or residency rule; data security = DLP/encryption; threat protection = anomalies/compromised accounts. \"Enforced through tracking and logging\" -> visibility, not compliance"
     },
     {
       "id": "02-shadow-it",
@@ -77,7 +77,7 @@
       "id": "02-data-remanence",
       "topic": "Data destruction",
       "front": "Data remanence",
-      "back": "Residual data still present on media after it was supposedly removed.\n\nExists because a normal delete removes only the directory link, not the data itself."
+      "back": "Residual data still present on media after it was supposedly removed.\n\nExists because a normal delete removes only the directory link, not the data itself.\n- vs. **object reuse**: remanence = media leaving control; object reuse = freed memory/disk resource reassigned inside a running system without being cleared"
     },
     {
       "id": "02-erasing",
@@ -299,7 +299,7 @@
       "id": "02-retention-policy",
       "topic": "Data retention",
       "front": "Retention policy",
-      "back": "A document defining what data is maintained and for what period of time.\n\nDriven by regulation, contract, and business need. Keeping data too long increases exposure; destroying it too early is a compliance failure.\n- Example: keeping seven years of raw proxy logs \"just in case\" is the exposure side; purging them at 30 days when the contract says 90 is the compliance side"
+      "back": "A document defining what data is maintained and for what period of time.\n\nDriven by regulation, contract, and business need. Keeping data too long increases exposure; destroying it too early is a compliance failure.\n- Example: keeping seven years of raw proxy logs \"just in case\" is the exposure side; purging them at 30 days when the contract says 90 is the compliance side\n- Trap: an \"archive or remove what we no longer need\" review IS retention (the decision); destruction = executing it, remanence = its risk, object reuse = system-level leftovers. \"Most concerned about\" = the activity in the stem"
     },
     {
       "id": "02-record-retention",

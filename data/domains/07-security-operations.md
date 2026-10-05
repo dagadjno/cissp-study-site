@@ -53,7 +53,7 @@
   | 8 | **Production** | Deliver to requesting party in agreed format |
   | 9 | **Presentation** | Display in deposition/court |
 
-    - Hook: I I P C P R A P P. Discriminators: **preservation precedes collection** (freeze, then gather); **processing != review** (mechanical reduction vs. human relevance call). Example: "after acquisition, what NEXT" -> processing (filter erroneous/unnecessary data); "centralize the data" = collection (just done), "locate" = identification (earlier), "examine to comply" = review (later) (missed 2026-10-05: picked centralize)
+    - Hook: **"I IP CPR App"** (look at the IP used in a CPR app) — I·IP = governance, identification, preservation (hold); CPR = collection, processing, review; App = analysis, production, presentation. Discriminators: **preservation precedes collection** (freeze, then gather); **processing != review** (mechanical reduction vs. human relevance call). Example: "after acquisition, what NEXT" -> processing (filter erroneous/unnecessary data); "centralize the data" = collection (just done), "locate" = identification (earlier), "examine to comply" = review (later) (missed 2026-10-05: picked centralize)
 - Exam traps / distractors:
   - **Sequence questions** (EDRM, incident steps, RMF): options include the *current* and *previous* stage as bait; answer is strictly the next one
   - **Relevant vs. material vs. competent**: illegal search -> not **competent** (not "irrelevant")

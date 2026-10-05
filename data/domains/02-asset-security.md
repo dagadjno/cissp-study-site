@@ -35,6 +35,7 @@
   | **CASB** (cloud access security broker) | Security **policy enforcement point** between cloud consumers and cloud providers; on-premises or cloud-based | Between users and cloud services | Broker finds 40 users on an unsanctioned Dropbox and blocks Confidential uploads |
 
     - CASB **four pillars** (Gartner framing ISC2 follows): **visibility** (shadow-IT discovery), **compliance**, **data security**, **threat protection** [Gartner]
+    - Pillar tells: **visibility** = observation — discover, track, log, audit *who uses what*; **compliance** = an *external obligation* named — residency, HIPAA/PCI/GDPR mapping, compliance reporting; **data security** = DLP/encryption/tokenization on content; **threat protection** = anomalous behavior, compromised accounts, malware. "Policies enforced through tracking and logging" -> visibility (compliance *consumes* visibility but the stem must name a regulation/standard). Example: "EU customer data never leaves EU regions" -> compliance; "which SaaS apps are staff using and what are they doing there" -> visibility (answered correctly 2026-10-05, nearly compliance)
 - Exam traps / distractors:
   - **DRM vs. DLP** — the recurring pair: protection that must survive *after* a file leaves your control (partner downloads it) -> **DRM**; stopping it from leaving at all -> **DLP**
   - **Shadow IT / unsanctioned SaaS discovery** in a stem = giveaway cue for **CASB**
@@ -82,6 +83,7 @@
     - Destroy techniques: **disintegrate, incinerate, melt, pulverize, shred**; **degaussing is a physical Purge technique, not Destroy — even when it leaves the drive inoperable**; **bending, cutting, shooting or drilling a hole may leave portions recoverable**; pulverize/shred should be avoided for anything but the lowest security categories as data density and material hardness rise [NIST SP 800-88r2 §3.1.2–3.1.3, Appendix D change log]. Correction (audit 2026-09-28): the Rev. 1-era line listed degaussing among destructive techniques; Rev. 2 explicitly removes it from Destroy
   - Documentation: a **certificate of sanitization** per item records manufacturer/model/serial, media type, pre-sanitization categorization, **method** (clear/purge/destroy), **technique** (degauss, overwrite, block erase, CE), tool + version, verification method — the trail for media leaving the org [NIST SP 800-88r2 §4.6, Appendix C]
 - Exam traps / distractors:
+  - **Remanence vs. object reuse**: remanence = leftover data on *media* leaving your control (disposal, reissue); object reuse = leftover data in a *running system* when a freed resource is allocated to a new process (OS zeroes pages/blocks) [unverified]. Both "leftover data", different scope
   - **Degaussing an SSD** — the single most common wrong answer here; no magnetic domains to disturb
   - **"We formatted/deleted it"** = remanence remains; formatting is not sanitization
   - Media **reused in the same secure environment -> Clear**; media **leaving organizational control -> Purge or Destroy**
@@ -251,6 +253,7 @@
 - Related terms: data ownership and roles (2.3), CASB shadow-IT discovery (2.6), configuration management (D7), EOL/EOS (2.5), asset classification (2.1)
 - Sources: [OSG glossary], [CIS Controls v8], [ISC2 outline]
 
+<!-- REVIEW -->
 ## Data retention and asset end-of-life (2.4, 2.5)
 - Definition (ISC2 framing): **retention policy** = a document defining **what data is maintained and for what period of time** [OSG glossary]; **record retention** = the organizational policy defining what information is kept and for how long — most often **audit trails** of user activity (file/resource access, logon patterns, email, use of privileges) [OSG glossary]
 - Key facts:
@@ -264,6 +267,7 @@
     - Past EOS, unpatched vulnerabilities accumulate permanently -> **compensating controls** (segmentation, allow-listing, enhanced monitoring), the same pattern as the unpatchable-ICS scenario in D1 control types. Example: the unpatchable Windows XP box driving the badge printer, on its own VLAN with no internet route and a SIEM watch on its traffic. **SA-22 Unsupported System Components**: replace components once vendor support ends, or arrange alternative support (in-house patches, contracted third party); unsupported components are "an opportunity for adversaries"; mitigate by prohibiting connection to public/uncontrolled networks or other isolation [NIST SP 800-53r5 SA-22]
   - Retention applies to **assets as well as data** (2.5): keep hardware/software only as long as it is supportable and needed
 - Exam traps / distractors:
+  - **Lifecycle-stage mapping**: "sorting assets to archive or remove what is no longer required" = the **retention** decision (schedule applied: minimum for law/litigation, maximum for minimization and breach/e-discovery exposure). **Destruction** = executing the removal; **remanence** = the risk destruction manages (residual data on media leaving control); **object reuse** = system-level leftover data when a freed memory page/disk block/file slot is reassigned to a new subject — OS must zero it (TCSEC-era term) [unverified]. "Most concerned about" = the activity in the stem, not its downstream consequence. Example: options object reuse / remanence / destruction / retention for an archive-or-remove review -> retention (missed 2026-10-05: picked remanence)
   - **Legal hold beats the retention schedule** — "our policy says delete at 90 days" is not a defense once a hold is in place
   - **"Retain everything forever"** is wrong — storage limitation, cost, and exposure all argue against it
   - **EOL != EOS** — the patch cutoff (EOS) is what creates the risk, not the sales cutoff
