@@ -166,6 +166,7 @@
   - Mnemonic: **P-C-SIAM**
   - **Authorize = documented risk acceptance** (AO = Authorizing Official; ATO = Authorization to Operate) — federal form of the acceptance memo
 - Exam traps / distractors:
+  - **Task-level sequence** (Rev. 2): Prepare identifies the **authorization boundary**, stakeholders, assets; Categorize = C-1 **system description** (document characteristics) -> C-2 **security categorization** (list information types, rate worst-case C/I/A impact per FIPS 199 / SP 800-60, high-water mark) -> C-3 review/approval; then Select pulls the 800-53B baseline keyed to that category. Stem tell: "completed documenting system characteristics" = C-1 done -> **categorize information types** next; "identify boundaries" is Prepare (earlier); "implement controls" is step 4 (later) [NIST SP 800-37] (answered correctly 2026-10-06)
   - **800-37 vs. 800-30 vs. 800-39**: RMF process vs. risk assessment guide vs. enterprise risk strategy. Example: 800-30 = the spreadsheet scoring one system's threats; 800-37 = the steps that get that system an ATO; 800-39 = the agency-wide risk strategy the AO applies
   - "First RMF step" -> **Prepare** (Rev. 2); six-step lists starting Categorize are outdated
   - "Who accepts risk" -> **AO** (senior official), not ISSO (Information System Security Officer)/assessor. Example: ISSO writes the system security plan and remediation plan; AO signs the ATO
@@ -199,6 +200,7 @@
 - Related terms: risk responses (residual formula), risk acceptance, ALE/cost-benefit
 - Sources: [OSG glossary], [unverified]
 
+<!-- REVIEW -->
 ## Qualitative vs. quantitative risk analysis
 - Definition (ISC2 framing): **quantitative** = real dollar figures; **qualitative** = subjective/intangible values, scenario-oriented ranking and grading [OSG glossary]; real programs hybrid: qualitative triage -> quantitative workup
 - Key facts:
@@ -215,6 +217,8 @@
   - **Loss potential** = what would be lost if the threat agent successfully exploits a vulnerability (OSG text); glossary maps it to **EF** — same idea as % of asset value [OSG glossary]
   - **Delayed loss** = secondary damage after the initial hit (reputation, churn, later fines, lost future sales); often exceeds direct loss; fold into EF/SLE impact estimates [unverified]. Cross-ref: BIA (1.7)
 - Exam traps / distractors:
+  - **FIRST-step rule**: "FIRST / initially / before anything else" -> the option that produces *understanding* — risk/security **assessment**, BIA, asset classification — never implement/develop/deploy (controls are responses to an assessment, not predecessors). A **compliance review** is a subset of the assessment and answers "what does the law demand," not "is it secure" — it wins only when the stem's goal is compliance. Example: new app handling sensitive customer data, FIRST step to ensure security -> conduct a security assessment, NOT review compliance, NOT implement access controls (missed 2026-10-06: picked compliance review)
+  - **Methodology word filters first**: "qualitative" eliminates the dollar chain (AV/EF/SLE/ARO/ALE) before you read further. Qualitative impact/likelihood tool = **risk matrix** (likelihood x impact grid, 3x3 or 5x5, cells scored low/med/high/critical; same instrument as a SOC severity matrix). **Risk control strategies** = the *responses* (mitigate/transfer/accept/avoid) — treatment phase, downstream; never a tool for determining impact. Two filters: methodology, then phase (determine impact = analysis tool; respond = control strategy). Example: qualitative analysis, determine impact -> risk matrix, NOT SLE (missed 2026-10-06: picked SLE on the word "impact")
   - **EF = percentage, ARO = frequency**; ARO can be >1 or fractional
   - **SLE vs. ALE**: one incident vs. per-year — read the question's timeframe
   - **Delphi = anonymous**; "group discussion" option = brainstorming
@@ -251,6 +255,7 @@
 - Related terms: third-party assessment, SOC 2 (Domain 6), vendor agreements (1.8), minimum security requirements
 - Sources: [OSG glossary], [ISC2 outline], [unverified]
 
+<!-- REVIEW -->
 ## Threat modeling - STRIDE and methodologies
 - Definition (ISC2 framing): **threat modeling** = identifying, understanding, categorizing potential threats [OSG glossary]; done **proactively at design time** (exam answer), vs. reactive ops — outline 3.1 lists threat modeling among the **secure design principles** [ISC2 outline]
 - Key facts:
@@ -278,6 +283,9 @@
   - **VAST** (Visual, Agile, and Simple Threat) = Agile-integrated modeling [OSG glossary]
   - **Trike** = risk-based alternative to STRIDE/DREAD aggregation [OSG glossary]; **open-source**, implements a **requirements model** — ensures the assigned risk level for each asset is "acceptable" to **stakeholders** (course video) [Trike project]: octotrike.org README (open source, begun 2006); Trike v1 Methodology paper, intro goal 1 (risk to each asset acceptable to all stakeholders) + Sec. 1 Requirements Model (actors, assets, intended actions, rules)
 - Exam traps / distractors:
+  - **One-word focus per methodology** (vendor framing, clean): PASTA = **attack**-focused; OCTAVE = **practice**-focused (organizational risk and the practices managing it); STRIDE = **development**-focused (application meets its security requirements); VAST = **enterprise**-focused (scale across teams). Match the stem's distinctive word to the focus; "assets" is noise — every methodology touches assets.
+  - Selection tells: "threats from **malicious actions** / attacker / attack simulation" + a *cybersecurity engineer* analyzing assets and threats -> **PASTA** (attacker-centric, risk-centric, system level); "**organizational / operational** risk, self-directed by business/operational teams, enterprise-wide" -> **OCTAVE** (the word "assets" alone is NOT enough — OCTAVE is the org-level evaluation); classify threats per component -> STRIDE; Agile/scale across teams -> VAST; quantitative dollars -> FAIR; threat agents -> TARA. The *role* in the stem (engineer vs. organization/management) is a selection attribute. Correction (2026-10-06): vendor key = PASTA; an earlier note here said OCTAVE on the "assets" keyword — wrong. Example: engineer "systematically analyzing assets and potential threats from malicious actions" -> PASTA, NOT STRIDE (missed 2026-10-06: picked STRIDE)
+  - **Five-step threat modeling process** (each output is the next input) [unverified]: 1 identify **security objectives** (what "secure" means here) -> 2 **survey** the system (high-level overview, trust boundaries at a glance) -> 3 **decompose** (reduction analysis: components, flows, entry points) -> 4 identify **threats** (STRIDE per element) -> 5 identify **vulnerabilities** (weaknesses enabling each threat). Order is dependency, not convention: threats attach to elements, vulnerabilities are sought where threats point. Stem tell: "finalized review of business assets / system overview" = survey done -> **decompose** next. Example: options decompose / survey / vulnerabilities / threats after an asset review -> decompose (missed 2026-10-06: picked identify threats)
   - **STRIDE categorizes, DREAD scores** — the recurring pair. Example: STRIDE says "this is Tampering"; DREAD says "it's a 9 — all users affected, trivially reproducible"
   - **Repudiation vs. spoofing**: deny-after-the-fact vs. lie-about-identity (same axis as authenticity/nonrepudiation pillar split). Example: spoofing = logging in as Bob with his stolen creds; repudiation = Bob doing it himself and denying it because nothing signed proves it
   - "Seven steps"/"attack simulation" -> **PASTA**; "Agile" -> **VAST**
@@ -296,6 +304,7 @@
 
   - Traps: decompose BEFORE categorizing threats; distinct from **attack surface reduction** (hardening, not modeling). Example: drawing the DFD and marking where the web tier crosses into the DB = decomposition; disabling SMBv1 = attack surface reduction
 
+<!-- REVIEW -->
 ## COBIT basics
 - Definition (ISC2 framing): **ISACA** (Information Systems Audit and Control Association) framework for **governance and management of enterprise IT**; describes common requirements orgs should have around information systems [OSG glossary]
 - Key facts:
@@ -313,6 +322,7 @@
   - Principle 4 = the tested one: governance (board: evaluate/direct/monitor) vs. management (plan/build/run). Example: board asks "is ransomware exposure inside appetite?" = governance; CISO picks the EDR and sets the patch SLA = management
   - ISACA also runs CISA -> COBIT pairs with IT **audit** language
 - Exam traps / distractors — framework-for-purpose matching:
+  - **ISO 27001 primary benefit = improved risk management**: the ISMS is a risk-driven management cycle (assess -> treat -> monitor -> improve, PDCA); Annex A controls are selected by the risk assessment. Certification is the *market* byproduct (demonstrate to customers/partners); "regulatory compliance" is a category error — a **voluntary standard is not a regulation** (contrast PCI = contractual, GDPR/HIPAA = law). Fallacy to avoid: "other frameworks also do X, so X cannot be the primary benefit" — purpose, not exclusivity, decides. Example: options risk mgmt / awareness / regulatory compliance / cost reduction -> risk management (missed 2026-10-05: picked compliance)
 
   | Described purpose | Answer |
   | --- | --- |
@@ -342,10 +352,11 @@
 - Exam traps / distractors:
   - Category vs. type axes never mix: "detective" is not a category, "physical" is not a type
   - Classification pairs: training = admin + preventive; guard = physical + preventive/deterrent; log review = technical + detective
-  - **Defense in depth** = layering across categories; "control failed" -> add different-category layer. Example: EDR missed the loader (technical) -> add macro-blocking policy + phishing training (administrative), not a second EDR
+  - **Defense in depth** = layering across categories; "control failed" -> add different-category layer. Example: EDR missed the loader (technical) -> add macro-blocking policy + phishing training (administrative), not a second EDR. Categories *may* differ, but the layers must stop the **same attack in series** (here: the phishing-delivered loader) — two strong controls against *different* threats (DLP + MFA) is breadth, not depth; the purest exam example is net firewall + host firewall (see 3.1)
 - Related terms: control types (preventive/detection/corrective, 1.9 — future entry), defense in depth (3.1), physical security (7.14)
 - Sources: [OSG glossary], [ISC2 outline], [NIST SP 800-53 Rev. 3], [NIST SP 800-18]
 
+<!-- REVIEW -->
 ## Security control types (the seven)
 - Definition (ISC2 framing): types = **when/how a control acts** on unwanted activity; combine freely with the three categories (admin/technical/physical) [OSG glossary]
 - Key facts: [OSG glossary]
@@ -363,9 +374,10 @@
   - Timeline: before -> deterrent/preventive/directive; at discovery -> detective; after -> corrective/recovery
 - Exam traps / distractors:
   - **Preventive vs. deterrent**: works without attacker's cooperation vs. works on their decision. Example: the ACL drops the packet whether or not the attacker read the "activity monitored" banner
+  - **Detective is not preventive, and hidden is not deterrent**: classify a control by what it does *on its own*, not by the response you would bolt on. A camera records; what stops the thief is a *second* control (guard, response procedure) — if the stem gives none, do not credit it. **Hidden** cancels deterrence by design. Risk framing: detection alone leaves the next incident as likely and as damaging in the moment -> the owner is **accepting** the risk of the violation and preparing to catch the culprit, not preventing or mitigating it (vendor framing; impact-reduction-as-mitigation is arguable in general theory, the exam key is accept). Example: an EDR alert on `mimikatz.exe` is detective; Credential Guard is what *prevents* the dump — calling EDR preventive because an analyst can isolate the host conflates detect + respond (missed 2026-10-08: picked "preventing potential violations" for hidden storeroom cameras — SOC detect-and-stop reflex)
   - **Corrective vs. recovery**: minor return-to-normal vs. advanced restoration (recovery = extension of corrective) [OSG glossary]
   - **Directive vs. deterrent**: compliance-oriented instruction vs. consequence-oriented discouragement. Example: "badge in at the turnstile" sign vs. "CCTV in operation, violators prosecuted" sign
-  - **Compensating** = primary control infeasible -> equivalent alternative (PCI vocabulary)
+  - **Compensating** = primary control infeasible -> equivalent alternative (PCI vocabulary). Defined by its **relationship** to another control, not by mechanism — a deterrent light or detective camera *becomes* compensating the moment it stands in for a primary control that cannot be implemented. Tell: a stem that narrates *why a control was chosen instead of another* ("decided against a fence to reduce costs, opted for motion lighting") -> **compensating**; a stem that narrates *what the control does to the attacker* -> classify by type. Answer the scenario, not the device. Example: a legacy ICS host cannot take EDR, so it goes behind a strict-egress firewall with full logging — preventive by type, compensating by role; not this = the same firewall deployed as planned from the start (just preventive) (missed 2026-10-08: picked deterrent for motion lighting chosen in place of a fence — true-by-type, but the stem asked what the *decision* describes)
 - Related terms: control categories (previous entry), outline 1.9 types (preventive, detection, corrective) [ISC2 outline], defense in depth
 - Sources: [OSG glossary], [ISC2 outline]
 
@@ -548,6 +560,7 @@
 - Related terms: qualitative vs. quantitative risk analysis (BIA impact math), supply chain and SCRM (external dependency overlap), risk responses, alternate site types/DR site selection (own entry later, domain 7.13), types of risk
 - Sources: [NIST SP 800-34], [NIST SP 800-53], [ISO 22301], [OSG glossary], [ISC2 outline], [FEMA FCD-2 (2017)], [FEMA FCD (2024)], [unverified]
 
+<!-- REVIEW -->
 ## Security governance principles (1.3)
 - Definition (ISC2 framing): aligning the security function with business strategy through organizational structure, accountability, and process — governance decides *who* is accountable for security decisions and *how* they get made, distinct from operating the controls themselves [ISC2 outline]
 - Key facts:
@@ -558,6 +571,7 @@
   | **Due diligence** | Establishing the plan/policy/process — **knowing** what should be done | Before / ongoing research | Commissioning the pentest |
   | **Due care** | Practicing it — **doing** the right action, maintaining security after deployment | Ongoing execution | Funding the fix it flagged |
     - Due diligence without due care (research done, nobody acts on it) is a real exam scenario — diligence alone isn't a negligence defense
+    - **The decision/action itself is due care**, judged by the prudent-person standard; diligence is the homework before it. Test: *would more investigation have changed the outcome?* If the act stays imprudent (CEO mandates an unapproved vaccine; employees harmed and sue), the failure is **due care** — lawsuit = negligence = due-care failure. Indemnification/waivers never cure harm to people. Conventions that settle 'but did he know?': stem facts are facts the actor is accountable for (negligence standard = **knew or should have known**; not checking a public fact is part of the imprudent act); and **two options that are variants of one concept (two 'more diligence' options) are usually both distractors** — the single distinct option is where the answer sits. Example: options indemnify / due care / more diligence on the vaccine / more diligence on safety protocols -> due care (missed 2026-10-05: picked diligence, filing the decision under 'knowing')
     - DRP version: writing the plan/roles/procedures = diligence; **exercising/testing** it = care — "best demonstrates due care" -> successful tests, not documentation (practice Q 2026-10-05)
     - Both together are the legal defense against a **negligence** claim; missing either = exposure
   - **Organizational processes** (outline 1.3 examples: acquisitions, divestitures, governance committees [ISC2 outline]; content below [unverified]): M&A due diligence (assess a target's security posture/liabilities before acquisition; plan access/system integration or separation for a divestiture); **governance committees** (security steering committee sets policy direction, reports to the board/executive management on risk posture). Example: pre-close, the target's flat network and missing EDR get priced into the deal; post-close, the AD trust stays one-way until remediated
@@ -659,6 +673,7 @@
 - Related terms: security governance principles (culture/behavior framing), personnel security policies (onboarding is where initial training typically lands)
 - Sources: [OSG glossary], [ISC2 outline], [unverified]
 
+<!-- REVIEW -->
 ## GDPR - terms and requirements (1.4)
 - Definition (ISC2 framing): Regulation (EU) **2016/679** — a **Regulation, not a Directive**, so it is directly applicable across the EU/EEA with no national transposition; single harmonized data protection and privacy law governing processing and transfer of EU/EEA persons' personal data [OSG glossary]
 - Sourcing note: article numbers below corroborated 2026-09-04 against a faithful GDPR text mirror (gdpr.algolia.com). **eur-lex full text remains unfetchable** (failed 2026-09-01 and again 2026-09-04, multiple URL forms; 2026-09-28: WebFetch empty, curl HTTP 202 with 0-byte body) — treat as corroborated-not-primary and re-verify if a number is decisive [GDPR text mirror]
@@ -713,6 +728,7 @@
   | **83(5)** | **EUR 20M or 4%** worldwide annual turnover | Principles, consent, **data subject rights**, unlawful transfers, ignoring supervisory authority orders |
 
 - Exam traps / distractors:
+  - **Breach-notification relay** (each link notifies only the next): **processor -> controller** without undue delay (Art. 33(2)); **controller -> supervisory authority** within 72 h (Art. 33(1)); controller -> **data subjects** only if high risk (Art. 34) [GDPR text mirror]. "As per GDPR" = answer in GDPR roles only — **data owner** is ISC2 internal vocabulary, not a GDPR role (its GDPR analog is the controller). Example: practitioner at a *processor* spots a breach -> notify the controller, NOT the regulator and NOT "the data owner" (missed 2026-10-05: picked data owner)
   - **Consent is one of six lawful bases** — options treating it as always required, or as inherently the strongest, are wrong
   - **72 hours is to the supervisory authority, measured from awareness** — not to individuals, not from occurrence
   - **Fines: two tiers, "whichever is higher"** — a 4%-only answer, or a "whichever is lower" answer, fails; it is **worldwide turnover**, not EU revenue or profit

@@ -125,7 +125,7 @@
       "id": "08-input-validation-escaping",
       "topic": "Source-code weaknesses and secure coding practices",
       "front": "Input validation vs. input sanitization vs. escaping vs. output encoding — which control maps to injection and which to XSS? Allow list or blocklist?",
-      "back": "- **Input validation**: check/filter/sanitize input before processing (defensive programming vs. overflows, fuzzing, injection)\n- **Input sanitization**: length checks, known-bad scanning, escaping metacharacters\n- **Escaping**: mark a metacharacter as ordinary (e.g. backslash)\n- Injection -> validate input + parameterized queries; XSS -> **output encoding**\n- **Allow list** (deny by default) beats **blocklist** (allow by default)\n- Memory: **DEP** blocks exec in data memory; **ASLR** randomizes layout; **integer overflow** often *causes* a buffer overflow"
+      "back": "- **Input validation**: check/filter/sanitize input before processing (defensive programming vs. overflows, fuzzing, injection)\n- **Input sanitization**: length checks, known-bad scanning, escaping metacharacters\n- **Escaping**: mark a metacharacter as ordinary (e.g. backslash)\n- Injection -> validate input + parameterized queries; XSS -> **output encoding**\n- **Allow list** (deny by default) beats **blocklist** (allow by default)\n- Memory: **DEP** blocks exec in data memory; **ASLR** randomizes layout; **integer overflow** often *causes* a buffer overflow\n- Named fixes: XSS -> output encoding/escaping; SQLi -> parameterized queries; traversal -> restrict directories. \"Hardening\" = system config, never fixes app code -> umbrella distractor. Scope rule: named vulnerability -> named fix; broad question -> broad answer\n- Hardening = configuration at any layer (OS/service/app server); the split is config vs. code. CSP header = config-level XSS defense in depth, not the primary fix\n- **Parameter checking** = bounds checking = input validation: the buffer-overflow countermeasure. \"Custom app\" + \"strongest defense\" -> fix the code; vuln scanning finds, IDS detects, firewall is the wrong layer, DEP/ASLR mitigate exploitation only\n- Example: `strncpy` with a length check vs. a Nessus run that flags nothing on in-house code"
     },
     {
       "id": "08-api-top10-bola-bfla",
@@ -216,6 +216,12 @@
       "topic": "Source-code weaknesses and secure coding practices (8.5)",
       "front": "A logged-in user with locally cached credentials sees an unauthorized withdrawal. XSS or CSRF - and what evidence decides it?",
       "back": "- **CSRF** - a forged request rides the victim's ambient session; the attacker needs no stolen data, only to make her browser send the request\n- Decide by evidence: unauthorized **action** + victim logged in -> CSRF; attacker **script executing** (cookie theft, DOM change) -> XSS (reflected/stored/DOM by payload location)\n- \"Credentials stored locally\" = CSRF precondition, not an XSS clue; no injection point in the stem -> never XSS\n- Defenses: anti-CSRF tokens / SameSite / re-auth vs. output encoding / CSP\n- Example: withdrawal while logged in = CSRF; session cookie exfiltrated via a forum post = stored XSS"
+    },
+    {
+      "id": "08-sdlc-osg-steps",
+      "topic": "Development methodologies (8.1)",
+      "front": "The OSG SDLC steps in order, and which step a decision like \"MFA is required\" belongs to?",
+      "back": "1. Conceptual definition -> 2. **Functional requirements** (what it does for the business) -> 3. **Control specifications** (which security controls) -> 4. Design review -> 5. Coding -> 6. Code review walk-through -> 7. System test review -> 8. Maintenance/change management\n- \"MFA is a vital security requirement\" = control specification (OSG) = **architecture** in the vendor's five-phase model (requirements -> architecture -> design -> development -> testing) — the phase *after* functional requirements; the word \"requirement\" is the bait\n- \"Security requirements -> think architecture\" (vendor); OSG calls it control specifications\n- Why not functional requirements: functional = what the system does for the business; MFA = non-functional/security constraint, derived *from* the functional picture (payroll data -> MFA vital), hence one step later"
     }
   ]
 }

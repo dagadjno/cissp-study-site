@@ -123,6 +123,7 @@
 - Related terms: change management (7.9), security documentation hierarchy (D1 1.6), scoping/tailoring (D2 2.6), software CM (D8 8.2)
 - Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-53], [NIST SP 800-128], [NIST SP 800-126]
 
+<!-- REVIEW -->
 ## Foundational security operations concepts (7.4)
 - Definition (ISC2 framing): personnel and privilege controls that limit what any one person can know, do, or accumulate; outline 7.4 = need-to-know/least privilege, separation of duties and responsibilities, privileged account management, job rotation, service-level agreements [ISC2 outline]
 - Key facts:
@@ -146,7 +147,7 @@
   - **Need-to-know vs. least privilege**: "can read the file?" = need to know; "can delete/modify/install?" = least privilege. Clearance level alone never grants access
   - **SoD vs. least privilege**: one person both approves and pays -> SoD violation even if each right is minimal
   - **Job rotation vs. mandatory vacation**: rotation is permanent movement (cross-training + detection); vacation is a temporary audit window. Both are **detective**, primary aim fraud detection
-  - **Two-person control vs. split knowledge**: two present and acting vs. each holds half the secret
+  - **Two-person control vs. split knowledge**: two present and acting vs. each holds half the secret. Add **M of N** = threshold variant for *key recovery/escrow* (any M of N agents reconstruct). Ask *what is divided*: **information** -> split knowledge; **action** -> two-person/dual control; **recovery quorum with numbers** -> M of N; nothing divided, access by job -> least privilege + need to know (a single authorized user can still obtain the whole secret). Example: two suppliers each mix half the spice blend and never see the other half = split knowledge; two managers both badging in to open the recipe safe = dual control; four of eight custodians rebuilding an HSM key = M of N (missed 2026-10-07: picked M of N for "no single person has complete access to IP" — no escrow/recovery/threshold in the stem; M of N is the narrower adjacent term)
   - **SLA vs. MOU vs. SLR**: SLA = binding with metrics; MOU = intent; service-level requirement = what you ask for before contract. Example: 99.9 % uptime with service credits = SLA; two agencies agreeing to share threat intel with no penalties = MOU; "we need 99.9 %" in the RFP = SLR
   - PAM is the technology; the **principle** is least privilege plus accountability
 - Related terms: secure design principles (D3 3.1), personnel security (D1 1.8), privilege escalation/service accounts (D5 5.5), SLR (D1 1.11)
@@ -200,6 +201,7 @@
   - Team names are interchangeable on the exam: CIRT, CSIRT, IRT [OSG glossary]; SP 800-53 **IR-4** Incident Handling [NIST SP 800-53]
   - Reporting duties: breach-notification laws and regulators (GDPR 72 h [GDPR Art. 33(1)] - D1 1.4), contractual (PCI), law enforcement where a crime is suspected; a **first responder** decision to involve LE changes evidence handling to court standard
 - Exam traps / distractors:
+  - **"Steps taken to revoke access and isolate" = mitigation complete** -> ISC2 next = **reporting** (D-R-M-R-R-R-L: detection, response, mitigation, reporting, recovery, remediation, lessons learned); under NIST 800-61 phases (no separate reporting) next = **eradication/root cause** before recovery. Vendor key = **recovery**: the stem's "received notification from the IR team" is narrated as the **reporting** step already done. Convention: every clause of a sequence stem is a possible completed-step checkbox, including notifications received — detected (confirmed), responded (IR engaged), mitigated (revoked/isolated), reported (notified) -> recovery. OSG's reporting properly means to management/authorities, so the stem is loose, but learn the convention. "Security practitioner" = you, any infosec professional; implies no management role and no separation from IR (missed 2026-10-05: picked reporting, treated the notification as background)
   - **ISC2 order vs. NIST order**: ISC2 puts **recovery before remediation** (get the business running, then fix root cause); NIST bundles eradication before recovery. Answer in the vocabulary the question uses
   - **Mitigation = containment**: on the ISC2 list, "mitigation" is the isolation step, not risk mitigation
   - **Remediation vs. recovery**: recovery restores service; remediation removes the cause. Rebuilding from image without patching the vuln = recovery without remediation
@@ -211,6 +213,7 @@
 - Related terms: forensics and evidence (7.1), DR response (7.11), breach notification (D1 1.4), SOAR (7.2), containment tools (7.7)
 - Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-61], [NIST SP 800-53], [GDPR Art. 33(1)]
 
+<!-- REVIEW -->
 ## Detection and preventive measures (7.7)
 - Definition (ISC2 framing): the operating and tuning of the control stack - firewalls, IDS/IPS, allow/deny listing, third-party services, sandboxing, honeypots/honeynets, anti-malware, ML/AI tools [ISC2 outline]. Exam wants **which control fits which threat and what its legal/operational limits are**, not configuration
 - Key facts:
@@ -226,6 +229,15 @@
   | **Next-generation** (NGFW) / **UTM** | All-in-one inline: FW + IDS/IPS + content filtering + more | [OSG glossary] |
 
   - Firewall architectures [OSG glossary]: **bastion host** (hardened, withstands attack), **screened host** (router filtering in front of a server), **screened subnet** (public servers isolated from internal), **multihomed/dual-homed** host (interfaces on multiple networks)
+  - Firewall **deployment tiers** = count the *protected zones* the firewall boundaries create — not the Internet cloud, not routers/switches/VLANs [unverified — OSG ch. 11 "firewall deployment architectures", verify]:
+
+  | Design | Firewalls / interfaces | Zones created | Picture |
+  | --- | --- | --- | --- |
+  | **Single-tier** | One firewall, two interfaces | Internal only | `Internet -> FW -> LAN` |
+  | **Two-tier** | One firewall with 3+ interfaces, *or* two firewalls in series | **Screened subnet + internal** | `Internet -> FW -> {DMZ, LAN}` |
+  | **Three-tier** | Multiple subnets each behind its own firewall boundary | Two DMZ-like layers + internal | `Internet -> FW1 -> web -> FW2 -> app -> FW3 -> LAN` |
+
+  - Example: a three-legged firewall with untrust/DMZ/trust zones = two-tier on one box; add a core switch with ten VLANs and it is *still* two-tier; a PCI design edge FW -> web DMZ -> internal FW -> CDE = three-tier
   - IDS/IPS detection methods [OSG glossary]:
 
   | Method | Detects by | Weakness |
@@ -253,6 +265,7 @@
   - Third-party services: **MSSP**, **SECaaS** (Security as a Service), **MaaS** (Monitoring as a Service) reduce local cost/overhead [OSG glossary]; management view - you outsource execution, **not accountability**; SLA and right-to-audit
   - ML/AI [OSG glossary]: **machine learning** = programming a computer to solve problems from large datasets (often confused with AI); **AI** = simulation of human intelligence processes; **expert system** = accumulated human knowledge applied consistently, with an **inference engine** as second component; **neural network** = long chain of computational decisions (deep learning). Exam framing: ML/AI tools (UEBA, SOAR) **augment** analysts and lower false positives; they are not a substitute for policy or human judgment
 - Exam traps / distractors:
+  - **Firewall tier counting**: tiers = firewall boundaries and the zones they produce; a diagram with one three-interface firewall feeding a web server and (via a router) the LAN is **two-tier**. Counting Internet/DMZ/internal, or firewall + router + switch, yields the three-tier trap (missed 2026-10-10: picked three-tier for a single three-legged firewall)
   - **Enticement vs. entrapment**: the honeypot that invites an attacker who already chose to attack = enticement (legal); actively coaxing someone into crime = entrapment (their defense). Consult counsel before deploying; the exam wants "legal, but get legal review"
   - **Honeypot vs. padded cell**: honeypot attracts; padded cell receives a diverted intruder detected by the IDS. Example: a bait RDP host sitting in the DMZ = honeypot; the IDS catching a scanner and rerouting it into a simulated network = padded cell
   - **Signature vs. anomaly**: "new attack never seen before" -> anomaly; "too many false alarms" -> anomaly's cost; "must update definitions" -> signature

@@ -65,7 +65,7 @@
       "id": "07-rotation-vacation-splitknowledge",
       "topic": "Foundational security operations concepts",
       "front": "Job rotation vs. mandatory vacation; two-person control vs. split knowledge. What control type are rotation and vacation?",
-      "back": "- **Job rotation**: staff permanently move between positions -> knowledge redundancy + fraud detection\n- **Mandatory vacation**: 1-2 weeks/yr so tasks and privileges can be audited\n- Both primarily **detective** (fraud), also deterrent\n- **Two-person control**: two people present and acting\n- **Split knowledge**: SoD + two-person control; each holds part of the secret (key custodians), nobody has the whole\n- Example: AP clerk moves to AR and the successor spots the fake vendor = rotation; covering clerk reconciles the account the vacationer always handled and finds the skim = vacation; two admins approve the root-key export = two-person control; each custodian holds half the master key = split knowledge"
+      "back": "- **Job rotation**: staff permanently move between positions -> knowledge redundancy + fraud detection\n- **Mandatory vacation**: 1-2 weeks/yr so tasks and privileges can be audited\n- Both primarily **detective** (fraud), also deterrent\n- **Two-person control**: two people present and acting\n- **Split knowledge**: SoD + two-person control; each holds part of the secret (key custodians), nobody has the whole\n- Example: AP clerk moves to AR and the successor spots the fake vendor = rotation; covering clerk reconciles the account the vacationer always handled and finds the skim = vacation; two admins approve the root-key export = two-person control; each custodian holds half the master key = split knowledge\n- **M of N** = recovery-quorum variant (escrow agents, numbers given). Ask *what is divided*: information -> split knowledge; action -> two-person; recovery quorum -> M of N; nothing -> least privilege/need to know\n- Example: two suppliers each mix half the spice blend = split knowledge; two managers badge in to open the safe = dual control; 4 of 8 custodians rebuild the key = M of N"
     },
     {
       "id": "07-pam-sla-mou",
@@ -101,13 +101,19 @@
       "id": "07-ir-traps",
       "topic": "Incident management",
       "front": "Event vs. incident; recovery vs. remediation; why is \"power off the compromised host\" wrong; what do SP 800-61r2 containment criteria include?",
-      "back": "- **Event**: any occurrence. **Incident**: negative CIA impact / policy violation\n- **Recovery** restores service; **remediation** removes the cause (reimage without patching = recovery only)\n- Power-off destroys **volatile evidence** and may trigger attacker logic -> isolate at the network\n- Containment criteria: damage/theft potential, **evidence preservation**, service availability, time/resources, effectiveness, duration\n- SP 800-53 **IR-4** Incident Handling"
+      "back": "- **Event**: any occurrence. **Incident**: negative CIA impact / policy violation\n- **Recovery** restores service; **remediation** removes the cause (reimage without patching = recovery only)\n- Power-off destroys **volatile evidence** and may trigger attacker logic -> isolate at the network\n- Containment criteria: damage/theft potential, **evidence preservation**, service availability, time/resources, effectiveness, duration\n- SP 800-53 **IR-4** Incident Handling\n- \"Access revoked, system isolated\" = mitigation done -> next = reporting (D-R-M-R-R-R-L) UNLESS the stem narrates a notification already received — vendors count that as reporting done -> **recovery**. Every stem clause is a completed-step checkbox. \"Security practitioner\" = you; no role implication"
     },
     {
       "id": "07-firewall-types",
       "topic": "Detection and preventive measures",
       "front": "Match firewall types to what they decide on: static packet filter, stateful, application-level/WAF, circuit-level, DPI, NGFW/UTM.",
       "back": "| Type | Decides on |\n| --- | --- |\n| **Static packet-filtering** | Header: addresses, ports (screening router) |\n| **Circuit-level** | Session/handshake validity, not content |\n| **Stateful inspection** | State table; session context |\n| **Application-level** (WAF) | Full payload of one protocol |\n| **DPI** | Payload contents; rides on app-level/stateful |\n| **NGFW/UTM** | All-in-one inline: FW + IDS/IPS + filtering |"
+    },
+    {
+      "id": "07-firewall-tiers",
+      "topic": "Detection and preventive measures",
+      "front": "Single-, two-, three-tier firewall designs — what does a 'tier' count, and what does it not count?",
+      "back": "- Tier = a **protected zone created by a firewall boundary**; the Internet, routers, switches, VLANs do not count\n\n| Design | Build | Zones |\n| --- | --- | --- |\n| **Single-tier** | one FW, two interfaces | internal |\n| **Two-tier** | one FW with 3+ interfaces *or* two FWs in series | screened subnet + internal |\n| **Three-tier** | a firewall boundary between each subnet | web / app / internal |\n\n- Example: three-legged firewall (untrust/DMZ/trust) = two-tier even with a core switch and ten VLANs; edge FW -> web DMZ -> internal FW -> CDE = three-tier"
     },
     {
       "id": "07-ids-detection-methods",

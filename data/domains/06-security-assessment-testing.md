@@ -37,6 +37,7 @@
 - Related terms: SOC reports (6.5), continuous monitoring (1.9, 7.2), risk assessment (1.9), RMF assess step (1.9), scoping and tailoring (2.6)
 - Sources: [ISC2 outline], [OSG glossary], [NIST SP 800-115], [NIST SP 800-53A], [NIST SP 800-137], [unverified]
 
+<!-- REVIEW -->
 ## Vulnerability assessment, penetration testing, and adversary exercises (6.2)
 - Definition (ISC2 framing): technical control testing at increasing depth: scan (find known holes automatically) -> vulnerability assessment (scan + risk context) -> penetration test (authorized humans exploit to prove impact) -> red/purple exercises and breach and attack simulation (continuous, adversary-emulating). Management's question is not "is it exploitable" but "is it **authorized**, **scoped** and **reported** to the right people" [ISC2 outline]
 - Key facts:
@@ -85,6 +86,7 @@
   - **Compliance checks / compliance testing** = verify a system conforms to laws, regulations, baselines, standards, policies [OSG glossary]; automated via SCAP (XCCDF/OVAL) against a **benchmark** = documented requirement list / secure configuration guide [OSG glossary]. Compliant != effective
   - Controls: SP 800-53 **RA-5**, **CA-8** [NIST SP 800-53A]
 - Exam traps / distractors:
+  - **Vendor phase labels map to NIST 800-115**: scoping = planning; collection/information gathering = discovery; **leveraging** (exploiting found vulnerabilities) = attack; reporting. **Validation** is an *activity* (confirm findings, retest fixes), not a phase. Unfamiliar phase word -> synonym check before eliminating. Example: NOT a pentest phase among collection / scoping / validation / leveraging -> validation (missed 2026-10-06: struck "leveraging" as unfamiliar) [unverified on vendor key]
   - **Scan vs pentest**: scanner checks *possible existence*; pentest *verifies by exploitation* and shows impact [NIST SP 800-115]. "Most thorough" -> pentest; "least disruptive / most frequent" -> scan
   - **Assessment vs pentest**: assessment = broad review + risk recommendations; pentest = adversarial proof and one input to it. Example: pentest report says "Domain Admin via Kerberoast in 4 hours"; assessment says "service-account hygiene is weak across three business units — here is the remediation program"
   - **Red vs purple**: separate offense with a debrief afterwards = red/blue; collaboration during = purple. **White team** != white box
@@ -246,6 +248,7 @@
   - Location [ISC2 outline]: on-premises = direct evidence; cloud = rely on the provider's SOC 2 Type II / ISO 27001 certificate / FedRAMP authorization for the provider layer — hyperscalers do not accept customer audits; a **right-to-audit clause** is the lever for smaller vendors; hybrid = map each control to the responsible party first (shared responsibility), then audit each side appropriately. Example: you cannot audit AWS's datacenter — read its SOC 2 Type II; for the 20-person MSSP you write a right-to-audit clause and send your own GRC team
   - Independence mechanics: auditors may not audit controls they designed or operate; internal audit reports functionally to the **audit committee**; rotate external firms; auditors get **read-only** access and no remediation role. Example: the engineer who wrote the firewall ruleset does not audit it; the auditor gets read-only SIEM access and files findings — the SOC fixes them
 - Exam traps / distractors:
+  - **SOC report is chosen by what it covers, not who the company is**: "financial institution" is bait toward SOC 1; SOC 1 = controls over the *customer's financial reporting*; **SOC 2** = Trust Services Criteria (security + availability/processing integrity/confidentiality/privacy) = **technical/security controls**; SOC 3 = public summary. Risk assessment ranks risk (does not test controls); pentest finds exploitable weaknesses in a sample (no attestation). "Assess technical controls" -> SOC 2. Example: financial institution handling PII wants technical controls assessed -> SOC 2, not SOC 1 (answered correctly 2026-10-06)
   - **SOC 1 vs SOC 2**: financial-reporting controls vs security/TSC. A payroll processor's customer's *financial* auditor wants SOC 1; a CISO evaluating a SaaS vendor's security wants SOC 2
   - **SOC 2 vs SOC 3**: same criteria; SOC 3 is the **public**, summarized one — "vendor posts report on website" = SOC 3; "detailed test results under NDA" = SOC 2
   - **Type I vs Type II**: design at a point vs operating effectiveness over time. "Best evidence controls actually worked last year" = **Type II**; a new provider may only have a Type I. Example: Type I = controls were designed right on 30 June; Type II = they operated for the 12 months ending 30 June

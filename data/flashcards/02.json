@@ -77,7 +77,7 @@
       "id": "02-data-remanence",
       "topic": "Data destruction",
       "front": "Data remanence",
-      "back": "Residual data still present on media after it was supposedly removed.\n\nExists because a normal delete removes only the directory link, not the data itself.\n- vs. **object reuse**: remanence = media leaving control; object reuse = freed memory/disk resource reassigned inside a running system without being cleared"
+      "back": "Residual data still present on media after it was supposedly removed.\n\nExists because a normal delete removes only the directory link, not the data itself.\n- vs. **object reuse**: remanence = media leaving control; object reuse = freed memory/disk resource reassigned inside a running system without being cleared\n- Goal word picks the control: \"prevent disclosure\" -> **encryption**; \"sanitize/make unrecoverable\" -> crypto-shredding (destroy keys, Purge); \"destroy hardware\" -> shredding (vendor, after hand-off). Answer the ask, not the worry the stem mentions"
     },
     {
       "id": "02-erasing",
@@ -131,7 +131,7 @@
       "id": "02-gov-classification",
       "topic": "Data classification",
       "front": "The government/military classification levels",
-      "back": "Highest to lowest:\n- **Top Secret** — disclosure causes exceptionally grave damage to national security\n- **Secret** — serious damage\n- **Confidential** — damage\n- **Sensitive But Unclassified (SBU)** — internal/office use only\n- **Unclassified** — no noticeable damage"
+      "back": "Highest to lowest:\n- **Top Secret** — disclosure causes exceptionally grave damage to national security\n- **Secret** — serious damage\n- **Confidential** — damage\n- **Sensitive But Unclassified (SBU)** — internal/office use only\n- **Unclassified** — no noticeable damage\n- Mnemonic top-down TS-S-C-U: \"Top Spies Carry Umbrellas\"; damage top-down \"Even Spies Die\" = Exceptionally grave / Serious / Damage"
     },
     {
       "id": "02-classified",
@@ -143,7 +143,7 @@
       "id": "02-commercial-classification",
       "topic": "Data classification",
       "front": "The commercial/private-sector classification levels",
-      "back": "Highest to lowest:\n- **Confidential / Proprietary** — internally valuable, trade-secret grade; significant damage if disclosed\n- **Private** — personal or personnel data, internal use only\n- **Sensitive** — organizational data, more valuable than public; modest impact\n- **Public** — everything else; disclosure shouldn't be seriously harmful\n- Example: Confidential = product source code, M&A terms; Private = payroll export, medical-leave forms; Sensitive = org chart, network diagrams, SOC runbooks; Public = press releases, job postings"
+      "back": "Highest to lowest:\n- **Confidential / Proprietary** — internally valuable, trade-secret grade; significant damage if disclosed\n- **Private** — personal or personnel data, internal use only\n- **Sensitive** — organizational data, more valuable than public; modest impact\n- **Public** — everything else; disclosure shouldn't be seriously harmful\n- Example: Confidential = product source code, M&A terms; Private = payroll export, medical-leave forms; Sensitive = org chart, network diagrams, SOC runbooks; Public = press releases, job postings\n- Mnemonic top-down C/P-Pr-S-Pu: \"Companies Protect Secrets Publicly\"; government Confidential = floor, corporate Confidential = ceiling"
     },
     {
       "id": "02-private-vs-sensitive",
@@ -227,7 +227,7 @@
       "id": "02-data-custodian",
       "topic": "Data ownership",
       "front": "Data custodian (data steward)",
-      "back": "The person delegated the **day-to-day work** of implementing the protection the owner and policy prescribe — applying labels, running backups, enforcing controls.\n\nTypically IT staff or a security administrator. Implements; does not decide.\n- Example: the sysadmin who sets the NTFS ACLs and runs the backups; NOT the VP of HR who decided the file was Confidential (owner)\n- Steward: OSG = alias of custodian; vendor/industry split = steward owns **quality, metadata, business rules, compliance**, custodian owns technical container safety. Processor = GDPR third party on controller's instructions. Hook: decide->owner, define->steward, deliver->custodian, direct->controller, do-for-hire->processor"
+      "back": "The person delegated the **day-to-day work** of implementing the protection the owner and policy prescribe — applying labels, running backups, enforcing controls.\n\nTypically IT staff or a security administrator. Implements; does not decide.\n- Example: the sysadmin who sets the NTFS ACLs and runs the backups; NOT the VP of HR who decided the file was Confidential (owner)\n- Steward: OSG = alias of custodian; vendor/industry split = steward owns **quality, metadata, business rules, compliance**, custodian owns technical container safety. Processor = GDPR third party on controller's instructions. Hook: decide->owner, define->steward, deliver->custodian, direct->controller, do-for-hire->processor\n- Verb -> role: permit/authorize/classify = owner; implement/configure/back up = custodian (= administrator); system requirements/operate/ATO = system owner (owns the box, not the data). \"Who is blamed?\" -> owner"
     },
     {
       "id": "02-ownership",

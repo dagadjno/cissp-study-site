@@ -155,7 +155,7 @@
       "id": "01-rmf-steps",
       "topic": "RMF",
       "front": "The seven RMF steps (SP 800-37 Rev. 2)",
-      "back": "1. **P**repare (added in Rev. 2)\n2. **C**ategorize (FIPS 199)\n3. **S**elect (SP 800-53B baselines)\n4. **I**mplement\n5. **A**ssess (SP 800-53A)\n6. **A**uthorize (AO grants ATO)\n7. **M**onitor (SP 800-137)\n\nMnemonic: P-C-SIAM."
+      "back": "1. **P**repare (added in Rev. 2)\n2. **C**ategorize (FIPS 199)\n3. **S**elect (SP 800-53B baselines)\n4. **I**mplement\n5. **A**ssess (SP 800-53A)\n6. **A**uthorize (AO grants ATO)\n7. **M**onitor (SP 800-137)\n\nMnemonic: P-C-SIAM.\n- Task level: Prepare sets the boundary; Categorize = system description -> categorize information types (FIPS 199 impact, high-water mark) -> approval; Select then keys the 800-53B baseline to the category. \"Documented system characteristics\" -> categorize next"
     },
     {
       "id": "01-ao-ato",
@@ -179,7 +179,7 @@
       "id": "01-methodologies",
       "topic": "Risk methodologies",
       "front": "OCTAVE, FAIR, TARA — what is each?",
-      "back": "- **OCTAVE** (CMU SEI) — self-directed, asset-driven organizational risk assessment\n- **FAIR** — quantitative model: loss frequency × loss magnitude in dollars\n- **TARA** (Intel) — prioritizes the threat *agents* most likely to attack"
+      "back": "- **OCTAVE** (CMU SEI) — self-directed, asset-driven organizational risk assessment\n- **FAIR** — quantitative model: loss frequency × loss magnitude in dollars\n- **TARA** (Intel) — prioritizes the threat *agents* most likely to attack\n- Tells: \"malicious actions\"/attacker + engineer analyzing assets and threats -> **PASTA**; organizational/operational risk, self-directed by business teams -> **OCTAVE** (\"assets\" alone is not enough); dollars -> FAIR; threat agents -> TARA; per-component categories -> STRIDE; Agile -> VAST\n- One-word focus: PASTA attack / OCTAVE practice (organizational) / STRIDE development (application) / VAST enterprise (scale). Match the stem's distinctive word; \"assets\" is noise"
     },
     {
       "id": "01-scrm-risks",
@@ -233,7 +233,7 @@
       "id": "01-framework-match",
       "topic": "COBIT",
       "front": "COBIT, ITIL, ISO 27001, NIST CSF, COSO — what each is for",
-      "back": "| Framework | Purpose |\n| --- | --- |\n| **COBIT** | IT governance, business/IT alignment, audit |\n| **ITIL** | IT service management (SLAs, incidents) |\n| **ISO 27001** | Certifiable ISMS |\n| **NIST CSF** | Voluntary cyber risk outcomes, any org |\n| **COSO** | Corporate internal control / SOX |\n\n- Example: COBIT = board asking whether IT risk sits inside appetite; ITIL = the ServiceNow incident/change workflow; COSO = CFO's SOX 404 attestation that financial-reporting controls work"
+      "back": "| Framework | Purpose |\n| --- | --- |\n| **COBIT** | IT governance, business/IT alignment, audit |\n| **ITIL** | IT service management (SLAs, incidents) |\n| **ISO 27001** | Certifiable ISMS |\n| **NIST CSF** | Voluntary cyber risk outcomes, any org |\n| **COSO** | Corporate internal control / SOX |\n\n- Example: COBIT = board asking whether IT risk sits inside appetite; ITIL = the ServiceNow incident/change workflow; COSO = CFO's SOX 404 attestation that financial-reporting controls work\n- ISO 27001 primary benefit = **risk management** (risk-driven ISMS cycle); certification is a market byproduct; it is a voluntary standard, not a regulation. Purpose, not exclusivity, answers \"primary benefit\""
     },
     {
       "id": "01-control-categories",
@@ -245,7 +245,7 @@
       "id": "01-control-types",
       "topic": "Controls",
       "front": "The seven control types",
-      "back": "**Preventive, deterrent, detective, corrective, recovery, directive, compensating.**\n\n- Preventive stops the act without the attacker's cooperation; deterrent works on their decision\n- Corrective is minor return-to-normal; recovery is its extension with advanced restoration (backups, DR sites)\n- Directive instructs toward compliance; compensating substitutes when the primary control is infeasible\n- Example: the ACL drops the packet whether or not the attacker read the \"activity monitored\" banner (preventive vs. deterrent); \"badge in at the turnstile\" vs. \"CCTV in operation, violators prosecuted\" (directive vs. deterrent)"
+      "back": "**Preventive, deterrent, detective, corrective, recovery, directive, compensating.**\n\n- Preventive stops the act without the attacker's cooperation; deterrent works on their decision\n- Corrective is minor return-to-normal; recovery is its extension with advanced restoration (backups, DR sites)\n- Directive instructs toward compliance; compensating substitutes when the primary control is infeasible\n- Example: the ACL drops the packet whether or not the attacker read the \"activity monitored\" banner (preventive vs. deterrent); \"badge in at the turnstile\" vs. \"CCTV in operation, violators prosecuted\" (directive vs. deterrent)\n- Classify by what the control does *on its own*: a hidden camera is detective only (hidden cancels deterrence; stopping the thief needs a second control). Risk framing: detection alone = **accepting** the risk of the violation, not preventing/mitigating\n- Example: EDR alert on mimikatz = detective; Credential Guard = preventive; \"analyst isolates the host\" is a second control, not the camera/EDR being preventive\n- **Compensating** is a *role*, not a mechanism: any control substituted for an infeasible primary one. Stem narrates the substitution decision -> compensating; stem narrates the effect on the attacker -> classify by type. Example: strict firewall around an ICS host that cannot take EDR = compensating; the same firewall deployed as planned = preventive"
     },
     {
       "id": "01-vacation-review",
@@ -299,7 +299,7 @@
       "id": "01-gdpr",
       "topic": "Privacy laws",
       "front": "GDPR breach notification and fines",
-      "back": "- **72 hours** to the supervisory authority (Art. 33), measured from **becoming aware**\n- Data subjects (Art. 34): **without undue delay**, only when there is **high risk** to rights and freedoms\n- Fines (Art. 83), each tier **whichever is higher**: **83(4)** €10M or 2%, **83(5)** €20M or 4% of **worldwide** annual turnover\n- Example: intruder in since March, SOC confirms exfil Tuesday 10:00 -> supervisory-authority clock runs to Friday 10:00"
+      "back": "- **72 hours** to the supervisory authority (Art. 33), measured from **becoming aware**\n- Data subjects (Art. 34): **without undue delay**, only when there is **high risk** to rights and freedoms\n- Fines (Art. 83), each tier **whichever is higher**: **83(4)** €10M or 2%, **83(5)** €20M or 4% of **worldwide** annual turnover\n- Example: intruder in since March, SOC confirms exfil Tuesday 10:00 -> supervisory-authority clock runs to Friday 10:00\n- Relay: processor -> controller (undue delay) -> supervisory authority (72 h) -> data subjects (high risk only). \"As per GDPR\" -> GDPR roles only; \"data owner\" is not one"
     },
     {
       "id": "01-gdpr-principles-bases",
@@ -323,7 +323,7 @@
       "id": "01-due-care-diligence",
       "topic": "Due care / due diligence",
       "front": "Due care vs. due diligence",
-      "back": "- **Due diligence** — knowing: establishing the plan/policy/process, verifying through research, audits, monitoring\n- **Due care** — doing: acting reasonably on what diligence surfaced, and maintaining it (the prudent person standard)\n\nTogether they form the legal defense against **negligence**; the Federal Sentencing Guidelines (1991) formalized the prudent person rule and executive personal liability.\n\n- Example: due diligence = commissioning the pentest; due care = funding the fix it flagged\n- DRP example: writing the plan = diligence; exercising/testing it = care"
+      "back": "- **Due diligence** — knowing: establishing the plan/policy/process, verifying through research, audits, monitoring\n- **Due care** — doing: acting reasonably on what diligence surfaced, and maintaining it (the prudent person standard)\n\nTogether they form the legal defense against **negligence**; the Federal Sentencing Guidelines (1991) formalized the prudent person rule and executive personal liability.\n\n- Example: due diligence = commissioning the pentest; due care = funding the fix it flagged\n- DRP example: writing the plan = diligence; exercising/testing it = care\n- The *decision/act* is due care (prudent person); diligence = the research before it. Test: would more investigation change the outcome? If the act stays imprudent (mandating an unapproved vaccine), it is a due-care failure; lawsuit = negligence = due care\n- \"Did he know?\" -> stem facts bind the actor (knew or should have known); two variants of one concept among the options = both distractors"
     },
     {
       "id": "01-policy-authority",
@@ -371,7 +371,7 @@
       "id": "01-qual-vs-quant-when",
       "topic": "Qualitative analysis",
       "front": "When qualitative analysis is the right choice",
-      "back": "When reliable numbers don't exist (reputation, trust damage) or speed matters — it is a correct choice in its own right, not a fallback.\n\nDeriving SLE/ARO from industry averages produces false precision. Real programs run hybrid: qualitative triage, then quantitative workup for the big risks."
+      "back": "When reliable numbers don't exist (reputation, trust damage) or speed matters — it is a correct choice in its own right, not a fallback.\n\nDeriving SLE/ARO from industry averages produces false precision. Real programs run hybrid: qualitative triage, then quantitative workup for the big risks.\n- Tools: qualitative impact/likelihood = **risk matrix** (grid, scored cells); quantitative = SLE/ARO/ALE. Risk control strategies = the responses, a later phase. \"Qualitative\" in the stem filters out SLE before you read it\n- FIRST-step rule: assess/identify/classify beats implement/develop every time; compliance review is a subset of assessment and wins only when the goal stated is compliance"
     },
     {
       "id": "01-aup",
@@ -474,6 +474,12 @@
       "topic": "NIST SP 800",
       "front": "Attach an SP number to each RMF step (the memory spine).",
       "back": "- Categorize -> **800-60** (+ FIPS 199)\n- Select -> **800-53B** (+ FIPS 200)\n- Implement -> **800-53**\n- Assess -> **800-53A**\n- Authorize -> **800-37**\n- Monitor -> **800-137**\n- Traps: 30 vs 37 vs 39 (assess/process/strategy); 53 vs 171 (federal vs CUI on nonfederal); 53A vs 115 (control assessment vs technical testing)"
+    },
+    {
+      "id": "01-threat-model-steps",
+      "topic": "Threat modeling",
+      "front": "The five threat-modeling steps in order, and why decomposition must precede identifying threats?",
+      "back": "1. Security objectives -> 2. Survey system -> 3. **Decompose** -> 4. Identify **threats** -> 5. Identify **vulnerabilities**\n- Each output feeds the next: threats attach to decomposed elements; vulnerabilities are sought where threats point\n- \"Review of assets / system overview done\" = survey complete -> decompose next"
     }
   ],
   "retired": [
