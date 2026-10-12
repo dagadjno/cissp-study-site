@@ -197,7 +197,7 @@
       "id": "01-vendor-eval",
       "topic": "Supply chain",
       "front": "Third-party audit / attestation (e.g., SOC 2)",
-      "back": "An independent auditor's report on a vendor's controls — assurance **without direct access** to the vendor's operations.\n\nThe evaluation method of choice when on-site assessment or document exchange isn't available. Minimum security requirements belong **in the contract**.\n\n- Example: \"MSP runs EDR on every endpoint touching our tenant\" written into the master services agreement; not \"their sales deck says so\""
+      "back": "An independent auditor's report on a vendor's controls — assurance **without direct access** to the vendor's operations.\n\nThe evaluation method of choice when on-site assessment or document exchange isn't available. Minimum security requirements belong **in the contract**.\n\n- Example: \"MSP runs EDR on every endpoint touching our tenant\" written into the master services agreement; not \"their sales deck says so\"\n- Vendor selection, security context: **data classification first** — it scopes assessment depth, controls, contract clauses, and whether to outsource; continuity, reputation, location are weighted *by* it. Example: Confidential+PII ticketing SaaS -> SOC 2 Type II + residency + RTO clause; lightbulb-request tool -> questionnaire"
     },
     {
       "id": "01-stride",
@@ -422,6 +422,12 @@
       "back": "- **ISO 27001** — certifiable ISMS: an organization can be audited and certified against it\n- **NIST CSF** — voluntary, outcome-based framework (Identify/Protect/Detect/Respond/Recover); no certification mechanism\n- **SABSA** — business-risk-driven security *architecture*; every control traces to a business requirement\n- **FedRAMP** — US federal cloud-service authorization, built on NIST SP 800-53\n- Example: ISO 27001 = customer RFP demands the certificate; NIST CSF = self-assessed current-vs-target profile; SABSA = firewall rule traced to a business need; FedRAMP = SaaS vendor selling to a federal agency"
     },
     {
+      "id": "01-steering-committee",
+      "topic": "Security governance principles",
+      "front": "Security steering committee: who sits on it, what it decides, why it exists, and how it differs from a CAB and from ISO 27001 management review?",
+      "back": "- Cross-functional **senior managers** under a charter; approves policy, sets priorities, allocates budget, resolves conflicts, reviews metrics/audit findings/exceptions; reports to the board\n- Why: business ownership + authority for security decisions; due-care evidence for senior management (ultimately responsible)\n- Team proposes, committee decides, ops implement. Governance = what/why; management = how\n- **CAB** = operational change approval, not governance; **management review** (ISO 27001 9.3) = periodic leadership ISMS review, often held here\n- Tells: \"ultimately responsible\" -> senior management; CISO under CIO = conflict of interest"
+    },
+    {
       "id": "01-investigation-types",
       "topic": "Investigations",
       "front": "The 5 investigation types",
@@ -476,10 +482,16 @@
       "back": "- Categorize -> **800-60** (+ FIPS 199)\n- Select -> **800-53B** (+ FIPS 200)\n- Implement -> **800-53**\n- Assess -> **800-53A**\n- Authorize -> **800-37**\n- Monitor -> **800-137**\n- Traps: 30 vs 37 vs 39 (assess/process/strategy); 53 vs 171 (federal vs CUI on nonfederal); 53A vs 115 (control assessment vs technical testing)"
     },
     {
+      "id": "01-numbers-vocabulary",
+      "topic": "NIST SP 800 quick reference",
+      "front": "Which non-SP standard numbers does the exam treat as vocabulary, and what do you do when an option cites a number you do not recognise?",
+      "back": "| Number | Means |\n| --- | --- |\n| **RFC 1918** | private IPv4 (10/8, 172.16/12, 192.168/16), unroutable |\n| **802.11i / 802.1X / 802.1Q** | WPA2 / port-based NAC / VLAN tagging |\n| **FIPS 140-3 / 197 / 186** | crypto-module levels / AES / DSS |\n| **ISO 27001 / 27002 / 27701** | ISMS / controls guidance / privacy |\n| **SSAE 18**, SOC 1/2/3 | attestation / report types |\n\n- Unknown number: eliminate the other three on their merits; a cited real standard is a credibility signal, fabricated options use fabricated terms"
+    },
+    {
       "id": "01-threat-model-steps",
       "topic": "Threat modeling",
       "front": "The five threat-modeling steps in order, and why decomposition must precede identifying threats?",
-      "back": "1. Security objectives -> 2. Survey system -> 3. **Decompose** -> 4. Identify **threats** -> 5. Identify **vulnerabilities**\n- Each output feeds the next: threats attach to decomposed elements; vulnerabilities are sought where threats point\n- \"Review of assets / system overview done\" = survey complete -> decompose next"
+      "back": "1. Security objectives -> 2. Survey system -> 3. **Decompose** -> 4. Identify **threats** -> 5. Identify **vulnerabilities**\n- Each output feeds the next: threats attach to decomposed elements; vulnerabilities are sought where threats point\n- \"Review of assets / system overview done\" = survey complete -> decompose next\n- Goals (OSG): fewer security **design flaws**, fewer security **coding flaws**, lower **severity of remaining non-security flaws**. Not \"fewer threat vectors\": a vector is the attacker's path and exists regardless; modeling enumerates vectors, design changes shrink the *attack surface* (sibling practice). Example: parser crash downgraded RCE -> DoS = severity reduced; phishing still a vector"
     }
   ],
   "retired": [

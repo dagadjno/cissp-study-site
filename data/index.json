@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-11",
+  "updated": "2026-10-12",
   "domains": [
     {
       "id": "01",
@@ -8,7 +8,7 @@
       "notes": "domains/01-security-risk-management.md",
       "flashcards": "flashcards/01.json",
       "quiz": "quizzes/01.json",
-      "cards": 80,
+      "cards": 82,
       "questions": 71
     },
     {
@@ -38,7 +38,7 @@
       "notes": "domains/04-communication-network-security.md",
       "flashcards": "flashcards/04.json",
       "quiz": null,
-      "cards": 31,
+      "cards": 32,
       "questions": 0
     },
     {
@@ -48,7 +48,7 @@
       "notes": "domains/05-identity-access-management.md",
       "flashcards": "flashcards/05.json",
       "quiz": null,
-      "cards": 31,
+      "cards": 32,
       "questions": 0
     },
     {
@@ -58,7 +58,7 @@
       "notes": "domains/06-security-assessment-testing.md",
       "flashcards": "flashcards/06.json",
       "quiz": null,
-      "cards": 23,
+      "cards": 26,
       "questions": 0
     },
     {
@@ -68,7 +68,7 @@
       "notes": "domains/07-security-operations.md",
       "flashcards": "flashcards/07.json",
       "quiz": null,
-      "cards": 38,
+      "cards": 39,
       "questions": 0
     },
     {

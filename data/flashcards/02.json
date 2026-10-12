@@ -11,7 +11,7 @@
       "id": "02-data-at-rest",
       "topic": "Data states",
       "front": "Data at rest — definition and primary protection",
-      "back": "Data stored statically on a storage device.\n\nProtected by disk, file, or database encryption plus access controls.\n- Example: the payroll `.bak` sitting on the BitLocker'd file server"
+      "back": "Data stored statically on a storage device.\n\nProtected by disk, file, or database encryption plus access controls.\n- Example: the payroll `.bak` sitting on the BitLocker'd file server\n- Lost/stolen mobile device -> **encryption** is the control that survives loss of custody (attacker holds the hardware); biometrics = who can unlock (the biometric just releases the storage key); firmware = hygiene; cloud = changes the premise. Loss order: encrypt -> remote wipe -> lock/timeout -> MDM. Example: BitLocker + TPM laptop vs Hello-only laptop with the SSD pulled"
     },
     {
       "id": "02-data-in-transit",
